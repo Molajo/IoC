@@ -1,17 +1,16 @@
 =======
-Injection of Control Container
+Inversion of Control Container
 =======
 
 [![Build Status](https://travis-ci.org/Molajo/IoC.png?branch=master)](https://travis-ci.org/Molajo/IoC)
-Injection of Control Technical Description
 
-Molajo's *Injection of Control Container* is useful to instantiate classes which provide application-wide services.
+Molajo's *Inversion of Control Container* is useful to instantiate classes which provide application-wide services.
 Service classes can be instantiated dynamically or statically using either (or both) constructor and setter dependency injection.
 Multiple injectors can be defined per package. *Injectors* are custom configurations used
 by the container to instantiate classes for defined services.
 
 Examples of invoking services using the IoC are listed below. Note: the static call is due to the connection to the
-Injection of Control Container, not to the service class instantiation, itself.
+Inversion of Control Container, not to the service class instantiation, itself.
 
 ```php
 
@@ -85,7 +84,7 @@ Add a static property and a static method to your FrontController:
 
             } catch (FrontControllerException $e) {
                 throw new FrontControllerException
-                ('FrontController: Instantiate Injection of Control Container class Exception: ', $e->getMessage());
+                ('FrontController: Instantiate Inversion of Control Container class Exception: ', $e->getMessage());
             }
         }
 
@@ -204,7 +203,7 @@ Logic that returns the service instance to the [`Molajo\DependencyInjection\Cont
 Working with the Container and Using Services
 --------------
 
-Molajo's *Injection of Control Container* is accessed via a static call you defined above
+Molajo's *Inversion of Control Container* is accessed via a static call you defined above
  to the Front Controller Services method. That method then links to an instantiation of the Service class.
 
 ```php

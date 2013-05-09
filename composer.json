@@ -1,8 +1,8 @@
 {
-    "name": "molajo/di",
+    "name": "molajo/ioc",
     "type": "molajo-bundle",
-    "description": "Molajo Injection of Control: platform independent directory injection container for PHPr",
-    "keywords": ["diContainer", "Molajo", "PSR-0", "Injection of Control"],
+    "description": "Molajo Inversion of Control: platform independent directory injection container for PHPr",
+    "keywords": ["IoC", "Molajo", "PSR-0", "Inversion of Control", "Dependency Injection"],
     "homepage": "http://github.com/Molajo/IoC",
     "license": "MIT",
     "authors": [

@@ -1,261 +1,122 @@
 <?php
 /**
- * Injection of Control Container
+ * Inversion of Control Container
  *
  * @package   Molajo
- * @copyright 2013 Amy Stephen. All rights reserved.
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright 2013 Amy Stephen. All rights reserved.
  */
 namespace Molajo\IoC;
 
 use Exception;
-use Molajo\IoC\Exception\ContainerException;
+use Molajo\IoC\Injector\Adapter;
 use Molajo\IoC\Api\ContainerInterface;
+use Molajo\IoC\Exception\ContainerException;
 
 /**
- * Injection of Control Container
+ * Application Service Dependency Injector
  *
- * @package   Molajo
+ * @author    Amy Stephen
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright 2013 Amy Stephen. All rights reserved.
  * @since     1.0
- * @api
  */
 class Container implements ContainerInterface
 {
     /**
-     * Injector Folder Namespace
+     * Service Connections
      *
      * @var     array
      * @since   1.0
      */
-    protected $injector_folder_namespace = 'Molajo\\Application\\Services\\';
+    protected $connections = array();
 
     /**
-     * Injector Instance
+     * Connecting - used to guard against loops
      *
      * @var     array
      * @since   1.0
      */
-    protected $injector;
+    protected $lock_same_connection = array();
 
     /**
-     * Injector Type
+     * Handle requests for Services either by instantiating an instance of the Service
+     *  and injecting its dependencies, or by returning a shared instance already available,
+     *  or by not returning an instance that is not yet available.
      *
-     * @var     string
-     * @since   1.0
+     * @param    string $service_name
+     * @param    array  $options
+     *
+     * @results  null|object
+     * @since    1.0
+     * @throws   ContainerException
      */
-    protected $injector_type;
-
-    /**
-     * Service Name
-     *
-     * @var     string
-     * @since   1.0
-     */
-    protected $service_name;
-
-    /**
-     * List of Properties
-     *
-     * @var    object
-     * @since  1.0
-     */
-    protected $property_array = array(
-        'connections',
-        'injector',
-        'injector_folder_namespace',
-        'injector_type',
-        'service_name'
-    );
-
-    /**
-     * Set the value of a specified key
-     *
-     * @param   string $key
-     * @param   mixed  $value
-     *
-     * @return  mixed
-     * @since   1.0
-     * @throws  ContainerException
-     */
-    public function set($key, $value = null)
+    public function getService($service_name, $options = array())
     {
-        $key = strtolower($key);
+        /** 1. Return service instance, if it already exists */
+        if (isset($this->connections[$service_name])) {
+            return $this->connections[$service_name];
+        }
 
-        if (in_array($key, $this->property_array)) {
-        } else {
+        /** 2. If the service requested does not already exist, forget about it */
+        if (isset($options['if_exists'])) {
+            if ($options['if_exists'] === true) {
+                return null;
+            }
+        }
+
+        /** 3. Return service instance, if it already exists */
+        if (isset($this->lock_same_connection[$service_name])) {
             throw new ContainerException
-            ('IoC Set: unknown key: ' . $key);
+            ('Inversion of Control Container getService: second, simultaneous permanent service load (loop): '
+                . $service_name);
         }
 
-        $this->$key = $value;
-
-        return $this->$key;
-    }
-
-    /**
-     * Get the current value (or default) of the specified key
-     *
-     * @param   string $key
-     * @param   mixed  $default
-     *
-     * @return  mixed
-     * @since   1.0
-     * @throws  ContainerException
-     */
-    public function get($key, $default = null)
-    {
-        $key = strtolower($key);
-
-        if (in_array($key, $this->property_array)) {
-        } else {
-            throw new ContainerException
-            ('IoC Get: unknown key: ' . $key);
-        }
-
-        if ($this->$key === null) {
-            $this->$key = $default;
-        }
-
-        return $this->$key;
-    }
-
-    /**
-     * Instantiates Service Class
-     *
-     * @param   string $service_name
-     *
-     * @return  object
-     * @since   1.0
-     * @throws  ContainerException
-     */
-    public function instantiateInjector($service_name)
-    {
-        $this->service_name = $service_name;
-
+        /** 4. New instance of Inversion of Control Container */
         try {
-
-            $class_name = $this->injector_folder_namespace
-                . $this->service_name . '\\'
-                . $this->service_name . 'Injector';
-
-            $this->injector = new $class_name();
+            $adapter = new Adapter();
 
         } catch (Exception $e) {
             throw new ContainerException
-            ('IoContainer: Injector Instance Failed for ' . $service_name
-                . ' failed.' . $e->getMessage());
+            ('Inversion of Control Container:Instantiate IoC Container Exception: ', $e->getMessage());
         }
 
-        return $this->injector;
-    }
+        /** 5. Instantiate Injector and inject with Frontcontroller and options */
+        $adapter->instantiateInjector($service_name);
 
-    /**
-     * Get the current value for the specified key for the Injector
-     *
-     * @param   string     $key
-     * @param   null|mixed $default
-     *
-     * @return  mixed
-     * @since   1.0
-     */
-    public function getInjectorProperty($key, $default = null)
-    {
-        return $this->injector->get($key, $default);
-    }
+        $adapter->setInjectorProperty('container_instance', $this);
+        $adapter->setInjectorProperty('options', $options);
 
-    /**
-     * Get the current value for the specified key for the Injector
-     *
-     * @param   string     $key
-     * @param   null|mixed $value
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function setInjectorProperty($key, $value = null)
-    {
-        $this->injector->set($key, $value);
+        /** 6. Lock any additional instantiating of service until this one is complete */
+        if ($adapter->getInjectorProperty('store_instance_indicator') === true
+            || $adapter->getInjectorProperty('store_properties_indicator') === true
+        ) {
+            $this->lock_same_connection[$service_name] = true;
+        }
 
-        return $this;
-    }
+        /** 7. Before Service Instantiate */
+        $adapter->onBeforeServiceInstantiate();
 
-    /**
-     * Execute the Injector onBeforeServiceInstantiate
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function onBeforeServiceInstantiate()
-    {
-        $this->injector->onBeforeServiceInstantiate();
+        /** 8. Instantiate, store and unlock */
+        $adapter->instantiate($adapter->getInjectorProperty('static_instance_indicator'));
 
-        return $this;
-    }
+        if ($adapter->getInjectorProperty('store_instance_indicator') === true
+            || $adapter->getInjectorProperty('store_properties_indicator') === true
+        ) {
+            $this->connections[$service_name] = $adapter->getServiceInstance();
 
-    /**
-     * Instantiate Injector
-     *
-     * @param   bool $create_static
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function instantiate($create_static = false)
-    {
-        $this->injector->instantiate($create_static);
+            if (isset($this->lock_same_connection[$service_name])) {
+                unset($this->lock_same_connection[$service_name]);
+                $this->connections[$service_name] = $adapter->getServiceInstance();
+            }
+        }
 
-        return $this;
-    }
+        /** 9. After Service Instantiate */
+        $adapter->onAfterServiceInstantiate();
+        $adapter->initialise();
+        $adapter->onAfterServiceInitialise();
 
-    /**
-     * Execute the Injector onBeforeServiceInstantiate
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function onAfterServiceInstantiate()
-    {
-        $this->injector->onAfterServiceInstantiate();
-
-        return $this;
-    }
-
-    /**
-     * Execute the Injector initialise
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function initialise()
-    {
-        $this->injector->initialise();
-
-        return $this;
-    }
-
-    /**
-     * Execute the Injector onBeforeServiceInstantiate
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function onAfterServiceInitialise()
-    {
-        $this->injector->onAfterServiceInitialise();
-
-        return $this;
-    }
-
-    /**
-     * Retrieve the Service Instance, store the instance or properties, if requested
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function getServiceInstance()
-    {
-        return $this->injector->getServiceInstance();
+        /** 10. Return results */
+        return $adapter->getServiceInstance();
     }
 }

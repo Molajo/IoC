@@ -8,8 +8,6 @@
  */
 namespace Molajo\IoC\Api;
 
-
-
 /**
  * Exception Interface
  *

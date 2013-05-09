@@ -1,28 +1,26 @@
 <?php
 /**
- * Dependency Injector Abstract Class
+ * Abstract Injector Class
  *
  * @package   Molajo
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright 2013 Amy Stephen. All rights reserved.
  */
-namespace Molajo\IoC;
-
-
+namespace Molajo\IoC\Injector;
 
 use Exception;
 use Molajo\IoC\Api\InjectorInterface;
 use Molajo\IoC\Exception\InjectorException;
 
 /**
- * Dependency Injector Abstract Class
+ * Abstract Injector Class
  *
  * @author    Amy Stephen
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright 2013 Amy Stephen. All rights reserved.
  * @since     1.0
  */
-class Injector implements InjectorInterface
+class AbstractInjector implements InjectorInterface
 {
     /**
      * Current Date
@@ -46,7 +44,7 @@ class Injector implements InjectorInterface
      * @var     object
      * @since   1.0
      */
-    public $frontcontroller_instance = null;
+    public $container_instance = null;
 
     /**
      * Service Namespace
@@ -107,7 +105,7 @@ class Injector implements InjectorInterface
     protected $property_array = array(
         'current_date',
         'options',
-        'frontcontroller_instance',
+        'container_instance',
         'service_namespace',
         'static_instance_indicator',
         'store_instance_indicator',

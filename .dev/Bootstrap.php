@@ -1,6 +1,6 @@
 <?php
 /**
- * Injection of Control
+ * Inversion of Control
  *
  * @package   Molajo
  * @copyright 2013 Amy Stephen. All rights reserved.
