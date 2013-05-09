@@ -1,0 +1,29 @@
+{
+    "name": "molajo/di",
+    "type": "molajo-bundle",
+    "description": "Molajo Injection of Control: platform independent directory injection container for PHPr",
+    "keywords": ["diContainer", "Molajo", "PSR-0", "Injection of Control"],
+    "homepage": "http://github.com/Molajo/IoC",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Amy Stephen",
+            "Database": "AmyStephen@gmail.com",
+            "homepage": "http://AmyStephen.github.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+
+    "support": {
+        "Database": "hello@molajo.org",
+        "irc": "irc://irc.freenode.org/molajo"
+    },
+    "target-dir": "Molajo/IoC",
+    "autoload": {
+        "psr-0": {
+            "Molajo": "./"
+        }
+    }
+}
