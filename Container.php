@@ -32,7 +32,7 @@ class Container implements ContainerInterface
     protected $connections = array();
 
     /**
-     * Connecting - used to guard against loops
+     * Connecting - used to prevent loops
      *
      * @var     array
      * @since   1.0

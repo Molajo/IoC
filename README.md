@@ -1,25 +1,42 @@
 Molajo Inversion of Control
 ===========================
 
-The Molajo **Inversion of Control** package offers a full featured dependency injection solution that is simple to implement within any PHP application. Specific features include: automatic convention-based instantiation, custom configuration using normal PHP code; constructor and setter injection; lazy loading; triggered instantiation; new, existing, cloned, and singleton instances, and so on, and so on.
+The Molajo **Inversion of Control** package offers a simple but full featured dependency injection solution for PHP applications.
 
-Considering the amount of time developers invest in writing code  that does nothing more than retrieve dependencies, verify correctness, ensure proper sequencing, instantiate objects, store instances, and so on, implementing an IoCC in your application can significantly increase productivity for developers and even empower frontend developers to begin using functions that were far to complex to use before.
+Considering the time developers spend writing code that retrieve dependencies, verifies correctness, ensures proper service instantiation sequencing, validates permissions, instantiate objects, store and shares instances, and so on, it is easy to see that an IoCC can significantly increase productivity for developers and perhaps even extend instantiated services to frontend developers without advanced programming skill.
 
-*Example of Service Request:*
-As developers know, instantiating a connection to the application database can involve a significant number of small and moderately complex steps. One must retrieve configuration data, extract user, password, database data, verify ACL, which means instantiate the User object, and so on. It can be overwhelming, encourages mindless copy and paste coding, difficult to maintain as changes are made, not ideal. It can be a significant amount of uninteresting code that is repeated too many times in an application.
+The Molajo **Inversion of Control** package includes:
 
-Using the Molajo IoCC, that code can be defined once, stored within a custom injector and invoked using this simple command:
+- Standard *code free* instantiation
+- Ability to create custom injector handlers with standard event methods implemented using normal PHP code
+- New, existing, cloned, and static instances
+- Constructor injection
+- Setter injection
+- Triggered instantiation
+- Service installation during Initialization
+- Inclusion in a Frontend Controller so that the IoC instance can be accessed across the application
+- Processing of objects needed for the application
+- Triggered instantiation for discovered dependencies
+- Lazy loading of objects, prompted only when needed
+- New, existing, cloned, and static instances
+
+## getService
+Instantiating a connection to a database can involve a significant number of small and moderately complex steps.
+
+Using the Molajo IoCC, that code can be defined once in a custom injector handler and then invoked, each and every time the database connection is needed, using this simple command:
 
 ```php
 $database = $this->IoC->getService('Database');
 ```
-Behind the scenes, dependencies trigger other *getService* requests, and those objects need more information, but developers are blissfully unaware of this processing since the IoCC manages this process for them.
+Behind the scenes, dependencies can trigger other *getService* requests, and those, more still, until all necessary elements of the Object Map are instantiated and available.
+
+Using the Molajo IoCC, however, developers can be blissfully unaware of this processing since the process is managed for them.
 
 ## Molajo IoC Architecture
-The Molajo IoC Package offers a full featured support structure. Many times, other IoC packages offer the basic Container class, but nothing useful to implement it within an application. The Molajo IoC package, on the other hand, provides all of the elements needed to provide the structure an application needs  to work with dependency injection.
+The Molajo IoC Package offers a full featured support structure, not just a Container class, but all of the elements needed to provide the logic and structure an application needs for dependency injection.
 
 ### Container
-The [Container class](https://github.com/Molajo/IoC/blob/master/Container.php) and [Interface](https://github.com/Molajo/IoC/blob/master/Api/ContainerInterface.php) are the kernel of the IoC process.
+The [Container](https://github.com/Molajo/IoC/blob/master/Container.php) call and [Interface](https://github.com/Molajo/IoC/blob/master/Api/ContainerInterface.php) are the kernel of the IoC process.
 
 The container determines if an stored instance is already available that would satisfy the request or if a new instance is needed.
 
@@ -61,12 +78,17 @@ Regardless of whether the process uses an constructor or setter (or both) approa
 ### Interface injection
 A good object oriented practice is to have classes implement interfaces. This practice has many benefits, including clearly defining the application API, but also making it much easier to swap out one implementation of the Interface for another. The Molajo IoCC supports Interface injection.
 
-## Type of Instance
+### Type of Instance
 The `getService` request can request one of four types of instances:
-1. **Request a new instance** This is done transparently by requesting a service where a like named service is not stored in the Container instance array.
-2. **Accept an available instance, if available, or create a new instance if it is not.** Special consideration of how the class object map loads is needed to use this option with confidence.
-3. **Accept an available instance, if available, or proceed without an instance if an existing instance does not exist.** This request is made by passing in the `$options['if_exists']` and setting it to true. It might not be immediately apparent but this approach is necessary, especially during startup, for those situations where both classes are dependent on one another. An example might be a request for the `Database Object` which has a dependency on the `User Object`. Since the `User Object` requires a database read, the same is true in reverse. Again, careful consideration of how classes work together is always needed.
-4. **Request a Singleton, or Static, Instance** As much as some might disagree, there are times when a `Singleton` will be desired. Examples might include database connections where performance would be significantly harmed if each interaction required a new connection instance. This type of instance always requires a custom injector where the class `static_service_instance` property is set to true for this request.
+
+#### Request a new instance
+This is done transparently by requesting a service where a like named service is not stored in the Container instance array.
+#### Accept an available instance, if available, or create a new instance if it is not.
+Special consideration of how the class object map loads is needed to use this option with confidence.
+#### Accept an available instance, if available, or proceed without an instance if an existing instance does not exist.
+The `$options['if_exists']` can be used to simply continue if an existing instance is not available. This option is required to situation where a class is waiting on another class, and visa versa.
+#### Request a Singleton, or Static, Instance
+As much as some might disagree, there are times when a `static instance` is required. Database connections should only be made one time due to performance implications and might be stored in a static instance for reuse. Static instances are defined using custom injector handlers where the property `$this->static_service_instance` is set to true in the constructor.
 
 ## Injector Properties and Methods
 It is helpful to review the [Abstract Injector](https://github.com/Molajo/Standard/blob/master/Vendor/Molajo/IoC/Injector/AbstractInjector.php) to understand the properties and event methods that can be used for a custom injector (or are automatically processed, and how, for a standard injection).
@@ -123,9 +145,9 @@ Considering adding YAML, JSON, XML-type configuration support that could be used
 
 FAQ
 
-**IoCC, DIC, and Service Locators are the mark of the beast. The beast is Martin Fowler.**
+**IoCC, DIC, and Service Locators are the mark of the beast. And, the beast is Martin Fowler.**
 
-That is not a question. Please, stop reading academic books and articles about patterns and jump down off that high-horse of religious technology purity. Much easier to learn if you put your time into writing code that runs on servers. Then, after you've been beaten down by real life coding experience, install this or any other IoCC or DIC, and think about the benefits identified. If, at that time, you are able to arrange a set of words into a sentence with a question mark at the end, feel free to ask a question.
+That is not a question.
 
 **Will you add annotation or type hints for automated dependency injection.**
 

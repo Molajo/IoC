@@ -16,8 +16,8 @@ $classMap = array(
     'Molajo\\IoC\\Exception\\ContainerException' => $base . '/Exception/ContainerException.php',
     'Molajo\\IoC\\Exception\\InjectorException'  => $base . '/Exception/InjectorException.php',
     'Molajo\\IoC\\Injector\\AbstractInjector'    => $base . '/Injector/AbstractInjector.php',
-    'Molajo\\IoC\\Injector\\Adapter'             => $base . '/Injector/Adapter.php',
     'Molajo\\IoC\\Injector\\StandardInjector'    => $base . '/Injector/StandardInjector.php',
+    'Molajo\\IoC\\Adapter'                       => $base . '/Adapter.php',
     'Molajo\\IoC\\Container'                     => $base . '/Container.php'
 );
 
