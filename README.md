@@ -28,9 +28,12 @@ This is an example of how to implement the IoCC within the application front con
 only approach that can be used and it might not be the best choice, depending on your application. The
 example is useful in defining approach that must be followed to use the IoCC in your application.
 
-##### Instantiate
+##### Instantiate the Inversion of Control Container
 
-Within the bootstrap or front controller, instantiate the IoCC into a class property.
+Within the bootstrap or front controller, instantiate the Inversion of Control
+[Container](https://github.com/Molajo/IoC/blob/master/Container.php)
+[Interface](https://github.com/Molajo/IoC/blob/master/Api/ContainerInterface.php)
+ and store the instance in a class property.
 
 ```php
     /**
@@ -103,45 +106,16 @@ $database = $this->iocc->getService('User', $options);
 
 ```
 
-#### Instantiation Type
+**Application Startup**
 
-As you might have observed in previous examples, there was no explicit request for a new or
-existing instance. For the most part, that is handled transparently but it is helpful to understand how.
+In this example, the front controller is the first class instantiated, which is accomplished within the
+index.php boot process. One of the first tasks the front controller must accomplish is loading basic
+services. Following is an example intended to describe the basic principles for defining
+application service requests during initialisation processes.
 
-When a service is instantiated, three basic instantiation questions are answered (if not answered explicity by
-including those elements in the $options array or defining the values in a custom dependency injector,
-the default answer is assumed to be false for each question.):
-
-1. Is a *Static Instance* needed? If so, **$static_instance_indicator** is set to true.
-
-2. Should the instance be stored and shared for subsequent **getService** requests for the same Service? If so,
-set the **$store_instance_indicator** to true and the **Container** will store and share the instance.
-
-3. If the two previous are false, should the properties of the instantiated class be stored and shared for
-subsequent **getService** requests? If this is needed, set the **$store_properties_indicator**
-to true.
-
-Given those answers the IoCC stores the instance, the static instance, the properties or nothing.
-
-**Exists** For every getService request, the IoCC looks to see if the Service is already available.
-If it is, the existing service is returned. (That service will only be saved if the answer to
-1 or 2 above was true.)
-
-**Does Not Exist, do not create new ** If the service instance is not already available, the IoCC will look
-in the options for an entry named `if_exists`. The presence of that array item signals to the IoCC *not* to
-create a new instance if an existing instance is not already available. This is important to prevent a dependency
-"standoff" where two services are both dependent on each other and neither instance exists. One example of that
-is the database and user services. The user service requires the database to determine information. The database
-instance uses the user object to process ACL decisions. Careful consideration for how best to manage those
-scenarios is important. In this case, the user instance, when not available is simply not used, thus allowing
-the more critical database connection to first take place.
-
-**Does not exist, create new** If the service instance is not available and there is no `if_exists` options entry,
-the IoCC will create a new instance. This enables lazy loading and resolving dependencies in the injector process.
-
-
-
-#### Application Initialisation Support
+As you can see, an xml file containing the names of the services is read and a getService request
+is issued, one at a time, until all basic services are up and running. From that point on, services
+can be requested when needed.
 
 ```php
 
@@ -186,17 +160,70 @@ the IoCC will create a new instance. This enables lazy loading and resolving dep
     </services>
 
 ```
-No, you do not have to use XML. This is just an example of the basic principles to defining
-application service requests for application initialisation.
+No, you do not have to use XML.  Yes, I know many people do not like it.  It is just an example.
 
 
 ```
-#### Dependency Injection
 
-Both Constructor and Setter Dependency Injection are supported.
+#### Instantiation Type
 
-##### Other Options
+As you might have observed from the previous examples, there was no explicit request for a new or
+existing instance. For the most part, that is handled transparently but it is helpful to understand how.
 
+When a service is instantiated, three basic instantiation questions are answered (if not answered explicitly by
+including those elements in the $options array or defining the values in a custom dependency injector,
+the default answer is assumed to be false for each question.):
+
+1. Is a *Static Instance* needed? If so, **$static_instance_indicator** is set to true.
+
+2. Should the instance be stored and shared for subsequent **getService** requests for the same Service? If so,
+set the **$store_instance_indicator** to true and the **Container** will store and share the instance.
+
+3. If the two previous are false, should the properties of the instantiated class be stored and shared for
+subsequent **getService** requests? If this is needed, set the **$store_properties_indicator**
+to true.
+
+Given those answers the IoCC stores the instance, the static instance, the properties or nothing.
+
+**Exists**
+
+For every getService request, the IoCC looks to see if the Service is already available.
+If it is, the existing service is returned. (That service will only be saved if the answer to
+1 or 2 above was true.)
+
+**Does Not Exist, do not create new **
+
+If the service instance is not already available, the IoCC will look
+in the options for an entry named `if_exists`. The presence of that array item signals to the IoCC *not* to
+create a new instance if an existing instance is not already available.
+
+This is important to prevent a dependency
+"standoff" where two services are both dependent on each other and neither instance exists. One example of that
+is the database and user services. The user service requires the database to determine information. The database
+instance uses the user object to process ACL decisions.
+
+Careful consideration for how best to manage those
+scenarios is important. In this case, the user instance, when not available is simply not used, thus allowing
+the more critical database connection to first take place.
+
+**Does not exist, create new**
+
+If the service instance is not available and there is no `if_exists` options entry,
+the IoCC will create a new instance. This enables lazy loading and resolving dependencies in the injector process.
+
+
+### Dependency Injection
+
+Finally, a discussion on dependency injection. First, both Constructor and Setter Dependency Injection are supported.
+You may have noted, the examples did not instruct the IoCC which approach was preferred. To understand how
+that decision is reached, it's important to look at how the **Standard* and **Custom** dependency injection handlers
+process requests.
+
+#### Injector Adapter
+
+#### Standard Injector Handler
+
+#### Custom Injector Hander
 Custom Injector
 
 ###
