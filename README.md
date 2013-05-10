@@ -1,26 +1,206 @@
 Molajo Inversion of Control
 ===========================
 
-The Molajo **Inversion of Control** package offers a simple but full featured dependency injection solution for PHP applications.
+The Molajo **Inversion of Control** package offers a full-featured dependency injection solution for PHP applications.
 
-Considering the time developers spend writing code that retrieve dependencies, verifies correctness, ensures proper service instantiation sequencing, validates permissions, instantiate objects, store and shares instances, and so on, it is easy to see that an IoCC can significantly increase productivity for developers and perhaps even extend instantiated services to frontend developers without advanced programming skill.
+## Features
 
-The Molajo **Inversion of Control** package includes:
-
-- Standard *code free* instantiation
-- Ability to create custom injector handlers with standard event methods implemented using normal PHP code
-- New, existing, cloned, and static instances
-- Constructor injection
-- Setter injection
-- Triggered instantiation
-- Service installation during Initialization
-- Inclusion in a Frontend Controller so that the IoC instance can be accessed across the application
-- Processing of objects needed for the application
+- Facilitates new, existing, cloned, and static instantiation
+- Supports constructor and setter injection
+- Standard (no code) injection handler sufficient for most requests
+- Custom injector handlers can be developed using normal PHP code for more complex needs
 - Triggered instantiation for discovered dependencies
 - Lazy loading of objects, prompted only when needed
-- New, existing, cloned, and static instances
 
-## getService
+## Instantiating the *Inversion of Control Container*
+
+
+
+```php
+    $class = 'Molajo\\IoC\\Container';
+    $this->iocc  = new Container();
+
+```
+
+#### Front Controller
+
+This is an example of how to implement the IoCC within the application front controller. It's not the
+only approach that can be used and it might not be the best choice, depending on your application. The
+example is useful in defining approach that must be followed to use the IoCC in your application.
+
+##### Instantiate
+
+Within the bootstrap or front controller, instantiate the IoCC into a class property.
+
+```php
+    /**
+     * Inversion of Control Container
+     *
+     * @var    object
+     * @since  1.0
+     */
+    protected $iocc;
+```
+
+```php
+
+    $class = 'Molajo\\IoC\\Container';
+    $this->iocc  = new Container();
+
+```
+
+##### Get Service Method
+
+Add a front controller method to request services of the IoCC, passing back results.
+
+```php
+
+    /**
+     * Route Service Requests to the Inversion of Control Container
+     *
+     * This method ensures a connection within the Front Controller to the IoCC
+     *
+     * @param    string $service_name
+     * @param    array  $options
+     *
+     * @results  null|object
+     * @since    1.0
+     * @throws   FrontControllerException
+     */
+    public function getService($service_name, $options = array())
+    {
+        return $this->iocc->getService($service_name, $options = array());
+    }
+
+```
+
+##### Get Service
+The syntax to obtain an instantiated service from the IoCC is very simple. Identify the Service desired and pass
+in options needed by the dependency injector.
+
+**Custom Dependency Injector**
+The values passed in using the $options array will vary. In some cases,
+as this example shows, no options are required. Of course, the database connection will need quite a bit of
+information for instantiation but a custom injector is in place to manage the configuration interaction.
+
+```php
+// Retrieve Database Connection
+$database = $this->iocc->getService('Database');
+```
+
+**Standard Dependency Injector**
+In this second example, a `getService` request is made of the IoCC and an ID is passed in identifying the key
+value for that user. In this case, the key value is all that is needed to instantiate the class so the namespace
+is passed in as a second element of the $options array. The Standard dependency injector handles these
+basic requests, no custom dependency injector is required.
+
+```php
+// Retrieve User Object
+$options = array;
+$options['id'] = $this->row->id;
+$options['namespace'] = 'Molajo\\User';
+$database = $this->iocc->getService('User', $options);
+
+```
+
+#### Instantiation Type
+
+As you might have observed in previous examples, there was no explicit request for a new or
+existing instance. For the most part, that is handled transparently but it is helpful to understand how.
+
+When a service is instantiated, three basic instantiation questions are answered (if not answered explicity by
+including those elements in the $options array or defining the values in a custom dependency injector,
+the default answer is assumed to be false for each question.):
+
+1. Is a *Static Instance* needed? If so, **$static_instance_indicator** is set to true.
+
+2. Should the instance be stored and shared for subsequent **getService** requests for the same Service? If so,
+set the **$store_instance_indicator** to true and the **Container** will store and share the instance.
+
+3. If the two previous are false, should the properties of the instantiated class be stored and shared for
+subsequent **getService** requests? If this is needed, set the **$store_properties_indicator**
+to true.
+
+Given those answers the IoCC stores the instance, the static instance, the properties or nothing.
+
+**Exists** For every getService request, the IoCC looks to see if the Service is already available.
+If it is, the existing service is returned. (That service will only be saved if the answer to
+1 or 2 above was true.)
+
+**Does Not Exist, do not create new ** If the service instance is not already available, the IoCC will look
+in the options for an entry named `if_exists`. The presence of that array item signals to the IoCC *not* to
+create a new instance if an existing instance is not already available. This is important to prevent a dependency
+"standoff" where two services are both dependent on each other and neither instance exists. One example of that
+is the database and user services. The user service requires the database to determine information. The database
+instance uses the user object to process ACL decisions. Careful consideration for how best to manage those
+scenarios is important. In this case, the user instance, when not available is simply not used, thus allowing
+the more critical database connection to first take place.
+
+**Does not exist, create new** If the service instance is not available and there is no `if_exists` options entry,
+the IoCC will create a new instance. This enables lazy loading and resolving dependencies in the injector process.
+
+
+
+#### Application Initialisation Support
+
+```php
+
+    /**
+     * Initialise Application, including invoking Inversion of Control Container and
+     *  Services defined in Services.xml
+     *
+     * @return  $this
+     * @since   1.0
+     * @throws  FrontControllerException
+     * @api
+     */
+    public function initialise()
+    {
+        // ... snip ...
+
+        $this->iocc  = new Container();
+
+        $xml_string = $this->readXMLFile(__DIR__ . '/' . 'Services.xml');
+
+        $services   = simplexml_load_string($xml_string);
+
+        foreach ($services->service as $service) {
+            $this->getService((string)$service->attributes()->name, array());
+        }
+
+        return;
+    }
+
+```
+
+```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <services>
+        <service name="Registry"/>
+        <service name="Site"/>
+        <service name="Application"/>
+        <service name="Permissions"/>
+        <service name="User"/>
+        <service name="Language"/>
+        <service name="Date"/>
+    </services>
+
+```
+No, you do not have to use XML. This is just an example of the basic principles to defining
+application service requests for application initialisation.
+
+
+```
+#### Dependency Injection
+
+Both Constructor and Setter Dependency Injection are supported.
+
+##### Other Options
+
+Custom Injector
+
+###
+
 Instantiating a connection to a database can involve a significant number of small and moderately complex steps.
 
 Using the Molajo IoCC, that code can be defined once in a custom injector handler and then invoked, each and every time the database connection is needed, using this simple command:
