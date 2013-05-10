@@ -8,8 +8,6 @@
  */
 namespace Molajo\IoC\Exception;
 
-
-
 use Exception;
 use Molajo\IoC\Api\ExceptionInterface;
 

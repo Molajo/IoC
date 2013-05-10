@@ -1,309 +1,134 @@
-=======
-Inversion of Control Container
-=======
+Molajo Inversion of Control
+===========================
 
-[![Build Status](https://travis-ci.org/Molajo/IoC.png?branch=master)](https://travis-ci.org/Molajo/IoC)
+The Molajo **Inversion of Control** package offers a full featured dependency injection solution that is simple to implement within any PHP application. Specific features include: automatic convention-based instantiation, custom configuration using normal PHP code; constructor and setter injection; lazy loading; triggered instantiation; new, existing, cloned, and singleton instances, and so on, and so on.
 
-Molajo's *Inversion of Control Container* is useful to instantiate classes which provide application-wide services.
-Service classes can be instantiated dynamically or statically using either (or both) constructor and setter dependency injection.
-Multiple injectors can be defined per package. *Injectors* are custom configurations used
-by the container to instantiate classes for defined services.
+Considering the amount of time developers invest in writing code  that does nothing more than retrieve dependencies, verify correctness, ensure proper sequencing, instantiate objects, store instances, and so on, implementing an IoCC in your application can significantly increase productivity for developers and even empower frontend developers to begin using functions that were far to complex to use before.
 
-Examples of invoking services using the IoC are listed below. Note: the static call is due to the connection to the
-Inversion of Control Container, not to the service class instantiation, itself.
+*Example of Service Request:*
+As developers know, instantiating a connection to the application database can involve a significant number of small and moderately complex steps. One must retrieve configuration data, extract user, password, database data, verify ACL, which means instantiate the User object, and so on. It can be overwhelming, encourages mindless copy and paste coding, difficult to maintain as changes are made, not ideal. It can be a significant amount of uninteresting code that is repeated too many times in an application.
+
+Using the Molajo IoCC, that code can be defined once, stored within a custom injector and invoked using this simple command:
 
 ```php
-
-// Retrieve a list of plugins defined for the onBeforeRead Event
-$plugin_array = Services::Events()->get('Plugins', 'onBeforeRead');
-
-// Obfuscate an Email address before rendering
-$fieldValue = Services::Url()->obfuscateEmail($fieldValue);
-
-// Add a debugging message to the Profiler
-Services::Profiler()->set('message', 'Did this thing', 'Application' );
-
+$database = $this->IoC->getService('Database');
 ```
+Behind the scenes, dependencies trigger other *getService* requests, and those objects need more information, but developers are blissfully unaware of this processing since the IoCC manages this process for them.
 
-How to implement in your Application
---------------
-
-***Installation
-
-Add the Molajo DependencyInjection package to your install script.
-
-```php
-
-    "require": {
-        "molajo/dependencyinjection": ">=1"
-    }
-
-```
-
-***Create an Entry Point in your FrontController
-
-Add a static property and a static method to your FrontController:
-
-*Note:* use the name of your FrontController in place of the value *FrontController*. This is just an example.
-
-```php
-
-    /**
-     * FrontController::Services
-     *
-     * @static
-     * @var    object  Services
-     * @since  1.0
-     */
-    protected static $services = null;
-
-```
-
-```php
-
-    /**
-     * FrontController::Services is accessed using Services::
-     *
-     * @param   null  $class
-     *
-     * @static
-     * @return  null|object Services
-     * @since   1.0
-     * @throws  Exception
-     */
-    public static function Services($class = null)
-    {
-        if ($class === null) {
-            $class = 'Molajo\\DependencyInjection\\Container';
-        }
-
-        if (static::$services) {
-        } else {
-            try {
-                static::$services = new $class();
+## Molajo IoC Architecture
+The Molajo IoC Package offers a full featured support structure. Many times, other IoC packages offer the basic Container class, but nothing useful to implement it within an application. The Molajo IoC package, on the other hand, provides all of the elements needed to provide the structure an application needs  to work with dependency injection.
 
-            } catch (FrontControllerException $e) {
-                throw new FrontControllerException
-                ('FrontController: Instantiate Inversion of Control Container class Exception: ', $e->getMessage());
-            }
-        }
+### Container
+The [Container class](https://github.com/Molajo/IoC/blob/master/Container.php) and [Interface](https://github.com/Molajo/IoC/blob/master/Api/ContainerInterface.php) are the kernel of the IoC process.
 
-        return static::$services;
-    }
+The container determines if an stored instance is already available that would satisfy the request or if a new instance is needed.
 
-```
+If a new instance is needed, the **Container** instantiates a custom or the standard handler, and passes it into the **Injector Adapter** as it guides the Adapter through the event methods, passes in data, passes back results from this set of event methods: `onBeforeServiceInstantiate`, `instantiate`, `onAfterServiceInstantiate`, `initialize` and `onAfterServiceInitialise`; facilitate the process.
 
-Update the Molajo\DependencyInjection\Services Class to point to this new FrontController namespace and method.
+The **Container** class guards against multiple requests to instantiate the same service request, preventing difficult to debug looping issues before they happen.
 
-```php
+### Injector Adapter
+The **Container** interacts with the [Injector Adapter](https://github.com/Molajo/IoC/blob/master/Injector/Adapter.php) and [Adapter Interface](https://github.com/Molajo/IoC/blob/master/Api/AdapterInterface.php) when a new instance is needed.
 
-use Molajo\FrontController;
+The adapter interacts with the generic **Standard Injector** or a specific **Custom Injector** class, depending on the request.
 
-/**
- * Services
- *
- * @package   Molajo
- * @license   http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright 2013 Amy Stephen. All rights reserved.
- * @since     1.0
- */
-class Services
-{
+The adapter responds to the container's requests, passing in data, handling the method response, as the container processes each of the methods from `onBeforeServiceInstantiate` to `onAfterServiceInitialise`.
 
-    /**
-     * Entry point for services called outside of the Services Class
-     *
-     * @static
-     *
-     * @param   string  $name
-     * @param   array   $arguments
-     *
-     * @return  object
-     * @since   1.0
-     */
-    public static function __callStatic($name, $arguments)
-    {
-        return FrontController::Services()->start($name);
-    }
+### Injectors
+The Injector classes do the heavy lifting. There are three types of Injectors: a **Custom Injector**, **Standard Injector**, and the **Abstract Injector**.
 
-```
+#### Standard Injector
+The [Standard Injector](https://github.com/Molajo/IoC/blob/master/Injector/StandardInjector.php) extends the [Abstract Injector](https://github.com/Molajo/IoC/blob/master/Injector/AbstractInjector.php) are is typically sufficient to handle most instantiation requests. As the name suggests, the **Standard Injector** provides the default *configuration free* instantiation process.
 
-Services and Injectors
---------------
-In order to use the Container, you must create *Injectors* and *Services.* A Service is the class that
-the Container will instantiate. It could be FileServices, Filters, Email capability, and so on. Typically those
-services needed anywhere in the Application. To define a Service and the configuration needed:
+Using passed in options, the **Standard Injector** can spawn other service dependent service requests, inject dependencies using the constructor, inject dependencies using class setters. No code is required using the **Standard Injector**.
 
-*** Define the Service
+#### Custom Injectors
+[Custom Injectors](https://github.com/Molajo/IoC/blob/master/Injector/SampleInjector.php) also extend the [Abstract Injector](https://github.com/Molajo/IoC/blob/master/Injector/AbstractInjector.php) and are only necessary when the **Standard Injector** is not enough.
 
-Create a subfolder beneath *Molajo\DependencyInjection\Services* that will become the name of the service
-and copy the *Molajo\DependencyInjection\Services\Sample\SampleInjector.php* file into the folder.
+Creating a **Custom Injector** is pretty straightforward and very flexible. Normal PHP code can be written for each of the Injector event methods to fully manage complex dependency needs.  Multiple custom injectors can be defined for any class.
 
-├── Vendor
-│   ├── Molajo
-│   │   └── DependencyInjection
-│   │       └── Cache
-│   │       │   └── CacheInjector.php
-│   │       └── Log
-│   │       │    └── LogInjector.php
-│   │       └── Sample
-│   │           └── SampleInjector.php
+#### Abstract Injector [Interface]
+The [Abstract Injector](https://github.com/Molajo/IoC/blob/master/Injector/AbstractInjector.php) implements the [InjectionInterface](https://github.com/Molajo/IoC/blob/master/Api/InjectorInterface.php). It is extended by both custom and standard injectors. As such, it contains the default code that is executed when the current injector handler does not override the abstract class method.
 
+## Dependency Injection Approach
+Given the architectural structure described in the previous section, dependency injection can be accomplished via the Constructor, the Setter, using an Interface, and invoked by an injector. The possibilities are very flexible.
+### Constructor
+The injector uses the `$options` array as instructions for managing constructor injection.
+### Setter
+In much the same manner, the `$setter_options` array is used to manage setter injection.
+### Lazy loading of required classes
+Regardless of whether the process uses an constructor or setter (or both) approach to injecting dependencies, many times, an Injector will issue a `getService` request for another class, supporting a lazy loading approach.
+### Interface injection
+A good object oriented practice is to have classes implement interfaces. This practice has many benefits, including clearly defining the application API, but also making it much easier to swap out one implementation of the Interface for another. The Molajo IoCC supports Interface injection.
 
-*** Create an Injector for the Service
+## Type of Instance
+The `getService` request can request one of four types of instances:
+1. **Request a new instance** This is done transparently by requesting a service where a like named service is not stored in the Container instance array.
+2. **Accept an available instance, if available, or create a new instance if it is not.** Special consideration of how the class object map loads is needed to use this option with confidence.
+3. **Accept an available instance, if available, or proceed without an instance if an existing instance does not exist.** This request is made by passing in the `$options['if_exists']` and setting it to true. It might not be immediately apparent but this approach is necessary, especially during startup, for those situations where both classes are dependent on one another. An example might be a request for the `Database Object` which has a dependency on the `User Object`. Since the `User Object` requires a database read, the same is true in reverse. Again, careful consideration of how classes work together is always needed.
+4. **Request a Singleton, or Static, Instance** As much as some might disagree, there are times when a `Singleton` will be desired. Examples might include database connections where performance would be significantly harmed if each interaction required a new connection instance. This type of instance always requires a custom injector where the class `static_service_instance` property is set to true for this request.
 
-Copy the *Molajo\DependencyInjection\Services\Sample\SampleInjector.php* file into the folder naming it *Name-of-ServiceInjector*.
-This new class
-is modeled after the [Injector Class](https://github.com/Molajo/Standard/blob/master/Vendor/Molajo/DependencyInjection/Services/Injector.php)
-and implements the [Injector Interface](https://github.com/Molajo/Standard/blob/master/Vendor/Molajo/DependencyInjection/Services/InjectorInterface.php).
+## Injector Properties and Methods
+It is helpful to review the [Abstract Injector](https://github.com/Molajo/Standard/blob/master/Vendor/Molajo/IoC/Injector/AbstractInjector.php) to understand the properties and event methods that can be used for a custom injector (or are automatically processed, and how, for a standard injection).
 
-Define the logic needed for the [Injector methods](https://github.com/Molajo/DependencyInjection/blob/master/Container.php#L148):
+Only normal PHP code is needed to write a custom injector, There is no special XML format to learn, or approach to setting cryptic rules. Just plain PHP code and a set of flexible event methods.
 
-*Constructor*
+### Injector Properties
 
-The constructor defines three important parameters:
+### Injector Event Methods
 
-1. service_namespace - the location of the service class to be instantiated;
-2. static_instance_indicator - true or false value indicating whether a static instance should be created (true) or not (false);
-3. store_instance_indicator - true or false value indicating whether or not the instance should be stored (trued) or not stored (false), by the [`Molajo\DependencyInjection\Container`](https://github.com/Molajo/Standard/blob/master/Autoload.php#L73) and then shared when requested by a subsequent call;
-4. store_properties_indicator - properties from the class process
+#### onBeforeServiceInstantiate
 
-```php
+#### Instantiate
+This is the event method where constructor injection happens and the class is instantiated.
+#### instantiate_static
+The Instantiate Static method does as the name suggests. Those injectors which set `$this->static_instance_indicator` to true invoke this code.
+#### onAfterServiceInstantiate
+After instantiation, setter injection can be defined in this event method using the data in $this->setter_options.
+#### initialise
+If the Service has an *initialise* method, it is invoked here,  following the service instantiation.
+#### onAfterServiceInitialise
+Follows Initialise, providing another opportunity for custom processing
+#### getServiceInstance
+This method reviews the values in these three properties:
+* **$static_instance_indicator** set to true if a static instance is needed
+* **$store_instance_indicator** Set to true if the instantiated instance is to be stored by the Container and returned for subsequent requests.
+* **$store_properties_indicator** Set to true if only the data generated by the class is what should be sent back (or stored) by the Container.
 
-    public function __construct()
-    {
-        $this->service_namespace = 'Molajo\\Cache\\Adapter';
-        $this->static_instance_indicator = false;
-        $this->store_instance_indicator = true;
-    }
+In order to determine if the instance should be saved to be shared with other requests, if the instance was static, and therefore can be reused, or if the service results needed are the values returned by the request. Given that result, the appropriate result (an instance or return results) are sent back through the Adapter to the Container.
 
-```
+## Usage and examples
+1. Bootstrapping (services.xml)
+loop thru and call
+2. Standard instantiation - no configuration required.
+call - class, options constructor, options setter, either the valid_properties array or reflection, what to do with the instance, callbacks for each method in the options (Filtering?)
+3. Services Library (custom configurations)
+Simple
+Object Graph - lazy loading - optional loading - think through your class object structure and purposefully design the instanatiation https://qtile.readthedocs.org/en/latest/manual/commands/index.html
 
-*onBeforeServiceInstantiate*
+Any class constructor which asks for an instance of a class that has been marked as shared will be passed the shared instance of the object rather than a new instance.
 
-Logic that should run before the Service is instantiated.
 
-*instantiate*
+4. Overrides
+5. Third-party
 
-The actual class instantiation. Add constructor dependency injection here, or if not needed, allow the parent class, *Injector*, handles it.
 
-*onAfterServiceInstantiate*
+Examples:
 
-Logic that is executed following the class instantiation. Any setter injection can be handled here.
+IoCC Accessibility
+frontcontroller
 
-*initialize*
+Roadmap
+Considering adding YAML, JSON, XML-type configuration support that could be used instead of the Injector methods. Currently, feel the PHP approach is easier but it might be nice to have a choice conceivable would open some automation with ORM environments.
 
-Logic that runs the service class initialize method, if one exists.
+FAQ
 
-*getServiceInstance*
+**IoCC, DIC, and Service Locators are the mark of the beast. The beast is Martin Fowler.**
 
-Logic that returns the service instance to the [`Molajo\DependencyInjection\Container`](https://github.com/Molajo/Standard/blob/master/Autoload.php#L73)
+That is not a question. Please, stop reading academic books and articles about patterns and jump down off that high-horse of religious technology purity. Much easier to learn if you put your time into writing code that runs on servers. Then, after you've been beaten down by real life coding experience, install this or any other IoCC or DIC, and think about the benefits identified. If, at that time, you are able to arrange a set of words into a sentence with a question mark at the end, feel free to ask a question.
 
+**Will you add annotation or type hints for automated dependency injection.**
 
-Working with the Container and Using Services
---------------
+It is doubtful. Doing so would be contrary to everything I believe about the danger of relying on comments in code.
 
-Molajo's *Inversion of Control Container* is accessed via a static call you defined above
- to the Front Controller Services method. That method then links to an instantiation of the Service class.
-
-```php
-
-Services::Service-Folder-Name()->services-method-name('parameters');
-
-```
-Examples of accessing services via the container look like the Service itself is static, but that is only
-true if the configuration for the class so specified. The majority of the time, you will likely define
-the configuration to be a dynamic instance.
-
-The benefit in the application to such an approach is that all configuration can be pre-defined in one location
-and the class instance created handled by the dependency injection container. Developers can easily work
-with your application API with instance and dependencies managed within the application.
-
-## System Requirements ##
-
-* PHP 5.3.3, or above
-* [PSR-0 compliant Autoloader](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md)
-* PHP Framework independent
-* [optional] PHPUnit 3.5+ to execute the test suite (phpunit --version)
-
-### Installation
-
-#### Install using Composer from Packagist
-
-**Step 1** Install composer in your project:
-
-```php
-    curl -s https://getcomposer.org/installer | php
-```
-
-**Step 2** Create a **composer.json** file in your project root:
-
-```php
-{
-    "require": {
-        "Molajo/DependencyInjection": "1.*"
-    }
-}
-```
-
-**Step 3** Install via composer:
-
-```php
-    php composer.phar install
-```
-
-**Step 4** Add this line to your application’s **index.php** file:
-
-```php
-    require 'vendor/autoload.php';
-```
-
-This instructs PHP to use Composer’s autoloader for **DependencyInjection** project dependencies.
-
-#### Or, Install Manually
-
-Download and extract **DependencyInjection**.
-
-Create a **Molajo** folder, and then a **DependencyInjection** subfolder in your **Vendor** directory.
-
-Copy the **DependencyInjection** files directly into the **DependencyInjection** subfolder.
-
-Register `Molajo\DependencyInjection\` subfolder in your autoload process.
-
-About
-=====
-
-Molajo Project adopted the following:
-
- * [Semantic Versioning](http://semver.org/)
- * [PSR-0 Autoloader Interoperability](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md)
- * [PSR-1](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md)
- and [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
- * [phpDocumentor2] (https://github.com/phpDocumentor/phpDocumentor2)
- * [phpUnit Testing] (https://github.com/sebastianbergmann/phpunit)
- * [Travis Continuous Improvement] (https://travis-ci.org/profile/Molajo)
- * [Packagist] (https://packagist.org)
-
-
-Submitting pull requests and features
-------------------------------------
-
-Pull requests [GitHub](https://github.com/Molajo/DependencyInjection/pulls)
-
-Features [GitHub](https://github.com/Molajo/DependencyInjection/issues)
-
-Author
-------
-
-Amy Stephen - <AmyStephen@gmail.com> - <http://twitter.com/AmyStephen><br />
-See also the list of [contributors](https://github.com/Molajo/DependencyInjection/contributors) participating in this project.
-
-License
--------
-
-**Molajo DependencyInjection** is licensed under the MIT License - see the `LICENSE` file for details
-
-More Information
-----------------
-- [Extend](https://github.com/Molajo/DependencyInjection/blob/master/.dev/Doc/extend.md)
-- [Install](https://github.com/Molajo/DependencyInjection/blob/master/.dev/Doc/install.md)
+** How is a Service Locator different than a IoCC/DIC?

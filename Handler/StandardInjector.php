@@ -6,10 +6,10 @@
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright 2013 Amy Stephen. All rights reserved.
  */
-namespace Molajo\IoC\Injector\AbstractInjector;
+namespace Molajo\IoC\Handler\AbstractInjector;
 
 use Molajo\IoC\Exception\InjectorException;
-use Molajo\IoC\Injector\AbstractInjector;
+use Molajo\IoC\Handler\AbstractInjector;
 use Molajo\IoC\Api\InjectorInterface;
 
 /**

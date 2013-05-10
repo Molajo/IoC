@@ -9,7 +9,7 @@
 namespace Molajo\IoC;
 
 use Exception;
-use Molajo\IoC\Injector\Adapter;
+use Molajo\IoC\Adapter;
 use Molajo\IoC\Api\ContainerInterface;
 use Molajo\IoC\Exception\ContainerException;
 
