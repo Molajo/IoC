@@ -82,6 +82,7 @@ The syntax to obtain an instantiated service from the IoCC is very simple. Ident
 in options needed by the dependency injector.
 
 **Custom Dependency Injector**
+
 The values passed in using the $options array will vary. In some cases,
 as this example shows, no options are required. Of course, the database connection will need quite a bit of
 information for instantiation but a custom injector is in place to manage the configuration interaction.
@@ -92,6 +93,7 @@ $database = $this->iocc->getService('Database');
 ```
 
 **Standard Dependency Injector**
+
 In this second example, a `getService` request is made of the IoCC and an ID is passed in identifying the key
 value for that user. In this case, the key value is all that is needed to instantiate the class so the namespace
 is passed in as a second element of the $options array. The Standard dependency injector handles these
@@ -158,12 +160,9 @@ can be requested when needed.
         <service name="Language"/>
         <service name="Date"/>
     </services>
-
 ```
-No, you do not have to use XML.  Yes, I know many people do not like it.  It is just an example.
+No, you do not have to use XML.  Yes, I know many people do not like it.  It is just an example, deep breaths.
 
-
-```
 
 #### Instantiation Type
 
