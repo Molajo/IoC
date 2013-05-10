@@ -12,7 +12,7 @@ The Molajo **Inversion of Control** package offers a full-featured dependency in
 - Triggered instantiation for discovered dependencies
 - Lazy loading of objects, prompted only when needed
 
-## Instantiating the *Inversion of Control Container*
+## Instantiating the Inversion of Control Container
 
 
 
@@ -149,6 +149,8 @@ can be requested when needed.
 
 ```
 
+**Services.xml**
+
 ```xml
     <?xml version="1.0" encoding="utf-8"?>
     <services>
@@ -190,7 +192,7 @@ For every getService request, the IoCC looks to see if the Service is already av
 If it is, the existing service is returned. (That service will only be saved if the answer to
 1 or 2 above was true.)
 
-**Does Not Exist, do not create new **
+**Does Not Exist, do not create new**
 
 If the service instance is not already available, the IoCC will look
 in the options for an entry named `if_exists`. The presence of that array item signals to the IoCC *not* to
@@ -215,24 +217,26 @@ the IoCC will create a new instance. This enables lazy loading and resolving dep
 
 Finally, a discussion on dependency injection. First, both Constructor and Setter Dependency Injection are supported.
 You may have noted, the examples did not instruct the IoCC which approach was preferred. To understand how
-that decision is reached, it's important to look at how the **Standard* and **Custom** dependency injection handlers
-process requests.
+that decision is reached, it's important to look at how the **Standard** and **Custom** dependency injection handlers
+function.
 
 #### Injector Adapter
 
 #### Standard Injector Handler
 
-#### Custom Injector Hander
+#### Custom Injector Handler
 Custom Injector
 
 ###
+
+will be deleted below.
 
 Instantiating a connection to a database can involve a significant number of small and moderately complex steps.
 
 Using the Molajo IoCC, that code can be defined once in a custom injector handler and then invoked, each and every time the database connection is needed, using this simple command:
 
 ```php
-$database = $this->IoC->getService('Database');
+$database = $this->iocc->getService('Database');
 ```
 Behind the scenes, dependencies can trigger other *getService* requests, and those, more still, until all necessary elements of the Object Map are instantiated and available.
 
