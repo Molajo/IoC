@@ -14,7 +14,7 @@ use Molajo\IoC\Api\ContainerInterface;
 use Molajo\IoC\Exception\ContainerException;
 
 /**
- * Application Service Dependency Injector
+ * Inversion of Control Container
  *
  * @author    Amy Stephen
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
@@ -24,15 +24,15 @@ use Molajo\IoC\Exception\ContainerException;
 class Container implements ContainerInterface
 {
     /**
-     * Service Connections
+     * Service Registry
      *
      * @var     array
      * @since   1.0
      */
-    protected $connections = array();
+    protected $registry = array();
 
     /**
-     * Connecting - used to prevent simultaneous instantiations of the same object
+     * Prevents simultaneous instantiations of the same object
      *
      * @var     array
      * @since   1.0
@@ -40,50 +40,69 @@ class Container implements ContainerInterface
     protected $lock_same_connection = array();
 
     /**
-     *  Retrieves Service Instance and sends it back to the caller.
+     * Namespace for Service Library
      *
-     * Usage:
-     * $results = $iocc->getService('Cache', $options);
+     * @var     object
+     * @since   1.0
+     */
+    protected $service_library;
+
+    /**
+     * Injector Adapter
      *
-     * @param    string $service_name
+     * @var     object
+     * @since   1.0
+     */
+    protected $adapter;
+
+    /**
+     * Constructor
+     *
+     * @param  string  $service_library
+     *
+     * @since  1.0
+     */
+    public function __construct($service_library = 'Molajo\\Services')
+    {
+        $this->service_library = $service_library;
+    }
+
+    /**
+     * Get Service
+     *
+     * @param    string $service
      * @param    array  $options
      *
      * @results  null|object
      * @since    1.0
      * @throws   ContainerException
      */
-    public function getService($service_name, $options = array())
+    public function getService($service, $options = array())
     {
         /** 1. Return service instance, if it already exists */
-        if (isset($this->connections[$service_name])) {
-            return $this->connections[$service_name];
+        if (isset($this->registry[$service])) {
+            return $this->registry[$service];
         }
 
-        /** 2. Only return an instance if it already exists (don't create new instance) */
+        /** 2. If the service instance does not exist, forget about it */
         if (isset($options['if_exists'])) {
             if ($options['if_exists'] === true) {
                 return null;
             }
         }
 
-        /** 3. Identify service with simultaneous object constructions */
-        if (isset($this->lock_same_connection[$service_name])) {
+        /** 3. Stop attempt for simultaneous object construction */
+        if (isset($this->lock_same_connection[$service])) {
             throw new ContainerException
             ('Inversion of Control Container getService: second, simultaneous permanent service load (loop): '
-                . $service_name);
+                . $service);
         }
 
-        /** 4. Get a new instance of the DI Adapter */
-        try {
-            $adapter = new Adapter();
-
-        } catch (Exception $e) {
-            throw new ContainerException
-            ('Inversion of Control Container:Instantiate IoC Container Exception: ', $e->getMessage());
-        }
+        /** 4. Instantiate DI Handler and pass it into the Adapter Constructor */
+        $adapter = $this->getDIAdapter($service);
 
         /** 5. Instantiate Injector and inject with $this and options */
-        $adapter->instantiateInjector($service_name);
+        $adapter->instantiateInjector($service);
 
         $adapter->setInjectorProperty('container_instance', $this);
         $adapter->setInjectorProperty('options', $options);
@@ -92,7 +111,7 @@ class Container implements ContainerInterface
         if ($adapter->getInjectorProperty('store_instance_indicator') === true
             || $adapter->getInjectorProperty('store_properties_indicator') === true
         ) {
-            $this->lock_same_connection[$service_name] = true;
+            $this->lock_same_connection[$service] = true;
         }
 
         /** 7. Before Service Instantiate */
@@ -104,11 +123,11 @@ class Container implements ContainerInterface
         if ($adapter->getInjectorProperty('store_instance_indicator') === true
             || $adapter->getInjectorProperty('store_properties_indicator') === true
         ) {
-            $this->connections[$service_name] = $adapter->getServiceInstance();
+            $this->registry[$service] = $adapter->getServiceInstance();
 
-            if (isset($this->lock_same_connection[$service_name])) {
-                unset($this->lock_same_connection[$service_name]);
-                $this->connections[$service_name] = $adapter->getServiceInstance();
+            if (isset($this->lock_same_connection[$service])) {
+                unset($this->lock_same_connection[$service]);
+                $this->registry[$service] = $adapter->getServiceInstance();
             }
         }
 
@@ -122,58 +141,100 @@ class Container implements ContainerInterface
     }
 
     /**
+     * Instantiates DI Handler and passes the handler into the Adapter Constructor
+     *
+     * @param   string  $service
+     *
+     * @return  object
+     * @since   1.0
+     * @throws  ContainerException
+     */
+    protected function getDIAdapter($service)
+    {
+
+
+        try {
+            $adapter = new Adapter();
+
+        } catch (Exception $e) {
+            throw new ContainerException
+            ('Inversion of Control Container: Instantiate IoC Container Exception: ', $e->getMessage());
+        }
+
+        $class_name = $this->services_library
+            . $this->service . '\\'
+            . $this->service . 'Injector';
+
+
+
+        try {
+
+            $this->injector = new $class_name();
+
+        } catch (Exception $e) {
+
+            throw new InjectorException
+            ('Injector Adapter: Injector Instance Failed for ' . $service
+                . ' failed.' . $e->getMessage());
+        }
+
+        return $this->injector;
+    }
+
+
+    /**
      * Replace the existing service instance with the passed in object
      *
-     * @param    string  $service_name
+     * @param    string  $service
      * @param    object  $instance
      *
      * @results  $this
      * @since    1.0
      * @throws   ContainerException
      */
-    public function replaceService($service_name, $instance = null)
+    public function setService($service, $instance = null)
     {
-        if (isset($this->connections[$service_name])) {
+        if (isset($this->registry[$service])) {
         } else {
             throw new ContainerException
-            ('Inversion of Control Container replaceService: : ' . $service_name . ' does not exist.');
+            ('Inversion of Control Container replaceService: : ' . $service . ' does not exist.');
         }
 
-        return $this->connections[$service_name];
+        return $this->registry[$service];
     }
 
     /**
      * Clone the existing service instance and return the cloned instance
      *
-     * @param    string $service_name
+     * @param    string $service
      *
      * @results  null|object
      * @since    1.0
      * @throws   ContainerException
      */
-    public function cloneService($service_name)
+    public function cloneService($service)
     {
-        if (isset($this->connections[$service_name])) {
+        if (isset($this->registry[$service])) {
         } else {
             throw new ContainerException
-            ('Inversion of Control Container cloneService: : ' . $service_name . ' does not exist.');
+            ('Inversion of Control Container cloneService: : ' . $service . ' does not exist.');
         }
 
-        return clone $this->connections[$service_name];
+        return clone $this->registry[$service];
     }
 
     /**
      * Remove the existing service instance
      *
-     * @param    string $service_name
+     * @param    string $service
      *
      * @results  $this
      * @since    1.0
      */
-    public function removeService($service_name)
+    public function removeService($service)
     {
-        if (isset($this->connections[$service_name])) {
-            unset($this->connections[$service_name]);
+        if (isset($this->registry[$service])) {
+            unset($this->registry[$service]);
         }
 
         return $this;

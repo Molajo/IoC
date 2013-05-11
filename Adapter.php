@@ -8,9 +8,8 @@
  */
 namespace Molajo\IoC;
 
-use Exception;
 use Molajo\IoC\Exception\InjectorException;
-use Molajo\IoC\Api\AdapterInterface;
+use Molajo\IoC\Api\InjectorInterface;
 
 /**
  * Injector Adapter
@@ -20,31 +19,15 @@ use Molajo\IoC\Api\AdapterInterface;
  * @copyright 2013 Amy Stephen. All rights reserved.
  * @since     1.0
  */
-class Adapter implements AdapterInterface
+class Adapter implements InjectorInterface
 {
     /**
-     * Injector Folder Namespace
+     * Injector Handler Instance
      *
      * @var     array
      * @since   1.0
      */
-    protected $injector_folder_namespace = 'Molajo\\Application\\Services\\';
-
-    /**
-     * Injector Instance
-     *
-     * @var     array
-     * @since   1.0
-     */
-    protected $injector;
-
-    /**
-     * Injector Type
-     *
-     * @var     string
-     * @since   1.0
-     */
-    protected $injector_type;
+    protected $handler;
 
     /**
      * Service Name
@@ -55,100 +38,15 @@ class Adapter implements AdapterInterface
     protected $service_name;
 
     /**
-     * List of Properties
+     * Constructor
      *
-     * @var    object
+     * @param  InjectorInterface $handler
+     *
      * @since  1.0
      */
-    protected $property_array = array(
-        'connections',
-        'injector',
-        'injector_folder_namespace',
-        'injector_type',
-        'service_name'
-    );
-
-    /**
-     * Set the value of a specified key
-     *
-     * @param   string $key
-     * @param   mixed  $value
-     *
-     * @return  mixed
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public function set($key, $value = null)
+    public function __construct(InjectorInterface $handler)
     {
-        $key = strtolower($key);
-
-        if (in_array($key, $this->property_array)) {
-        } else {
-            throw new InjectorException
-            ('IoC Injector Adapter Set: unknown key: ' . $key);
-        }
-
-        $this->$key = $value;
-
-        return $this->$key;
-    }
-
-    /**
-     * Get the current value (or default) of the specified key
-     *
-     * @param   string $key
-     * @param   mixed  $default
-     *
-     * @return  mixed
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public function get($key, $default = null)
-    {
-        $key = strtolower($key);
-
-        if (in_array($key, $this->property_array)) {
-        } else {
-            throw new InjectorException
-            ('IoC Injector Adapter Get: unknown key: ' . $key);
-        }
-
-        if ($this->$key === null) {
-            $this->$key = $default;
-        }
-
-        return $this->$key;
-    }
-
-    /**
-     * Instantiates Service Class
-     *
-     * @param   string $service_name
-     *
-     * @return  object
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public function instantiateInjector($service_name)
-    {
-        $this->service_name = $service_name;
-
-        try {
-
-            $class_name = $this->injector_folder_namespace
-                . $this->service_name . '\\'
-                . $this->service_name . 'Injector';
-
-            $this->injector = new $class_name();
-
-        } catch (Exception $e) {
-
-            throw new InjectorException
-            ('Injector Adapter: Injector Instance Failed for ' . $service_name
-                . ' failed.' . $e->getMessage());
-        }
-
-        return $this->injector;
+        $this->handler = $handler;
     }
 
     /**
@@ -162,7 +60,7 @@ class Adapter implements AdapterInterface
      */
     public function getInjectorProperty($key, $default = null)
     {
-        return $this->injector->get($key, $default);
+        return $this->handler->get($key, $default);
     }
 
     /**
@@ -176,7 +74,7 @@ class Adapter implements AdapterInterface
      */
     public function setInjectorProperty($key, $value = null)
     {
-        $this->injector->set($key, $value);
+        $this->handler->set($key, $value);
 
         return $this;
     }
@@ -189,7 +87,7 @@ class Adapter implements AdapterInterface
      */
     public function onBeforeServiceInstantiate()
     {
-        $this->injector->onBeforeServiceInstantiate();
+        $this->handler->onBeforeServiceInstantiate();
 
         return $this;
     }
@@ -204,7 +102,7 @@ class Adapter implements AdapterInterface
      */
     public function instantiate($create_static = false)
     {
-        $this->injector->instantiate($create_static);
+        $this->handler->instantiate($create_static);
 
         return $this;
     }
@@ -217,7 +115,7 @@ class Adapter implements AdapterInterface
      */
     public function onAfterServiceInstantiate()
     {
-        $this->injector->onAfterServiceInstantiate();
+        $this->handler->onAfterServiceInstantiate();
 
         return $this;
     }
@@ -230,7 +128,7 @@ class Adapter implements AdapterInterface
      */
     public function initialise()
     {
-        $this->injector->initialise();
+        $this->handler->initialise();
 
         return $this;
     }
@@ -243,7 +141,7 @@ class Adapter implements AdapterInterface
      */
     public function onAfterServiceInitialise()
     {
-        $this->injector->onAfterServiceInitialise();
+        $this->handler->onAfterServiceInitialise();
 
         return $this;
     }
@@ -256,7 +154,7 @@ class Adapter implements AdapterInterface
      */
     public function getServiceInstance()
     {
-        return $this->injector->getServiceInstance();
+        return $this->handler->getServiceInstance();
     }
 
     /**

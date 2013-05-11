@@ -35,7 +35,7 @@ interface ContainerInterface
     public function getService($service_name, $options = array());
 
     /**
-     * Replace the existing service instance with the passed in object
+     * Replace the existing service instance contained within the Services Registry
      *
      * @param    string  $service_name
      * @param    object  $instance
@@ -44,10 +44,10 @@ interface ContainerInterface
      * @since    1.0
      * @throws   ContainerException
      */
-    public function replaceService($service_name, $instance);
+    public function setService($service_name, $instance);
 
     /**
-     * Clone the existing service instance and return the cloned instance
+     * Clone the existing service instance and return the instance
      *
      * @param    string  $service_name
      *
@@ -58,7 +58,7 @@ interface ContainerInterface
     public function cloneService($service_name);
 
     /**
-     * Remove the existing service instance
+     * Remove the existing service instance from the registry
      *
      * @param    string  $service_name
      *

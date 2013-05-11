@@ -21,48 +21,6 @@ use Molajo\IoC\Exception\InjectorException;
 interface InjectorInterface
 {
     /**
-     * Get the current value (or default) of the specified property
-     *
-     * @param   string $key
-     * @param   null   $default
-     *
-     * @return  mixed
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public function get($key, $default = null);
-
-    /**
-     * Set the value of a property
-     *
-     * @param   string $key
-     * @param   string $value
-     *
-     * @return  $this
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public function set($key, $value = null);
-
-    /**
-     * Only used if the instance is requested as static
-     *
-     * @return  bool
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public function getStatic();
-
-    /**
-     * Should instance be stored for reuse?
-     *
-     * @return  bool
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public function storeInstance();
-
-    /**
      * on Before Startup Event
      *
      * Follows instantiation of the service class and before the method identified as the "start" method
