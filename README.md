@@ -1,27 +1,36 @@
-Molajo Inversion of Control
-===========================
+# Molajo Inversion of Control (IoC)
 
-The Molajo **Inversion of Control** package offers a full-featured dependency injection solution for PHP applications.
+The Molajo **Inversion of Control** package offers a full-featured, easy-to-use dependency injection solution for PHP applications.
 
 ## Features
 
-- Facilitates new, existing, cloned, and static instantiation
-- Supports constructor and setter injection
-- Standard (no code) injection handler sufficient for most requests
-- Custom injector handlers can be developed using normal PHP code for more complex needs
-- Triggered instantiation for discovered dependencies
-- Lazy loading of objects, prompted only when needed
+- Centralized object construction support, enabling 'lazy loading'
+- Ability to pass in runtime data to container for service request
+- Registry Services for instantiated objects
+- Constructor, setter and interface injection
+- Adapter pattern implementation for DI handlers
+- DI Handler event methods can be customized or can default to the Abstract Handler method. Event Methods include:
+onBeforeServiceInstantiate, instantiate, instantiate_static, onAfterServiceInstantiate,
+initialise, onAfterServiceInitialise, and getServiceInstance
+- Standard DI Handler for convention-based object construction
+- Custom DI Handlers you can develop in PHP for complex object dependencies
+- Unlimited DI Handlers can be created for each object
+- Prior to object instantiation, dependent objects are automatically requested by the DI Handler
+- Governor guards against simultaneous requests for the same object
 
-## Instantiating the Inversion of Control Container
+## Instantiating the IoCC
 
+### Bootstrapping
 
+To use the *Inversion of Control Container*, instantiate the IoCC object within the
+ [bootstrapping](http://en.wikipedia.org/wiki/Bootstrapping) process. Normally, this would be
+ in the [Front Controller](http://www.martinfowler.com/eaaCatalog/frontController.html) Initialisation method.
 
 ```php
     $class = 'Molajo\\IoC\\Container';
-    $this->iocc  = new Container();
+    $this->iocc  = new $class();
 
 ```
-
 #### Front Controller
 
 This is an example of how to implement the IoCC within the application front controller. It's not the
@@ -45,16 +54,19 @@ Within the bootstrap or front controller, instantiate the Inversion of Control
     protected $iocc;
 ```
 
-```php
+Instantiate the IoCC object within the
+ [bootstrapping](http://en.wikipedia.org/wiki/Bootstrapping) process. Normally, this would be
+ in the [Front Controller](http://www.martinfowler.com/eaaCatalog/frontController.html) Initialisation method.
 
+```php
     $class = 'Molajo\\IoC\\Container';
-    $this->iocc  = new Container();
+    $this->iocc  = new $class();
 
 ```
 
 ##### Get Service Method
 
-Add a front controller method to request services of the IoCC, passing back results.
+Next, include a getService Front Controller method to request services of the IoCC, passing back results.
 
 ```php
 
@@ -77,27 +89,29 @@ Add a front controller method to request services of the IoCC, passing back resu
 
 ```
 
+Now, the Front Controller is able to handle all requests, including requests for services, and the DiCC
+handles all of the object DI and construction needs.
+
 ##### Get Service
-The syntax to obtain an instantiated service from the IoCC is very simple. Identify the Service desired and pass
-in options needed by the dependency injector.
+To request a service from the IoCC, send in the name of the service and the required $options array
+entries. In return, the IoC will respond with the service instance, or the properties for the object.
 
 **Custom Dependency Injector**
 
 The values passed in using the $options array will vary. In some cases,
-as this example shows, no options are required. Of course, the database connection will need quite a bit of
-information for instantiation but a custom injector is in place to manage the configuration interaction.
+as this example shows, no options are required.
 
 ```php
 // Retrieve Database Connection
 $database = $this->iocc->getService('Database');
 ```
+Of course, a database connection has significant dependencies but those are defined in the database
+injector handler, which will handle this process.
 
 **Standard Dependency Injector**
 
 In this second example, a `getService` request is made of the IoCC and an ID is passed in identifying the key
-value for that user. In this case, the key value is all that is needed to instantiate the class so the namespace
-is passed in as a second element of the $options array. The Standard dependency injector handles these
-basic requests, no custom dependency injector is required.
+value for that user.
 
 ```php
 // Retrieve User Object
@@ -107,17 +121,15 @@ $options['namespace'] = 'Molajo\\User';
 $database = $this->iocc->getService('User', $options);
 
 ```
+In this case, the key value is all that is needed to instantiate the class so the namespace
+is passed in as a second element of the $options array. The Standard dependency injector handles these
+basic requests, no custom dependency injector is required.
 
 **Application Startup**
 
-In this example, the front controller is the first class instantiated, which is accomplished within the
-index.php boot process. One of the first tasks the front controller must accomplish is loading basic
-services. Following is an example intended to describe the basic principles for defining
-application service requests during initialisation processes.
+One of its first tasks for the Front Controller is to read process start up service requests. This
+can be accomplished many different ways. In this example, an XML file contains startup services.
 
-As you can see, an xml file containing the names of the services is read and a getService request
-is issued, one at a time, until all basic services are up and running. From that point on, services
-can be requested when needed.
 
 ```php
 
@@ -163,13 +175,14 @@ can be requested when needed.
         <service name="Date"/>
     </services>
 ```
-No, you do not have to use XML.  Yes, I know many people do not like it.  It is just an example, deep breaths.
+
+'No, you do not have to use XML. Yes, you are right, many people do not like it. It is just an example, deep breaths. ;)'
 
 
 #### Instantiation Type
 
-As you might have observed from the previous examples, there was no explicit request for a new or
-existing instance. For the most part, that is handled transparently but it is helpful to understand how.
+As you might have observed from the previous examples, there was no explicit request for a 'new' or
+'existing' instance. For the most part, that is handled transparently but it is helpful to understand how.
 
 When a service is instantiated, three basic instantiation questions are answered (if not answered explicitly by
 including those elements in the $options array or defining the values in a custom dependency injector,
@@ -228,6 +241,46 @@ function.
 Custom Injector
 
 ###
+
+
+
+
+
+
+
+### Service Locators vs IoC Containers
+
+Inversion of Control Containers (IoCC) are also called Dependency Injection Containers (DIC). A close
+cousin is the Service Locator. The difference between the two is how each are used.
+
+A [Service Location](http://en.wikipedia.org/wiki/Service_locator_pattern) is used inside of an object,
+'reaching out', as needed, to retrieve dependency objects and data.
+[More on Service Locators](http://martinfowler.com/articles/injection.html#UsingAServiceLocator)...
+
+An [Inversion of Control Container (IoCC)], also known as a [Dependency Injection Container (DIC),
+satisfies dependencies 'outside' of the object, injecting objects and other required data.
+Typically the IoCC is instantied one time within the Front Controller and only invoked from that location.
+
+Service Containers are much more difficult to test, can promote global object creation and treatment
+of data, and should be avoided. To avoid using the IoCC as a Service Locator, simply remember never
+to pass it into an object. Instead, use it from within the Front Controller as defined in this
+ documentation. Review the Molajo Standard distribution for an example of proper use of the container.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 will be deleted below.
 
@@ -354,6 +407,8 @@ Roadmap
 Considering adding YAML, JSON, XML-type configuration support that could be used instead of the Injector methods. Currently, feel the PHP approach is easier but it might be nice to have a choice conceivable would open some automation with ORM environments.
 
 FAQ
+
+
 
 **IoCC, DIC, and Service Locators are the mark of the beast. And, the beast is Martin Fowler.**
 

@@ -9,6 +9,7 @@
 namespace Molajo\IoC;
 
 use Exception;
+use Molajo\IoC\Api\InjectorInterface;
 use Molajo\IoC\Exception\InjectorException;
 use Molajo\IoC\Api\AdapterInterface;
 
@@ -20,7 +21,7 @@ use Molajo\IoC\Api\AdapterInterface;
  * @copyright 2013 Amy Stephen. All rights reserved.
  * @since     1.0
  */
-class Adapter implements AdapterInterface
+class Adapter implements InjectorInterface
 {
     /**
      * Injector Folder Namespace
@@ -257,5 +258,45 @@ class Adapter implements AdapterInterface
     public function getServiceInstance()
     {
         return $this->injector->getServiceInstance();
+    }
+
+    /**
+     * Only used if the instance is requested as static
+     *
+     * @return  bool
+     * @since   1.0
+     * @throws  InjectorException
+     */
+    public function getStatic()
+    {
+        // TODO: Implement getStatic() method.
+    }
+
+    /**
+     * Should instance be stored for reuse?
+     *
+     * @return  bool
+     * @since   1.0
+     * @throws  InjectorException
+     */
+    public function storeInstance()
+    {
+        // TODO: Implement storeInstance() method.
+    }
+
+    /**
+     * Instantiate Service class Statically
+     *
+     * @param   string $service_namespace
+     *
+     * @static
+     *
+     * @return  null|object
+     * @since   1.0
+     * @throws  InjectorException
+     */
+    public static function instantiate_static($service_namespace)
+    {
+        // TODO: Implement instantiate_static() method.
     }
 }
