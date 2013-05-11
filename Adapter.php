@@ -9,7 +9,6 @@
 namespace Molajo\IoC;
 
 use Exception;
-use Molajo\IoC\Api\InjectorInterface;
 use Molajo\IoC\Exception\InjectorException;
 use Molajo\IoC\Api\AdapterInterface;
 
@@ -21,7 +20,7 @@ use Molajo\IoC\Api\AdapterInterface;
  * @copyright 2013 Amy Stephen. All rights reserved.
  * @since     1.0
  */
-class Adapter implements InjectorInterface
+class Adapter implements AdapterInterface
 {
     /**
      * Injector Folder Namespace

@@ -8,7 +8,6 @@
  */
 namespace Molajo\IoC\Api;
 
-use Exception;
 use Molajo\IoC\Exception\InjectorException;
 
 /**

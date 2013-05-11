@@ -39,7 +39,7 @@ class AbstractInjector implements InjectorInterface
     public $options = array();
 
     /**
-     * Frontcontroller Instance
+     * Container Instance
      *
      * @var     object
      * @since   1.0
@@ -114,6 +114,15 @@ class AbstractInjector implements InjectorInterface
         'static_service_instance',
         'property_array',
     );
+    /**
+     * Constructor
+     *
+     * @since   1.0
+     */
+    public function __construct()
+    {
+
+    }
 
     /**
      * Get the current value (or default) of the specified property

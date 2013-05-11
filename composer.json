@@ -1,7 +1,7 @@
 {
     "name": "molajo/ioc",
     "type": "molajo-bundle",
-    "description": "Molajo Inversion of Control: platform independent directory injection container for PHPr",
+    "description": "Molajo Inversion of Control package offers a full-featured, simple-to-use dependency injection and object construction solution for PHP applications. ",
     "keywords": ["IoC", "Molajo", "PSR-0", "Inversion of Control", "Dependency Injection"],
     "homepage": "http://github.com/Molajo/IoC",
     "license": "MIT",

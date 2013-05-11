@@ -25,12 +25,45 @@ interface ContainerInterface
      *  and injecting its dependencies, or by returning a shared instance already available,
      *  or by not returning an instance that is not yet available.
      *
-     * @param    string $service_name
-     * @param    array  $options
+     * @param    string  $service_name
+     * @param    array   $options
      *
      * @results  null|object
      * @since    1.0
      * @throws   ContainerException
      */
     public function getService($service_name, $options = array());
+
+    /**
+     * Replace the existing service instance with the passed in object
+     *
+     * @param    string  $service_name
+     * @param    object  $instance
+     *
+     * @results  null|object
+     * @since    1.0
+     * @throws   ContainerException
+     */
+    public function replaceService($service_name, $instance);
+
+    /**
+     * Clone the existing service instance and return the cloned instance
+     *
+     * @param    string  $service_name
+     *
+     * @results  null|object
+     * @since    1.0
+     * @throws   ContainerException
+     */
+    public function cloneService($service_name);
+
+    /**
+     * Remove the existing service instance
+     *
+     * @param    string  $service_name
+     *
+     * @results  $this
+     * @since    1.0
+     */
+    public function removeService($service_name);
 }

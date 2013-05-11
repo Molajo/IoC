@@ -32,7 +32,7 @@ class Container implements ContainerInterface
     protected $connections = array();
 
     /**
-     * Connecting - used to prevent loops
+     * Connecting - used to prevent simultaneous instantiations of the same object
      *
      * @var     array
      * @since   1.0
@@ -40,9 +40,10 @@ class Container implements ContainerInterface
     protected $lock_same_connection = array();
 
     /**
-     * Handle requests for Services either by instantiating an instance of the Service
-     *  and injecting its dependencies, or by returning a shared instance already available,
-     *  or by not returning an instance that is not yet available.
+     *  Retrieves Service Instance and sends it back to the caller.
+     *
+     * Usage:
+     * $results = $iocc->getService('Cache', $options);
      *
      * @param    string $service_name
      * @param    array  $options
@@ -58,21 +59,21 @@ class Container implements ContainerInterface
             return $this->connections[$service_name];
         }
 
-        /** 2. If the service requested does not already exist, forget about it */
+        /** 2. Only return an instance if it already exists (don't create new instance) */
         if (isset($options['if_exists'])) {
             if ($options['if_exists'] === true) {
                 return null;
             }
         }
 
-        /** 3. Return service instance, if it already exists */
+        /** 3. Identify service with simultaneous object constructions */
         if (isset($this->lock_same_connection[$service_name])) {
             throw new ContainerException
             ('Inversion of Control Container getService: second, simultaneous permanent service load (loop): '
                 . $service_name);
         }
 
-        /** 4. New instance of Inversion of Control Container */
+        /** 4. Get a new instance of the DI Adapter */
         try {
             $adapter = new Adapter();
 
@@ -81,7 +82,7 @@ class Container implements ContainerInterface
             ('Inversion of Control Container:Instantiate IoC Container Exception: ', $e->getMessage());
         }
 
-        /** 5. Instantiate Injector and inject with Frontcontroller and options */
+        /** 5. Instantiate Injector and inject with $this and options */
         $adapter->instantiateInjector($service_name);
 
         $adapter->setInjectorProperty('container_instance', $this);
@@ -118,5 +119,63 @@ class Container implements ContainerInterface
 
         /** 10. Return results */
         return $adapter->getServiceInstance();
+    }
+
+    /**
+     * Replace the existing service instance with the passed in object
+     *
+     * @param    string  $service_name
+     * @param    object  $instance
+     *
+     * @results  $this
+     * @since    1.0
+     * @throws   ContainerException
+     */
+    public function replaceService($service_name, $instance = null)
+    {
+        if (isset($this->connections[$service_name])) {
+        } else {
+            throw new ContainerException
+            ('Inversion of Control Container replaceService: : ' . $service_name . ' does not exist.');
+        }
+
+        return $this->connections[$service_name];
+    }
+
+    /**
+     * Clone the existing service instance and return the cloned instance
+     *
+     * @param    string $service_name
+     *
+     * @results  null|object
+     * @since    1.0
+     * @throws   ContainerException
+     */
+    public function cloneService($service_name)
+    {
+        if (isset($this->connections[$service_name])) {
+        } else {
+            throw new ContainerException
+            ('Inversion of Control Container cloneService: : ' . $service_name . ' does not exist.');
+        }
+
+        return clone $this->connections[$service_name];
+    }
+
+    /**
+     * Remove the existing service instance
+     *
+     * @param    string $service_name
+     *
+     * @results  $this
+     * @since    1.0
+     */
+    public function removeService($service_name)
+    {
+        if (isset($this->connections[$service_name])) {
+            unset($this->connections[$service_name]);
+        }
+
+        return $this;
     }
 }
