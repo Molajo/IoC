@@ -4,33 +4,33 @@ The Molajo **Inversion of Control** package offers a full-featured, easy-to-use 
 
 ## Features
 
-- Structured services layer
-    * Store custom dependency injection handlers for object construction
-    * Supports 'lazy' or 'just in time' loading
-    * Can be used in conjunction with bootup service instantiation
+### Structured Services Layer
+* Repository of custom dependency injection handlers for object construction - [see MolajoStandard for example](https://github.com/Molajo/Standard/tree/master/Vendor/Molajo/Services)
+* Supports 'lazy' or 'just in time' loading
+* Can be used in conjunction with [bootup service instantiation](https://github.com/Molajo/Standard/blob/master/Vendor/Molajo/Application/FrontController.php#L235)
+* Application API
 
-- Inversion of Control Container
-    * Ability to pass in runtime variables with service request
-    * Provides registry services for instantiated objects
-    * Prevention of simultaneous instantiation requests for the same object
+### Inversion of Control Container (IoCC)
+* Ability to pass in runtime variables with service request
+* Provides registry services for instantiated objects
+* Prevention of simultaneous instantiation requests for the same object
 
-- Dependency Injection Handlers
-    * Adapter pattern implementation for DI handlers
-    * Standard DI handler for convention-based object construction
-    * Custom DI handlers for complex object construction and dependency resolution
-    * No limit per service
-    * Support for constructor, setter and interface injection
-    * Requests generated within the DI handler for object dependencies
+### Dependency Injection (DI) Handlers
+* [Adapter pattern](http://en.wikipedia.org/wiki/Adapter_pattern) implementation for DI handlers
+* [Standard DI handler](https://github.com/Molajo/IoC/blob/master/Handler/StandardInjector.php) for convention-based object construction
+* [Custom DI handlers](https://github.com/Molajo/IoC/blob/master/Handler/CustomInjector.php) for complex object construction and dependency resolution
+* Unlimited custom DI handlers per service
+* Support for constructor, setter and interface injection
+* The DI handler automatically generates getService requests for object dependencies
 
-- DI handler event methods include:
-    * onBeforeServiceInstantiate
-    * instantiate
-    * instantiate_static
-    * onAfterServiceInstantiate
-    * initialise
-    * onAfterServiceInitialise
-    * getServiceInstance
-
+### DI handler event methods include (links to AbstractHandler methods):
+* [onBeforeServiceInstantiate]()
+* [instantiate]()
+* [instantiate_static]()
+* [onAfterServiceInstantiate]()
+* [initialise]()
+* [onAfterServiceInitialise]()
+* [getServiceInstance]()
 
 ## Front Controller
 
