@@ -94,30 +94,18 @@ class Container implements ContainerInterface
         /** 3. Stop attempt for simultaneous object construction */
         if (isset($this->lock_same_connection[$service])) {
             throw new ContainerException
-            ('Inversion of Control Container getService: second, simultaneous permanent service load (loop): '
+            ('Inversion of Control Container getService: second, '
+                . ' simultaneous permanent service load (loop): '
                 . $service);
         }
 
-        /** 4. Instantiate DI Handler and pass it into the Adapter Constructor */
-        $adapter = $this->getDIAdapter($service);
+        /** 4. Instantiate Adapter Constructor */
+        $adapter = $this->getAdapter($service);
 
-        /** 5. Instantiate Injector and inject with $this and options */
         $adapter->instantiateInjector($service);
 
-        $adapter->setInjectorProperty('container_instance', $this);
-        $adapter->setInjectorProperty('options', $options);
-
-        /** 6. Lock any additional instantiating of service until this one is complete */
-        if ($adapter->getInjectorProperty('store_instance_indicator') === true
-            || $adapter->getInjectorProperty('store_properties_indicator') === true
-        ) {
-            $this->lock_same_connection[$service] = true;
-        }
-
-        /** 7. Before Service Instantiate */
         $adapter->onBeforeServiceInstantiate();
 
-        /** 8. Instantiate, store and unlock */
         $adapter->instantiate($adapter->getInjectorProperty('static_instance_indicator'));
 
         if ($adapter->getInjectorProperty('store_instance_indicator') === true
@@ -131,17 +119,15 @@ class Container implements ContainerInterface
             }
         }
 
-        /** 9. After Service Instantiate */
         $adapter->onAfterServiceInstantiate();
         $adapter->initialise();
         $adapter->onAfterServiceInitialise();
 
-        /** 10. Return results */
         return $adapter->getServiceInstance();
     }
 
     /**
-     * Instantiates DI Handler and passes the handler into the Adapter Constructor
+     * Instantiates DI Handler, passing it into the Adapter Constructor
      *
      * @param   string  $service
      *
@@ -149,10 +135,8 @@ class Container implements ContainerInterface
      * @since   1.0
      * @throws  ContainerException
      */
-    protected function getDIAdapter($service)
+    protected function getAdapter($service)
     {
-
-
         try {
             $adapter = new Adapter();
 
@@ -178,7 +162,18 @@ class Container implements ContainerInterface
                 . ' failed.' . $e->getMessage());
         }
 
-        return $this->injector;
+
+        $adapter->setInjectorProperty('container_instance', $this);
+        $adapter->setInjectorProperty('options', $options);
+
+        /** 6. Lock any additional instantiating of service until this one is complete */
+        if ($adapter->getInjectorProperty('store_instance_indicator') === true
+            || $adapter->getInjectorProperty('store_properties_indicator') === true
+        ) {
+            $this->lock_same_connection[$service] = true;
+        }
+
+        return $this;
     }
 
 
