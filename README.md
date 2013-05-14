@@ -1,7 +1,7 @@
 # Molajo Inversion of Control (IoC)
 
 The Molajo **Inversion of Control** package offers a full-featured,
-easy-to-use dependency injection solution for PHP applications.
+ dependency injection solution and a services layer for PHP applications.
 
 [Molajo Inversion of Control (IoC)](https://github.com/Molajo/IoC/blob/master/.dev/IoC.png)
 ## Features
@@ -26,13 +26,12 @@ easy-to-use dependency injection solution for PHP applications.
 * The DI handler automatically generates getService requests for object dependencies
 
 ### DI handler event methods include (links to AbstractHandler methods):
-* [onBeforeServiceInstantiate]()
-* [instantiate]()
-* [instantiate_static]()
-* [onAfterServiceInstantiate]()
-* [initialise]()
-* [onAfterServiceInitialise]()
-* [getServiceInstance]()
+* [onBeforeServiceInstantiate](https://github.com/Molajo/IoC/blob/master/Handler/AbstractInjector.php#L200)
+* [instantiate](https://github.com/Molajo/IoC/blob/master/Handler/AbstractInjector.php#L214)
+* [onAfterServiceInstantiate](https://github.com/Molajo/IoC/blob/master/Handler/AbstractInjector.php#L267)
+* [initialise](https://github.com/Molajo/IoC/blob/master/Handler/AbstractInjector.php#L279)
+* [onAfterServiceInitialise](https://github.com/Molajo/IoC/blob/master/Handler/AbstractInjector.php#L306)
+* [getServiceInstance](https://github.com/Molajo/IoC/blob/master/Handler/AbstractInjector.php#L318)
 
 ## Front Controller
 
@@ -67,7 +66,6 @@ overriding this default setting.
     $this->iocc  = new $class($service_library);
 ```
 
-
 ### getService Method
 
 The job of the Front Controller is to handle requests. Requests for services are made of
@@ -97,12 +95,12 @@ The job of the Front Controller is to handle requests. Requests for services are
 
 There are two parameters for the getService method:
 
-1. Service, required
+##### Service, required
 
 This is either the class name or the fully qualified namespace
 of the custom service DI handler or the class to be constructed.
 
-2. Options associative array, not required
+##### Options associative array, not required
 
 Typically, options in the array represent runtime variables. Most of the time, no options are required.
 
@@ -153,9 +151,9 @@ adapter event methods.
 ### Adapters and Handlers ###
 
 The Adapter is injected with
-a [Custom Injectors](https://github.com/Molajo/IoC/blob/master/Injector/CustomInjector.php) or
-[Standard Injector](https://github.com/Molajo/IoC/blob/master/Injector/StandardInjector.php), both
-extend the [Abstract Injector](https://github.com/Molajo/IoC/blob/master/Injector/AbstractInjector.php),
+a [Custom Injectors](https://github.com/Molajo/IoC/blob/master/Handler/CustomInjector.php) or
+[Standard Injector](https://github.com/Molajo/IoC/blob/master/Handler/StandardInjector.php), both
+extend the [Abstract Injector](https://github.com/Molajo/IoC/blob/master/Handler/AbstractInjector.php),
 
 The event methods for any DI Handler are: onBeforeServiceInstantiate, Instantiate, onAfterServiceInstantiate, initialise, onAfterServiceInitialise, and getServiceInstance.
 

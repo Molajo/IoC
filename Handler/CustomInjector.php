@@ -10,7 +10,6 @@ namespace Molajo\IoC\Handler;
 
 use Molajo\IoC\Api\InjectorInterface;
 use Molajo\IoC\Handler\AbstractInjector;
-use Molajo\IoC\Exception\InjectorException;
 
 /**
  * Standard Dependency Injector
@@ -22,7 +21,13 @@ use Molajo\IoC\Exception\InjectorException;
  */
 class CustomInjector extends AbstractInjector implements InjectorInterface
 {
-
-
-
+    /**
+     * Constructor
+     *
+     * @since   1.0
+     */
+    public function __construct($options)
+    {
+        parent::__construct($options);
+    }
 }

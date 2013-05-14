@@ -24,7 +24,6 @@ use Molajo\IoC\Api\InjectorInterface;
  */
 class StandardInjector extends AbstractInjector implements InjectorInterface
 {
-
     /**
      * Constructor
      *
