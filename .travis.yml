@@ -13,7 +13,6 @@ notifications:
 
 
 before_script:
-  - php .dev/travis-setup.php apc
   - composer update --dev
   - pyrus channel-discover pear.phpunit.de
   - pyrus install --force phpunit/DbUnit
