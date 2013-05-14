@@ -25,10 +25,10 @@ interface ContainerInterface
      *  and injecting its dependencies, or by returning a shared instance already available,
      *  or by not returning an instance that is not yet available.
      *
-     * @param    string  $service_name
-     * @param    array   $options
+     * @param    string $service_name
+     * @param    array  $options
      *
-     * @results  null|object
+     * @return   null|object
      * @since    1.0
      * @throws   ContainerException
      */
@@ -37,10 +37,10 @@ interface ContainerInterface
     /**
      * Replace the existing service instance contained within the Services Registry
      *
-     * @param    string  $service_name
-     * @param    object  $instance
+     * @param    string $service_name
+     * @param    object $instance
      *
-     * @results  null|object
+     * @return   null|object
      * @since    1.0
      * @throws   ContainerException
      */
@@ -49,9 +49,9 @@ interface ContainerInterface
     /**
      * Clone the existing service instance and return the instance
      *
-     * @param    string  $service_name
+     * @param    string $service_name
      *
-     * @results  null|object
+     * @return   null|object
      * @since    1.0
      * @throws   ContainerException
      */
@@ -60,9 +60,9 @@ interface ContainerInterface
     /**
      * Remove the existing service instance from the registry
      *
-     * @param    string  $service_name
+     * @param    string $service_name
      *
-     * @results  $this
+     * @return   $this
      * @since    1.0
      */
     public function removeService($service_name);

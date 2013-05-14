@@ -1,6 +1,6 @@
 <?php
 /**
- * Injector Adapter
+ * Dependency Injector Adapter
  *
  * @package   Molajo
  * @copyright 2013 Amy Stephen. All rights reserved.
@@ -8,11 +8,10 @@
  */
 namespace Molajo\IoC;
 
-use Molajo\IoC\Exception\InjectorException;
 use Molajo\IoC\Api\InjectorInterface;
 
 /**
- * Injector Adapter
+ * Dependency Injector Adapter
  *
  * @package   Molajo
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
@@ -35,7 +34,7 @@ class Adapter implements InjectorInterface
      * @var     string
      * @since   1.0
      */
-    protected $service_name;
+    protected $service;
 
     /**
      * Constructor
@@ -58,7 +57,7 @@ class Adapter implements InjectorInterface
      * @return  mixed
      * @since   1.0
      */
-    public function getInjectorProperty($key, $default = null)
+    public function get($key, $default = null)
     {
         return $this->handler->get($key, $default);
     }
@@ -72,7 +71,7 @@ class Adapter implements InjectorInterface
      * @return  $this
      * @since   1.0
      */
-    public function setInjectorProperty($key, $value = null)
+    public function set($key, $value = null)
     {
         $this->handler->set($key, $value);
 
@@ -80,7 +79,7 @@ class Adapter implements InjectorInterface
     }
 
     /**
-     * Execute the Injector onBeforeServiceInstantiate
+     * Execute the DI onBeforeServiceInstantiate
      *
      * @return  $this
      * @since   1.0
@@ -155,45 +154,5 @@ class Adapter implements InjectorInterface
     public function getServiceInstance()
     {
         return $this->handler->getServiceInstance();
-    }
-
-    /**
-     * Only used if the instance is requested as static
-     *
-     * @return  bool
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public function getStatic()
-    {
-        // TODO: Implement getStatic() method.
-    }
-
-    /**
-     * Should instance be stored for reuse?
-     *
-     * @return  bool
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public function storeInstance()
-    {
-        // TODO: Implement storeInstance() method.
-    }
-
-    /**
-     * Instantiate Service class Statically
-     *
-     * @param   string $service_namespace
-     *
-     * @static
-     *
-     * @return  null|object
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public static function instantiate_static($service_namespace)
-    {
-        // TODO: Implement instantiate_static() method.
     }
 }

@@ -6,7 +6,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright 2013 Amy Stephen. All rights reserved.
  */
-namespace Molajo\IoC\Handler\AbstractInjector;
+namespace Molajo\IoC\Handler;
 
 use Molajo\IoC\Exception\InjectorException;
 use Molajo\IoC\Handler\AbstractInjector;
@@ -43,7 +43,26 @@ class StandardInjector extends AbstractInjector implements InjectorInterface
      */
     public function instantiate($create_static = false)
     {
-        // process constructor options
+        $deps = array();
+        $controller = new \ReflectionClass($controllerName);
+        $params = $class->getMethod('__construct')->getParameters();
+        foreach($params as $p) {
+
+            $export = ReflectionParameter::export(
+                array(
+                    $p->getDeclaringClass()->name,
+                    $p->getDeclaringFunction()->name
+                ),
+                $p->name,
+                true
+            );
+
+            // Example: string(EmailHelper)
+            $type = preg_replace('/.*?(\w+)\s+\$'.$p->name.'.*/', '\\1', $export);
+            $deps[] = $serviceManager->get($type);
+
+        }
+        $method->invokeArgs(new $controllerName(), $deps);
     }
 
     /**

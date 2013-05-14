@@ -21,9 +21,32 @@ use Molajo\IoC\Exception\InjectorException;
 interface InjectorInterface
 {
     /**
+     * Get the current value for the specified key for the Injector
+     *
+     * @param   string     $key
+     * @param   null|mixed $default
+     *
+     * @return  mixed
+     * @since   1.0
+     */
+    public function get($key, $default = null);
+
+    /**
+     * Get the current value for the specified key for the Injector
+     *
+     * @param   string     $key
+     * @param   null|mixed $value
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function set($key, $value = null);
+
+    /**
      * on Before Startup Event
      *
-     * Follows instantiation of the service class and before the method identified as the "start" method
+     * Follows instantiation of the service class and before the method
+     * identified as the "start" method
      *
      * @return  object
      * @since   1.0
@@ -40,19 +63,6 @@ interface InjectorInterface
      * @throws  InjectorException
      */
     public function instantiate($create_static = false);
-
-    /**
-     * Instantiate Service class Statically
-     *
-     * @param   string $service_namespace
-     *
-     * @static
-     *
-     * @return  null|object
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public static function instantiate_static($service_namespace);
 
     /**
      * On After Startup Instantiate

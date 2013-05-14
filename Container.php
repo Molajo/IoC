@@ -45,7 +45,7 @@ class Container implements ContainerInterface
      * @var     object
      * @since   1.0
      */
-    protected $service_library;
+    protected $service_library = 'Molajo\\Services';
 
     /**
      * Injector Adapter
@@ -58,7 +58,7 @@ class Container implements ContainerInterface
     /**
      * Constructor
      *
-     * @param  string  $service_library
+     * @param  string $service_library
      *
      * @since  1.0
      */
@@ -70,12 +70,12 @@ class Container implements ContainerInterface
     /**
      * Get Service
      *
-     * @param    string $service
-     * @param    array  $options
+     * @param   string $service
+     * @param   array  $options
      *
-     * @results  null|object
-     * @since    1.0
-     * @throws   ContainerException
+     * @return  null|object
+     * @since   1.0
+     * @throws  ContainerException
      */
     public function getService($service, $options = array())
     {
@@ -91,7 +91,7 @@ class Container implements ContainerInterface
             }
         }
 
-        /** 3. Stop attempt for simultaneous object construction */
+        /** 3. Stop attempt at simultaneous object construction */
         if (isset($this->lock_same_connection[$service])) {
             throw new ContainerException
             ('Inversion of Control Container getService: second, '
@@ -99,17 +99,15 @@ class Container implements ContainerInterface
                 . $service);
         }
 
-        /** 4. Instantiate Adapter Constructor */
-        $adapter = $this->getAdapter($service);
+        /** 4. Adapter interacts with DI Handler */
+        $adapter = $this->getAdapter($service, $options);
 
         $adapter->instantiateInjector($service);
-
         $adapter->onBeforeServiceInstantiate();
+        $adapter->instantiate($adapter->get('static_instance_indicator'));
 
-        $adapter->instantiate($adapter->getInjectorProperty('static_instance_indicator'));
-
-        if ($adapter->getInjectorProperty('store_instance_indicator') === true
-            || $adapter->getInjectorProperty('store_properties_indicator') === true
+        if ($adapter->get('store_instance_indicator') === true
+            || $adapter->get('store_properties_indicator') === true
         ) {
             $this->registry[$service] = $adapter->getServiceInstance();
 
@@ -123,52 +121,56 @@ class Container implements ContainerInterface
         $adapter->initialise();
         $adapter->onAfterServiceInitialise();
 
-        return $adapter->getServiceInstance();
+        $results = $adapter->getServiceInstance();
+
+        if ($adapter->get('store_instance_indicator') === true
+            || $adapter->get('store_properties_indicator') === true
+        ) {
+
+            $this->registry[$service] = $results;
+        }
+
+        return $results;
     }
 
     /**
-     * Instantiates DI Handler, passing it into the Adapter Constructor
+     * Instantiate DI Handler, inject it into the Adapter Constructor
      *
-     * @param   string  $service
+     * @param   string $service
      *
      * @return  object
      * @since   1.0
      * @throws  ContainerException
      */
-    protected function getAdapter($service)
+    protected function getAdapter($service, $options)
     {
+        $ns = $this->setNamespace($service);
+
+        $handler_class_ns = $ns[0];
+        $handler_class_name = $ns[1];
+
         try {
-            $adapter = new Adapter();
+            $handler = new $handler_class_ns();
+
+        } catch (Exception $e) {
+
+            throw new ContainerException
+            ('Inversion of Control Container: Instantiate IoC Handler: ' . $ns[0] . ' ' . $e->getMessage());
+        }
+
+        try {
+            $adapter = new Adapter($handler, $options);
 
         } catch (Exception $e) {
             throw new ContainerException
-            ('Inversion of Control Container: Instantiate IoC Container Exception: ', $e->getMessage());
+            ('Inversion of Control Container: Instantiate IoC Adapter Exception: ' . $e->getMessage());
         }
 
-        $class_name = $this->services_library
-            . $this->service . '\\'
-            . $this->service . 'Injector';
+        $adapter->set('container_instance', $this);
+        $adapter->set('options', $options);
 
-
-
-        try {
-
-            $this->injector = new $class_name();
-
-        } catch (Exception $e) {
-
-            throw new InjectorException
-            ('Injector Adapter: Injector Instance Failed for ' . $service
-                . ' failed.' . $e->getMessage());
-        }
-
-
-        $adapter->setInjectorProperty('container_instance', $this);
-        $adapter->setInjectorProperty('options', $options);
-
-        /** 6. Lock any additional instantiating of service until this one is complete */
-        if ($adapter->getInjectorProperty('store_instance_indicator') === true
-            || $adapter->getInjectorProperty('store_properties_indicator') === true
+        if ($adapter->get('store_instance_indicator') === true
+            || $adapter->get('store_properties_indicator') === true
         ) {
             $this->lock_same_connection[$service] = true;
         }
@@ -176,16 +178,45 @@ class Container implements ContainerInterface
         return $this;
     }
 
+    /**
+     * Build Service DI Handler Namespace
+     *
+     * @param   string $service
+     *
+     * @return  array
+     * @since   1.0
+     * @throws  ContainerException
+     */
+    protected function setNamespace($service)
+    {
+        $ns = strrpos($service, '\\');
+
+        if ((bool)$ns === true) {
+            $ns[0] = str_replace('\\', '/', substr($service, 0, $ns)) . '/';
+            $ns[1] = substr($service, $ns + 1);
+        } else {
+            $ns[0] = $this->service_library . $service;
+            $ns[1] = $service . 'Injector';
+
+            if (class_exists($ns[0])) {
+            } else {
+                $ns[0] = 'Molajo\\Ioc\\Handler\\StandardInjector';
+                $ns[1] = 'StandardInjector';
+            }
+        }
+
+        return $ns;
+    }
 
     /**
      * Replace the existing service instance with the passed in object
      *
-     * @param    string  $service
-     * @param    object  $instance
+     * @param   string $service
+     * @param   object $instance
      *
-     * @results  $this
-     * @since    1.0
-     * @throws   ContainerException
+     * @return  $this
+     * @since   1.0
+     * @throws  ContainerException
      */
     public function setService($service, $instance = null)
     {
@@ -201,11 +232,11 @@ class Container implements ContainerInterface
     /**
      * Clone the existing service instance and return the cloned instance
      *
-     * @param    string $service
+     * @param   string $service
      *
-     * @results  null|object
-     * @since    1.0
-     * @throws   ContainerException
+     * @return  null|object
+     * @since   1.0
+     * @throws  ContainerException
      */
     public function cloneService($service)
     {
@@ -221,10 +252,10 @@ class Container implements ContainerInterface
     /**
      * Remove the existing service instance
      *
-     * @param    string $service
+     * @param   string $service
      *
-     * @results  $this
-     * @since    1.0
+     * @return  $this
+     * @since   1.0
      */
     public function removeService($service)
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract Injector Class
+ * Abstract Dependency Injector Class
  *
  * @package   Molajo
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
@@ -13,7 +13,7 @@ use Molajo\IoC\Api\InjectorInterface;
 use Molajo\IoC\Exception\InjectorException;
 
 /**
- * Abstract Injector Class
+ * Abstract Dependency Injector Class
  *
  * @author    Amy Stephen
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
@@ -88,7 +88,7 @@ class AbstractInjector implements InjectorInterface
     public $service_instance = null;
 
     /**
-     * Static Service Instance (Service Instantiation)
+     * Static Service Instance
      *
      * @static
      * @var    object  Services
@@ -166,23 +166,6 @@ class AbstractInjector implements InjectorInterface
         throw new InjectorException
         ('Injector: ' . $this->service_namespace .
             ' attempting to set value for unknown key: ' . $key);
-    }
-
-    /**
-     * Should instance be static
-     *
-     * @return  bool
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public function getStatic()
-    {
-        if ($this->static_instance_indicator === true) {
-        } else {
-            $this->static_instance_indicator = false;
-        }
-
-        return $this->static_instance_indicator;
     }
 
     /**
@@ -274,8 +257,6 @@ class AbstractInjector implements InjectorInterface
     }
 
     /**
-     * On After Startup Instantiate
-     *
      * Follows the completion of the instantiate service method
      *
      * @return  object
@@ -315,8 +296,6 @@ class AbstractInjector implements InjectorInterface
     }
 
     /**
-     * On After Service Instance Initialise method
-     *
      * Follows the completion of Initialise
      *
      * @return  object
