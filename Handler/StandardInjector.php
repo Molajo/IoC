@@ -48,28 +48,23 @@ class StandardInjector extends AbstractInjector implements InjectorInterface
      */
     public function instantiate($create_static = false)
     {
-        $deps = array();
-
+        $options = array();
         $reflect = new ReflectionClass($this->service_namespace);
-        $params = $reflect->getMethod('__construct')->getParameters();
+        $constructor = $reflect->getMethod('__construct')->getParameters();
 
-        foreach ($params as $p) {
-
-            $export = ReflectionParameter::export(
-                array(
-                    $p->getDeclaringClass()->name,
-                    $p->getDeclaringFunction()->name
-                ),
-                $p->name,
-                true
-            );
-
-            // Example: string(EmailHelper)
-            $type   = preg_replace('/.*?(\w+)\s+\$' . $p->name . '.*/', '\\1', $export);
-            $deps[] = $serviceManager->get($type);
-
+        foreach ($constructor as $item) {
+            echo $item;
         }
-        $reflect->invokeArgs(new $this->service_namespace(), $deps);
+
+        try {
+            $this->service_instance = new $this->service_namespace($this->options);
+
+        } catch (Exception $e) {
+
+            throw new InjectorException
+            ('IoC: Injector Instance Failed for ' . $this->service_namespace
+                . ' failed.' . $e->getMessage());
+        }
     }
 
     /**
