@@ -114,14 +114,15 @@ class AbstractInjector implements InjectorInterface
         'static_service_instance',
         'property_array',
     );
+
     /**
      * Constructor
      *
      * @since   1.0
      */
-    public function __construct()
+    public function __construct($options)
     {
-
+        $this->options = $options;
     }
 
     /**

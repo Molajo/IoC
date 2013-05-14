@@ -25,4 +25,3 @@ before_script:
 
 script:
   - phpunit  -c .dev/phpunit.xml
-  - ant

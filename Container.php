@@ -102,8 +102,8 @@ class Container implements ContainerInterface
         /** 4. Adapter interacts with DI Handler */
         $adapter = $this->getAdapter($service, $options);
 
-        $adapter->instantiateInjector($service);
         $adapter->onBeforeServiceInstantiate();
+
         $adapter->instantiate($adapter->get('static_instance_indicator'));
 
         if ($adapter->get('store_instance_indicator') === true
@@ -118,7 +118,9 @@ class Container implements ContainerInterface
         }
 
         $adapter->onAfterServiceInstantiate();
+
         $adapter->initialise();
+
         $adapter->onAfterServiceInitialise();
 
         $results = $adapter->getServiceInstance();
@@ -126,7 +128,6 @@ class Container implements ContainerInterface
         if ($adapter->get('store_instance_indicator') === true
             || $adapter->get('store_properties_indicator') === true
         ) {
-
             $this->registry[$service] = $results;
         }
 
@@ -142,15 +143,18 @@ class Container implements ContainerInterface
      * @since   1.0
      * @throws  ContainerException
      */
-    protected function getAdapter($service, $options)
+    protected function getAdapter($service, $options = array())
     {
         $ns = $this->setNamespace($service);
 
-        $handler_class_ns = $ns[0];
+        $handler_class_ns   = $ns[0];
         $handler_class_name = $ns[1];
+        $class              = $handler_class_ns . $handler_class_name;
+
+        $options['service'] = $ns[2];
 
         try {
-            $handler = new $handler_class_ns();
+            $handler = new $class($options);
 
         } catch (Exception $e) {
 
@@ -159,7 +163,7 @@ class Container implements ContainerInterface
         }
 
         try {
-            $adapter = new Adapter($handler, $options);
+            $adapter = new Adapter($handler);
 
         } catch (Exception $e) {
             throw new ContainerException
@@ -175,7 +179,7 @@ class Container implements ContainerInterface
             $this->lock_same_connection[$service] = true;
         }
 
-        return $this;
+        return $adapter;
     }
 
     /**
@@ -189,22 +193,24 @@ class Container implements ContainerInterface
      */
     protected function setNamespace($service)
     {
-        $ns = strrpos($service, '\\');
+        $x  = strrpos($service, '\\');
+        $ns = array();
 
-        if ((bool)$ns === true) {
-            $ns[0] = str_replace('\\', '/', substr($service, 0, $ns)) . '/';
-            $ns[1] = substr($service, $ns + 1);
+        if ((bool)$x === true) {
+            $ns[0] = str_replace('\\', '/', substr($service, 0, $x)) . '/';
+            $ns[1] = substr($service, $x + 1);
         } else {
             $ns[0] = $this->service_library . $service;
             $ns[1] = $service . 'Injector';
 
             if (class_exists($ns[0])) {
             } else {
-                $ns[0] = 'Molajo\\Ioc\\Handler\\StandardInjector';
+                $ns[0] = 'Molajo\\IoC\\Handler\\';
                 $ns[1] = 'StandardInjector';
             }
         }
 
+        $ns[2] = $service;
         return $ns;
     }
 

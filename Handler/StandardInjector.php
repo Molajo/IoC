@@ -8,6 +8,8 @@
  */
 namespace Molajo\IoC\Handler;
 
+use ReflectionClass;
+use ReflectionParameter;
 use Molajo\IoC\Exception\InjectorException;
 use Molajo\IoC\Handler\AbstractInjector;
 use Molajo\IoC\Api\InjectorInterface;
@@ -22,20 +24,23 @@ use Molajo\IoC\Api\InjectorInterface;
  */
 class StandardInjector extends AbstractInjector implements InjectorInterface
 {
+
     /**
      * Constructor
      *
      * @since   1.0
      */
-    public function __construct()
+    public function __construct($options)
     {
-        parent::__construct();
+        $this->options                  = $options;
+        $this->service_namespace        = 'Molajo\\Services\\' . $this->options['service'];
+        $this->store_instance_indicator = true;
     }
 
     /**
      * Instantiate Class
      *
-     * @param  bool  $create_static
+     * @param  bool $create_static
      *
      * @return  object
      * @since   1.0
@@ -44,9 +49,11 @@ class StandardInjector extends AbstractInjector implements InjectorInterface
     public function instantiate($create_static = false)
     {
         $deps = array();
-        $controller = new \ReflectionClass($controllerName);
-        $params = $class->getMethod('__construct')->getParameters();
-        foreach($params as $p) {
+
+        $reflect = new ReflectionClass($this->service_namespace);
+        $params = $reflect->getMethod('__construct')->getParameters();
+
+        foreach ($params as $p) {
 
             $export = ReflectionParameter::export(
                 array(
@@ -58,17 +65,17 @@ class StandardInjector extends AbstractInjector implements InjectorInterface
             );
 
             // Example: string(EmailHelper)
-            $type = preg_replace('/.*?(\w+)\s+\$'.$p->name.'.*/', '\\1', $export);
+            $type   = preg_replace('/.*?(\w+)\s+\$' . $p->name . '.*/', '\\1', $export);
             $deps[] = $serviceManager->get($type);
 
         }
-        $method->invokeArgs(new $controllerName(), $deps);
+        $reflect->invokeArgs(new $this->service_namespace(), $deps);
     }
 
     /**
      * Instantiate Class
      *
-     * @param  bool  $create_static
+     * @param  bool $create_static
      *
      * @return  object
      * @since   1.0
