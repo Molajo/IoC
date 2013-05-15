@@ -41,12 +41,12 @@ class ConfigurationDataobjectInjector extends CustomInjector implements Injector
          */
         $options              = array();
         $options['if_exists'] = true;
-        $cache_instance       = $this->container_instance->getService('Cache', $options);
+        $cache_instance       = $this->frontcontroller_instance->getService('Cache', $options);
 
         /**
          *  2. Get Instance of Registry
          */
-        $registry_instance = $this->container_instance->getService('Registry');
+        $registry_instance = $this->frontcontroller_instance->getService('Registry');
 
         /**
          *  3. Get Dataobject (Check Registry, Cache, then retrieve it)
@@ -101,7 +101,7 @@ class ConfigurationDataobjectInjector extends CustomInjector implements Injector
         /** 4c. Retrieve it */
         if ($this->service_instance === false) {
 
-            $configuration = $this->container_instance->getService('Configuration');
+            $configuration = $this->frontcontroller_instance->getService('Configuration');
 
             try {
                 $this->service_instance = $configuration->getDataobject($model_type, $model_name);

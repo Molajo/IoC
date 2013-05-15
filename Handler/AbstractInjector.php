@@ -31,20 +31,44 @@ class AbstractInjector implements InjectorInterface
     public $current_date;
 
     /**
-     * Options
+     * getService Closure
      *
-     * @var     array
+     * @var     string
      * @since   1.0
      */
-    public $options = array();
+    public $getService;
 
     /**
-     * Container Instance
+     * setService Closure
      *
-     * @var     object
+     * @var     string
      * @since   1.0
      */
-    public $container_instance = null;
+    public $setService;
+
+    /**
+     * cloneService Closure
+     *
+     * @var     string
+     * @since   1.0
+     */
+    public $cloneService;
+
+    /**
+     * removeService Closure
+     *
+     * @var     string
+     * @since   1.0
+     */
+    public $removeService;
+
+    /**
+     * Service
+     *
+     * @var     string
+     * @since   1.0
+     */
+    public $service = null;
 
     /**
      * Service Namespace
@@ -88,6 +112,14 @@ class AbstractInjector implements InjectorInterface
     public $service_instance = null;
 
     /**
+     * Options
+     *
+     * @var     array
+     * @since   1.0
+     */
+    public $options = array();
+
+    /**
      * Static Service Instance
      *
      * @static
@@ -104,25 +136,42 @@ class AbstractInjector implements InjectorInterface
      */
     protected $property_array = array(
         'current_date',
-        'options',
-        'container_instance',
+        'getService',
+        'setService',
+        'cloneService',
+        'removeService',
+        'service',
         'service_namespace',
         'static_instance_indicator',
         'store_instance_indicator',
         'store_properties_indicator',
         'service_instance',
+        'options',
         'static_service_instance',
-        'property_array',
+        'property_array'
     );
 
     /**
      * Constructor
      *
+     * @param   $options
+     *
      * @since   1.0
      */
     public function __construct($options)
     {
-        $this->options = $options;
+        if (is_array($options)) {
+        } else {
+            $options = array();
+        }
+
+        if (count($options) > 0) {
+            foreach ($this->property_array as $property) {
+                if (isset($options[$property])) {
+                    $this->$property = $options[$property];
+                }
+            }
+        }
     }
 
     /**

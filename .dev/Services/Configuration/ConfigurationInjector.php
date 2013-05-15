@@ -47,20 +47,20 @@ class ConfigurationInjector extends CustomInjector implements InjectorInterface
     {
         $options              = array();
         $options['if_exists'] = true;
-        $cache_instance       = $this->container_instance->getService('Cache', $options);
+        $cache_instance       = $this->frontcontroller_instance->getService('Cache', $options);
 
-        $registry_instance = $this->container_instance->getService('Registry');
+        $registry_instance = $this->frontcontroller_instance->getService('Registry');
 
         $options['if_exists'] = true;
-        $profiler_instance    = $this->container_instance->getService('Profiler', $options);
+        $profiler_instance    = $this->frontcontroller_instance->getService('Profiler', $options);
 
-        $dataobject_instance = $this->container_instance->getService('ConfigurationData');
+        $dataobject_instance = $this->frontcontroller_instance->getService('ConfigurationData');
 
         $options                             = array();
         $options['cache_instance']           = $cache_instance;
         $options['registry_instance']        = $registry_instance;
         $options['profiler_instance']        = $profiler_instance;
-        $options['container_instance'] = $this->container_instance;
+        $options['frontcontroller_instance'] = $this->frontcontroller_instance;
         $options['dataobject_instance']      = $dataobject_instance;
 
         try {

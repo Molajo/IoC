@@ -43,7 +43,7 @@ class ConfigurationDataInjector extends CustomInjector implements InjectorInterf
      */
     public function onAfterServiceInstantiate()
     {
-        $this->service_instance->set('container_instance', $this->container_instance);
+        $this->service_instance->set('frontcontroller_instance', $this->frontcontroller_instance);
 
         /** Create temporary instance for purpose of reading XML */
         $xml           = 'Molajo\\Application\\Configuration\\Handler\\Xml';

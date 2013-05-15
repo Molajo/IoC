@@ -36,7 +36,7 @@ class ConfigurationFileInjector extends CustomInjector implements InjectorInterf
      */
     public function instantiate($create_static = false)
     {
-        $configuration = $this->container_instance->getService('Configuration');
+        $configuration = $this->frontcontroller_instance->getService('Configuration');
 
         $model_name = null;
         if (isset($this->options['model_name'])) {

@@ -45,7 +45,7 @@ class CacheInjector extends CustomInjector implements InjectorInterface
      */
     public function instantiate($create_static = false)
     {
-        $application = $this->container_instance->getService('Configuration');
+        $application = $this->frontcontroller_instance->getService('Configuration');
 
         $options                  = array();
         if (isset($options['foo'])) {

@@ -8,6 +8,7 @@
  */
 namespace Molajo\IoC\Handler;
 
+use Exception;
 use ReflectionClass;
 use ReflectionParameter;
 use Molajo\IoC\Exception\InjectorException;
@@ -27,19 +28,23 @@ class StandardInjector extends AbstractInjector implements InjectorInterface
     /**
      * Constructor
      *
+     * @param   $options
+     *
      * @since   1.0
      */
     public function __construct($options)
     {
         $this->options                  = $options;
-        $this->service_namespace        = 'Molajo\\Services\\' . $this->options['service'];
+        $this->service_namespace        = $this->options['service_namespace'];
         $this->store_instance_indicator = true;
+
+        parent::__construct($options);
     }
 
     /**
      * Instantiate Class
      *
-     * @param  bool $create_static
+     * @param   bool  $create_static
      *
      * @return  object
      * @since   1.0
@@ -56,7 +61,7 @@ class StandardInjector extends AbstractInjector implements InjectorInterface
         }
 
         try {
-            $this->service_instance = new $this->service_namespace($this->options);
+            $this->service_instance = new $this->service_namespace($options);
 
         } catch (Exception $e) {
 
@@ -69,7 +74,7 @@ class StandardInjector extends AbstractInjector implements InjectorInterface
     /**
      * Instantiate Class
      *
-     * @param  bool $create_static
+     * @param   bool  $create_static
      *
      * @return  object
      * @since   1.0

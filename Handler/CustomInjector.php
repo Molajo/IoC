@@ -24,6 +24,8 @@ class CustomInjector extends AbstractInjector implements InjectorInterface
     /**
      * Constructor
      *
+     * @param   $options
+     *
      * @since   1.0
      */
     public function __construct($options)

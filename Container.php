@@ -56,14 +56,59 @@ class Container implements ContainerInterface
     protected $adapter;
 
     /**
+     * getService Closure
+     *
+     * @var     string
+     * @since   1.0
+     */
+    protected $getService;
+
+    /**
+     * setService Closure
+     *
+     * @var     string
+     * @since   1.0
+     */
+    protected $setService;
+
+    /**
+     * cloneService Closure
+     *
+     * @var     string
+     * @since   1.0
+     */
+    protected $cloneService;
+
+    /**
+     * removeService Closure
+     *
+     * @var     string
+     * @since   1.0
+     */
+    protected $removeService;
+
+    /**
      * Constructor
      *
-     * @param  string $service_library
+     * @param  string      $getService
+     * @param  string      $setService
+     * @param  string      $cloneService
+     * @param  string      $removeService
+     * @param  null|string $service_library
      *
      * @since  1.0
      */
-    public function __construct($service_library = 'Molajo\\Services')
-    {
+    public function __construct(
+        $getService,
+        $setService,
+        $cloneService,
+        $removeService,
+        $service_library = 'Molajo\\Services'
+    ) {
+        $this->getService      = $getService;
+        $this->setService      = $setService;
+        $this->cloneService    = $cloneService;
+        $this->removeService   = $removeService;
         $this->service_library = $service_library;
     }
 
@@ -100,6 +145,11 @@ class Container implements ContainerInterface
         }
 
         /** 4. Adapter interacts with DI Handler */
+        $options['getService']    = $this->getService;
+        $options['setService']    = $this->setService;
+        $options['cloneService']  = $this->cloneService;
+        $options['removeService'] = $this->removeService;
+
         $adapter = $this->getAdapter($service, $options);
 
         $adapter->onBeforeServiceInstantiate();
@@ -147,19 +197,16 @@ class Container implements ContainerInterface
     {
         $ns = $this->setNamespace($service);
 
-        $handler_class_ns   = $ns[0];
-        $handler_class_name = $ns[1];
-        $class              = $handler_class_ns . $handler_class_name;
-
-        $options['service'] = $ns[2];
+        $options['service']           = $service;
+        $options['service_namespace'] = $ns;
 
         try {
-            $handler = new $class($options);
+            $handler = new $ns($options);
 
         } catch (Exception $e) {
 
             throw new ContainerException
-            ('Inversion of Control Container: Instantiate IoC Handler: ' . $ns[0] . ' ' . $e->getMessage());
+            ('Inversion of Control Container: Instantiate IoC Handler: ' . $ns . ' ' . $e->getMessage());
         }
 
         try {
@@ -169,9 +216,6 @@ class Container implements ContainerInterface
             throw new ContainerException
             ('Inversion of Control Container: Instantiate IoC Adapter Exception: ' . $e->getMessage());
         }
-
-        $adapter->set('container_instance', $this);
-        $adapter->set('options', $options);
 
         if ($adapter->get('store_instance_indicator') === true
             || $adapter->get('store_properties_indicator') === true
@@ -193,24 +237,20 @@ class Container implements ContainerInterface
      */
     protected function setNamespace($service)
     {
-        $x  = strrpos($service, '\\');
-        $ns = array();
+        $x = strrpos($service, '\\');
 
         if ((bool)$x === true) {
-            $ns[0] = str_replace('\\', '/', substr($service, 0, $x)) . '/';
-            $ns[1] = substr($service, $x + 1);
-        } else {
-            $ns[0] = $this->service_library . $service;
-            $ns[1] = $service . 'Injector';
+            $ns = str_replace('\\', '/', substr($service, 0, $x)) . '/';
 
-            if (class_exists($ns[0])) {
+        } else {
+            $ns = $this->service_library . '\\' . $service . '\\' . $service . 'Injector';
+
+            if (class_exists($ns)) {
             } else {
-                $ns[0] = 'Molajo\\IoC\\Handler\\';
-                $ns[1] = 'StandardInjector';
+                $ns = 'Molajo\\IoC\\Handler\\StandardInjector';
             }
         }
 
-        $ns[2] = $service;
         return $ns;
     }
 
