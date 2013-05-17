@@ -23,14 +23,6 @@ use Molajo\IoC\Exception\InjectorException;
 class AbstractInjector implements InjectorInterface
 {
     /**
-     * Current Date
-     *
-     * @var    object
-     * @since  1.0
-     */
-    public $current_date;
-
-    /**
      * getService Closure
      *
      * @var     string
@@ -135,7 +127,6 @@ class AbstractInjector implements InjectorInterface
      * @since  1.0
      */
     protected $property_array = array(
-        'current_date',
         'getService',
         'setService',
         'cloneService',
