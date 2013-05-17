@@ -2,7 +2,7 @@
 Inversion of Control (IoC) Package
 =======
 
-[![Build Status](https://travis-ci.org/Molajo/Ioc.png?branch=master)](https://travis-ci.org/Molajo/Ioc)
+[![Build Status](https://travis-ci.org/Molajo/IoC.png?branch=master)](https://travis-ci.org/Molajo/IoC)
 
 The [Molajo Inversion of Control (IoC)](https://github.com/Molajo/IoC/blob/master/.dev/IoC.png)
     package offers a full-featured, dependency injection solution and a services layer for PHP applications.
@@ -18,22 +18,22 @@ These are the basic steps to implementing the Inversion of Control (IoC) package
 ### 1. Service Folder
 
 Create a folder within your application to store Service DI Handlers. Each Customer Handler has a folder
-containing a class file named `ClassnameInjector`. When instantiating the IoCC, you'll provide
+containing a class file named `ClassnameInjector.php`. When instantiating the IoCC, you'll provide
 the namespace of the Services Folder.
 
 ```
 Molajo
 .. Services
 .. .. Database
-.. .. .. DatabaseInjector
+.. .. .. DatabaseInjector.php
 .. .. Configuration
-.. .. .. ConfigurationInjector
+.. .. .. ConfigurationInjector.php
 .. .. ModelRead
-.. .. .. ModelReadInjector
+.. .. .. ModelReadInjector.php
 .. .. etc ..
 
 ```
-The default namespace for a services folder is Molajo\Services. Whatever value is used, it will
+The default namespace for a services folder is `Molajo\Services`. Whatever value is used, it will
 be passed in as a parameter when instantiating the Container class.
 
 ### 2. Front Controller
@@ -43,7 +43,7 @@ point of entry into the Inversion of Control Container (IoCC).
 
 #### Use Statement
 
-Add a use statement to the IoCC class.
+Add a use statement for the IoC Container class.
 
 ```php
 use Molajo\IoC\Container;
