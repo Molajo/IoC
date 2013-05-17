@@ -160,9 +160,12 @@ class AbstractInjector implements InjectorInterface
             foreach ($this->property_array as $property) {
                 if (isset($options[$property])) {
                     $this->$property = $options[$property];
+                    unset($options[$property]);
                 }
             }
         }
+
+        $this->options = $options;
     }
 
     /**

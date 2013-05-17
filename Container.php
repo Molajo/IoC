@@ -124,9 +124,11 @@ class Container implements ContainerInterface
      */
     public function getService($service, $options = array())
     {
+        $ns = $this->setNamespace($service);
+
         /** 1. Return service instance, if it already exists */
-        if (isset($this->registry[$service])) {
-            return $this->registry[$service];
+        if (isset($this->registry[$ns])) {
+            return $this->registry[$ns];
         }
 
         /** 2. If the service instance does not exist, forget about it */
@@ -137,11 +139,11 @@ class Container implements ContainerInterface
         }
 
         /** 3. Stop attempt at simultaneous object construction */
-        if (isset($this->lock_same_connection[$service])) {
+        if (isset($this->lock_same_connection[$ns])) {
             throw new ContainerException
             ('Inversion of Control Container getService: second, '
-                . ' simultaneous permanent service load (loop): '
-                . $service);
+            . ' simultaneous permanent service load (loop): '
+            . $service);
         }
 
         /** 4. Adapter interacts with DI Handler */
@@ -159,11 +161,10 @@ class Container implements ContainerInterface
         if ($adapter->get('store_instance_indicator') === true
             || $adapter->get('store_properties_indicator') === true
         ) {
-            $this->registry[$service] = $adapter->getServiceInstance();
+            $this->registry[$ns] = $adapter->getServiceInstance();
 
-            if (isset($this->lock_same_connection[$service])) {
-                unset($this->lock_same_connection[$service]);
-                $this->registry[$service] = $adapter->getServiceInstance();
+            if (isset($this->lock_same_connection[$ns])) {
+                unset($this->lock_same_connection[$ns]);
             }
         }
 
@@ -178,7 +179,7 @@ class Container implements ContainerInterface
         if ($adapter->get('store_instance_indicator') === true
             || $adapter->get('store_properties_indicator') === true
         ) {
-            $this->registry[$service] = $results;
+            $this->registry[$ns] = $results;
         }
 
         return $results;
@@ -187,9 +188,10 @@ class Container implements ContainerInterface
     /**
      * Instantiate DI Handler, inject it into the Adapter Constructor
      *
-     * @param   string $service
+     * @param         $service
+     * @param   array $options
      *
-     * @return  object
+     * @return  Adapter
      * @since   1.0
      * @throws  ContainerException
      */
@@ -197,7 +199,7 @@ class Container implements ContainerInterface
     {
         $ns = $this->setNamespace($service);
 
-        $options['service']           = $service;
+        $options['service'] = $service;
 
         try {
             $handler = new $ns($options);
@@ -219,10 +221,70 @@ class Container implements ContainerInterface
         if ($adapter->get('store_instance_indicator') === true
             || $adapter->get('store_properties_indicator') === true
         ) {
-            $this->lock_same_connection[$service] = true;
+            $this->lock_same_connection[$ns] = true;
         }
 
         return $adapter;
+    }
+
+    /**
+     * Set the existing service instance with the passed in object
+     *
+     * @param   string $service
+     * @param   object $instance
+     *
+     * @return  $this
+     * @since   1.0
+     * @throws  ContainerException
+     */
+    public function setService($service, $instance = null)
+    {
+        $ns = $this->setNamespace($service);
+
+        $this->registry[$ns] = $instance;
+
+        return $this;
+    }
+
+    /**
+     * Clone the existing service instance and return the cloned instance
+     *
+     * @param   string $service
+     *
+     * @return  null|object
+     * @since   1.0
+     * @throws  ContainerException
+     */
+    public function cloneService($service)
+    {
+        $ns = $this->setNamespace($service);
+
+        if (isset($this->registry[$ns])) {
+        } else {
+            throw new ContainerException
+            ('Inversion of Control Container cloneService: : ' . $service . ' does not exist.');
+        }
+
+        return clone $this->registry[$ns];
+    }
+
+    /**
+     * Remove the existing service instance
+     *
+     * @param   string $service
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function removeService($service)
+    {
+        $ns = $this->setNamespace($service);
+
+        if (isset($this->registry[$ns])) {
+            unset($this->registry[$ns]);
+        }
+
+        return $this;
     }
 
     /**
@@ -230,12 +292,21 @@ class Container implements ContainerInterface
      *
      * @param   string $service
      *
-     * @return  array
+     * @return  string
      * @since   1.0
      * @throws  ContainerException
      */
     protected function setNamespace($service)
     {
+        if (class_exists($service)) {
+            if (substr($service, -8) == 'Injector') {
+                return $service;
+            } else {
+                return 'Molajo\\IoC\\Handler\\StandardInjector';
+            }
+
+        }
+
         $x = strrpos($service, '\\');
 
         if ((bool)$x === true) {
@@ -251,63 +322,5 @@ class Container implements ContainerInterface
         }
 
         return $ns;
-    }
-
-    /**
-     * Replace the existing service instance with the passed in object
-     *
-     * @param   string $service
-     * @param   object $instance
-     *
-     * @return  $this
-     * @since   1.0
-     * @throws  ContainerException
-     */
-    public function setService($service, $instance = null)
-    {
-        if (isset($this->registry[$service])) {
-        } else {
-            throw new ContainerException
-            ('Inversion of Control Container replaceService: : ' . $service . ' does not exist.');
-        }
-
-        return $this->registry[$service];
-    }
-
-    /**
-     * Clone the existing service instance and return the cloned instance
-     *
-     * @param   string $service
-     *
-     * @return  null|object
-     * @since   1.0
-     * @throws  ContainerException
-     */
-    public function cloneService($service)
-    {
-        if (isset($this->registry[$service])) {
-        } else {
-            throw new ContainerException
-            ('Inversion of Control Container cloneService: : ' . $service . ' does not exist.');
-        }
-
-        return clone $this->registry[$service];
-    }
-
-    /**
-     * Remove the existing service instance
-     *
-     * @param   string $service
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function removeService($service)
-    {
-        if (isset($this->registry[$service])) {
-            unset($this->registry[$service]);
-        }
-
-        return $this;
     }
 }

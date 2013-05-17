@@ -22,6 +22,7 @@ $classMap = array(
     'Molajo\\IoC\\Container'                                 => $base . '/Container.php',
     'Molajo\\Cache'                                          => $base . '/.dev/Classes/Cache.php',
     'Molajo\\Configuration'                                  => $base . '/.dev/Classes/Configuration.php',
+    'Molajo\\Standard'                                       => $base . '/.dev/Classes/Standard.php',
     'Molajo\\Services\\Cache\\CacheInjector'                 => $base . '/.dev/Services/Cache/CacheInjector.php',
     'Molajo\\Services\\Configuration\\ConfigurationInjector' => $base . '/.dev/Services/Configuration/ConfigurationInjector.php',
 );

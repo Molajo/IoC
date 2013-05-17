@@ -34,8 +34,7 @@ class StandardInjector extends AbstractInjector implements InjectorInterface
      */
     public function __construct($options)
     {
-        $this->options                  = $options;
-        $this->service_namespace        = $this->options['service_namespace'];
+        $this->service_namespace        = $options['service'];
         $this->store_instance_indicator = true;
 
         parent::__construct($options);
@@ -54,14 +53,19 @@ class StandardInjector extends AbstractInjector implements InjectorInterface
     {
         $options = array();
         $reflect = new ReflectionClass($this->service_namespace);
-        $constructor = $reflect->getMethod('__construct')->getParameters();
+        $parameters = $reflect->getMethod('__construct')->getParameters();
 
-        foreach ($constructor as $item) {
-            echo $item;
+        if (count($parameters) === 0) {
+        } else {
+            foreach ($parameters as $parameter) {
+                if (isset($this->options[$parameter->name])) {
+                    $options[$parameter->name] = $this->options[$parameter->name];
+                }
+            }
         }
 
         try {
-            $this->service_instance = new $this->service_namespace($options);
+            $this->service_instance = $reflect->newInstanceArgs($options);
 
         } catch (Exception $e) {
 
@@ -69,19 +73,7 @@ class StandardInjector extends AbstractInjector implements InjectorInterface
             ('IoC: Injector Instance Failed for ' . $this->service_namespace
                 . ' failed.' . $e->getMessage());
         }
-    }
 
-    /**
-     * Instantiate Class
-     *
-     * @param   bool  $create_static
-     *
-     * @return  object
-     * @since   1.0
-     * @throws  InjectorException
-     */
-    public function onAfterServiceInstantiate($create_static = false)
-    {
-        // process setter option array
+        return $this;
     }
 }

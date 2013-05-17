@@ -51,13 +51,13 @@ class CacheInjector extends CustomInjector implements InjectorInterface
         $configuration = $getService('Configuration');
 
         $options                  = array();
-        if (isset($options['foo'])) {
+        if (isset($this->options['foo'])) {
             $options['foo'] = $this->options['foo'];
         }
-        if (isset($options['bar'])) {
+        if (isset($this->options['bar'])) {
             $options['bar'] = $this->options['bar'];
         }
-        if (isset($options['baz'])) {
+        if (isset($this->options['baz'])) {
             $options['baz'] = $this->options['baz'];
         }
         $options['configuration'] = $configuration;

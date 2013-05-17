@@ -236,10 +236,12 @@ in the Services library. In this example, the $options array defines runtime var
 instantiation process.
 
 ```php
+$getService = $this->getService;
+
 $options = array;
 $options['model_type'] = 'Application';
 $options['model_name'] = 'Includers';
-$database = $this->iocc->getService('ConfigurationFile', $options);
+$database = $getService('ConfigurationFile', $options);
 
 ```
 
@@ -248,9 +250,11 @@ $database = $this->iocc->getService('ConfigurationFile', $options);
 This request instructs the Container only return an instance of the User if that instance already exists.
 
 ```php
+$getService = $this->getService;
+
 $options = array;
 $options['if_exists'] = true;
-$database = $this->iocc->getService('Molajo\\User', $options);
+$database = $getService('Molajo\\User', $options);
 
 ```
 
@@ -261,10 +265,12 @@ the values defined in the $options associative array with the Constructor parame
 to create the class. For the service name, use the fully qualified class name.
 
 ```php
+$getService = $this->getService;
+
 $options = array;
 $options['constructor_parameter1'] = true;
 $options['constructor_parameter2'] = true;
-$database = $this->iocc->getService('Molajo\\Utilities\\Classname', $options);
+$database = $getService('Molajo\\Utilities\\Classname', $options);
 
 ```
 
@@ -273,7 +279,8 @@ $database = $this->iocc->getService('Molajo\\Utilities\\Classname', $options);
 Replaces the existing Container registry entry for this service with the value sent in.
 
 ```php
-$database = $this->iocc->setService('Application', $instance);
+$setService = $this->setService;
+$database = $setService('Application', $instance);
 
 ```
 
@@ -282,7 +289,8 @@ $database = $this->iocc->setService('Application', $instance);
 Clones the existing Container registry entry for this service and returns the cloned value.
 
 ```php
-$database = $this->iocc->cloneService('Database');
+$cloneService = $this->cloneService;
+$database = $cloneService('Database');
 
 ```
 
@@ -291,7 +299,8 @@ $database = $this->iocc->cloneService('Database');
 Removes the existing Container registry entry for this service.
 
 ```php
-$database = $this->iocc->removeService('Database');
+$removeService = $this->removeService;
+$database = $removeService('Database');
 
 ```
 
@@ -300,7 +309,7 @@ $database = $this->iocc->removeService('Database');
 To create a Custom Dependency Injection Handler:
 
 1. Add a folder to the **Services Folder** defined in [Step 1](https://github.com/Molajo/IoC#1-service-folder). The folder name is the name of the service.
-2. Create a PHP file in that folder named `ServiceNameInjector`.
+2. Create a PHP file in that folder named `ServiceNameInjector.php`.
 
 
 ```

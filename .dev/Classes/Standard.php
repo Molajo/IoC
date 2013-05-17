@@ -8,7 +8,7 @@
  */
 namespace Molajo;
 
-class Configuration
+class Standard
 {
     public $foo = 1;
     public $bar = 2;
@@ -19,9 +19,11 @@ class Configuration
      *
      * @since   1.0
      */
-    public function __construct()
+    public function __construct($foo = 1, $bar = 2, $baz = 3)
     {
-
+        $this->foo = $foo;
+        $this->bar = $bar;
+        $this->baz = $baz;
     }
 
     /**
@@ -32,7 +34,7 @@ class Configuration
      */
     public function initialise()
     {
-        $this->baz = 5;
+
     }
 
     /**

@@ -34,6 +34,7 @@ class Cache
         if (isset($options['configuration'])) {
             $this->configuration = $options['configuration'];
         }
+
     }
 
     /**
