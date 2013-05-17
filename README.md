@@ -50,7 +50,6 @@ use Molajo\IoC\Container;
 
 ```
 
-
 #### Class Property
 
 Define a class property in which to store the IoCC instance.
@@ -299,28 +298,38 @@ $database = $this->iocc->removeService('Database');
 ### 4 - Custom Dependency Injection Handlers
 
 To create a Custom Dependency Injection Handler:
-1. Add a folder to the Services Folder. The folder name is the name of the service.
-2. Create a PHP file in that folder named ServiceName . 'Injector'.
+
+1. Add a folder to the **Services Folder** defined in [Step 1](https://github.com/Molajo/IoC#1-service-folder). The folder name is the name of the service.
+2. Create a PHP file in that folder named `ServiceNameInjector`.
+
+
+```
+Molajo
+.. Services
+.. .. ServiceName
+.. .. .. ServiceNameInjector.php
+```
 
 #### Standard Properties
 
-The Custom DI Handler has access to the following class methods:
+The Custom DI Handler has access to the following class properties:
 
 1. **$getService** - Closure to request a service of the IoCC, defined above
 2. **$setService** - Closure to set a service contained within the IoCC registry, defined above
 3. **$cloneService** - Closure to clone a service contained within the IoCC registry, defined above
 4. **$removeService** - Closure to remove a service contained within the the IoCC registry, defined above
 5. **$service** - The name specified in the getService statement
-6. **$service_namespace** - The fully qualified namespace for the Service to be instantiated
+6. **$service_namespace** - Set the fully qualified namespace for the Class to be instantiated in the constructor
+8. **$store_instance_indicator** - defaults to false, set to true  in the constructor to store the instance in the IoCC registry
 7. **$static_instance_indicator** - defaults to false, set to true in the constructor to request a static instance
-8. **$store_instance_indicator** - defaults to false, set to true to store the instance in the IoCC registry
+7. **$store_properties_indicator** - defaults to false, set to true in the constructor to store the properties, not the instance, in the IoCC registry
 9. **$service_instance** - populated with the instantiated class
 10. **$options** - associative array provided by the getService call
 
 #### Custom Injector Starter
 
 Below is a basic starting pattern for a Custom Dependency Injection Handler.
-The event methods for any DI Handler are: onBeforeServiceInstantiate, Instantiate, onAfterServiceInstantiate,
+The event methods available to the DI Handler are: onBeforeServiceInstantiate, Instantiate, onAfterServiceInstantiate,
 initialise, onAfterServiceInitialise, and getServiceInstance.
 Each method can be used to inject code at different points in the class creation process. The
 like-named [AbstractHandler](https://github.com/Molajo/IoC/blob/master/Handler/AbstractInjector.php)
