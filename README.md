@@ -10,16 +10,16 @@ The [Molajo Inversion of Control (IoC)](https://github.com/Molajo/IoC/blob/maste
 ## Usage
 These are the basic steps to implementing the Inversion of Control (IoC) package:
 
-1. Create a **service folder** to store custom dependency injection handlers.
-2. Connect to the Inversion of Control Container (IoCC) from the Front Controller.
-3. Create Dependency Injection Handlers for Services.
-4. Request Services from the IoCC within the Application.
+1. Create a [Service Folder](https://github.com/Molajo/IoC#1-service-folder) to store custom dependency injection handlers.
+2. Update the [Front Controller](https://github.com/Molajo/IoC#2-front-controller) for the Inversion of Control Container (IoCC).
+3. [Request Services](https://github.com/Molajo/IoC#3-application-service-requests) from the IoCC within the Application.
+4. Create [Custom Dependency Injection Handlers](https://github.com/Molajo/IoC#4---custom-dependency-injection-handlers) for Services.
 
 ### 1. Service Folder
 
-Create a folder within your application to store Service DI Handlers. Each Handler has a folder
-containing a class file named Classname . Injector. When instantiating the IoCC, you'll provide
-the name of the Services Folder.
+Create a folder within your application to store Service DI Handlers. Each Customer Handler has a folder
+containing a class file named `ClassnameInjector`. When instantiating the IoCC, you'll provide
+the namespace of the Services Folder.
 
 ```
 Molajo
@@ -207,7 +207,7 @@ In this example, the handler requests the dependent Application Service.
 ```php
 
     $getService = $this->getService;
-    $application = $getService('Molajo\\Application\\Application');
+    $application = $getService('Application');
 
     /** Has cache been activated? */
     $cache_service = $application->get('cache_service');
@@ -233,13 +233,14 @@ the `if_exists` $options entry was specified in the request.
 #### Example 1: No fully qualified namespace
 
 When the fully qualified namespace is not defined, the Container looks for a folder with that name
-in the Services library.
+in the Services library. In this example, the $options array defines runtime variables for the
+instantiation process.
 
 ```php
 $options = array;
 $options['model_type'] = 'Application';
 $options['model_name'] = 'Includers';
-$database = $this->iocc->getService('ConfigurationFile');
+$database = $this->iocc->getService('ConfigurationFile', $options);
 
 ```
 
