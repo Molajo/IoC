@@ -6,13 +6,14 @@
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright 2013 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Services;
+namespace Molajo;
 
 class Cache
 {
     public $foo = 1;
     public $bar = 2;
     public $baz = 3;
+    public $configuration;
 
     /**
      * Constructor
@@ -29,6 +30,9 @@ class Cache
         }
         if (isset($options['baz'])) {
             $this->baz = $options['baz'];
+        }
+        if (isset($options['configuration'])) {
+            $this->configuration = $options['configuration'];
         }
     }
 

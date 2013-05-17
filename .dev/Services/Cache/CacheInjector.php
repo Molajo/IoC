@@ -28,10 +28,12 @@ class CacheInjector extends CustomInjector implements InjectorInterface
      *
      * @since   1.0
      */
-    public function __construct()
+    public function __construct($options)
     {
-        $this->service_namespace        = 'Molajo\\Services\\Cache';
+        $this->service_namespace        = 'Molajo\\Cache';
         $this->store_instance_indicator = true;
+
+        parent::__construct($options);
     }
 
     /**
@@ -45,7 +47,8 @@ class CacheInjector extends CustomInjector implements InjectorInterface
      */
     public function instantiate($create_static = false)
     {
-        $application = $this->frontcontroller_instance->getService('Configuration');
+        $getService = $this->getService;
+        $configuration = $getService('Configuration');
 
         $options                  = array();
         if (isset($options['foo'])) {
@@ -57,10 +60,11 @@ class CacheInjector extends CustomInjector implements InjectorInterface
         if (isset($options['baz'])) {
             $options['baz'] = $this->options['baz'];
         }
+        $options['configuration'] = $configuration;
 
         try {
             $class = $this->service_namespace;
-            $this->service_instance = $class($options);
+            $this->service_instance = new $class($options);
 
         } catch (Exception $e) {
 

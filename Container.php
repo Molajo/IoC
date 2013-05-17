@@ -198,7 +198,6 @@ class Container implements ContainerInterface
         $ns = $this->setNamespace($service);
 
         $options['service']           = $service;
-        $options['service_namespace'] = $ns;
 
         try {
             $handler = new $ns($options);
