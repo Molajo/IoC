@@ -10,7 +10,6 @@ namespace Molajo\IoC\Handler;
 
 use Exception;
 use ReflectionClass;
-use ReflectionParameter;
 use Molajo\IoC\Exception\InjectorException;
 use Molajo\IoC\Handler\AbstractInjector;
 use Molajo\IoC\Api\InjectorInterface;

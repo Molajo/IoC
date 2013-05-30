@@ -125,7 +125,7 @@ class Container implements ContainerInterface
     public function getService($service, $options = array())
     {
         $ns = $this->setNamespace($service);
-
+//echo $ns .' <br />';
         /** 1. Return service instance, if it already exists */
         if (isset($this->registry[$ns])) {
             return $this->registry[$ns];
@@ -133,9 +133,8 @@ class Container implements ContainerInterface
 
         /** 2. If the service instance does not exist, forget about it */
         if (isset($options['if_exists'])) {
-            if ($options['if_exists'] === true) {
-                return null;
-            }
+//            echo 'EXIT' . $ns . '<br />';
+            return null;
         }
 
         /** 3. Stop attempt at simultaneous object construction */
@@ -161,10 +160,13 @@ class Container implements ContainerInterface
         if ($adapter->get('store_instance_indicator') === true
             || $adapter->get('store_properties_indicator') === true
         ) {
-            $this->registry[$ns] = $adapter->getServiceInstance();
 
-            if (isset($this->lock_same_connection[$ns])) {
-                unset($this->lock_same_connection[$ns]);
+            $temp = $adapter->getServiceInstance();
+
+            if ($temp === null) {
+                return null;
+            } else {
+                $this->registry[$ns] = $temp;
             }
         }
 
@@ -197,8 +199,7 @@ class Container implements ContainerInterface
      */
     protected function getAdapter($service, $options = array())
     {
-        $ns = $this->setNamespace($service);
-
+        $ns                 = $this->setNamespace($service);
         $options['service'] = $service;
 
         try {
@@ -298,16 +299,19 @@ class Container implements ContainerInterface
      */
     protected function setNamespace($service)
     {
-        if (class_exists($service)) {
-            if (substr($service, -8) == 'Injector') {
-                return $service;
-            } else {
-                return 'Molajo\\IoC\\Handler\\StandardInjector';
+        $x = strrpos($service, '\\');
+
+        if ((bool)$x === true) {
+
+            if (class_exists($service)) {
+                if (substr($service, - 8) == 'Injector') {
+                    return $service;
+                } else {
+                    return 'Molajo\\IoC\\Handler\\StandardInjector';
+                }
             }
 
         }
-
-        $x = strrpos($service, '\\');
 
         if ((bool)$x === true) {
             $ns = str_replace('\\', '/', substr($service, 0, $x)) . '/';

@@ -21,5 +21,4 @@ use Molajo\IoC\Api\ExceptionInterface;
  */
 class InjectorException extends Exception implements ExceptionInterface
 {
-
 }

@@ -21,5 +21,4 @@ use Molajo\IoC\Api\ExceptionInterface;
  */
 class ContainerException extends Exception implements ExceptionInterface
 {
-
 }

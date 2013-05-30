@@ -8,7 +8,7 @@
  */
 namespace Molajo;
 
-class Standard
+class StandardMock
 {
     public $foo = 1;
     public $bar = 2;

@@ -70,11 +70,11 @@ class CacheMock
     /**
      * Set
      *
-     * @param   string $key
-     * @param   null   $default
+     * @param   string  $key
+     * @param   null    $value
      *
-     * @return  object
-     * @since   1.0
+     * @return   object
+     * @since    1.0
      */
     public function set($key, $value = null)
     {

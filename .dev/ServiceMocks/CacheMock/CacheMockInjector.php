@@ -48,7 +48,7 @@ class CacheMockInjector extends CustomInjector implements InjectorInterface
     public function instantiate($create_static = false)
     {
         $getService = $this->getService;
-        $configuration = $getService('Configuration');
+        $configuration = $getService('ConfigurationMock');
 
         $options                  = array();
         if (isset($this->options['foo'])) {
