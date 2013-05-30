@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Class
+ * Configuration Mock Test Class
  *
  * @package   Molajo
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
@@ -8,7 +8,7 @@
  */
 namespace Molajo;
 
-class Configuration
+class ConfigurationMock
 {
     public $foo = 1;
     public $bar = 2;
@@ -58,7 +58,7 @@ class Configuration
      * Set
      *
      * @param   string $key
-     * @param   null   $default
+     * @param   null   $value
      *
      * @return  object
      * @since   1.0

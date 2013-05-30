@@ -6,7 +6,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright 2013 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Services\Cache;
+namespace Molajo\ServiceMocks\CacheMock;
 
 use Exception;
 use Molajo\IoC\Handler\CustomInjector;
@@ -21,7 +21,7 @@ use Molajo\IoC\Exception\InjectorException;
  * @copyright 2013 Amy Stephen. All rights reserved.
  * @since     1.0
  */
-class CacheInjector extends CustomInjector implements InjectorInterface
+class CacheMockInjector extends CustomInjector implements InjectorInterface
 {
     /**
      * Constructor
@@ -30,7 +30,7 @@ class CacheInjector extends CustomInjector implements InjectorInterface
      */
     public function __construct($options)
     {
-        $this->service_namespace        = 'Molajo\\Cache';
+        $this->service_namespace        = 'Molajo\\CacheMock';
         $this->store_instance_indicator = true;
 
         parent::__construct($options);

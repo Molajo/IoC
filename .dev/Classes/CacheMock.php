@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Class
+ * CacheMock Class
  *
  * @package   Molajo
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
@@ -8,7 +8,7 @@
  */
 namespace Molajo;
 
-class Cache
+class CacheMock
 {
     public $foo = 1;
     public $bar = 2;

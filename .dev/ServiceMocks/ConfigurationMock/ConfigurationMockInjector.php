@@ -6,12 +6,10 @@
  * @license   http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright 2013 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Services\Configuration;
+namespace Molajo\ServiceMocks\ConfigurationMock;
 
-use Exception;
 use Molajo\IoC\Handler\CustomInjector;
 use Molajo\IoC\Api\InjectorInterface;
-use Molajo\IoC\Exception\InjectorException;
 
 /**
  * Configuration Service Dependency Injector
@@ -21,7 +19,7 @@ use Molajo\IoC\Exception\InjectorException;
  * @copyright 2013 Amy Stephen. All rights reserved.
  * @since     1.0
  */
-class ConfigurationInjector extends CustomInjector implements InjectorInterface
+class ConfigurationMockInjector extends CustomInjector implements InjectorInterface
 {
     /**
      * Constructor
@@ -30,10 +28,9 @@ class ConfigurationInjector extends CustomInjector implements InjectorInterface
      */
     public function __construct($options)
     {
-        $this->service_namespace        = 'Molajo\\Configuration';
+        $this->service_namespace        = 'Molajo\\ConfigurationMock';
         $this->store_instance_indicator = true;
 
         parent::__construct($options);
     }
-
 }
