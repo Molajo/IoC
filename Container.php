@@ -2,24 +2,22 @@
 /**
  * Inversion of Control Container
  *
- * @package   Molajo
- * @license   http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright 2013 Amy Stephen. All rights reserved.
+ * @package    Molajo
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright  2013 Amy Stephen. All rights reserved.
  */
 namespace Molajo\IoC;
 
-use Exception;
-use Molajo\IoC\Adapter;
-use Molajo\IoC\Api\ContainerInterface;
-use Molajo\IoC\Exception\ContainerException;
+use CommonApi\Exception\InvalidArgumentException;
+use CommonApi\IoC\ContainerInterface;
 
 /**
  * Inversion of Control Container
  *
- * @author    Amy Stephen
- * @license   http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright 2013 Amy Stephen. All rights reserved.
- * @since     1.0
+ * @author     Amy Stephen
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright  2013 Amy Stephen. All rights reserved.
+ * @since      1.0
  */
 class Container implements ContainerInterface
 {
@@ -29,220 +27,83 @@ class Container implements ContainerInterface
      * @var     array
      * @since   1.0
      */
-    protected $registry = array();
+    protected $container_registry = array();
 
     /**
-     * Prevents simultaneous instantiations of the same object
+     * Service names to container key, can be stored under either
      *
      * @var     array
      * @since   1.0
      */
-    protected $lock_same_connection = array();
+    protected $service_name_container_key = array();
 
     /**
-     * Namespace for Service Library
+     * Get Instance from Container or return false
      *
-     * @var     object
+     * @param   string $container_key
+     *
+     * @return  bool|null|object
      * @since   1.0
      */
-    protected $service_library = 'Molajo\\Services';
-
-    /**
-     * Injector Adapter
-     *
-     * @var     object
-     * @since   1.0
-     */
-    protected $adapter;
-
-    /**
-     * getService Closure
-     *
-     * @var     string
-     * @since   1.0
-     */
-    protected $getService;
-
-    /**
-     * setService Closure
-     *
-     * @var     string
-     * @since   1.0
-     */
-    protected $setService;
-
-    /**
-     * cloneService Closure
-     *
-     * @var     string
-     * @since   1.0
-     */
-    protected $cloneService;
-
-    /**
-     * removeService Closure
-     *
-     * @var     string
-     * @since   1.0
-     */
-    protected $removeService;
-
-    /**
-     * Constructor
-     *
-     * @param  string      $getService
-     * @param  string      $setService
-     * @param  string      $cloneService
-     * @param  string      $removeService
-     * @param  null|string $service_library
-     *
-     * @since  1.0
-     */
-    public function __construct(
-        $getService,
-        $setService,
-        $cloneService,
-        $removeService,
-        $service_library = 'Molajo\\Services'
-    ) {
-        $this->getService      = $getService;
-        $this->setService      = $setService;
-        $this->cloneService    = $cloneService;
-        $this->removeService   = $removeService;
-        $this->service_library = $service_library;
-    }
-
-    /**
-     * Get Service
-     *
-     * @param   string $service
-     * @param   array  $options
-     *
-     * @return  null|object
-     * @since   1.0
-     * @throws  ContainerException
-     */
-    public function getService($service, $options = array())
+    public function getService($container_key)
     {
-        $ns = $this->setNamespace($service);
-//echo $ns .' <br />';
-        /** 1. Return service instance, if it already exists */
-        if (isset($this->registry[$ns])) {
-            return $this->registry[$ns];
+        $container_key = strtolower($container_key);
+
+        if (isset($this->container_registry[$container_key])) {
+            return $this->container_registry[$container_key];
         }
 
-        /** 2. If the service instance does not exist, forget about it */
-        if (isset($options['if_exists'])) {
-//            echo 'EXIT' . $ns . '<br />';
-            return null;
+        if (isset($this->service_name_container_key[$container_key])) {
+            $container_key = $this->service_name_container_key[$container_key];
+        } else {
+            return false;
         }
 
-        /** 3. Stop attempt at simultaneous object construction */
-        if (isset($this->lock_same_connection[$ns])) {
-            throw new ContainerException
-            ('Inversion of Control Container getService: second, '
-            . ' simultaneous permanent service load (loop): '
-            . $service);
+        if (isset($this->container_registry[$container_key])) {
+            return $this->container_registry[$container_key];
         }
 
-        /** 4. Adapter interacts with DI Handler */
-        $options['getService']    = $this->getService;
-        $options['setService']    = $this->setService;
-        $options['cloneService']  = $this->cloneService;
-        $options['removeService'] = $this->removeService;
-
-        $adapter = $this->getAdapter($service, $options);
-
-        $adapter->onBeforeServiceInstantiate();
-
-        $adapter->instantiate($adapter->get('static_instance_indicator'));
-
-        if ($adapter->get('store_instance_indicator') === true
-            || $adapter->get('store_properties_indicator') === true
-        ) {
-
-            $temp = $adapter->getServiceInstance();
-
-            if ($temp === null) {
-                return null;
-            } else {
-                $this->registry[$ns] = $temp;
-            }
-        }
-
-        $adapter->onAfterServiceInstantiate();
-
-        $adapter->initialise();
-
-        $adapter->onAfterServiceInitialise();
-
-        $results = $adapter->getServiceInstance();
-
-        if ($adapter->get('store_instance_indicator') === true
-            || $adapter->get('store_properties_indicator') === true
-        ) {
-            $this->registry[$ns] = $results;
-        }
-
-        return $results;
-    }
-
-    /**
-     * Instantiate DI Handler, inject it into the Adapter Constructor
-     *
-     * @param         $service
-     * @param   array $options
-     *
-     * @return  Adapter
-     * @since   1.0
-     * @throws  ContainerException
-     */
-    protected function getAdapter($service, $options = array())
-    {
-        $ns                 = $this->setNamespace($service);
-        $options['service'] = $service;
-
-        try {
-            $handler = new $ns($options);
-
-        } catch (Exception $e) {
-
-            throw new ContainerException
-            ('Inversion of Control Container: Instantiate IoC Handler: ' . $ns . ' ' . $e->getMessage());
-        }
-
-        try {
-            $adapter = new Adapter($handler);
-
-        } catch (Exception $e) {
-            throw new ContainerException
-            ('Inversion of Control Container: Instantiate IoC Adapter Exception: ' . $e->getMessage());
-        }
-
-        if ($adapter->get('store_instance_indicator') === true
-            || $adapter->get('store_properties_indicator') === true
-        ) {
-            $this->lock_same_connection[$ns] = true;
-        }
-
-        return $adapter;
+        return false;
     }
 
     /**
      * Set the existing service instance with the passed in object
      *
-     * @param   string $service
-     * @param   object $instance
+     * @param   string      $container_key
+     * @param   object      $instance
+     * @param   null|string $alias
      *
      * @return  $this
      * @since   1.0
-     * @throws  ContainerException
      */
-    public function setService($service, $instance = null)
+    public function setService($container_key, $instance = null, $alias = null)
     {
-        $ns = $this->setNamespace($service);
+        $container_key = strtolower($container_key);
 
-        $this->registry[$ns] = $instance;
+        if ($alias === null) {
+        } else {
+            $alias = strtolower($alias);
+        }
+
+        if (isset($this->container_registry[$container_key])) {
+        } elseif (isset($this->service_name_container_key[$container_key])) {
+
+            if (isset($this->container_registry[$this->service_name_container_key[$container_key]])) {
+                $container_key = $this->service_name_container_key[$container_key];
+            }
+        } elseif (isset($this->service_name_container_key[$alias])) {
+            if (isset($this->container_registry[$this->service_name_container_key[$alias]])) {
+                $container_key = $this->service_name_container_key[$alias];
+            }
+        }
+
+        $this->container_registry[$container_key] = $instance;
+
+        if ($alias === null) {
+        } elseif ($container_key === $alias) {
+        } else {
+            $service_name_container_key[$alias] = $container_key;
+        }
 
         return $this;
     }
@@ -250,81 +111,67 @@ class Container implements ContainerInterface
     /**
      * Clone the existing service instance and return the cloned instance
      *
-     * @param   string $service
+     * @param   string $container_key
      *
      * @return  null|object
      * @since   1.0
-     * @throws  ContainerException
+     * @throws  \CommonApi\Exception\InvalidArgumentException
      */
-    public function cloneService($service)
+    public function cloneService($container_key)
     {
-        $ns = $this->setNamespace($service);
+        $container_key = strtolower($container_key);
 
-        if (isset($this->registry[$ns])) {
-        } else {
-            throw new ContainerException
-            ('Inversion of Control Container cloneService: : ' . $service . ' does not exist.');
+        if (isset($this->container_registry[$container_key])) {
+            return clone $this->container_registry[$container_key];
         }
 
-        return clone $this->registry[$ns];
+        if (isset($this->service_name_container_key[$container_key])) {
+            $container_key = $this->service_name_container_key[$container_key];
+        } else {
+            return false;
+        }
+
+        if (isset($this->container_registry[$container_key])) {
+            return clone $this->container_registry[$container_key];
+        }
+
+        throw new InvalidArgumentException
+        ('Inversion of Control Container cloneService: : '
+        . $container_key . ' does not exist.');
     }
 
     /**
      * Remove the existing service instance
      *
-     * @param   string $service
+     * @param   string $container_key
      *
      * @return  $this
      * @since   1.0
      */
-    public function removeService($service)
+    public function removeService($container_key)
     {
-        $ns = $this->setNamespace($service);
+        $container_key = strtolower($container_key);
 
-        if (isset($this->registry[$ns])) {
-            unset($this->registry[$ns]);
+        if (isset($this->container_registry[$container_key])) {
+
+            unset($this->container_registry[$container_key]);
+
+            if (isset($this->service_name_container_key[$container_key])) {
+                unset($this->service_name_container_key[$container_key]);
+            }
+
+            return $this;
         }
+
+        if (isset($this->service_name_container_key[$container_key])) {
+            $container_key = $this->service_name_container_key[$container_key];
+            unset($this->service_name_container_key[$container_key]);
+        } else {
+            return $this;
+        }
+
+        unset($this->container_registry[$container_key]);
 
         return $this;
-    }
-
-    /**
-     * Build Service DI Handler Namespace
-     *
-     * @param   string $service
-     *
-     * @return  string
-     * @since   1.0
-     * @throws  ContainerException
-     */
-    protected function setNamespace($service)
-    {
-        $x = strrpos($service, '\\');
-
-        if ((bool)$x === true) {
-
-            if (class_exists($service)) {
-                if (substr($service, - 8) == 'Injector') {
-                    return $service;
-                } else {
-                    return 'Molajo\\IoC\\Handler\\StandardInjector';
-                }
-            }
-
-        }
-
-        if ((bool)$x === true) {
-            $ns = str_replace('\\', '/', substr($service, 0, $x)) . '/';
-
-        } else {
-            $ns = $this->service_library . '\\' . $service . '\\' . $service . 'Injector';
-
-            if (class_exists($ns)) {
-            } else {
-                $ns = 'Molajo\\IoC\\Handler\\StandardInjector';
-            }
-        }
-
-        return $ns;
     }
 }

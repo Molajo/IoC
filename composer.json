@@ -2,18 +2,19 @@
     "name": "molajo/ioc",
     "type": "molajo-bundle",
     "description": "Molajo Inversion of Control package offers a full-featured, simple-to-use dependency injection and object construction solution for PHP applications. ",
-    "keywords": ["IoC", "Molajo", "PSR-0", "Inversion of Control", "Dependency Injection"],
+    "keywords": ["IoC", "Molajo", "Inversion of Control", "Dependency Injection"],
     "homepage": "http://github.com/Molajo/IoC",
     "license": "MIT",
     "authors": [
         {
             "name": "Amy Stephen",
             "Database": "AmyStephen@gmail.com",
-            "homepage": "http://AmyStephen.github.com"
+            "homepage": "http://AmyStephen.github.io"
         }
     ],
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.3.10",
+        "commonapi/ioc": "dev-master"
     },
 
     "support": {
@@ -23,7 +24,7 @@
     "target-dir": "Molajo/IoC",
     "autoload": {
         "psr-0": {
-            "Molajo": "./"
+            "Molajo\\Http": "./"
         }
     }
 }

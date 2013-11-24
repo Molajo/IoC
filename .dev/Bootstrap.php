@@ -2,29 +2,29 @@
 /**
  * Inversion of Control
  *
- * @package   Molajo
- * @copyright 2013 Amy Stephen. All rights reserved.
- * @license   http://www.opensource.org/licenses/mit-license.html MIT License
+ * @package    Molajo
+ * @copyright  2013 Amy Stephen. All rights reserved.
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 $base = substr(__DIR__, 0, strlen(__DIR__) - 5);
 
 $classMap = array(
-    'Molajo\\IoC\\Api\\ContainerInterface'
+    'Molajo\\IoC\\CommonApi\\ContainerInterface'
     => $base . '/Api/ContainerInterface.php',
-    'Molajo\\IoC\\Api\\ExceptionInterface'
+    'Molajo\\IoC\\CommonApi\\ExceptionInterface'
     => $base . '/Api/ExceptionInterface.php',
-    'Molajo\\IoC\\Api\\InjectorInterface'
-    => $base . '/Api/InjectorInterface.php',
-    'Molajo\\IoC\\Exception\\AdapterException'
+    'Molajo\\IoC\\CommonApi\\ServiceHandlerInterface'
+    => $base . '/Api/ServiceHandlerInterface.php',
+    'Exception\\IoC\\AdapterException'
     => $base . '/Exception/AdapterException.php',
-    'Molajo\\IoC\\Exception\\ContainerException'
+    'Exception\\IoC\\ContainerException'
     => $base . '/Exception/ContainerException.php',
-    'Molajo\\IoC\\Exception\\InjectorException'
-    => $base . '/Exception/InjectorException.php',
+    'Exception\\IoC\\RuntimeException'
+    => $base . '/Exception/RuntimeException.php',
     'Molajo\\IoC\\Handler\\AbstractInjector'
     => $base . '/Handler/AbstractInjector.php',
-    'Molajo\\IoC\\Handler\\CustomInjector'
-    => $base . '/Handler/CustomInjector.php',
+    'Molajo\\IoC\\Handler\\StandardInjector'
+    => $base . '/Handler/StandardInjector.php',
     'Molajo\\IoC\\Handler\\StandardInjector'
     => $base . '/Handler/StandardInjector.php',
     'Molajo\\IoC\\Adapter'

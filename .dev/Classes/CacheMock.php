@@ -2,9 +2,9 @@
 /**
  * CacheMock Class
  *
- * @package   Molajo
- * @license   http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright 2013 Amy Stephen. All rights reserved.
+ * @package    Molajo
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright  2013 Amy Stephen. All rights reserved.
  */
 namespace Molajo;
 
@@ -20,7 +20,7 @@ class CacheMock
      *
      * @since   1.0
      */
-    public function __construct($options)
+    public function __construct(array $options = array())
     {
         if (isset($options['foo'])) {
             $this->foo = $options['foo'];
@@ -34,7 +34,6 @@ class CacheMock
         if (isset($options['configuration'])) {
             $this->configuration = $options['configuration'];
         }
-
     }
 
     /**
@@ -70,8 +69,8 @@ class CacheMock
     /**
      * Set
      *
-     * @param   string  $key
-     * @param   null    $value
+     * @param   string $key
+     * @param   null   $value
      *
      * @return   object
      * @since    1.0

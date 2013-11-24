@@ -28,12 +28,12 @@ Molajo
 .. .. .. DatabaseInjector.php
 .. .. Configuration
 .. .. .. ConfigurationInjector.php
-.. .. ModelRead
-.. .. .. ModelReadInjector.php
+.. .. Modelread
+.. .. .. ModelreadInjector.php
 .. .. etc ..
 
 ```
-The default namespace for a services folder is `Molajo\Services`. Whatever value is used, it will
+The default namespace for a services folder is `Molajo\Service`. Whatever value is used, it will
 be passed in as a parameter when instantiating the Container class.
 
 ### 2. Front Controller
@@ -79,7 +79,7 @@ Add these four methods: getService, setService, cloneService, and removeService 
      *
      * @results  null|object
      * @since    1.0
-     * @throws   FrontControllerException
+     * @throws   FrontcontrollerException
      */
     public function getService($service, $options = array())
     {
@@ -94,7 +94,7 @@ Add these four methods: getService, setService, cloneService, and removeService 
      *
      * @results  $this
      * @since    1.0
-     * @throws   FrontControllerException
+     * @throws   FrontcontrollerException
      */
     public function setService($service, $instance = null)
     {
@@ -110,7 +110,7 @@ Add these four methods: getService, setService, cloneService, and removeService 
      *
      * @results  null|object
      * @since    1.0
-     * @throws   FrontControllerException
+     * @throws   FrontcontrollerException
      */
     public function cloneService($service)
     {
@@ -148,7 +148,7 @@ statements passed into the Container will be used outside of the Front Controlle
      *
      * @return  $this
      * @since   1.0
-     * @throws  FrontControllerException
+     * @throws  FrontcontrollerException
      */
     public function initialise()
     {
@@ -171,7 +171,7 @@ statements passed into the Container will be used outside of the Front Controlle
             return $connect->removeService($service);
         };
 
-        $services_folder = 'Molajo\\Services';
+        $services_folder = 'Molajo\\Service';
 
         $this->ioc = new Container($getService, $setService, $cloneService, $removeService, $services_folder);
 
@@ -218,7 +218,7 @@ In this example, the handler requests the dependent Application Service.
 
 #### getService Parameters
 
-1. **$service** Fully qualified namespace (ex. `Molajo\\Services\\Database\\DatabaseInjector`) or
+1. **$service** Fully qualified namespace (ex. `Molajo\\Service\\Database\\DatabaseInjector`) or
 the name of the Services sub-folder (ex. `Database`).
 2. **$options** Optional associative array contain runtime parameters required by the service.
 
@@ -241,7 +241,7 @@ $getService = $this->getService;
 $options = array;
 $options['model_type'] = 'Application';
 $options['model_name'] = 'Includers';
-$database = $getService('ConfigurationFile', $options);
+$database = $getService('LocateFile', $options);
 
 ```
 
@@ -338,13 +338,13 @@ The Custom DI Handler has access to the following class properties:
 #### Custom Injector Starter
 
 Below is a basic starting pattern for a Custom Dependency Injection Handler.
-The event methods available to the DI Handler are: onBeforeServiceInstantiate, Instantiate, onAfterServiceInstantiate,
+The event methods available to the DI Handler are: processFulfilledDependencies, Instantiate, performAfterInstantiationLogic,
 initialise, onAfterServiceInitialise, and getServiceInstance.
 Each method can be used to inject code at different points in the class creation process. The
 like-named [AbstractHandler](https://github.com/Molajo/IoC/blob/master/Handler/AbstractInjector.php)
 method will be used for any omitted methods in the custom class.  It is a good idea to become familiar with that class.
 
-The [Molajo\Services](https://github.com/Molajo/Standard/tree/master/Vendor/Molajo/Services)
+The [Molajo\Service](https://github.com/Molajo/Standard/tree/master/Vendor/Molajo/Services)
 folder is also a good source of examples of Custom DI Injectors.
 
 ```php
@@ -352,25 +352,25 @@ folder is also a good source of examples of Custom DI Injectors.
 /**
  * Example Custom Dependency Injection Handler
  *
- * @package   Molajo
- * @license   http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright 2013 Amy Stephen. All rights reserved.
+ * @package    Molajo
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright  2013 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Services\Example;
+namespace Molajo\Service\Example;
 
-use Molajo\IoC\Handler\CustomInjector;
-use Molajo\IoC\Api\InjectorInterface;
-use Molajo\IoC\Exception\InjectorException;
+use Molajo\IoC\Handler\AbstractInjector;
+use CommonApi\IoC\ServiceHandlerInterface;
+use CommonApi\Exception\RuntimeException;
 
 /**
  * Example Custom Dependency Injection Handler
  *
  * @author    Amy Stephen
- * @license   http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright 2013 Amy Stephen. All rights reserved.
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright  2013 Amy Stephen. All rights reserved.
  * @since     1.0
  */
-class ExampleInjector extends CustomInjector implements InjectorInterface
+class ExampleInjector extends AbstractInjector implements ServiceHandlerInterface
 {
     /**
      * Constructor
@@ -379,7 +379,7 @@ class ExampleInjector extends CustomInjector implements InjectorInterface
      *
      * @since   1.0
      */
-    public function __construct($options)
+    public function __construct(array $options = array())
     {
 
         $this->service_namespace            = 'Molajo\\Example\\Classname';
@@ -398,9 +398,9 @@ class ExampleInjector extends CustomInjector implements InjectorInterface
      * @return  object
      * @since   1.0
      */
-    public function onBeforeServiceInstantiate()
+    public funprocessFulfilledDependenciestances()
     {
-        return parent::onBeforeServiceInstantiate();
+        retprocessFulfilledDependenciesncyInstances();
     }
 
     /**
@@ -410,9 +410,9 @@ class ExampleInjector extends CustomInjector implements InjectorInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  InjectorException
+     * @throws  \CommonApi\Exception\RuntimeException;
      */
-    public function instantiate($create_static = false)
+    public function instantiateService()
     {
         return parent::instantiate($create_static);
     }
@@ -422,11 +422,11 @@ class ExampleInjector extends CustomInjector implements InjectorInterface
      *
      * @return  object
      * @since   1.0
-     * @throws  InjectorException
+     * @throws  \CommonApi\Exception\RuntimeException;
      */
-    public function onAfterServiceInstantiate()
+    public function performAfterInstantiationLogic()
     {
-        return parent::onAfterServiceInstantiate();
+        return parent::performAfterInstantiationLogic();
     }
 
     /**
@@ -434,7 +434,7 @@ class ExampleInjector extends CustomInjector implements InjectorInterface
      *
      * @return  object
      * @since   1.0
-     * @throws  InjectorException
+     * @throws  \CommonApi\Exception\RuntimeException;
      */
     public function initialise()
     {
@@ -446,7 +446,7 @@ class ExampleInjector extends CustomInjector implements InjectorInterface
      *
      * @return  object
      * @since   1.0
-     * @throws  InjectorException
+     * @throws  \CommonApi\Exception\RuntimeException;
      */
     public function onAfterServiceInitialise()
     {
@@ -458,7 +458,7 @@ class ExampleInjector extends CustomInjector implements InjectorInterface
      *
      * @return  object
      * @since   1.0
-     * @throws  InjectorException
+     * @throws  \CommonApi\Exception\RuntimeException;
      */
     public function getServiceInstance()
     {

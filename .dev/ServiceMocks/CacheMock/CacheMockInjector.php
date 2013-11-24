@@ -2,33 +2,33 @@
 /**
  * Cache Dependency Injector
  *
- * @package   Molajo
- * @license   http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright 2013 Amy Stephen. All rights reserved.
+ * @package    Molajo
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright  2013 Amy Stephen. All rights reserved.
  */
 namespace Molajo\ServiceMocks\CacheMock;
 
 use Exception;
-use Molajo\IoC\Handler\CustomInjector;
-use Molajo\IoC\Api\InjectorInterface;
-use Molajo\IoC\Exception\InjectorException;
+use Molajo\IoC\Handler\AbstractInjector;
+use CommonApi\IoC\ServiceHandlerInterface;
+use CommonApi\Exception\RuntimeException;
 
 /**
  * Cache Dependency Injector
  *
- * @author    Amy Stephen
- * @license   http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright 2013 Amy Stephen. All rights reserved.
- * @since     1.0
+ * @author     Amy Stephen
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright  2013 Amy Stephen. All rights reserved.
+ * @since      1.0
  */
-class CacheMockInjector extends CustomInjector implements InjectorInterface
+class CacheMockInjector extends AbstractInjector implements ServiceHandlerInterface
 {
     /**
      * Constructor
      *
      * @since   1.0
      */
-    public function __construct($options)
+    public function __construct(array $options = array())
     {
         $this->service_namespace        = 'Molajo\\CacheMock';
         $this->store_instance_indicator = true;
@@ -43,14 +43,14 @@ class CacheMockInjector extends CustomInjector implements InjectorInterface
      *
      * @return  object
      * @since   1.0
-     * @throws  InjectorException
+     * @throws  \CommonApi\Exception\RuntimeException;
      */
-    public function instantiate($create_static = false)
+    public function instantiateService()
     {
-        $getService = $this->getService;
+        $getService    = $this->getService;
         $configuration = $getService('ConfigurationMock');
 
-        $options                  = array();
+        $options = array();
         if (isset($this->options['foo'])) {
             $options['foo'] = $this->options['foo'];
         }
@@ -63,14 +63,13 @@ class CacheMockInjector extends CustomInjector implements InjectorInterface
         $options['configuration'] = $configuration;
 
         try {
-            $class = $this->service_namespace;
+            $class                  = $this->service_namespace;
             $this->service_instance = new $class($options);
-
         } catch (Exception $e) {
 
-            throw new InjectorException
+            throw new RuntimeException
             ('IoC: Injector Instance Failed for ' . $this->service_namespace
-                . ' failed.' . $e->getMessage());
+            . ' failed.' . $e->getMessage());
         }
 
         return $this;

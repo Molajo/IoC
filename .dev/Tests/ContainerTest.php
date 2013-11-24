@@ -2,9 +2,9 @@
 /**
  * Test Class
  *
- * @package   Molajo
- * @license   http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright 2013 Amy Stephen. All rights reserved.
+ * @package    Molajo
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright  2013 Amy Stephen. All rights reserved.
  */
 namespace Molajo\Tests;
 
@@ -54,6 +54,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Instantiates service within GetService
+     *
      * @covers Molajo\Ioc\Container::getService
      */
     public function testGetService1()
@@ -70,11 +71,12 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Sets option values
+     *
      * @covers Molajo\Ioc\Container::getService
      */
     public function testGetService2()
     {
-        $options = array();
+        $options        = array();
         $options['foo'] = 10;
         $options['bar'] = 20;
         $options['baz'] = 30;
@@ -91,15 +93,16 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Get the Configuration Class - stores the instance, check if exists
+     *
      * @covers Molajo\Ioc\Container::getService
      */
     public function testGetService3()
     {
         $results = $this->ioc->getService('ConfigurationMock');
 
-        $options = array();
+        $options              = array();
         $options['if_exists'] = true;
-        $second = $this->ioc->getService('ConfigurationMock', $options);
+        $second               = $this->ioc->getService('ConfigurationMock', $options);
 
         $this->assertTrue(is_object($results));
         $this->assertTrue(is_object($second));
@@ -110,13 +113,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Get the Configuration Class if exists - does not exist so null should be returned
+     *
      * @covers Molajo\Ioc\Container::getService
      */
     public function testGetService4()
     {
-        $options = array();
+        $options              = array();
         $options['if_exists'] = true;
-        $results = $this->ioc->getService('ConfigurationMock', $options);
+        $results              = $this->ioc->getService('ConfigurationMock', $options);
 
         $this->assertFalse(is_object($results));
         $this->assertEquals(null, $results);
@@ -126,6 +130,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Get the Configuration Class - stores the instance, clone
+     *
      * @covers Molajo\Ioc\Container::cloneService
      */
     public function testCloneService5()
@@ -143,6 +148,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Get the Configuration Class - store the instance, remove
+     *
      * @covers Molajo\Ioc\Container::removeService
      */
     public function testSetService6()
@@ -162,6 +168,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Get the Configuration Class - store the instance, remove
+     *
      * @covers Molajo\Ioc\Container::removeService
      */
     public function testRemoveService7()
@@ -170,9 +177,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
         $this->ioc->removeService('ConfigurationMock');
 
-        $options = array();
+        $options              = array();
         $options['if_exists'] = true;
-        $ifexists = $this->ioc->getService('ConfigurationMock', $options);
+        $ifexists             = $this->ioc->getService('ConfigurationMock', $options);
 
         $this->assertFalse(is_object($ifexists));
         $this->assertEquals(null, $ifexists);
@@ -183,6 +190,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     /**
      * Get the Configuration Service Class - store the instance
      * Test Standard Injector - Molajo/Configuration class
+     *
      * @covers Molajo\Ioc\Container::removeService
      */
     public function testStandardConfiguration8()
@@ -198,9 +206,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         return $this;
     }
 
-
     /**
      * Get the Configuration Class - store the instance, remove
+     *
      * @covers Molajo\Ioc\Container::removeService
      */
     public function testStandard9()
@@ -214,14 +222,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         return $this;
     }
 
-
     /**
      * Get the Configuration Class - store the instance, remove
+     *
      * @covers Molajo\Ioc\Container::removeService
      */
     public function testStandard10()
     {
-        $options = array();
+        $options        = array();
         $options['foo'] = 10;
         $options['bar'] = 20;
         $options['baz'] = 30;
@@ -234,6 +242,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
         return $this;
     }
+
     /**
      * Tear Down
      *
@@ -244,16 +253,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
     }
 
-
     /**
-     * Mock FrontController getService
+     * Mock Frontcontroller getService
      *
      * @param    string $service
      * @param    array  $options
      *
      * @results  null|object
      * @since    1.0
-     * @throws   \Molajo\Application\Exception\FrontControllerException
+     * @throws   \Molajo\Application\Exception\FrontcontrollerException
      */
     public function getService($service, $options = array())
     {
@@ -261,14 +269,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Mock FrontController setService
+     * Mock Frontcontroller setService
      *
      * @param    string $service
      * @param    object $instance
      *
      * @return   $this
      * @since    1.0
-     * @throws   \Molajo\Application\Exception\FrontControllerException
+     * @throws   \Molajo\Application\Exception\FrontcontrollerException
      */
     public function setService($service, $instance = null)
     {
@@ -278,13 +286,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Mock FrontController cloneService
+     * Mock Frontcontroller cloneService
      *
      * @param    string $service
      *
      * @results  null|object
      * @since    1.0
-     * @throws   \Molajo\Application\Exception\FrontControllerException
+     * @throws   \Molajo\Application\Exception\FrontcontrollerException
      */
     public function cloneService($service)
     {
@@ -292,9 +300,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Mock FrontController removeService
+     * Mock Frontcontroller removeService
      *
-     * @param    string  $service
+     * @param    string $service
      *
      * @return   $this
      * @since    1.0
