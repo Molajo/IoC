@@ -89,7 +89,6 @@ class ServiceItemAdapter implements ServiceItemInterface
      *
      * @return  string
      * @since   1.0
-     * @throws  \Exception\IoC\ServiceItemException
      */
     public function getServiceName()
     {
@@ -101,7 +100,6 @@ class ServiceItemAdapter implements ServiceItemInterface
      *
      * @return  string
      * @since   1.0
-     * @throws  \Exception\IoC\ServiceItemException
      */
     public function getServiceNamespace()
     {
@@ -113,7 +111,6 @@ class ServiceItemAdapter implements ServiceItemInterface
      *
      * @return  array
      * @since   1.0
-     * @throws  \Exception\IoC\ServiceItemException
      */
     public function getServiceOptions()
     {
@@ -125,7 +122,6 @@ class ServiceItemAdapter implements ServiceItemInterface
      *
      * @return  string
      * @since   1.0
-     * @throws  \Exception\IoC\ServiceItemException
      */
     public function getStoreInstanceIndicator()
     {
@@ -141,7 +137,6 @@ class ServiceItemAdapter implements ServiceItemInterface
      *
      * @return  array
      * @since   1.0
-     * @throws  \Exception\IoC\ServiceItemException
      */
     public function setDependencies(array $reflection = null)
     {
@@ -168,7 +163,6 @@ class ServiceItemAdapter implements ServiceItemInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \Exception\IoC\ServiceItemException
      */
     public function removeDependency($dependency)
     {
@@ -237,7 +231,6 @@ class ServiceItemAdapter implements ServiceItemInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \Exception\IoC\ServiceItemException
      */
     public function instantiateService()
     {
@@ -252,7 +245,6 @@ class ServiceItemAdapter implements ServiceItemInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \Exception\IoC\ServiceItemException
      */
     public function performAfterInstantiationLogic()
     {
@@ -266,7 +258,6 @@ class ServiceItemAdapter implements ServiceItemInterface
      *
      * @return  object
      * @since   1.0
-     * @throws  \Exception\IoC\ServiceItemException
      */
     public function getServiceInstance()
     {
@@ -280,7 +271,6 @@ class ServiceItemAdapter implements ServiceItemInterface
      *
      * @return  string
      * @since   1.0
-     * @throws  \Exception\IoC\ServiceItemException
      */
     public function setService()
     {
@@ -292,7 +282,6 @@ class ServiceItemAdapter implements ServiceItemInterface
      *
      * @return  string
      * @since   1.0
-     * @throws  \Exception\IoC\ServiceItemException
      */
     public function removeService()
     {
@@ -304,7 +293,6 @@ class ServiceItemAdapter implements ServiceItemInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \Exception\IoC\ServiceItemException
      */
     public function scheduleNextService()
     {
