@@ -8,8 +8,8 @@
  */
 namespace Molajo\Tests;
 
-use Molajo\ServiceMocks\CacheMock;
-use Molajo\ServiceMocks\ConfigurationMock;
+use Molajo\Service\CacheMock;
+use Molajo\Service\ConfigurationMock;
 use Molajo\IoC\Container;
 
 /**
@@ -47,7 +47,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             return $connect->removeService($service);
         };
 
-        $services_folder = 'Molajo\\ServiceMocks';
+        $services_folder = 'Molajo\\Service';
 
         $this->ioc = new Container($getService, $setService, $cloneService, $removeService, $services_folder);
     }

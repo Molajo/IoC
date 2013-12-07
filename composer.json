@@ -8,7 +8,7 @@
     "authors": [
         {
             "name": "Amy Stephen",
-            "Database": "AmyStephen@Molajo.org",
+            "email": "AmyStephen@Molajo.org",
             "homepage": "http://AmyStephen.com"
         }
     ],
@@ -18,12 +18,13 @@
     },
 
     "support": {
-        "Database": "hello@molajo.org",
+        "email": "hello@molajo.org",
         "irc": "irc://irc.freenode.org/molajo"
     },
+
     "autoload": {
         "psr-0": {
-            "Molajo\\Http": "./"
+            "Molajo\\IoC": "./"
         }
     }
 }

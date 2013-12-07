@@ -22,7 +22,7 @@ use CommonApi\IoC\ContainerInterface;
 class Container implements ContainerInterface
 {
     /**
-     * Service Registry
+     * Container Registry
      *
      * @var     array
      * @since   1.0

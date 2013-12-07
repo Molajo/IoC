@@ -8,12 +8,12 @@
  */
 namespace Molajo\IoC;
 
-use CommonApi\Exception\RuntimeException;
 use stdClass;
 use Exception;
 use CommonApi\IoC\ContainerInterface;
 use CommonApi\IoC\ControllerInterface;
 use CommonApi\IoC\ServiceHandlerInterface;
+use CommonApi\Exception\RuntimeException;
 
 /**
  * Inversion of Control Controller
