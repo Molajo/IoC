@@ -21,7 +21,7 @@ use CommonApi\Exception\RuntimeException;
  * @copyright  2013 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class AbstractServiceProvider implements ServiceProviderInterface
+abstract class AbstractServiceProvider implements ServiceProviderInterface
 {
     /**
      * IoC ID from Controller
