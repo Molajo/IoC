@@ -8,8 +8,9 @@
  */
 namespace Molajo\Tests;
 
-use Molajo\Service\ConfigurationMock;
+use Molajo\StandardMock;
 use Molajo\IoC\StandardServiceProvider;
+use Molajo\IoC\ServiceProviderAdapter;
 use Molajo\Service\ConfigurationMock\ConfigurationMockServiceProvider;
 use CommonApi\IoC\ServiceProviderInterface;
 
@@ -34,46 +35,48 @@ class StandardServiceProviderTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $options = array();
-        $options['name'] = 'ConfigurationMock';
-        $options['namespace'] = 'Molajo\ConfigurationMock';
-        $this->service_provider_adapter = new StandardServiceProvider($configuration);
+        $options                             = array();
+        $options['service_name']             = 'StandardMock';
+        $options['service_namespace']       = 'Molajo\\StandardMock';
+        $options['store_instance_indicator'] = true;
+        $service_provider                    = new StandardServiceProvider($options);
 
+        $this->service_provider_adapter = new ServiceProviderAdapter($service_provider);
         return $this;
     }
 
     /**
-     * @covers Molajo\Ioc\StandardServiceProvider::getServiceName
+     * @covers Molajo\IoC\StandardServiceProvider::getServiceName
      */
     public function testgetServiceName()
     {
-        $this->assertEquals('ConfigurationMock', $this->service_provider_adapter->getServiceName());
+        $this->assertEquals('StandardMock', $this->service_provider_adapter->getServiceName());
 
         return $this;
     }
 
     /**
-     * @covers Molajo\Ioc\StandardServiceProvider::getServiceNamespace
+     * @covers Molajo\IoC\StandardServiceProvider::getServiceNamespace
      */
     public function testgetServiceNamespace()
     {
-        $this->assertEquals('Molajo\\ConfigurationMock', $this->service_provider_adapter->getServiceNamespace());
+        $this->assertEquals('Molajo\\StandardMock', $this->service_provider_adapter->getServiceNamespace());
 
         return $this;
     }
 
     /**
-     * @covers Molajo\Ioc\StandardServiceProvider::getServiceOptions
+     * @covers Molajo\IoC\StandardServiceProvider::getServiceOptions
      */
     public function testgetServiceOptions()
     {
-        $this->assertEquals(array('dog' => 'food'), $this->service_provider_adapter->getServiceOptions());
+        $this->assertEquals(array(), $this->service_provider_adapter->getServiceOptions());
 
         return $this;
     }
 
     /**
-     * @covers Molajo\Ioc\StandardServiceProvider::getStoreInstanceIndicator
+     * @covers Molajo\IoC\StandardServiceProvider::getStoreInstanceIndicator
      */
     public function testgetStoreInstanceIndicator()
     {
@@ -83,7 +86,7 @@ class StandardServiceProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\Ioc\StandardServiceProvider::setDependencies
+     * @covers Molajo\IoC\StandardServiceProvider::setDependencies
      */
     public function testsetDependencies()
     {
@@ -93,7 +96,7 @@ class StandardServiceProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\Ioc\StandardServiceProvider::onBeforeInstantiation
+     * @covers Molajo\IoC\StandardServiceProvider::onBeforeInstantiation
      */
     public function testonBeforeInstantiation()
     {
@@ -104,7 +107,7 @@ class StandardServiceProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\Ioc\StandardServiceProvider::instantiateService
+     * @covers Molajo\IoC\StandardServiceProvider::instantiateService
      */
     public function testinstantiateService()
     {
@@ -115,7 +118,7 @@ class StandardServiceProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\Ioc\StandardServiceProvider::onAfterInstantiation
+     * @covers Molajo\IoC\StandardServiceProvider::onAfterInstantiation
      */
     public function testonAfterInstantiation()
     {
@@ -125,7 +128,7 @@ class StandardServiceProviderTest extends \PHPUnit_Framework_TestCase
         return $this;
     }
 
-   /**
+    /**
      * Tear Down
      *
      * @return  $this
