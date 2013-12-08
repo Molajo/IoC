@@ -9,7 +9,7 @@
 namespace Molajo\Tests;
 
 use Molajo\Service\ConfigurationMock;
-use Molajo\IoC\ServiceProviderAdapter;
+use Molajo\IoC\StandardServiceProvider;
 use Molajo\Service\ConfigurationMock\ConfigurationMockServiceProvider;
 use CommonApi\IoC\ServiceProviderInterface;
 
@@ -19,7 +19,7 @@ use CommonApi\IoC\ServiceProviderInterface;
  * @return  object
  * @since   1.0
  */
-class ServiceProviderAdapterTest extends \PHPUnit_Framework_TestCase
+class StandardServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var $ioc \Molajo\IoC\Container
@@ -34,14 +34,16 @@ class ServiceProviderAdapterTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $configuration = new ConfigurationMockServiceProvider();
-        $this->service_provider_adapter = new ServiceProviderAdapter($configuration);
+        $options = array();
+        $options['name'] = 'ConfigurationMock';
+        $options['namespace'] = 'Molajo\ConfigurationMock';
+        $this->service_provider_adapter = new StandardServiceProvider($configuration);
 
         return $this;
     }
 
     /**
-     * @covers Molajo\Ioc\ServiceProviderAdapter::getServiceName
+     * @covers Molajo\Ioc\StandardServiceProvider::getServiceName
      */
     public function testgetServiceName()
     {
@@ -51,7 +53,7 @@ class ServiceProviderAdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\Ioc\ServiceProviderAdapter::getServiceNamespace
+     * @covers Molajo\Ioc\StandardServiceProvider::getServiceNamespace
      */
     public function testgetServiceNamespace()
     {
@@ -61,7 +63,7 @@ class ServiceProviderAdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\Ioc\ServiceProviderAdapter::getServiceOptions
+     * @covers Molajo\Ioc\StandardServiceProvider::getServiceOptions
      */
     public function testgetServiceOptions()
     {
@@ -71,7 +73,7 @@ class ServiceProviderAdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\Ioc\ServiceProviderAdapter::getStoreInstanceIndicator
+     * @covers Molajo\Ioc\StandardServiceProvider::getStoreInstanceIndicator
      */
     public function testgetStoreInstanceIndicator()
     {
@@ -81,7 +83,7 @@ class ServiceProviderAdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\Ioc\ServiceProviderAdapter::setDependencies
+     * @covers Molajo\Ioc\StandardServiceProvider::setDependencies
      */
     public function testsetDependencies()
     {
@@ -91,7 +93,7 @@ class ServiceProviderAdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\Ioc\ServiceProviderAdapter::onBeforeInstantiation
+     * @covers Molajo\Ioc\StandardServiceProvider::onBeforeInstantiation
      */
     public function testonBeforeInstantiation()
     {
@@ -102,7 +104,7 @@ class ServiceProviderAdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\Ioc\ServiceProviderAdapter::instantiateService
+     * @covers Molajo\Ioc\StandardServiceProvider::instantiateService
      */
     public function testinstantiateService()
     {
@@ -113,7 +115,7 @@ class ServiceProviderAdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\Ioc\ServiceProviderAdapter::onAfterInstantiation
+     * @covers Molajo\Ioc\StandardServiceProvider::onAfterInstantiation
      */
     public function testonAfterInstantiation()
     {

@@ -36,7 +36,7 @@ use CommonApi\IoC\ServiceProviderInterface;
  * @copyright  2013 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class StandardInjector extends AbstractServiceProvider implements ServiceProviderInterface
+class StandardServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
 {
     /**
      * Constructor

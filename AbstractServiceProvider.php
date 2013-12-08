@@ -468,6 +468,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     public function getServiceInstance()
     {
         if ($this->static_instance_indicator === true) {
+
             $this->store_instance_indicator   = true;
             $this->store_properties_indicator = false;
 
@@ -476,12 +477,14 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
         } else {
 
             if ($this->store_instance_indicator === true) {
+
                 $this->store_properties_indicator = false;
                 $this->static_instance_indicator  = false;
 
                 return $this->service_instance;
 
             } elseif ($this->store_properties_indicator === true) {
+
                 $this->store_instance_indicator  = true;
                 $this->static_instance_indicator = false;
 
