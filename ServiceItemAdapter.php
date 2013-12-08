@@ -1,7 +1,7 @@
 <?php
 /**
  * Service Item Dependency Injection Adapter
- *  Driven by the IoC Controller to interact with the DI Handler to resolve dependencies and create classes
+ *  Driven by the IoC Controller to interact with the Service Provider to resolve dependencies and create classes
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -9,12 +9,12 @@
  */
 namespace Molajo\IoC;
 
-use CommonApi\IoC\ServiceItemInterface;
+use IoC\Api\ServiceItemInterface;
 use CommonApi\IoC\ServiceProviderInterface;
 
 /**
  * Service Item Dependency Injection Adapter
- *  Driven by the IoC Controller to interact with the DI Handler to resolve dependencies and create classes
+ *  Driven by the IoC Controller to interact with the Service Provider to resolve dependencies and create classes
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -85,7 +85,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller requests Service Name from DI Handler
+     * IoC Controller requests Service Name from Service Provider
      *
      * @return  string
      * @since   1.0
@@ -96,7 +96,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller requests Service Namespace from DI Handler
+     * IoC Controller requests Service Namespace from Service Provider
      *
      * @return  string
      * @since   1.0
@@ -107,7 +107,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller requests Service Options from DI Handler
+     * IoC Controller requests Service Options from Service Provider
      *
      * @return  array
      * @since   1.0
@@ -118,7 +118,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller retrieves "store instance indicator" from DI Handler
+     * IoC Controller retrieves "store instance indicator" from Service Provider
      *
      * @return  string
      * @since   1.0
@@ -129,8 +129,8 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller provides reflection values which the DI Handler can use to set Dependencies
-     *  Or, Dependencies can be specifically defined by the DI Handler.
+     * IoC Controller provides reflection values which the Service Provider can use to set Dependencies
+     *  Or, Dependencies can be specifically defined by the Service Provider.
      *  In either case, Dependencies are returned to the IoC Controller.
      *
      * @param   array $reflection
@@ -157,7 +157,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     /**
      * IoC Controller removes Dependency (Either itself or for if_exists)
      *
-     * Note: no communication with the DI Handler in this method
+     * Note: no communication with the Service Provider in this method
      *
      * @param   string $dependency
      *
@@ -173,10 +173,10 @@ class ServiceItemAdapter implements ServiceItemInterface
 
     /**
      * IoC Controller provides an Instance for Dependency, not sent to the
-     *  DI Handler until all Dependencies in place. At that time, the IoC Controller
-     *  uses processFulfilledDependencies to send satisfied Dependencies to the DI Handler
+     *  Service Provider until all Dependencies in place. At that time, the IoC Controller
+     *  uses processFulfilledDependencies to send satisfied Dependencies to the Service Provider
      *
-     * Note: no communication with the DI Handler in this method
+     * Note: no communication with the Service Provider in this method
      *
      * @param   string $dependency
      * @param   object $dependency_instance
@@ -194,7 +194,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     /**
      * IoC Controller requests count of Dependencies not yet satisfied
      *
-     * Note: no communication with the DI Handler in this method
+     * Note: no communication with the Service Provider in this method
      *
      * @return  int
      * @since   1.0
@@ -214,7 +214,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller shares Dependency Instances with DI Handler for final processing before Class creation
+     * IoC Controller shares Dependency Instances with Service Provider for final processing before Class creation
      *
      * @return  $this
      * @since   1.0
@@ -227,7 +227,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller triggers the DI Handler to create the Class for the Service
+     * IoC Controller triggers the Service Provider to create the Class for the Service
      *
      * @return  $this
      * @since   1.0
@@ -240,7 +240,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller triggers the DI Handler to execute logic that follows class instantiation,
+     * IoC Controller triggers the Service Provider to execute logic that follows class instantiation,
      *  Location for Setter Dependencies or any other actions that must follow Class Creation
      *
      * @return  $this
@@ -254,7 +254,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller requests Service Instance for just created Class from DI Handler
+     * IoC Controller requests Service Instance for just created Class from Service Provider
      *
      * @return  object
      * @since   1.0
@@ -267,7 +267,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * Following Class creation, DI Handler requests the IoC Controller set Services in the Container
+     * Following Class creation, Service Provider requests the IoC Controller set Services in the Container
      *
      * @return  string
      * @since   1.0
@@ -278,7 +278,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * Following Class creation, DI Handler requests the IoC Controller remove Services from the Container
+     * Following Class creation, Service Provider requests the IoC Controller remove Services from the Container
      *
      * @return  string
      * @since   1.0
@@ -289,7 +289,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * Following Class creation, DI Handler requests the IoC Controller instantiate Services
+     * Following Class creation, Service Provider requests the IoC Controller instantiate Services
      *
      * @return  $this
      * @since   1.0

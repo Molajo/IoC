@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract Service Provider Handler
+ * Abstract Service Provider
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -14,7 +14,7 @@ use CommonApi\IoC\ServiceProviderInterface;
 use CommonApi\Exception\RuntimeException;
 
 /**
- * Abstract Service Provider Handler
+ * Abstract Service Provider
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -186,7 +186,7 @@ class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller requests Service Name from DI Handler
+     * IoC Controller requests Service Name from Service Provider
      *
      * @return  string
      * @since   1.0
@@ -197,7 +197,7 @@ class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller requests Service Namespace from DI Handler
+     * IoC Controller requests Service Namespace from Service Provider
      *
      * @return  string
      * @since   1.0
@@ -208,7 +208,7 @@ class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller requests Service Options from DI Handler
+     * IoC Controller requests Service Options from Service Provider
      *
      * @return  array
      * @since   1.0
@@ -219,7 +219,7 @@ class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller retrieves "store instance indicator" from DI Handler
+     * IoC Controller retrieves "store instance indicator" from Service Provider
      *
      * @return  string
      * @since   1.0
@@ -230,8 +230,8 @@ class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller provides reflection values which the DI Handler can use to set Dependencies
-     *  Or, Dependencies can be specifically defined by the DI Handler.
+     * IoC Controller provides reflection values which the Service Provider can use to set Dependencies
+     *  Or, Dependencies can be specifically defined by the Service Provider.
      *  In either case, Dependencies are returned to the IoC Controller.
      *
      * @param   object $reflection
@@ -288,7 +288,7 @@ class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller shares Dependency Instances with DI Handler for final processing before Class creation
+     * IoC Controller shares Dependency Instances with Service Provider for final processing before Class creation
      *
      * @param   array $dependency_instances
      *
@@ -356,7 +356,7 @@ class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller triggers the DI Handler to create the Class for the Service
+     * IoC Controller triggers the Service Provider to create the Class for the Service
      *
      * @return  $this
      * @since   1.0
@@ -448,7 +448,7 @@ class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller triggers the DI Handler to execute logic that follows class instantiation,
+     * IoC Controller triggers the Service Provider to execute logic that follows class instantiation,
      *  Location for Setter Dependencies or any other actions that must follow Class Creation
      *
      * @return  $this
@@ -460,7 +460,7 @@ class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller requests Service Instance for just created Class from DI Handler
+     * IoC Controller requests Service Instance for just created Class from Service Provider
      *
      * @return  object
      * @since   1.0
@@ -495,7 +495,7 @@ class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Following Class creation, DI Handler requests the IoC Controller set Services in the Container
+     * Following Class creation, Service Provider requests the IoC Controller set Services in the Container
      *
      * @return  array
      * @since   1.0
@@ -506,7 +506,7 @@ class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Following Class creation, DI Handler requests the IoC Controller remove Services from the Container
+     * Following Class creation, Service Provider requests the IoC Controller remove Services from the Container
      *
      * @return  array
      * @since   1.0
@@ -517,7 +517,7 @@ class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Following Class creation, DI Handler requests the IoC Controller instantiate Services
+     * Following Class creation, Service Provider requests the IoC Controller instantiate Services
      *
      * @return  array
      * @since   1.0

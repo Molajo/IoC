@@ -17,7 +17,7 @@ These are the basic steps to implementing the Inversion of Control (IoC) package
 
 ### 1. Service Folder
 
-Create a folder within your application to store Service DI Handlers. Each Customer Handler has a folder
+Create a folder within your application to store Service Service Providers. Each Customer Handler has a folder
 containing a class file named `ClassnameServiceProvider.php`. When instantiating the IoCC, you'll provide
 the namespace of the Services Folder.
 
@@ -199,7 +199,7 @@ name;
 - **$cloneService** - clone the container registry entry for a specified service, returning the cloned instance;
 - **$removeService** - remove the container registry entry specified;
 
-When the IoC Container creates a DI Handler instance, it injects it with all four closures before injecting
+When the IoC Container creates a Service Provider instance, it injects it with all four closures before injecting
 the handler into the DI Adapter. The handler can use those class properties to interact with the IoCC.
 In this example, the handler requests the dependent Application Service.
 
@@ -258,9 +258,9 @@ $database = $getService('Molajo\\User', $options);
 
 ```
 
-#### Example 3: Standard DI Handler
+#### Example 3: Standard Service Provider
 
-A Service DI Handler is not always needed. Classes can be created by the Standard DI Handler. It will match
+A Service Service Provider is not always needed. Classes can be created by the Standard Service Provider. It will match
 the values defined in the $options associative array with the Constructor parameters and use that data
 to create the class. For the service name, use the fully qualified class name.
 
@@ -321,7 +321,7 @@ Molajo
 
 #### Standard Properties
 
-The Custom DI Handler has access to the following class properties:
+The Custom Service Provider has access to the following class properties:
 
 1. **$getService** - Closure to request a service of the IoCC, defined above
 2. **$setService** - Closure to set a service contained within the IoCC registry, defined above
@@ -338,7 +338,7 @@ The Custom DI Handler has access to the following class properties:
 #### Custom Service Provider Starter
 
 Below is a basic starting pattern for a Custom Dependency Injection Handler.
-The event methods available to the DI Handler are: processFulfilledDependencies, Instantiate, performAfterInstantiationLogic,
+The event methods available to the Service Provider are: processFulfilledDependencies, Instantiate, performAfterInstantiationLogic,
 initialise, onAfterServiceInitialise, and getServiceInstance.
 Each method can be used to inject code at different points in the class creation process. The
 like-named [AbstractHandler](https://github.com/Molajo/IoC/blob/master/Handler/AbstractServiceProvider.php)

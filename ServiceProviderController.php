@@ -1,6 +1,6 @@
 <?php
 /**
- * Inversion of Control Controller
+ * Inversion of Control Service Provider Controller
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -10,20 +10,20 @@ namespace Molajo\IoC;
 
 use stdClass;
 use Exception;
-use CommonApi\IoC\ContainerInterface;
-use CommonApi\IoC\ControllerInterface;
-use CommonApi\IoC\ServiceProviderInterface;
 use CommonApi\Exception\RuntimeException;
+use CommonApi\IoC\ContainerInterface;
+use CommonApi\IoC\ServiceProviderInterface;
+use IoC\Api\ServiceProviderControllerInterface;
 
 /**
- * Inversion of Control Controller
+ * Inversion of Control Service Provider Controller
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2013 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class Controller implements ControllerInterface
+class ServiceProviderController implements ServiceProviderControllerInterface
 {
     /**
      * Container Instance
@@ -63,15 +63,15 @@ class Controller implements ControllerInterface
      * @var     array
      * @since   1.0
      */
-    protected $handler_folders = array();
+    protected $service_provider_folders = array();
 
     /**
-     * IoC Dependency Injection Namespaces - lookup table built from folder scan
+     * IoC Service Provider Namespaces - lookup table
      *
      * @var     array
      * @since   1.0
      */
-    protected $handler_namespaces = array();
+    protected $service_provider_namespaces = array();
 
     /**
      * Class Dependencies derived from Reflection
@@ -82,12 +82,12 @@ class Controller implements ControllerInterface
     protected $class_dependencies = array();
 
     /**
-     * Indicator
+     * Class Dependencies constructed and available
      *
      * @var     array
      * @since   1.0
      */
-    protected $loaded_class_dependencies = false;
+    protected $available_class_dependencies = false;
 
     /**
      * Standard IoC Service Provider (Used when no custom Service Provider is required)
@@ -95,7 +95,7 @@ class Controller implements ControllerInterface
      * @var     array
      * @since   1.0
      */
-    protected $ioc_standard_service_provider_namespace = 'Molajo\\IoC\\StandardServiceProvider';
+    protected $standard_service_provider_namespace = 'Molajo\\IoC\\StandardServiceProvider';
 
     /**
      * Service Aliases
@@ -103,29 +103,29 @@ class Controller implements ControllerInterface
      * @var     array
      * @since   1.0
      */
-    protected $service_aliases = array();
+    protected $service_provider_aliases = array();
 
     /**
      * Constructor
      *
-     * @param  ContainerInterface $container
-     * @param  array                 $handler_folders
-     * @param  string                $class_dependencies
+     * @param  ContainerInterface  $container
+     * @param  array               $service_provider_folders
+     * @param  string              $class_dependencies
      *
      * @since  1.0
      */
     public function __construct(
         ContainerInterface $container,
-        array $handler_folders = array(),
+        array $service_provider_folders = array(),
         $class_dependencies = null
     ) {
         $this->loadClassDependencies($class_dependencies);
 
-        $this->handler_folders = $handler_folders;
+        $this->service_provider_folders = $service_provider_folders;
 
-        if ($this->loaded_class_dependencies === true) {
-            if (is_array($handler_folders) && count($handler_folders) > 0) {
-                $this->mapHandlerNamespaces($handler_folders);
+        if ($this->available_class_dependencies === true) {
+            if (is_array($service_provider_folders) && count($service_provider_folders) > 0) {
+                $this->mapHandlerNamespaces($service_provider_folders);
             }
         } else {
             $this->class_dependencies = $class_dependencies;
@@ -145,7 +145,7 @@ class Controller implements ControllerInterface
      */
     public function setServiceAlias($service_name, $service_namespace)
     {
-        $this->service_aliases[$service_name] = $service_namespace;
+        $this->service_provider_aliases[$service_name] = $service_namespace;
 
         return $this;
     }
@@ -189,10 +189,10 @@ class Controller implements ControllerInterface
     public function getService($service_name, array $options = array())
     {
         /** Needed if resource map built before resources loaded */
-        if ($this->loaded_class_dependencies === true) {
+        if ($this->available_class_dependencies === true) {
         } else {
             $this->loadClassDependencies($this->class_dependencies);
-            $this->mapHandlerNamespaces($this->handler_folders);
+            $this->mapHandlerNamespaces($this->service_provider_folders);
         }
 
         $instance = $this->setServiceWorkObject($service_name, $options);
@@ -335,9 +335,9 @@ class Controller implements ControllerInterface
      */
     protected function getContainerInstance($container_key, $service_name = null)
     {
-        if ($container_key == $this->ioc_standard_service_provider_namespace) {
-            if (isset($this->service_aliases[$service_name])) {
-                $container_key = $this->service_aliases[$service_name];
+        if ($container_key == $this->standard_service_provider_namespace) {
+            if (isset($this->service_provider_aliases[$service_name])) {
+                $container_key = $this->service_provider_aliases[$service_name];
             }
         }
 
@@ -380,16 +380,16 @@ class Controller implements ControllerInterface
         /** 3. Get the Handler Namespace  */
         if ((string)$service_name == '') {
             $s->service_namespace = '';
-            $s->handler_namespace = '';
+            $s->service_provider_namespace = '';
             $s->container_key     = '';
         } else {
 
-            $s->handler_namespace = $this->getHandlerNamespace($service_name, $options);
+            $s->service_provider_namespace = $this->getHandlerNamespace($service_name, $options);
 
-            $container_key = $s->handler_namespace;
-            if ($container_key == $this->ioc_standard_service_provider_namespace) {
-                if (isset($this->service_aliases[$s->name])) {
-                    $container_key = $this->service_aliases[$s->name];
+            $container_key = $s->service_provider_namespace;
+            if ($container_key == $this->standard_service_provider_namespace) {
+                if (isset($this->service_provider_aliases[$s->name])) {
+                    $container_key = $this->service_provider_aliases[$s->name];
                 }
             }
 
@@ -408,7 +408,7 @@ class Controller implements ControllerInterface
         if (isset($options['service_namespace'])) {
             $s->container_key = $options['service_namespace'];
         } else {
-            $s->container_key = $s->handler_namespace;
+            $s->container_key = $s->service_provider_namespace;
         }
 
         /** 4. See if a Container Instance is Available */
@@ -433,7 +433,7 @@ class Controller implements ControllerInterface
             $s->handler = $this->getHandler
                 (
                     $s->name,
-                    $s->handler_namespace,
+                    $s->service_provider_namespace,
                     $s->options
                 );
 
@@ -448,10 +448,10 @@ class Controller implements ControllerInterface
         $s->service_namespace = $s->ServiceItemAdapter->getServiceNamespace();
         $s->options           = $s->ServiceItemAdapter->getServiceOptions();
 
-        if ($s->handler_namespace == $this->ioc_standard_service_provider_namespace) {
+        if ($s->service_provider_namespace == $this->standard_service_provider_namespace) {
             $s->container_key = $s->service_namespace;
         } else {
-            $s->container_key = $s->handler_namespace;
+            $s->container_key = $s->service_provider_namespace;
         }
 
         $reflection = null;
@@ -501,15 +501,15 @@ class Controller implements ControllerInterface
 
         if ($dependency_instance === false) {
 
-            $handler_namespace = $this->getHandlerNamespace($dependency, $dependency_options);
+            $service_provider_namespace = $this->getHandlerNamespace($dependency, $dependency_options);
 
-            if ($handler_namespace == $this->ioc_standard_service_provider_namespace) {
+            if ($service_provider_namespace == $this->standard_service_provider_namespace) {
                 if (isset($dependency_options['service_namespace'])) {
-                    $handler_namespace = $dependency_options['service_namespace'];
+                    $service_provider_namespace = $dependency_options['service_namespace'];
                 }
             }
 
-            $dependency_instance = $this->getContainerInstance($handler_namespace, $dependency);
+            $dependency_instance = $this->getContainerInstance($service_provider_namespace, $dependency);
         }
 
         if ($dependency_instance === false) {
@@ -543,11 +543,11 @@ class Controller implements ControllerInterface
     protected function completeService($s)
     {
         /** 0. See if a Container Instance is available for the Service Name (was already in queue) */
-        $container_key = $s->handler_namespace;
+        $container_key = $s->service_provider_namespace;
 
-        if ($s->handler_namespace == $this->ioc_standard_service_provider_namespace) {
+        if ($s->service_provider_namespace == $this->standard_service_provider_namespace) {
             if (isset($s->options['service_namespace'])) {
-                if (isset($this->service_aliases[$s->name])) {
+                if (isset($this->service_provider_aliases[$s->name])) {
                     $container_key = $s->options['service_namespace'];
                 }
             }
@@ -566,13 +566,13 @@ class Controller implements ControllerInterface
             return $saved_instance;
         }
 
-        /** 1. Share Dependency Instances with DI Handler for final processing before creating class */
+        /** 1. Share Dependency Instances with Service Provider for final processing before creating class */
         $s->ServiceItemAdapter->processFulfilledDependencies();
 
-        /** 2. Trigger the DI Handler to create the class */
+        /** 2. Trigger the Service Provider to create the class */
         $s->ServiceItemAdapter->instantiateService();
 
-        /** 3. Trigger the DI Handler to execute logic that follows class instantiation */
+        /** 3. Trigger the Service Provider to execute logic that follows class instantiation */
         $s->ServiceItemAdapter->performAfterInstantiationLogic();
 
         /** 4. Get instance for the just instantiated class */
@@ -580,12 +580,12 @@ class Controller implements ControllerInterface
 
         $s->service_instance = $service_instance;
 
-        /** 5. Store instance in Container (if so requested by the DI Handler) */
+        /** 5. Store instance in Container (if so requested by the Service Provider) */
         if ($s->ServiceItemAdapter->getStoreInstanceIndicator() === true) {
             $this->setService($s->container_key, $s->service_instance, $s->name);
         }
 
-        /** 6. See if the DI Handler has other services that should be also saved in the container */
+        /** 6. See if the Service Provider has other services that should be also saved in the container */
         $set = $s->ServiceItemAdapter->setService();
 
         if (is_array($set) && count($set) > 0) {
@@ -594,7 +594,7 @@ class Controller implements ControllerInterface
             }
         }
 
-        /** 7. See if the DI Handler has services that should now be removed from the container */
+        /** 7. See if the Service Provider has services that should now be removed from the container */
         $remove = $s->ServiceItemAdapter->removeService();
 
         if (is_array($remove) && count($remove) > 0) {
@@ -603,7 +603,7 @@ class Controller implements ControllerInterface
             }
         }
 
-        /** 8. Schedule additional Services as instructed by the DI Handler */
+        /** 8. Schedule additional Services as instructed by the Service Provider */
         $next = $s->ServiceItemAdapter->scheduleNextService();
 
         if (is_array($next) && count($next) > 0) {
@@ -652,10 +652,10 @@ class Controller implements ControllerInterface
     }
 
     /**
-     * Instantiate DI Handler to inject into the Adapter Constructor
+     * Instantiate Service Provider to inject into the Adapter Constructor
      *
      * @param   string $service
-     * @param   string $handler_namespace
+     * @param   string $service_provider_namespace
      * @param   string $options
      *
      * @return  object
@@ -664,7 +664,7 @@ class Controller implements ControllerInterface
      */
     protected function getHandler(
         $service,
-        $handler_namespace,
+        $service_provider_namespace,
         $options
     ) {
         if (is_array($options) && count($options) > 0) {
@@ -674,23 +674,23 @@ class Controller implements ControllerInterface
 
         $options['service_name'] = $service;
 
-        if ($handler_namespace == $this->ioc_standard_service_provider_namespace) {
+        if ($service_provider_namespace == $this->standard_service_provider_namespace) {
             if (isset($options['service_namespace'])) {
             } else {
-                if (isset($this->service_aliases[$service])) {
-                    $options['service_namespace'] = $this->service_aliases[$service];
+                if (isset($this->service_provider_aliases[$service])) {
+                    $options['service_namespace'] = $this->service_provider_aliases[$service];
                 }
             }
         }
 
         try {
-            $class   = $handler_namespace;
+            $class   = $service_provider_namespace;
             $handler = new $class($options);
         } catch (Exception $e) {
 
             throw new RuntimeException
             ('IoC getHandler Instantiation Exception: '
-            . $handler_namespace . ' ' . $e->getMessage());
+            . $service_provider_namespace . ' ' . $e->getMessage());
         }
 
         return $handler;
@@ -707,48 +707,48 @@ class Controller implements ControllerInterface
      */
     protected function getHandlerNamespace($service_name, $options = array())
     {
-        if (isset($this->handler_namespaces[$service_name])) {
-            return $this->handler_namespaces[$service_name];
+        if (isset($this->service_provider_namespaces[$service_name])) {
+            return $this->service_provider_namespaces[$service_name];
         }
 
-        return $this->ioc_standard_service_provider_namespace;
+        return $this->standard_service_provider_namespace;
     }
 
     /**
      * Map IoCC Dependency Injection Handler Namespaces
      *
-     * @param   array $handler_folders
+     * @param   array $service_provider_folders
      *
      * @since   1.0
      * @return  $this
      */
-    protected function mapHandlerNamespaces(array $handler_folders = array())
+    protected function mapHandlerNamespaces(array $service_provider_folders = array())
     {
-        if (is_array($handler_folders) && count($handler_folders) > 0) {
+        if (is_array($service_provider_folders) && count($service_provider_folders) > 0) {
         } else {
             return $this;
         }
 
-        $this->handler_folders = $handler_folders;
+        $this->service_provider_folders = $service_provider_folders;
 
         $services = array();
 
-        foreach ($handler_folders as $folder => $folder_namespace) {
+        foreach ($service_provider_folders as $folder => $folder_namespace) {
 
-            $temp = $this->getHandlerFolders($folder, $folder_namespace);
+            $temp = $this->getServiceProviderFolders($folder, $folder_namespace);
 
             if (is_array($temp) && count($temp) > 0) {
-                foreach ($temp as $service_name => $handler_namespace_namespace) {
+                foreach ($temp as $service_name => $service_provider_namespace_namespace) {
                     $services[$service_name]
-                        = $handler_namespace_namespace . '\\' . $service_name . 'ServiceProvider';
-                    $this->service_aliases[$service_name] = $handler_namespace_namespace;
+                        = $service_provider_namespace_namespace . '\\' . $service_name . 'ServiceProvider';
+                    $this->service_provider_aliases[$service_name] = $service_provider_namespace_namespace;
                 }
             }
         }
 
         ksort($services);
 
-        $this->handler_namespaces = $services;
+        $this->service_provider_namespaces = $services;
 
         return $this;
     }
@@ -757,18 +757,18 @@ class Controller implements ControllerInterface
      * Get IoC Handler Folders
      *
      * @param   string $handler_folder
-     * @param   string $handler_namespace
+     * @param   string $service_provider_namespace
      *
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      * @return  array
      */
-    protected function getHandlerFolders($handler_folder, $handler_namespace)
+    protected function getServiceProviderFolders($handler_folder, $service_provider_namespace)
     {
         if (is_dir($handler_folder)) {
         } else {
             throw new RuntimeException
-            ('Container: getHandlerFolders Failed. Folder does not exist ' . $handler_folder);
+            ('Container: getServiceProviderFolders Failed. Folder does not exist ' . $handler_folder);
         }
 
         $temp_folders = array();
@@ -777,7 +777,7 @@ class Controller implements ControllerInterface
 
         foreach ($temp as $item) {
             if (is_dir($handler_folder . '/' . $item)) {
-                $temp_folders[$item] = $handler_namespace . '\\' . $item;
+                $temp_folders[$item] = $service_provider_namespace . '\\' . $item;
             }
         }
 
@@ -795,7 +795,7 @@ class Controller implements ControllerInterface
     protected function loadClassDependencies($filename = null)
     {
         if (file_exists($filename)) {
-            $this->loaded_class_dependencies = true;
+            $this->available_class_dependencies = true;
         } else {
             return array();
         }
@@ -818,7 +818,7 @@ class Controller implements ControllerInterface
             if (isset($class->name) && isset($class->fqns)) {
                 if (strrpos($class->name, 'ServiceProvider')) {
                 } else {
-                    $this->service_aliases[$class->name] = $class->fqns;
+                    $this->service_provider_aliases[$class->name] = $class->fqns;
                 }
             }
         }
