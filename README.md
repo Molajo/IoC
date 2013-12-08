@@ -338,7 +338,7 @@ The Custom Service Provider has access to the following class properties:
 #### Custom Service Provider Starter
 
 Below is a basic starting pattern for a Custom Dependency Injection Handler.
-The event methods available to the Service Provider are: processFulfilledDependencies, Instantiate, performAfterInstantiationLogic,
+The event methods available to the Service Provider are: onBeforeInstantiation, Instantiate, onAfterInstantiation,
 initialise, onAfterServiceInitialise, and getServiceInstance.
 Each method can be used to inject code at different points in the class creation process. The
 like-named [AbstractHandler](https://github.com/Molajo/IoC/blob/master/Handler/AbstractServiceProvider.php)
@@ -398,9 +398,9 @@ class ExampleServiceProvider extends AbstractServiceProvider implements ServiceP
      * @return  object
      * @since   1.0
      */
-    public funprocessFulfilledDependenciestances()
+    public funonBeforeInstantiationtances()
     {
-        retprocessFulfilledDependenciesncyInstances();
+        retonBeforeInstantiationncyInstances();
     }
 
     /**
@@ -424,9 +424,9 @@ class ExampleServiceProvider extends AbstractServiceProvider implements ServiceP
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException;
      */
-    public function performAfterInstantiationLogic()
+    public function onAfterInstantiation()
     {
-        return parent::performAfterInstantiationLogic();
+        return parent::onAfterInstantiation();
     }
 
     /**

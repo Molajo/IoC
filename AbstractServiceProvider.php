@@ -83,7 +83,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     /**
      * Reflection Parameters
      *
-     * @var     object
+     * @var     array
      * @since   1.0
      */
     protected $reflection = null;
@@ -186,7 +186,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller requests Service Name from Service Provider
+     * Service Provider Controller requests Service Name from Service Provider
      *
      * @return  string
      * @since   1.0
@@ -197,7 +197,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller requests Service Namespace from Service Provider
+     * Service Provider Controller requests Service Namespace from Service Provider
      *
      * @return  string
      * @since   1.0
@@ -208,7 +208,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller requests Service Options from Service Provider
+     * Service Provider Controller requests Service Options from Service Provider
      *
      * @return  array
      * @since   1.0
@@ -219,7 +219,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller retrieves "store instance indicator" from Service Provider
+     * Service Provider Controller retrieves "store instance indicator" from Service Provider
      *
      * @return  string
      * @since   1.0
@@ -230,11 +230,10 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller provides reflection values which the Service Provider can use to set Dependencies
-     *  Or, Dependencies can be specifically defined by the Service Provider.
-     *  In either case, Dependencies are returned to the IoC Controller.
+     * Service Provider can use this method to define Service Dependencies
+     *  or use the Service Dependencies automatically defined by Reflection processes
      *
-     * @param   object $reflection
+     * @param   array $reflection
      *
      * @return  array
      * @since   1.0
@@ -257,7 +256,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
 
         foreach ($this->reflection as $dependency) {
 
-            /** Other datatype parameters */
+            /** Other data type parameters */
             if ($dependency->instance_of === null) {
             } else {
 
@@ -288,14 +287,15 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller shares Dependency Instances with Service Provider for final processing before Class creation
+     * Logic contained within this method is invoked after Dependencies Instances are available
+     *  and before the instantiateService Method is invoked
      *
      * @param   array $dependency_instances
      *
      * @return  array
      * @since   1.0
      */
-    public function processFulfilledDependencies(array $dependency_instances = null)
+    public function onBeforeInstantiation(array $dependency_instances = null)
     {
         /** Were Instantiated Classes Passed In? */
         if ($dependency_instances === null || count($dependency_instances) == 0) {
@@ -356,7 +356,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller triggers the Service Provider to create the Class for the Service
+     * Service instantiated automatically or within this method by the Service Provider
      *
      * @return  $this
      * @since   1.0
@@ -448,19 +448,19 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * IoC Controller triggers the Service Provider to execute logic that follows class instantiation,
-     *  Location for Setter Dependencies or any other actions that must follow Class Creation
+     * Logic contained within this method is invoked after the Service Class construction
+     *  and can be used for setter logic or other post-construction processing
      *
      * @return  $this
      * @since   1.0
      */
-    public function performAfterInstantiationLogic()
+    public function onAfterInstantiation()
     {
         return $this;
     }
 
     /**
-     * IoC Controller requests Service Instance for just created Class from Service Provider
+     * Service Provider Controller requests Service Instance for just created Class from Service Provider
      *
      * @return  object
      * @since   1.0
@@ -472,6 +472,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
             $this->store_properties_indicator = false;
 
             return self::$static_service_instance;
+
         } else {
 
             if ($this->store_instance_indicator === true) {
@@ -479,6 +480,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
                 $this->static_instance_indicator  = false;
 
                 return $this->service_instance;
+
             } elseif ($this->store_properties_indicator === true) {
                 $this->store_instance_indicator  = true;
                 $this->static_instance_indicator = false;
@@ -495,7 +497,8 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Following Class creation, Service Provider requests the IoC Controller set Services in the Container
+     * Following Class creation, Service Provider Controller requests the instance of the
+     *  Service Provider in order to return it to the requester and/or store it in the IoC
      *
      * @return  array
      * @since   1.0
@@ -506,7 +509,8 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Following Class creation, Service Provider requests the IoC Controller remove Services from the Container
+     * Following Class creation, Service Provider Controller requests the Service Provider
+     *  remove Services from the Container
      *
      * @return  array
      * @since   1.0
@@ -517,12 +521,13 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Following Class creation, Service Provider requests the IoC Controller instantiate Services
+     * Service Provider can request additional Service Providers be added to the queue
+     *  for processing. Method executed following onAfterInstantiation.
      *
      * @return  array
      * @since   1.0
      */
-    public function scheduleNextService()
+    public function scheduleServices()
     {
         return $this->schedule_service;
     }

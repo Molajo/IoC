@@ -108,9 +108,9 @@ class ServiceProviderController implements ServiceProviderControllerInterface
     /**
      * Constructor
      *
-     * @param  ContainerInterface  $container
-     * @param  array               $service_provider_folders
-     * @param  string              $class_dependencies
+     * @param  ContainerInterface $container
+     * @param  array              $service_provider_folders
+     * @param  string             $class_dependencies
      *
      * @since  1.0
      */
@@ -226,7 +226,7 @@ class ServiceProviderController implements ServiceProviderControllerInterface
                     }
                 }
 
-                if ((int)$s->ServiceItemAdapter->getRemainingDependencyCount() === 0) {
+                if ((int)$s->adapter->getRemainingDependencyCount() === 0) {
 
                     $service_instance = $this->completeService($s);
 
@@ -379,14 +379,15 @@ class ServiceProviderController implements ServiceProviderControllerInterface
 
         /** 3. Get the Handler Namespace  */
         if ((string)$service_name == '') {
-            $s->service_namespace = '';
+            $s->service_namespace          = '';
             $s->service_provider_namespace = '';
-            $s->container_key     = '';
+            $s->container_key              = '';
         } else {
 
-            $s->service_provider_namespace = $this->getHandlerNamespace($service_name, $options);
+            $s->service_provider_namespace = $this->getServiceProviderNamespace($service_name);
 
             $container_key = $s->service_provider_namespace;
+
             if ($container_key == $this->standard_service_provider_namespace) {
                 if (isset($this->service_provider_aliases[$s->name])) {
                     $container_key = $this->service_provider_aliases[$s->name];
@@ -394,16 +395,17 @@ class ServiceProviderController implements ServiceProviderControllerInterface
             }
 
             $saved_instance = $this->getContainerInstance($container_key, $s->name);
+
             if ($saved_instance === false) {
             } else {
                 return $saved_instance; // use container instance
             }
         }
 
-        $s->options            = $options;
-        $s->options['ioc_id']  = $s->id;
-        $s->handler            = null;
-        $s->ServiceItemAdapter = null;
+        $s->options           = $options;
+        $s->options['ioc_id'] = $s->id;
+        $s->service_provider  = null;
+        $s->adapter           = null;
 
         if (isset($options['service_namespace'])) {
             $s->container_key = $options['service_namespace'];
@@ -430,23 +432,24 @@ class ServiceProviderController implements ServiceProviderControllerInterface
         /** 6. Create Handler Instance, inject into Service Item Constructor for Dependency Resolution */
         try {
 
-            $s->handler = $this->getHandler
+            $s->service_provider = $this->getServiceProvider
                 (
                     $s->name,
                     $s->service_provider_namespace,
                     $s->options
                 );
 
-            $s->ServiceItemAdapter = $this->getServiceItemAdapter($s->handler);
+            $s->adapter = $this->getServiceProviderAdapter($s->service_provider);
+
         } catch (Exception $e) {
             throw new RuntimeException
             ('IoC ServiceItem: Exception: ' . $e->getMessage());
         }
 
         /** 7. Retrieve Service Item metadata and set dependencies */
-        $s->name              = $s->ServiceItemAdapter->getServiceName();
-        $s->service_namespace = $s->ServiceItemAdapter->getServiceNamespace();
-        $s->options           = $s->ServiceItemAdapter->getServiceOptions();
+        $s->name              = $s->adapter->getServiceName();
+        $s->service_namespace = $s->adapter->getServiceNamespace();
+        $s->options           = $s->adapter->getServiceOptions();
 
         if ($s->service_provider_namespace == $this->standard_service_provider_namespace) {
             $s->container_key = $s->service_namespace;
@@ -459,7 +462,7 @@ class ServiceProviderController implements ServiceProviderControllerInterface
             $reflection = $this->class_dependencies[$s->service_namespace];
         }
 
-        $s->dependencies = $s->ServiceItemAdapter->setDependencies($reflection);
+        $s->dependencies = $s->adapter->setDependencies($reflection);
 
         if (count($s->dependencies) > 0) {
             foreach ($s->dependencies as $dependency => $dependency_options) {
@@ -491,7 +494,7 @@ class ServiceProviderController implements ServiceProviderControllerInterface
 
         /** 1. Dependency is self */
         if ($dependency == $s->name) {
-            $s->ServiceItemAdapter->removeDependency($dependency);
+            $s->adapter->removeDependency($dependency);
             unset($s->dependencies[$dependency]);
             return $s;
         }
@@ -501,7 +504,7 @@ class ServiceProviderController implements ServiceProviderControllerInterface
 
         if ($dependency_instance === false) {
 
-            $service_provider_namespace = $this->getHandlerNamespace($dependency, $dependency_options);
+            $service_provider_namespace = $this->getServiceProviderNamespace($dependency);
 
             if ($service_provider_namespace == $this->standard_service_provider_namespace) {
                 if (isset($dependency_options['service_namespace'])) {
@@ -514,14 +517,14 @@ class ServiceProviderController implements ServiceProviderControllerInterface
 
         if ($dependency_instance === false) {
         } else {
-            $s->ServiceItemAdapter->setDependencyInstance($dependency, $dependency_instance);
+            $s->adapter->setDependencyInstance($dependency, $dependency_instance);
             unset($s->dependencies[$dependency]);
             return $s;
         }
 
         /** 3. Dependency "if_exists" (and it does not exist) */
         if (isset($dependency_options['if_exists'])) {
-            $s->ServiceItemAdapter->removeDependency($dependency);
+            $s->adapter->removeDependency($dependency);
             unset($s->dependencies[$dependency]);
             return $s;
         }
@@ -567,26 +570,26 @@ class ServiceProviderController implements ServiceProviderControllerInterface
         }
 
         /** 1. Share Dependency Instances with Service Provider for final processing before creating class */
-        $s->ServiceItemAdapter->processFulfilledDependencies();
+        $s->adapter->onBeforeInstantiation();
 
         /** 2. Trigger the Service Provider to create the class */
-        $s->ServiceItemAdapter->instantiateService();
+        $s->adapter->instantiateService();
 
         /** 3. Trigger the Service Provider to execute logic that follows class instantiation */
-        $s->ServiceItemAdapter->performAfterInstantiationLogic();
+        $s->adapter->onAfterInstantiation();
 
         /** 4. Get instance for the just instantiated class */
-        $service_instance = $s->ServiceItemAdapter->getServiceInstance();
+        $service_instance = $s->adapter->getServiceInstance();
 
         $s->service_instance = $service_instance;
 
         /** 5. Store instance in Container (if so requested by the Service Provider) */
-        if ($s->ServiceItemAdapter->getStoreInstanceIndicator() === true) {
+        if ($s->adapter->getStoreInstanceIndicator() === true) {
             $this->setService($s->container_key, $s->service_instance, $s->name);
         }
 
         /** 6. See if the Service Provider has other services that should be also saved in the container */
-        $set = $s->ServiceItemAdapter->setService();
+        $set = $s->adapter->setService();
 
         if (is_array($set) && count($set) > 0) {
             foreach ($set as $container_key => $instance) {
@@ -595,7 +598,7 @@ class ServiceProviderController implements ServiceProviderControllerInterface
         }
 
         /** 7. See if the Service Provider has services that should now be removed from the container */
-        $remove = $s->ServiceItemAdapter->removeService();
+        $remove = $s->adapter->removeService();
 
         if (is_array($remove) && count($remove) > 0) {
             foreach ($remove as $service_name) {
@@ -604,7 +607,7 @@ class ServiceProviderController implements ServiceProviderControllerInterface
         }
 
         /** 8. Schedule additional Services as instructed by the Service Provider */
-        $next = $s->ServiceItemAdapter->scheduleNextService();
+        $next = $s->adapter->scheduleServices();
 
         if (is_array($next) && count($next) > 0) {
             foreach ($next as $service_name => $options) {
@@ -633,22 +636,22 @@ class ServiceProviderController implements ServiceProviderControllerInterface
     /**
      * Instantiate DI Adapter, injecting it with the Handler instance
      *
-     * @param   ServiceProviderInterface $handler
+     * @param   ServiceProviderInterface $service_provider
      *
      * @return  object  CommonApi\IoC\ServiceProviderInterface
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    protected function getServiceItemAdapter(ServiceProviderInterface $handler)
+    protected function getServiceProviderAdapter(ServiceProviderInterface $service_provider)
     {
         try {
-            $ServiceItemAdapter = new ServiceItemAdapter($handler);
+            $ServiceProviderAdapter = new ServiceProviderAdapter($service_provider);
         } catch (Exception $e) {
             throw new RuntimeException
-            ('Ioc getServiceItemAdapter Instantiate ServiceItem Exception: ' . $e->getMessage());
+            ('Ioc getServiceProviderAdapter Instantiate ServiceItem Exception: ' . $e->getMessage());
         }
 
-        return $ServiceItemAdapter;
+        return $ServiceProviderAdapter;
     }
 
     /**
@@ -662,7 +665,7 @@ class ServiceProviderController implements ServiceProviderControllerInterface
      * @throws  \CommonApi\Exception\RuntimeException
      * @since   1.0
      */
-    protected function getHandler(
+    protected function getServiceProvider(
         $service,
         $service_provider_namespace,
         $options
@@ -684,28 +687,28 @@ class ServiceProviderController implements ServiceProviderControllerInterface
         }
 
         try {
-            $class   = $service_provider_namespace;
-            $handler = new $class($options);
+            $class            = $service_provider_namespace;
+            $service_provider = new $class($options);
+
         } catch (Exception $e) {
 
             throw new RuntimeException
-            ('IoC getHandler Instantiation Exception: '
+            ('IoC getServiceProvider Instantiation Exception: '
             . $service_provider_namespace . ' ' . $e->getMessage());
         }
 
-        return $handler;
+        return $service_provider;
     }
 
     /**
-     * Get Handler Namespace
+     * Get Service Provider Namespace
      *
      * @param   string $service_name
-     * @param   array  $options
      *
      * @return  string
      * @since   1.0
      */
-    protected function getHandlerNamespace($service_name, $options = array())
+    protected function getServiceProviderNamespace($service_name)
     {
         if (isset($this->service_provider_namespaces[$service_name])) {
             return $this->service_provider_namespaces[$service_name];
@@ -740,7 +743,7 @@ class ServiceProviderController implements ServiceProviderControllerInterface
             if (is_array($temp) && count($temp) > 0) {
                 foreach ($temp as $service_name => $service_provider_namespace_namespace) {
                     $services[$service_name]
-                        = $service_provider_namespace_namespace . '\\' . $service_name . 'ServiceProvider';
+                                                                   = $service_provider_namespace_namespace . '\\' . $service_name . 'ServiceProvider';
                     $this->service_provider_aliases[$service_name] = $service_provider_namespace_namespace;
                 }
             }
@@ -756,27 +759,27 @@ class ServiceProviderController implements ServiceProviderControllerInterface
     /**
      * Get IoC Handler Folders
      *
-     * @param   string $handler_folder
+     * @param   string $service_provider_folder
      * @param   string $service_provider_namespace
      *
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      * @return  array
      */
-    protected function getServiceProviderFolders($handler_folder, $service_provider_namespace)
+    protected function getServiceProviderFolders($service_provider_folder, $service_provider_namespace)
     {
-        if (is_dir($handler_folder)) {
+        if (is_dir($service_provider_folder)) {
         } else {
             throw new RuntimeException
-            ('Container: getServiceProviderFolders Failed. Folder does not exist ' . $handler_folder);
+            ('Container: getServiceProviderFolders Failed. Folder does not exist ' . $service_provider_folder);
         }
 
         $temp_folders = array();
 
-        $temp = array_diff(scandir($handler_folder), array('.', '..'));
+        $temp = array_diff(scandir($service_provider_folder), array('.', '..'));
 
         foreach ($temp as $item) {
-            if (is_dir($handler_folder . '/' . $item)) {
+            if (is_dir($service_provider_folder . '/' . $item)) {
                 $temp_folders[$item] = $service_provider_namespace . '\\' . $item;
             }
         }

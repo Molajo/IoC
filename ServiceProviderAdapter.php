@@ -1,7 +1,6 @@
 <?php
 /**
- * Service Item Dependency Injection Adapter
- *  Driven by the IoC Controller to interact with the Service Provider to resolve dependencies and create classes
+ * Service Provider Adapter
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -9,19 +8,24 @@
  */
 namespace Molajo\IoC;
 
-use IoC\Api\ServiceItemInterface;
+use IoC\Api\ServiceProviderAdapterInterface;
 use CommonApi\IoC\ServiceProviderInterface;
 
 /**
- * Service Item Dependency Injection Adapter
- *  Driven by the IoC Controller to interact with the Service Provider to resolve dependencies and create classes
+ * Service Provider Adapter
+ *
+ *  Driven by the Service Provider Controller to interact with the injected Service Provider
+ *  in order to resolve dependencies by constructing dependent classes and
+ *  construct the primary class, itself, once all dependencies are available
+ *  The constructed class will be stored within the IoC Container if so specified
+ *  in the Service Provider options.
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2013 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class ServiceItemAdapter implements ServiceItemInterface
+class ServiceProviderAdapter implements ServiceProviderAdapterInterface
 {
     /**
      * Dependencies
@@ -48,12 +52,12 @@ class ServiceItemAdapter implements ServiceItemInterface
     protected $dependency_instances = array();
 
     /**
-     * Handler
+     * Service Provider Instance
      *
      * @var     object  CommonApi\IoC\ServiceProviderInterface
      * @since   1.0
      */
-    protected $handler;
+    protected $service_provider;
 
     /**
      * Service Instance
@@ -64,7 +68,10 @@ class ServiceItemAdapter implements ServiceItemInterface
     protected $service_instance;
 
     /**
-     * Container Key (Handler Namespace unless it is Standard Handler, if so Service Namespace)
+     * Container Key
+     *
+     * Value is the Service Provider Namespace unless it is Standard Service Provider
+     * in which case it is the Namespace for the Service, itself
      *
      * @var     string
      * @since   1.0
@@ -74,64 +81,65 @@ class ServiceItemAdapter implements ServiceItemInterface
     /**
      * The Constructor is invoked by Controller->setServiceWorkObject for each Service
      *
-     * @param  ServiceProviderInterface $handler
+     * @param  ServiceProviderInterface $service_provider
      *
      * @since  1.0
      */
     public function __construct(
-        ServiceProviderInterface $handler
+        ServiceProviderInterface $service_provider
     ) {
-        $this->handler = $handler;
+        $this->service_provider = $service_provider;
     }
 
     /**
-     * IoC Controller requests Service Name from Service Provider
+     * Service Provider Controller requests Service Name from Service Provider
      *
      * @return  string
      * @since   1.0
      */
     public function getServiceName()
     {
-        return $this->handler->getServiceName();
+        return $this->service_provider->getServiceName();
     }
 
     /**
-     * IoC Controller requests Service Namespace from Service Provider
+     * Service Provider Controller requests Service Namespace from Service Provider
      *
      * @return  string
      * @since   1.0
      */
     public function getServiceNamespace()
     {
-        return $this->handler->getServiceNamespace();
+        return $this->service_provider->getServiceNamespace();
     }
 
     /**
-     * IoC Controller requests Service Options from Service Provider
+     * Service Provider Controller requests Service Options from Service Provider
      *
      * @return  array
      * @since   1.0
      */
     public function getServiceOptions()
     {
-        return $this->handler->getServiceOptions();
+        return $this->service_provider->getServiceOptions();
     }
 
     /**
-     * IoC Controller retrieves "store instance indicator" from Service Provider
+     * Service Provider Controller retrieves "store instance indicator" from Service Provider
      *
      * @return  string
      * @since   1.0
      */
     public function getStoreInstanceIndicator()
     {
-        return $this->handler->getStoreInstanceIndicator();
+        return $this->service_provider->getStoreInstanceIndicator();
     }
 
     /**
-     * IoC Controller provides reflection values which the Service Provider can use to set Dependencies
-     *  Or, Dependencies can be specifically defined by the Service Provider.
-     *  In either case, Dependencies are returned to the IoC Controller.
+     * Service Provider Controller provides reflection values which the Service Provider
+     *  can use to set Dependencies. Alternatively, Dependencies can be specifically defined
+     *  by the Service Provider. In either case, Dependencies are returned to the IoC Service
+     *  Provider Controller.
      *
      * @param   array $reflection
      *
@@ -140,7 +148,7 @@ class ServiceItemAdapter implements ServiceItemInterface
      */
     public function setDependencies(array $reflection = null)
     {
-        $this->dependencies = $this->handler->setDependencies($reflection);
+        $this->dependencies = $this->service_provider->setDependencies($reflection);
 
         if (is_array($this->dependencies) && count($this->dependencies) > 0) {
         } else {
@@ -155,7 +163,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller removes Dependency (Either itself or for if_exists)
+     * Service Provider Controller removes Dependency (Either itself or for if_exists)
      *
      * Note: no communication with the Service Provider in this method
      *
@@ -172,9 +180,9 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller provides an Instance for Dependency, not sent to the
-     *  Service Provider until all Dependencies in place. At that time, the IoC Controller
-     *  uses processFulfilledDependencies to send satisfied Dependencies to the Service Provider
+     * Service Provider Controller provides an Instance for Dependency, not sent to the
+     *  Service Provider until all Dependencies in place. At that time, the Service Provider Controller
+     *  uses onBeforeInstantiation to send satisfied Dependencies to the Service Provider
      *
      * Note: no communication with the Service Provider in this method
      *
@@ -192,7 +200,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller requests count of Dependencies not yet satisfied
+     * Service Provider Controller requests count of Dependencies not yet satisfied
      *
      * Note: no communication with the Service Provider in this method
      *
@@ -214,88 +222,88 @@ class ServiceItemAdapter implements ServiceItemInterface
     }
 
     /**
-     * IoC Controller shares Dependency Instances with Service Provider for final processing before Class creation
+     * Service Provider Controller shares Dependency Instances with Service Provider for final processing before Class creation
      *
      * @return  $this
      * @since   1.0
      */
-    public function processFulfilledDependencies()
+    public function onBeforeInstantiation()
     {
-        $this->handler->processFulfilledDependencies($this->dependency_instances);
+        $this->service_provider->onBeforeInstantiation($this->dependency_instances);
 
         return $this;
     }
 
     /**
-     * IoC Controller triggers the Service Provider to create the Class for the Service
+     * Service Provider Controller triggers the Service Provider to create the Class for the Service
      *
      * @return  $this
      * @since   1.0
      */
     public function instantiateService()
     {
-        $this->handler->instantiateService();
+        $this->service_provider->instantiateService();
 
         return $this;
     }
 
     /**
-     * IoC Controller triggers the Service Provider to execute logic that follows class instantiation,
+     * Service Provider Controller triggers the Service Provider to execute logic that follows class instantiation,
      *  Location for Setter Dependencies or any other actions that must follow Class Creation
      *
      * @return  $this
      * @since   1.0
      */
-    public function performAfterInstantiationLogic()
+    public function onAfterInstantiation()
     {
-        $this->handler->performAfterInstantiationLogic();
+        $this->service_provider->onAfterInstantiation();
 
         return $this;
     }
 
     /**
-     * IoC Controller requests Service Instance for just created Class from Service Provider
+     * Service Provider Controller requests Service Instance for just created Class from Service Provider
      *
      * @return  object
      * @since   1.0
      */
     public function getServiceInstance()
     {
-        $this->service_instance = $this->handler->getServiceInstance();
+        $this->service_instance = $this->service_provider->getServiceInstance();
 
         return $this->service_instance;
     }
 
     /**
-     * Following Class creation, Service Provider requests the IoC Controller set Services in the Container
+     * Following Class creation, Service Provider requests the Service Provider Controller set Services in the Container
      *
      * @return  string
      * @since   1.0
      */
     public function setService()
     {
-        return $this->handler->setService();
+        return $this->service_provider->setService();
     }
 
     /**
-     * Following Class creation, Service Provider requests the IoC Controller remove Services from the Container
+     * Following Class creation, Service Provider requests the Service Provider Controller remove Services from the Container
      *
      * @return  string
      * @since   1.0
      */
     public function removeService()
     {
-        return $this->handler->removeService();
+        return $this->service_provider->removeService();
     }
 
     /**
-     * Following Class creation, Service Provider requests the IoC Controller instantiate Services
+     * Following Class creation, Service Provider requests the Service Provider Controller instantiate Services
      *
      * @return  $this
      * @since   1.0
      */
-    public function scheduleNextService()
+    public function scheduleServices()
     {
-        return $this->handler->scheduleNextService();
+        return $this->service_provider->scheduleServices();
     }
 }

@@ -8,8 +8,8 @@
  */
 namespace Molajo\Tests;
 
-use Molajo\Service\CacheMock;
-use Molajo\Service\ConfigurationMock;
+use Molajo\ConfigurationMock;
+use Molajo\CacheMock;
 use Molajo\IoC\Container;
 
 /**
@@ -21,9 +21,9 @@ use Molajo\IoC\Container;
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var object
+     * @var $ioc \Molajo\IoC\Container
      */
-    protected $ioc;
+    protected $container;
 
     /**
      * Setup
@@ -33,23 +33,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $connect       = $this;
-        $getService    = function ($service, $options = array()) use ($connect) {
-            return $connect->getService($service, $options);
-        };
-        $setService    = function ($service, $instance) use ($connect) {
-            return $connect->setService($service, $instance);
-        };
-        $cloneService  = function ($service) use ($connect) {
-            return $connect->cloneService($service);
-        };
-        $removeService = function ($service) use ($connect) {
-            return $connect->removeService($service);
-        };
-
-        $services_folder = 'Molajo\\Service';
-
-        $this->ioc = new Container($getService, $setService, $cloneService, $removeService, $services_folder);
+        $this->container = new ContainerMock();
     }
 
     /**
@@ -57,193 +41,146 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Molajo\Ioc\Container::getService
      */
-    public function testGetService1()
+    public function testSetServiceCacheMock()
     {
-        $results = $this->ioc->getService('CacheMock');
+        $configuration = new ConfigurationMock();
 
-        $this->assertEquals(1, $results->foo);
-        $this->assertEquals(2, $results->bar);
-        $this->assertEquals(5, $results->baz);
-        $this->assertTrue(is_object($results->configuration));
+        $options = array();
+        if (isset($this->options['foo'])) {
+            $options['foo'] = $this->options['foo'];
+        }
+        if (isset($this->options['bar'])) {
+            $options['bar'] = $this->options['bar'];
+        }
+        if (isset($this->options['baz'])) {
+            $options['baz'] = $this->options['baz'];
+        }
+        $options['configuration'] = $configuration;
+
+        $cache = new CacheMock($options);
+
+        $container_contents = $this->container->setService('Cache', $cache);
+
+        if (isset($container_contents['cache'])) {
+            $results = true;
+        } else {
+            $results = false;
+        }
+
+        $this->assertEquals(true, $results);
 
         return $this;
     }
 
     /**
-     * Sets option values
+     * Instantiates service within GetService
      *
      * @covers Molajo\Ioc\Container::getService
      */
-    public function testGetService2()
+    public function testGetServiceCacheMock()
     {
-        $options        = array();
-        $options['foo'] = 10;
-        $options['bar'] = 20;
-        $options['baz'] = 30;
+        $configuration = new ConfigurationMock();
 
-        $results = $this->ioc->getService('CacheMock', $options);
+        $options = array();
+        if (isset($this->options['foo'])) {
+            $options['foo'] = $this->options['foo'];
+        }
+        if (isset($this->options['bar'])) {
+            $options['bar'] = $this->options['bar'];
+        }
+        if (isset($this->options['baz'])) {
+            $options['baz'] = $this->options['baz'];
+        }
+        $options['configuration'] = $configuration;
 
-        $this->assertEquals(10, $results->foo);
-        $this->assertEquals(20, $results->bar);
-        $this->assertEquals(5, $results->baz);
-        $this->assertTrue(is_object($results->configuration));
+        $cache = new CacheMock($options);
+
+        $this->container->setService('Cache', $cache);
+
+        $cache = $this->container->getService('Cache');
+
+        $this->assertEquals(1, $cache->foo);
+        $this->assertEquals(2, $cache->bar);
+        $this->assertEquals(3, $cache->baz);
+        $this->assertTrue(is_object($cache->configuration));
 
         return $this;
     }
 
     /**
-     * Get the Configuration Class - stores the instance, check if exists
+     * Instantiates service within GetService
      *
      * @covers Molajo\Ioc\Container::getService
      */
-    public function testGetService3()
+    public function testCloneServiceCacheMock()
     {
-        $results = $this->ioc->getService('ConfigurationMock');
+        $configuration = new ConfigurationMock();
 
-        $options              = array();
-        $options['if_exists'] = true;
-        $second               = $this->ioc->getService('ConfigurationMock', $options);
+        $options = array();
+        if (isset($this->options['foo'])) {
+            $options['foo'] = $this->options['foo'];
+        }
+        if (isset($this->options['bar'])) {
+            $options['bar'] = $this->options['bar'];
+        }
+        if (isset($this->options['baz'])) {
+            $options['baz'] = $this->options['baz'];
+        }
+        $options['configuration'] = $configuration;
 
-        $this->assertTrue(is_object($results));
-        $this->assertTrue(is_object($second));
-        $this->assertEquals($second, $results);
+        $cache = new CacheMock($options);
+
+        $this->container->setService('Cache', $cache);
+
+        $cache = $this->container->cloneService('Cache');
+
+        $this->assertEquals(1, $cache->foo);
+        $this->assertEquals(2, $cache->bar);
+        $this->assertEquals(3, $cache->baz);
+        $this->assertTrue(is_object($cache->configuration));
 
         return $this;
     }
 
     /**
-     * Get the Configuration Class if exists - does not exist so null should be returned
+     * Instantiates service within GetService
      *
      * @covers Molajo\Ioc\Container::getService
      */
-    public function testGetService4()
+    public function testRemoveServiceCacheMock()
     {
-        $options              = array();
-        $options['if_exists'] = true;
-        $results              = $this->ioc->getService('ConfigurationMock', $options);
+        $configuration = new ConfigurationMock();
 
-        $this->assertFalse(is_object($results));
-        $this->assertEquals(null, $results);
+        $options = array();
+        if (isset($this->options['foo'])) {
+            $options['foo'] = $this->options['foo'];
+        }
+        if (isset($this->options['bar'])) {
+            $options['bar'] = $this->options['bar'];
+        }
+        if (isset($this->options['baz'])) {
+            $options['baz'] = $this->options['baz'];
+        }
+        $options['configuration'] = $configuration;
+
+        $cache = new CacheMock($options);
+
+        $this->container->setService('Cache', $cache);
+
+        $container_contents = $this->container->removeService('Cache');
+
+        if (isset($container_contents['cache'])) {
+            $results = false;
+        } else {
+            $results = true;
+        }
+
+        $this->assertEquals(true, $results);
 
         return $this;
     }
 
-    /**
-     * Get the Configuration Class - stores the instance, clone
-     *
-     * @covers Molajo\Ioc\Container::cloneService
-     */
-    public function testCloneService5()
-    {
-        $results = $this->ioc->getService('ConfigurationMock');
-
-        $second = $this->ioc->cloneService('ConfigurationMock');
-
-        $this->assertTrue(is_object($results));
-        $this->assertTrue(is_object($second));
-        $this->assertEquals($second, $results);
-
-        return $this;
-    }
-
-    /**
-     * Get the Configuration Class - store the instance, remove
-     *
-     * @covers Molajo\Ioc\Container::removeService
-     */
-    public function testSetService6()
-    {
-        $config = $this->ioc->getService('ConfigurationMock');
-
-        $this->ioc->setService('CacheMock', $config);
-
-        $second = $this->ioc->getService('CacheMock');
-
-        $this->assertTrue(is_object($config));
-        $this->assertTrue(is_object($second));
-        $this->assertEquals($second, $config);
-
-        return $this;
-    }
-
-    /**
-     * Get the Configuration Class - store the instance, remove
-     *
-     * @covers Molajo\Ioc\Container::removeService
-     */
-    public function testRemoveService7()
-    {
-        $this->ioc->getService('ConfigurationMock');
-
-        $this->ioc->removeService('ConfigurationMock');
-
-        $options              = array();
-        $options['if_exists'] = true;
-        $ifexists             = $this->ioc->getService('ConfigurationMock', $options);
-
-        $this->assertFalse(is_object($ifexists));
-        $this->assertEquals(null, $ifexists);
-
-        return $this;
-    }
-
-    /**
-     * Get the Configuration Service Class - store the instance
-     * Test Standard Service Provider - Molajo/Configuration class
-     *
-     * @covers Molajo\Ioc\Container::removeService
-     */
-    public function testStandardConfiguration8()
-    {
-        $config = $this->ioc->getService('ConfigurationMock');
-
-        $config2 = $this->ioc->getService('Molajo\\ConfigurationMock');
-
-        $this->assertTrue(is_object($config));
-        $this->assertTrue(is_object($config2));
-        $this->assertEquals($config, $config2);
-
-        return $this;
-    }
-
-    /**
-     * Get the Configuration Class - store the instance, remove
-     *
-     * @covers Molajo\Ioc\Container::removeService
-     */
-    public function testStandard9()
-    {
-        $standard = $this->ioc->getService('Molajo\\StandardMock');
-
-        $this->assertEquals(1, $standard->foo);
-        $this->assertEquals(2, $standard->bar);
-        $this->assertEquals(3, $standard->baz);
-
-        return $this;
-    }
-
-    /**
-     * Get the Configuration Class - store the instance, remove
-     *
-     * @covers Molajo\Ioc\Container::removeService
-     */
-    public function testStandard10()
-    {
-        $options        = array();
-        $options['foo'] = 10;
-        $options['bar'] = 20;
-        $options['baz'] = 30;
-
-        $standard = $this->ioc->getService('Molajo\\StandardMock', $options);
-
-        $this->assertEquals(10, $standard->foo);
-        $this->assertEquals(20, $standard->bar);
-        $this->assertEquals(30, $standard->baz);
-
-        return $this;
-    }
-
-    /**
+   /**
      * Tear Down
      *
      * @return  $this
@@ -252,65 +189,40 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
     }
+}
 
+class ContainerMock extends Container
+{
     /**
-     * Mock Frontcontroller getService
+     * Set the existing service instance with the passed in object
      *
-     * @param    string $service
-     * @param    array  $options
+     * @param   string      $container_key
+     * @param   object      $instance
+     * @param   null|string $alias
      *
-     * @results  null|object
-     * @since    1.0
-     * @throws   \Molajo\Application\Exception\FrontcontrollerException
+     * @return  $this
+     * @since   1.0
      */
-    public function getService($service, $options = array())
+    public function setService($container_key, $instance = null, $alias = null)
     {
-        return $this->ioc->getService($service, $options);
+        parent::setService($container_key, $instance, $alias);
+
+        return $this->container_registry;
     }
 
     /**
-     * Mock Frontcontroller setService
+     * Remove the existing service instance
      *
-     * @param    string $service
-     * @param    object $instance
+     * @param   string $container_key
      *
-     * @return   $this
-     * @since    1.0
-     * @throws   \Molajo\Application\Exception\FrontcontrollerException
+     * @return  $this
+     * @since   1.0
      */
-    public function setService($service, $instance = null)
+    public function removeService($container_key)
     {
-        $this->ioc->getService($service, $instance);
+        parent::removeService($container_key);
 
-        return $this;
-    }
-
-    /**
-     * Mock Frontcontroller cloneService
-     *
-     * @param    string $service
-     *
-     * @results  null|object
-     * @since    1.0
-     * @throws   \Molajo\Application\Exception\FrontcontrollerException
-     */
-    public function cloneService($service)
-    {
-        return $this->ioc->cloneService($service);
-    }
-
-    /**
-     * Mock Frontcontroller removeService
-     *
-     * @param    string $service
-     *
-     * @return   $this
-     * @since    1.0
-     */
-    public function removeService($service)
-    {
-        $this->ioc->removeService($service);
-
-        return $this;
+        return $this->container_registry;
     }
 }
+

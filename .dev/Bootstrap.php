@@ -8,7 +8,7 @@
  */
 include_once __DIR__ . '/CreateClassMap.php';
 
-if (!defined('PHP_VERSION_ID')) {
+if (! defined('PHP_VERSION_ID')) {
     $version = explode('.', phpversion());
     define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 }
@@ -16,19 +16,30 @@ if (!defined('PHP_VERSION_ID')) {
 $base     = substr(__DIR__, 0, strlen(__DIR__) - 5);
 $classmap = array();
 $classmap = createClassMap($base . '/vendor/commonapi/ioc', 'CommonApi\\IoC\\');
-$results = createClassMap($base . '/vendor/commonapi/exception', 'CommonApi\\Exception\\');
+
+$results  = createClassMap($base . '/vendor/commonapi/exception', 'CommonApi\\Exception\\');
 $classmap = array_merge($classmap, $results);
-$results = createClassMap($base . '/Api', 'Molajo\\IoC\\Api\\');
+
+$results  = createClassMap($base . '/Api', 'Molajo\\IoC\\Api\\');
 $classmap = array_merge($classmap, $results);
-$results = createClassMap($base . '/.dev/Classes', 'Molajo');
+
+$results  = createClassMap($base . '/.dev/Classes', 'Molajo\\');
 $classmap = array_merge($classmap, $results);
-$results = createClassMap($base . '/.dev/Service/CacheMock', 'Molajo\\Service\\CacheMock');
+
+$results  = createClassMap($base . '/.dev/Service/CacheMock', 'Molajo\\Service\\CacheMock\\');
 $classmap = array_merge($classmap, $results);
-$results = createClassMap($base . '/.dev/Service/ConfigurationMock', 'Molajo\\Service\\ConfigurationMock');
+
+$results  = createClassMap($base . '/.dev/Service/ConfigurationMock', 'Molajo\\Service\\ConfigurationMock\\');
 $classmap = array_merge($classmap, $results);
-$classmap['Molajo\\IoC\\Container']   = $base . '/Container.php';
-$classmap['Molajo\\IoC\\Controller']   = $base . '/Controller.php';
-$classmap['Molajo\\IoC\\ServiceItemAdapter']   = $base . '/ServiceItemAdapter.php';
+
+$results  = createClassMap($base . '/Api', 'Molajo\\IoC\\Api\\');
+$classmap = array_merge($classmap, $results);
+
+$classmap['Molajo\\IoC\\AbstractServiceProvider']   = $base . '/AbstractServiceProvider.php';
+$classmap['Molajo\\IoC\\Container']                 = $base . '/Container.php';
+$classmap['Molajo\\IoC\\ServiceProviderAdapter']    = $base . '/ServiceProviderAdapter.php';
+$classmap['Molajo\\IoC\\ServiceProviderController'] = $base . '/ServiceProviderController.php';
+$classmap['Molajo\\IoC\\StandardServiceProvider']   = $base . '/StandardServiceProvider.php';
 ksort($classmap);
 
 spl_autoload_register(
