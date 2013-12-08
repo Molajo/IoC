@@ -8,7 +8,7 @@
  */
 namespace Molajo\IoC;
 
-use IoC\Api\ServiceProviderAdapterInterface;
+use Molajo\IoC\Api\ServiceProviderAdapterInterface;
 use CommonApi\IoC\ServiceProviderInterface;
 
 /**

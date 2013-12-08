@@ -31,6 +31,7 @@ class ConfigurationMockServiceProvider extends AbstractServiceProvider implement
         $options['service_name']             = basename(__DIR__);
         $options['store_instance_indicator'] = true;
         $options['service_namespace']        = 'Molajo\\ConfigurationMock';
+        $options['dog']                      = 'food';
 
         parent::__construct($options);
     }

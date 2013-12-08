@@ -6,7 +6,7 @@
  * @copyright  2013 Common Api. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
-namespace IoC\Api;
+namespace Molajo\IoC\Api;
 
 /**
  * Service Item interface - handles interaction between IoC and Service Provider to resolve dependencies and create class

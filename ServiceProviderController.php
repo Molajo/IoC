@@ -13,7 +13,7 @@ use Exception;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\IoC\ContainerInterface;
 use CommonApi\IoC\ServiceProviderInterface;
-use IoC\Api\ServiceProviderControllerInterface;
+use Molajo\IoC\Api\ServiceProviderControllerInterface;
 
 /**
  * Inversion of Control Service Provider Controller
