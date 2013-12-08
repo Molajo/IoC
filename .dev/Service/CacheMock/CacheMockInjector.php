@@ -1,6 +1,6 @@
 <?php
 /**
- * Cache Dependency Injector
+ * Cache Service Provider
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -9,19 +9,19 @@
 namespace Molajo\Service\CacheMock;
 
 use Exception;
-use Molajo\IoC\Handler\AbstractInjector;
-use CommonApi\IoC\ServiceHandlerInterface;
+use Molajo\IoC\AbstractServiceProvider;
+use CommonApi\IoC\ServiceProviderInterface;
 use CommonApi\Exception\RuntimeException;
 
 /**
- * Cache Dependency Injector
+ * Cache Service Provider
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2013 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class CacheMockInjector extends AbstractInjector implements ServiceHandlerInterface
+class CacheMockServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
 {
     /**
      * Constructor
@@ -68,7 +68,7 @@ class CacheMockInjector extends AbstractInjector implements ServiceHandlerInterf
         } catch (Exception $e) {
 
             throw new RuntimeException
-            ('IoC: Injector Instance Failed for ' . $this->service_namespace
+            ('IoC Service Provider Instance Failed for ' . $this->service_namespace
             . ' failed.' . $e->getMessage());
         }
 

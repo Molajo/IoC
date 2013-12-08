@@ -1,27 +1,27 @@
 <?php
 /**
- * Abstract Dependency Injector Handler
+ * Abstract Service Provider Handler
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2013 Amy Stephen. All rights reserved.
  */
-namespace Molajo\IoC\Handler;
+namespace Molajo\IoC;
 
 use Exception;
 use ReflectionClass;
-use CommonApi\IoC\ServiceHandlerInterface;
+use CommonApi\IoC\ServiceProviderInterface;
 use CommonApi\Exception\RuntimeException;
 
 /**
- * Abstract Dependency Injector Handler
+ * Abstract Service Provider Handler
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2013 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class AbstractInjector implements ServiceHandlerInterface
+class AbstractServiceProvider implements ServiceProviderInterface
 {
     /**
      * IoC ID from Controller
@@ -143,7 +143,7 @@ class AbstractInjector implements ServiceHandlerInterface
      * @var    array
      * @since  1.0
      */
-    protected $injector_property_array = array(
+    protected $service_provider_property_array = array(
         'ioc_id',
         'service_name',
         'service_namespace',
@@ -174,7 +174,7 @@ class AbstractInjector implements ServiceHandlerInterface
         }
 
         if (count($options) > 0) {
-            foreach ($this->injector_property_array as $property) {
+            foreach ($this->service_provider_property_array as $property) {
                 if (isset($options[$property])) {
                     $this->$property = $options[$property];
                     unset($options[$property]);

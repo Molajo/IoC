@@ -12,7 +12,7 @@ use stdClass;
 use Exception;
 use CommonApi\IoC\ContainerInterface;
 use CommonApi\IoC\ControllerInterface;
-use CommonApi\IoC\ServiceHandlerInterface;
+use CommonApi\IoC\ServiceProviderInterface;
 use CommonApi\Exception\RuntimeException;
 
 /**
@@ -90,12 +90,12 @@ class Controller implements ControllerInterface
     protected $loaded_class_dependencies = false;
 
     /**
-     * Standard IoC Dependency Injector (no custom injector)
+     * Standard IoC Service Provider (Used when no custom Service Provider is required)
      *
      * @var     array
      * @since   1.0
      */
-    protected $ioc_standard_handler_namespace = 'Molajo\\IoC\\Handler\\StandardInjector';
+    protected $ioc_standard_service_provider_namespace = 'Molajo\\IoC\\StandardServiceProvider';
 
     /**
      * Service Aliases
@@ -335,7 +335,7 @@ class Controller implements ControllerInterface
      */
     protected function getContainerInstance($container_key, $service_name = null)
     {
-        if ($container_key == $this->ioc_standard_handler_namespace) {
+        if ($container_key == $this->ioc_standard_service_provider_namespace) {
             if (isset($this->service_aliases[$service_name])) {
                 $container_key = $this->service_aliases[$service_name];
             }
@@ -387,7 +387,7 @@ class Controller implements ControllerInterface
             $s->handler_namespace = $this->getHandlerNamespace($service_name, $options);
 
             $container_key = $s->handler_namespace;
-            if ($container_key == $this->ioc_standard_handler_namespace) {
+            if ($container_key == $this->ioc_standard_service_provider_namespace) {
                 if (isset($this->service_aliases[$s->name])) {
                     $container_key = $this->service_aliases[$s->name];
                 }
@@ -448,7 +448,7 @@ class Controller implements ControllerInterface
         $s->service_namespace = $s->ServiceItemAdapter->getServiceNamespace();
         $s->options           = $s->ServiceItemAdapter->getServiceOptions();
 
-        if ($s->handler_namespace == $this->ioc_standard_handler_namespace) {
+        if ($s->handler_namespace == $this->ioc_standard_service_provider_namespace) {
             $s->container_key = $s->service_namespace;
         } else {
             $s->container_key = $s->handler_namespace;
@@ -503,7 +503,7 @@ class Controller implements ControllerInterface
 
             $handler_namespace = $this->getHandlerNamespace($dependency, $dependency_options);
 
-            if ($handler_namespace == $this->ioc_standard_handler_namespace) {
+            if ($handler_namespace == $this->ioc_standard_service_provider_namespace) {
                 if (isset($dependency_options['service_namespace'])) {
                     $handler_namespace = $dependency_options['service_namespace'];
                 }
@@ -545,7 +545,7 @@ class Controller implements ControllerInterface
         /** 0. See if a Container Instance is available for the Service Name (was already in queue) */
         $container_key = $s->handler_namespace;
 
-        if ($s->handler_namespace == $this->ioc_standard_handler_namespace) {
+        if ($s->handler_namespace == $this->ioc_standard_service_provider_namespace) {
             if (isset($s->options['service_namespace'])) {
                 if (isset($this->service_aliases[$s->name])) {
                     $container_key = $s->options['service_namespace'];
@@ -633,13 +633,13 @@ class Controller implements ControllerInterface
     /**
      * Instantiate DI Adapter, injecting it with the Handler instance
      *
-     * @param   ServiceHandlerInterface $handler
+     * @param   ServiceProviderInterface $handler
      *
-     * @return  object  CommonApi\IoC\ServiceHandlerInterface
+     * @return  object  CommonApi\IoC\ServiceProviderInterface
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    protected function getServiceItemAdapter(ServiceHandlerInterface $handler)
+    protected function getServiceItemAdapter(ServiceProviderInterface $handler)
     {
         try {
             $ServiceItemAdapter = new ServiceItemAdapter($handler);
@@ -674,7 +674,7 @@ class Controller implements ControllerInterface
 
         $options['service_name'] = $service;
 
-        if ($handler_namespace == $this->ioc_standard_handler_namespace) {
+        if ($handler_namespace == $this->ioc_standard_service_provider_namespace) {
             if (isset($options['service_namespace'])) {
             } else {
                 if (isset($this->service_aliases[$service])) {
@@ -711,7 +711,7 @@ class Controller implements ControllerInterface
             return $this->handler_namespaces[$service_name];
         }
 
-        return $this->ioc_standard_handler_namespace;
+        return $this->ioc_standard_service_provider_namespace;
     }
 
     /**
@@ -740,7 +740,7 @@ class Controller implements ControllerInterface
             if (is_array($temp) && count($temp) > 0) {
                 foreach ($temp as $service_name => $handler_namespace_namespace) {
                     $services[$service_name]
-                                                          = $handler_namespace_namespace . '\\' . $service_name . 'Injector';
+                        = $handler_namespace_namespace . '\\' . $service_name . 'ServiceProvider';
                     $this->service_aliases[$service_name] = $handler_namespace_namespace;
                 }
             }
@@ -816,7 +816,7 @@ class Controller implements ControllerInterface
             }
 
             if (isset($class->name) && isset($class->fqns)) {
-                if (strrpos($class->name, 'Injector')) {
+                if (strrpos($class->name, 'ServiceProvider')) {
                 } else {
                     $this->service_aliases[$class->name] = $class->fqns;
                 }

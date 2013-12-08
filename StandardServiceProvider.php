@@ -1,19 +1,19 @@
 <?php
 /**
- * Standard Dependency Injector
+ * Standard Service Provider
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2013 Amy Stephen. All rights reserved.
  */
-namespace Molajo\IoC\Handler;
+namespace Molajo\IoC;
 
-use CommonApi\IoC\ServiceHandlerInterface;
+use CommonApi\IoC\ServiceProviderInterface;
 
 /**
- * Standard Dependency Injector
+ * Standard Service Provider
  *
- * Executes for those requests which do not require a custom adapter.
+ * Executes for those requests which do not require a custom Service Provider.
  *
  * $options = array();
  * $option['foo'] = $bar;
@@ -36,7 +36,7 @@ use CommonApi\IoC\ServiceHandlerInterface;
  * @copyright  2013 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class StandardInjector extends AbstractInjector implements ServiceHandlerInterface
+class StandardInjector extends AbstractServiceProvider implements ServiceProviderInterface
 {
     /**
      * Constructor

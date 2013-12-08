@@ -13,23 +13,23 @@ These are the basic steps to implementing the Inversion of Control (IoC) package
 1. Create a [Service Folder](https://github.com/Molajo/IoC#1-service-folder) to store custom dependency injection handlers.
 2. Update the [Front Controller](https://github.com/Molajo/IoC#2-front-controller) for the Inversion of Control Container (IoCC).
 3. [Request Services](https://github.com/Molajo/IoC#3-application-service-requests) from the IoCC within the Application.
-4. Create [Custom Dependency Injection Handlers](https://github.com/Molajo/IoC#4---custom-dependency-injection-handlers) for Services.
+4. Create [Custom Service Providers](https://github.com/Molajo/IoC#4---custom-dependency-injection-handlers) for Services.
 
 ### 1. Service Folder
 
 Create a folder within your application to store Service DI Handlers. Each Customer Handler has a folder
-containing a class file named `ClassnameInjector.php`. When instantiating the IoCC, you'll provide
+containing a class file named `ClassnameServiceProvider.php`. When instantiating the IoCC, you'll provide
 the namespace of the Services Folder.
 
 ```
 Molajo
 .. Services
 .. .. Database
-.. .. .. DatabaseInjector.php
+.. .. .. DatabaseServiceProvider.php
 .. .. Configuration
-.. .. .. ConfigurationInjector.php
+.. .. .. ConfigurationServiceProvider.php
 .. .. Modelread
-.. .. .. ModelreadInjector.php
+.. .. .. ModelreadServiceProvider.php
 .. .. etc ..
 
 ```
@@ -304,19 +304,19 @@ $database = $removeService('Database');
 
 ```
 
-### 4 - Custom Dependency Injection Handlers
+### 4 - Custom Service Providers
 
 To create a Custom Dependency Injection Handler:
 
 1. Add a folder to the **Services Folder** defined in [Step 1](https://github.com/Molajo/IoC#1-service-folder). The folder name is the name of the service.
-2. Create a PHP file in that folder named `ServiceNameInjector.php`.
+2. Create a PHP file in that folder named `ServiceNameServiceProvider.php`.
 
 
 ```
 Molajo
 .. Services
 .. .. ServiceName
-.. .. .. ServiceNameInjector.php
+.. .. .. ServiceNameServiceProvider.php
 ```
 
 #### Standard Properties
@@ -335,13 +335,13 @@ The Custom DI Handler has access to the following class properties:
 9. **$service_instance** - populated with the instantiated class
 10. **$options** - associative array provided by the getService call
 
-#### Custom Injector Starter
+#### Custom Service Provider Starter
 
 Below is a basic starting pattern for a Custom Dependency Injection Handler.
 The event methods available to the DI Handler are: processFulfilledDependencies, Instantiate, performAfterInstantiationLogic,
 initialise, onAfterServiceInitialise, and getServiceInstance.
 Each method can be used to inject code at different points in the class creation process. The
-like-named [AbstractHandler](https://github.com/Molajo/IoC/blob/master/Handler/AbstractInjector.php)
+like-named [AbstractHandler](https://github.com/Molajo/IoC/blob/master/Handler/AbstractServiceProvider.php)
 method will be used for any omitted methods in the custom class.  It is a good idea to become familiar with that class.
 
 The [Molajo\Service](https://github.com/Molajo/Standard/tree/master/Vendor/Molajo/Services)
@@ -358,8 +358,8 @@ folder is also a good source of examples of Custom DI Injectors.
  */
 namespace Molajo\Service\Example;
 
-use Molajo\IoC\Handler\AbstractInjector;
-use CommonApi\IoC\ServiceHandlerInterface;
+use Molajo\IoC\AbstractServiceProvider;
+use CommonApi\IoC\ServiceProviderInterface;
 use CommonApi\Exception\RuntimeException;
 
 /**
@@ -370,7 +370,7 @@ use CommonApi\Exception\RuntimeException;
  * @copyright  2013 Amy Stephen. All rights reserved.
  * @since     1.0
  */
-class ExampleInjector extends AbstractInjector implements ServiceHandlerInterface
+class ExampleServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
 {
     /**
      * Constructor

@@ -10,7 +10,7 @@
 namespace Molajo\IoC;
 
 use CommonApi\IoC\ServiceItemInterface;
-use CommonApi\IoC\ServiceHandlerInterface;
+use CommonApi\IoC\ServiceProviderInterface;
 
 /**
  * Service Item Dependency Injection Adapter
@@ -50,7 +50,7 @@ class ServiceItemAdapter implements ServiceItemInterface
     /**
      * Handler
      *
-     * @var     object  CommonApi\IoC\ServiceHandlerInterface
+     * @var     object  CommonApi\IoC\ServiceProviderInterface
      * @since   1.0
      */
     protected $handler;
@@ -74,12 +74,12 @@ class ServiceItemAdapter implements ServiceItemInterface
     /**
      * The Constructor is invoked by Controller->setServiceWorkObject for each Service
      *
-     * @param  ServiceHandlerInterface $handler
+     * @param  ServiceProviderInterface $handler
      *
      * @since  1.0
      */
     public function __construct(
-        ServiceHandlerInterface $handler
+        ServiceProviderInterface $handler
     ) {
         $this->handler = $handler;
     }

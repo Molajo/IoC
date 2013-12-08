@@ -189,7 +189,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Get the Configuration Service Class - store the instance
-     * Test Standard Injector - Molajo/Configuration class
+     * Test Standard Service Provider - Molajo/Configuration class
      *
      * @covers Molajo\Ioc\Container::removeService
      */
