@@ -344,7 +344,7 @@ Each method can be used to inject code at different points in the class creation
 like-named [AbstractHandler](https://github.com/Molajo/IoC/blob/master/Handler/AbstractServiceProvider.php)
 method will be used for any omitted methods in the custom class.  It is a good idea to become familiar with that class.
 
-The [Molajo\Service](https://github.com/Molajo/Standard/tree/master/Vendor/Molajo/Services)
+The [Molajo\Service](https://github.com/Molajo/Standard/tree/master/vendor/Molajo/Services)
 folder is also a good source of examples of Custom DI Injectors.
 
 ```php
