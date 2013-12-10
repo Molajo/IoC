@@ -14,7 +14,8 @@
     ],
     "require": {
         "php": ">=5.3.10",
-        "commonapi/ioc": "dev-master"
+        "commonapi/ioc": "dev-master",
+        "commonapi/resource": "dev-master"
     },
 
     "support": {

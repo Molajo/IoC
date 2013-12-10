@@ -125,7 +125,7 @@ class ServiceProviderController implements ServiceProviderControllerInterface
 
         if ($this->available_class_dependencies === true) {
             if (is_array($service_provider_folders) && count($service_provider_folders) > 0) {
-                $this->mapHandlerNamespaces($service_provider_folders);
+                $this->mapServiceProviderNamespaces($service_provider_folders);
             }
         } else {
             $this->class_dependencies = $class_dependencies;
@@ -192,7 +192,7 @@ class ServiceProviderController implements ServiceProviderControllerInterface
         if ($this->available_class_dependencies === true) {
         } else {
             $this->loadClassDependencies($this->class_dependencies);
-            $this->mapHandlerNamespaces($this->service_provider_folders);
+            $this->mapServiceProviderNamespaces($this->service_provider_folders);
         }
 
         $instance = $this->setServiceWorkObject($service_name, $options);
@@ -725,7 +725,10 @@ class ServiceProviderController implements ServiceProviderControllerInterface
      * @since   1.0
      * @return  $this
      */
-    protected function mapHandlerNamespaces(array $service_provider_folders = array())
+    protected function mapServiceProviderNamespaces(
+        array $service_provider_folders = array(),
+        $folder_namespace = 'Molajo\\Service'
+    )
     {
         if (is_array($service_provider_folders) && count($service_provider_folders) > 0) {
         } else {
@@ -736,7 +739,7 @@ class ServiceProviderController implements ServiceProviderControllerInterface
 
         $services = array();
 
-        foreach ($service_provider_folders as $folder => $folder_namespace) {
+        foreach ($service_provider_folders as $folder) {
 
             $temp = $this->getServiceProviderFolders($folder, $folder_namespace);
 

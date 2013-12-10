@@ -1,0 +1,17 @@
+[
+    "vendor/molajo/authorisation/service/",
+    "vendor/molajo/cache/service/",
+    "vendor/molajo/database/service/",
+    "vendor/molajo/email/service/",
+    "vendor/molajo/event/service/",
+    "vendor/molajo/fieldhandler/service/",
+    "vendor/molajo/filesystem/service/",
+    "vendor/molajo/framework/Service/",
+    "vendor/molajo/Http/Service/",
+    "vendor/molajo/language/Service/",
+    "vendor/molajo/render/Service/",
+    "vendor/molajo/resource/Service/",
+    "vendor/molajo/route/Service/",
+    "vendor/molajo/user/Service/"
+]
+
