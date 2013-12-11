@@ -58,20 +58,20 @@ class ServiceProviderController implements ServiceProviderControllerInterface
     protected $queue_id = 1;
 
     /**
-     * Services Folders
-     *
-     * @var     array
-     * @since   1.0
-     */
-    protected $service_provider_folders = array();
-
-    /**
      * IoC Service Provider Namespaces - lookup table
      *
      * @var     array
      * @since   1.0
      */
     protected $service_provider_namespaces = array();
+
+    /**
+     * Service Aliases
+     *
+     * @var     array
+     * @since   1.0
+     */
+    protected $service_provider_aliases = array();
 
     /**
      * Class Dependencies derived from Reflection
@@ -98,40 +98,24 @@ class ServiceProviderController implements ServiceProviderControllerInterface
     protected $standard_service_provider_namespace = 'Molajo\\IoC\\StandardServiceProvider';
 
     /**
-     * Service Aliases
-     *
-     * @var     array
-     * @since   1.0
-     */
-    protected $service_provider_aliases = array();
-
-    /**
      * Constructor
      *
      * @param  ContainerInterface $container
-     * @param  array              $service_provider_folders
      * @param  string             $class_dependencies
      *
      * @since  1.0
      */
     public function __construct(
         ContainerInterface $container,
-        array $service_provider_folders = array(),
-        $class_dependencies = null
+        $class_dependencies = null,
+        array $service_provider_namespaces = array(),
+        array $service_provider_aliases = array()
     ) {
+        $this->container = $container;
+        $this->service_provider_namespaces = $service_provider_namespaces;
+        $this->service_provider_aliases = $service_provider_aliases;
         $this->loadClassDependencies($class_dependencies);
 
-        $this->service_provider_folders = $service_provider_folders;
-
-        if ($this->available_class_dependencies === true) {
-            if (is_array($service_provider_folders) && count($service_provider_folders) > 0) {
-                $this->mapServiceProviderNamespaces($service_provider_folders);
-            }
-        } else {
-            $this->class_dependencies = $class_dependencies;
-        }
-
-        $this->container = $container;
     }
 
     /**
@@ -718,79 +702,6 @@ class ServiceProviderController implements ServiceProviderControllerInterface
     }
 
     /**
-     * Map IoCC Dependency Injection Handler Namespaces
-     *
-     * @param   array $service_provider_folders
-     *
-     * @since   1.0
-     * @return  $this
-     */
-    protected function mapServiceProviderNamespaces(
-        array $service_provider_folders = array(),
-        $folder_namespace = 'Molajo\\Service'
-    )
-    {
-        if (is_array($service_provider_folders) && count($service_provider_folders) > 0) {
-        } else {
-            return $this;
-        }
-
-        $this->service_provider_folders = $service_provider_folders;
-
-        $services = array();
-
-        foreach ($service_provider_folders as $folder) {
-
-            $temp = $this->getServiceProviderFolders($folder, $folder_namespace);
-
-            if (is_array($temp) && count($temp) > 0) {
-                foreach ($temp as $service_name => $service_provider_namespace_namespace) {
-                    $services[$service_name]
-                                                                   = $service_provider_namespace_namespace . '\\' . $service_name . 'ServiceProvider';
-                    $this->service_provider_aliases[$service_name] = $service_provider_namespace_namespace;
-                }
-            }
-        }
-
-        ksort($services);
-
-        $this->service_provider_namespaces = $services;
-
-        return $this;
-    }
-
-    /**
-     * Get IoC Handler Folders
-     *
-     * @param   string $service_provider_folder
-     * @param   string $service_provider_namespace
-     *
-     * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     * @return  array
-     */
-    protected function getServiceProviderFolders($service_provider_folder, $service_provider_namespace)
-    {
-        if (is_dir($service_provider_folder)) {
-        } else {
-            throw new RuntimeException
-            ('Container: getServiceProviderFolders Failed. Folder does not exist ' . $service_provider_folder);
-        }
-
-        $temp_folders = array();
-
-        $temp = array_diff(scandir($service_provider_folder), array('.', '..'));
-
-        foreach ($temp as $item) {
-            if (is_dir($service_provider_folder . '/' . $item)) {
-                $temp_folders[$item] = $service_provider_namespace . '\\' . $item;
-            }
-        }
-
-        return $temp_folders;
-    }
-
-    /**
      * Load Class Dependencies
      *
      * @param  string $filename
@@ -820,13 +731,14 @@ class ServiceProviderController implements ServiceProviderControllerInterface
             if (isset($class->constructor_parameters)) {
                 $this->class_dependencies[$class->fqns] = $class->constructor_parameters;
             }
-
+/**
             if (isset($class->name) && isset($class->fqns)) {
                 if (strrpos($class->name, 'ServiceProvider')) {
                 } else {
                     $this->service_provider_aliases[$class->name] = $class->fqns;
                 }
             }
+ */
         }
 
         return $this;
