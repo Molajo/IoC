@@ -168,6 +168,8 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
      */
     public function __construct(array $options = array())
     {
+        $this->schedule_service = array();
+
         if (is_array($options)) {
         } else {
             $options = array();

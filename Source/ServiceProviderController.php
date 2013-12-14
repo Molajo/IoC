@@ -111,11 +111,10 @@ class ServiceProviderController implements ServiceProviderControllerInterface
         array $service_provider_namespaces = array(),
         array $service_provider_aliases = array()
     ) {
-        $this->container = $container;
+        $this->container                   = $container;
         $this->service_provider_namespaces = $service_provider_namespaces;
-        $this->service_provider_aliases = $service_provider_aliases;
+        $this->service_provider_aliases    = $service_provider_aliases;
         $this->loadClassDependencies($class_dependencies);
-
     }
 
     /**
@@ -139,7 +138,7 @@ class ServiceProviderController implements ServiceProviderControllerInterface
      *
      * @param   array $batch_services (array [$service_name] => $options)
      *
-     * @return  array (array ['service_name'] => $service_instance)
+     * @return  array
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
@@ -158,11 +157,12 @@ class ServiceProviderController implements ServiceProviderControllerInterface
             }
         }
 
+        // array of ['service_name'] => $service_instance values
         return $batch_services;
     }
 
     /**
-     * Get a Service (Class Instance) first recursively resolving its dependencies
+     * Get a Service (Class Instance) first, recursively resolving dependencies
      *
      * @param   string $service_name
      * @param   array  $options
@@ -444,6 +444,8 @@ class ServiceProviderController implements ServiceProviderControllerInterface
         $reflection = null;
         if (isset($this->class_dependencies[$s->service_namespace])) {
             $reflection = $this->class_dependencies[$s->service_namespace];
+        } else {
+            $reflection = $this->class_dependencies[$s->container_key];
         }
 
         $s->dependencies = $s->adapter->setDependencies($reflection);
@@ -731,14 +733,16 @@ class ServiceProviderController implements ServiceProviderControllerInterface
             if (isset($class->constructor_parameters)) {
                 $this->class_dependencies[$class->fqns] = $class->constructor_parameters;
             }
-/**
+
             if (isset($class->name) && isset($class->fqns)) {
                 if (strrpos($class->name, 'ServiceProvider')) {
                 } else {
-                    $this->service_provider_aliases[$class->name] = $class->fqns;
+                    if (isset($this->service_provider_aliases[$class->name])) {
+                    } else {
+                        $this->service_provider_aliases[$class->name] = $class->fqns;
+                    }
                 }
             }
- */
         }
 
         return $this;
