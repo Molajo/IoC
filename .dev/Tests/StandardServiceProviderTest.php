@@ -46,16 +46,6 @@ class StandardServiceProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\IoC\StandardServiceProvider::getServiceName
-     */
-    public function testgetServiceName()
-    {
-        $this->assertEquals('StandardMock', $this->service_provider_adapter->getServiceName());
-
-        return $this;
-    }
-
-    /**
      * @covers Molajo\IoC\StandardServiceProvider::getServiceNamespace
      */
     public function testgetServiceNamespace()

@@ -188,17 +188,6 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Service Provider Controller requests Service Name from Service Provider
-     *
-     * @return  string
-     * @since   1.0
-     */
-    public function getServiceName()
-    {
-        return $this->service_name;
-    }
-
-    /**
      * Service Provider Controller requests Service Namespace from Service Provider
      *
      * @return  string
@@ -292,31 +281,31 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
      * Logic contained within this method is invoked after Dependencies Instances are available
      *  and before the instantiateService Method is invoked
      *
-     * @param   array $dependency_instances
+     * @param   array $dependency_values
      *
      * @return  array
      * @since   1.0
      */
-    public function onBeforeInstantiation(array $dependency_instances = null)
+    public function onBeforeInstantiation(array $dependency_values = null)
     {
         /** Were Instantiated Classes Passed In? */
-        if ($dependency_instances === null || count($dependency_instances) == 0) {
+        if ($dependency_values === null || count($dependency_values) == 0) {
             return $this->dependencies;
         }
 
         /** Store Instantiated Class within Dependencies Array */
-        foreach ($dependency_instances as $key1 => $value1) {
+        foreach ($dependency_values as $key1 => $value1) {
             foreach ($this->dependencies as $key2 => $value2) {
                 if (strtolower($key1) == strtolower($key2)) {
                     $this->dependencies[$key2] = $value1;
-                    unset($dependency_instances[$key1]);
+                    unset($dependency_values[$key1]);
                 }
             }
         }
 
-        foreach ($dependency_instances as $key => $value) {
+        foreach ($dependency_values as $key => $value) {
             $this->dependencies[$key] = $value;
-            unset($dependency_instances[$key]);
+            unset($dependency_values[$key]);
         }
 
         /** Make certain each Reflection entry matches a Dependencies or Options array */

@@ -19,7 +19,7 @@ use CommonApi\Resource\MapInterface;
  * @copyright  2013 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class MapServiceProviderNamespaces implements MapInterface
+class MapServiceProviders implements MapInterface
 {
     /**
      * Services Folders
@@ -38,28 +38,12 @@ class MapServiceProviderNamespaces implements MapInterface
     protected $service_provider_namespace_prefix = 'Molajo\Service';
 
     /**
-     * IoC Service Provider Namespaces - lookup table
-     *
-     * @var     array
-     * @since   1.0
-     */
-    protected $service_provider_namespaces = array();
-
-    /**
      * Service Aliases
      *
      * @var     array
      * @since   1.0
      */
     protected $service_provider_aliases = array();
-
-    /**
-     * Service Provider Namespace Map Filename
-     *
-     * @var    string
-     * @since  1.0
-     */
-    protected $service_provider_map_filename;
 
     /**
      * Service Provider Alias Filename
@@ -74,7 +58,6 @@ class MapServiceProviderNamespaces implements MapInterface
      *
      * @param  array  $service_provider_folders
      * @param  string $service_provider_namespace_prefix
-     * @param  null   $service_provider_map_filename
      * @param  null   $service_provider_alias_filename
      *
      * @since  1.0
@@ -82,18 +65,11 @@ class MapServiceProviderNamespaces implements MapInterface
     public function __construct(
         array $service_provider_folders = array(),
         $service_provider_namespace_prefix = 'Molajo\Service',
-        $service_provider_map_filename = null,
         $service_provider_alias_filename = null
     ) {
         $this->service_provider_folders          = $service_provider_folders;
         $this->service_provider_namespace_prefix = $service_provider_namespace_prefix;
         $this->service_provider_aliases          = array();
-
-        if ($service_provider_map_filename === null) {
-            $this->service_provider_map_filename = __DIR__ . '/Files/Output/ServiceProviderMap.json';
-        } else {
-            $this->service_provider_map_filename = $service_provider_map_filename;
-        }
 
         if ($service_provider_alias_filename === null) {
             $this->service_provider_alias_filename = __DIR__ . '/Files/Output/ServiceProviderAliases.json';
@@ -110,19 +86,11 @@ class MapServiceProviderNamespaces implements MapInterface
      */
     public function createMap()
     {
-        $this->mapServiceProviderNamespaces();
+        $this->MapServiceProviders();
 
-        ksort($this->service_provider_namespaces);
         ksort($this->service_provider_aliases);
 
         if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-            file_put_contents(
-                $this->service_provider_map_filename,
-                json_encode(
-                    $this->service_provider_namespaces,
-                    JSON_PRETTY_PRINT
-                )
-            );
             file_put_contents(
                 $this->service_provider_alias_filename,
                 json_encode(
@@ -131,10 +99,6 @@ class MapServiceProviderNamespaces implements MapInterface
                 )
             );
         } else {
-            file_put_contents(
-                $this->service_provider_map_filename,
-                json_encode($this->service_provider_namespaces)
-            );
             file_put_contents(
                 $this->service_provider_alias_filename,
                 json_encode($this->service_provider_aliases)
@@ -152,7 +116,7 @@ class MapServiceProviderNamespaces implements MapInterface
      * @since   1.0
      * @return  $this
      */
-    protected function mapServiceProviderNamespaces()
+    protected function MapServiceProviders()
     {
         if (is_array($this->service_provider_folders) && count($this->service_provider_folders) > 0) {
         } else {
@@ -167,17 +131,13 @@ class MapServiceProviderNamespaces implements MapInterface
 
             if (is_array($temp) && count($temp) > 0) {
                 foreach ($temp as $service_name => $service_provider_namespace_namespace) {
-                    $services[$service_name]
-                        = $service_provider_namespace_namespace . '\\' . $service_name . 'ServiceProvider';
                     $this->service_provider_aliases[$service_name]
                         = $service_provider_namespace_namespace;
                 }
             }
         }
 
-        ksort($services);
-
-        $this->service_provider_namespaces = $services;
+        ksort($this->service_provider_aliases);
 
         return $this;
     }

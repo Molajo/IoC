@@ -41,16 +41,6 @@ class ServiceProviderAdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\Ioc\ServiceProviderAdapter::getServiceName
-     */
-    public function testgetServiceName()
-    {
-        $this->assertEquals('ConfigurationMock', $this->service_provider_adapter->getServiceName());
-
-        return $this;
-    }
-
-    /**
      * @covers Molajo\Ioc\ServiceProviderAdapter::getServiceNamespace
      */
     public function testgetServiceNamespace()

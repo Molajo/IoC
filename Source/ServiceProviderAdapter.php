@@ -8,7 +8,7 @@
  */
 namespace Molajo\IoC;
 
-use Molajo\IoC\Api\ServiceProviderAdapterInterface;
+use CommonApi\IoC\ServiceProviderAdapterInterface;
 use CommonApi\IoC\ServiceProviderInterface;
 
 /**
@@ -44,12 +44,12 @@ class ServiceProviderAdapter implements ServiceProviderAdapterInterface
     protected $reflection = null;
 
     /**
-     * Dependencies set with instance
+     * Dependencies that have been satisfied
      *
      * @var     array
      * @since   1.0
      */
-    protected $dependency_instances = array();
+    protected $dependency_values = array();
 
     /**
      * Service Provider Instance
@@ -89,17 +89,6 @@ class ServiceProviderAdapter implements ServiceProviderAdapterInterface
         ServiceProviderInterface $service_provider
     ) {
         $this->service_provider = $service_provider;
-    }
-
-    /**
-     * Service Provider Controller requests Service Name from Service Provider
-     *
-     * @return  string
-     * @since   1.0
-     */
-    public function getServiceName()
-    {
-        return $this->service_provider->getServiceName();
     }
 
     /**
@@ -156,7 +145,7 @@ class ServiceProviderAdapter implements ServiceProviderAdapterInterface
         }
 
         foreach ($this->dependencies as $key => $value) {
-            $this->dependency_instances[$key] = null;
+            $this->dependency_values[$key] = null;
         }
 
         return $this->dependencies;
@@ -174,8 +163,8 @@ class ServiceProviderAdapter implements ServiceProviderAdapterInterface
      */
     public function removeDependency($dependency)
     {
-        if (isset($this->dependency_instances[$dependency])) {
-            unset($this->dependency_instances[$dependency]);
+        if (isset($this->dependency_values[$dependency])) {
+            unset($this->dependency_values[$dependency]);
         }
     }
 
@@ -186,15 +175,15 @@ class ServiceProviderAdapter implements ServiceProviderAdapterInterface
      *
      * Note: no communication with the Service Provider in this method
      *
-     * @param   string $dependency
-     * @param   object $dependency_instance
+     * @param   string  $dependency
+     * @param   object  $dependency_value
      *
      * @return  $this
      * @since   1.0
      */
-    public function setDependencyInstance($dependency, $dependency_instance)
+    public function setDependencyInstance($dependency, $dependency_value)
     {
-        $this->dependency_instances[$dependency] = $dependency_instance;
+        $this->dependency_values[$dependency] = $dependency_value;
 
         return $this;
     }
@@ -211,7 +200,7 @@ class ServiceProviderAdapter implements ServiceProviderAdapterInterface
     {
         $count = 0;
 
-        foreach ($this->dependency_instances as $key => $instance) {
+        foreach ($this->dependency_values as $key => $instance) {
 
             if ($key && $instance === null) {
                 $count ++;
@@ -229,7 +218,7 @@ class ServiceProviderAdapter implements ServiceProviderAdapterInterface
      */
     public function onBeforeInstantiation()
     {
-        $this->service_provider->onBeforeInstantiation($this->dependency_instances);
+        $this->service_provider->onBeforeInstantiation($this->dependency_values);
 
         return $this;
     }

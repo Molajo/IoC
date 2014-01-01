@@ -35,7 +35,7 @@ $classmap = array_merge($classmap, $results);
 $classmap['Molajo\\IoC\\AbstractServiceProvider']   = $base . '/Source/AbstractServiceProvider.php';
 $classmap['Molajo\\IoC\\Container']                 = $base . '/Source/Container.php';
 $classmap['Molajo\\IoC\\ServiceProviderAdapter']    = $base . '/Source/ServiceProviderAdapter.php';
-$classmap['Molajo\\IoC\\ServiceProviderController'] = $base . '/Source/ServiceProviderController.php';
+$classmap['Molajo\\IoC\\Controller'] = $base . '/Source/Controller.php';
 $classmap['Molajo\\IoC\\StandardServiceProvider']   = $base . '/Source/StandardServiceProvider.php';
 ksort($classmap);
 
