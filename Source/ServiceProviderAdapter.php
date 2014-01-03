@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  */
 namespace Molajo\IoC;
 
@@ -22,7 +22,7 @@ use CommonApi\IoC\ServiceProviderInterface;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
 class ServiceProviderAdapter implements ServiceProviderAdapterInterface
@@ -175,8 +175,8 @@ class ServiceProviderAdapter implements ServiceProviderAdapterInterface
      *
      * Note: no communication with the Service Provider in this method
      *
-     * @param   string  $dependency
-     * @param   object  $dependency_value
+     * @param   string $dependency
+     * @param   object $dependency_value
      *
      * @return  $this
      * @since   1.0

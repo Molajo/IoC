@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  */
 namespace Molajo\IoC;
 
@@ -33,7 +33,7 @@ use CommonApi\IoC\ServiceProviderInterface;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
 class StandardServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface

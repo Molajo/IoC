@@ -3,7 +3,7 @@
  * Bootstrap for Testing
  *
  * @package    Molajo
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 include_once __DIR__ . '/CreateClassMap.php';
@@ -32,11 +32,11 @@ $classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/Source/Api', 'Molajo\\IoC\\Api\\');
 $classmap = array_merge($classmap, $results);
 
-$classmap['Molajo\\IoC\\AbstractServiceProvider']   = $base . '/Source/AbstractServiceProvider.php';
-$classmap['Molajo\\IoC\\Container']                 = $base . '/Source/Container.php';
-$classmap['Molajo\\IoC\\ServiceProviderAdapter']    = $base . '/Source/ServiceProviderAdapter.php';
-$classmap['Molajo\\IoC\\Controller'] = $base . '/Source/Controller.php';
-$classmap['Molajo\\IoC\\StandardServiceProvider']   = $base . '/Source/StandardServiceProvider.php';
+$classmap['Molajo\\IoC\\AbstractServiceProvider'] = $base . '/Source/AbstractServiceProvider.php';
+$classmap['Molajo\\IoC\\Container']               = $base . '/Source/Container.php';
+$classmap['Molajo\\IoC\\ServiceProviderAdapter']  = $base . '/Source/ServiceProviderAdapter.php';
+$classmap['Molajo\\IoC\\Controller']              = $base . '/Source/Controller.php';
+$classmap['Molajo\\IoC\\StandardServiceProvider'] = $base . '/Source/StandardServiceProvider.php';
 ksort($classmap);
 
 spl_autoload_register(

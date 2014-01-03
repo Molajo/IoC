@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  */
 namespace Molajo\Tests;
 
@@ -34,7 +34,7 @@ class ServiceProviderAdapterTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $configuration = new ConfigurationMockServiceProvider();
+        $configuration                  = new ConfigurationMockServiceProvider();
         $this->service_provider_adapter = new ServiceProviderAdapter($configuration);
 
         return $this;
@@ -113,7 +113,7 @@ class ServiceProviderAdapterTest extends \PHPUnit_Framework_TestCase
         return $this;
     }
 
-   /**
+    /**
      * Tear Down
      *
      * @return  $this
