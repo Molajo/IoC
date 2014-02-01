@@ -17,15 +17,13 @@
         "commonapi/ioc": "dev-master",
         "commonapi/resource": "dev-master"
     },
-
     "support": {
         "email": "hello@molajo.org",
         "irc": "irc://irc.freenode.org/molajo"
     },
-
     "autoload": {
         "psr-4": {
-            "Molajo\\IoC": "./"
+            "Molajo\\IoC\\": "Source/"
         }
     }
 }
