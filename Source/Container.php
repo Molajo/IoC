@@ -8,11 +8,11 @@
  */
 namespace Molajo\IoC;
 
-use stdClass;
 use Exception;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\IoC\ContainerInterface;
 use CommonApi\IoC\ServiceProviderInterface;
+use stdClass;
 
 /**
  * Inversion of Control Controller
@@ -119,31 +119,6 @@ class Container implements ContainerInterface
         }
 
         $this->loadClassDependencies($class_dependencies_filename);
-    }
-
-    /**
-     * Process a Set of Service Requests
-     *
-     * @param   array $batch_services (array [$service_name] => $options)
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function scheduleServices(array $batch_services = array())
-    {
-        foreach ($batch_services as $service_name => $options) {
-
-            $this->process_services = array();
-
-            if (is_array($options)) {
-            } else {
-                $options = array();
-            }
-
-            $this->scheduleService($service_name, $options);
-        }
-
-        return $this;
     }
 
     /**
@@ -260,10 +235,14 @@ class Container implements ContainerInterface
      */
     public function has($key)
     {
-        $key = strtolower($key);
-
-        if (isset($this->container_registry[$key])) {
+        if (isset($this->container_registry[strtolower($key)])) {
             return true;
+        }
+
+        if (isset($this->service_provider_aliases[$key])) {
+            if (isset($this->container_registry[strtolower($this->service_provider_aliases[$key])])) {
+                return true;
+            }
         }
 
         return false;
@@ -280,10 +259,14 @@ class Container implements ContainerInterface
      */
     public function get($key)
     {
-        $key = strtolower($key);
+        if (isset($this->container_registry[strtolower($key)])) {
+            return $this->container_registry[strtolower($key)];
+        }
 
-        if (isset($this->container_registry[$key])) {
-            return $this->container_registry[$key];
+        if (isset($this->service_provider_aliases[$key])) {
+            if (isset($this->container_registry[strtolower($this->service_provider_aliases[$key])])) {
+                return $this->container_registry[strtolower($this->service_provider_aliases[$key])];
+            }
         }
 
         throw new RuntimeException
@@ -329,12 +312,16 @@ class Container implements ContainerInterface
      */
     public function remove($key)
     {
-        $key = strtolower($key);
-
-        if (isset($this->container_registry[$key])) {
-            unset($this->container_registry[$key]);
+        if (isset($this->container_registry[strtolower($key)])) {
+            unset($this->container_registry[strtolower($key)]);
 
             return $this;
+        }
+
+        if (isset($this->service_provider_aliases[$key])) {
+            if (isset($this->container_registry[strtolower($this->service_provider_aliases[$key])])) {
+                unset($this->container_registry[strtolower($this->service_provider_aliases[$key])]);
+            }
         }
 
         throw new RuntimeException
@@ -352,21 +339,7 @@ class Container implements ContainerInterface
      */
     public function cloneInstance($key)
     {
-        $key = strtolower($key);
-
-        if (isset($this->container_registry[$key])) {
-        } else {
-            throw new RuntimeException
-            ('Requested Clone of IoCC Entry for Key: ' . $key . ' does not exist');
-        }
-
-        $value = $this->container_registry[$key];
-
-        if (is_object($value)) {
-        } else {
-            throw new RuntimeException
-            ('Requested Clone of IoCC Entry for Key: ' . $key . ' for value that is not an object.');
-        }
+        $value = $this->get($key);
 
         return clone $value;
     }
@@ -486,7 +459,6 @@ class Container implements ContainerInterface
         }
 
         /** 5. Clean up */
-        $s          = $this->sortObject($s);
         $s->adapter = $adapter;
 
         $this->process_services[$s->id] = $s;
@@ -519,9 +491,8 @@ class Container implements ContainerInterface
         /** 2. Key sent in is a valid container entry key (or alias for container key) */
         $response = $this->has($service_name);
         if ($response === true) {
-            $s->name          = $this->service_provider_aliases[$service_name];
-            $s->container_key = $service_name;
-
+            $s->name             = $this->service_provider_aliases[$service_name];
+            $s->container_key    = $service_name;
             $s->service_instance = $this->get($this->service_provider_aliases[$service_name]);
 
             return $s;
@@ -533,9 +504,8 @@ class Container implements ContainerInterface
 
             if ($response === true) {
 
-                $s->name          = $service_name;
-                $s->container_key = $this->service_provider_aliases[$service_name];
-
+                $s->name             = $service_name;
+                $s->container_key    = $this->service_provider_aliases[$service_name];
                 $s->service_instance = $this->get($this->service_provider_aliases[$service_name]);
 
                 return $s;
@@ -635,23 +605,23 @@ class Container implements ContainerInterface
             $this->set($s->container_key, $s->service_instance);
         }
 
-        /** 6. See if the Service Provider has other services that should be also saved in the container */
-        $set = $s->adapter->setService();
-
-        if (is_array($set) && count($set) > 0) {
-            foreach ($set as $container_key => $value) {
-                $this->set($container_key, $value);
-            }
-        }
-
-        /** 7. See if the Service Provider has services that should now be removed from the container */
-        $remove = $s->adapter->removeService();
+        /** 6. See if the Service Provider has services that should now be removed from the container */
+        $remove = $s->adapter->removeServices();
 
         if (is_array($remove) && count($remove) > 0) {
             foreach ($remove as $service_name) {
                 if ($this->has($service_name) === true) {
                     $this->remove($service_name);
                 }
+            }
+        }
+
+        /** 7.  */
+        $set = $s->adapter->setServices();
+
+        if (is_array($set) && count($set) > 0) {
+            foreach ($set as $service_name => $value) {
+                $this->set($service_name, $value);
             }
         }
 
@@ -676,7 +646,26 @@ class Container implements ContainerInterface
             }
         }
 
-        /** 9. Return Instance */
+        /** 8. Schedule additional Services as instructed by the Service Provider */
+        // Avoid adding twice
+        if (is_array($next) && count($next) > 0) {
+            foreach ($next as $service_name => $options) {
+                foreach ($this->service_process_queue as $key => $value) {
+                    if ($service_name == $key) {
+                        unset($next[$service_name]);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (is_array($next) && count($next) > 0) {
+            foreach ($next as $service_name => $options) {
+                $this->service_process_queue[$service_name] = $options;
+            }
+        }
+
+        /** 10. Return Instance */
         $this->satisfyDependency($s->name, $service_instance);
 
         return $service_instance;
@@ -716,7 +705,7 @@ class Container implements ContainerInterface
      *
      * @param   ServiceProviderInterface $service_provider
      *
-     * @return  object  \CommonApi\IoC\ServiceProviderInterface
+     * @return  object  CommonApi\IoC\ServiceProviderInterface
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
@@ -808,36 +797,5 @@ class Container implements ContainerInterface
         }
 
         return $this;
-    }
-
-    /**
-     * Sort Object
-     *
-     * @param   object $input_object
-     *
-     * @return  object
-     * @since   1.0
-     */
-    private function sortObject($input_object)
-    {
-        /** Step 1. Load Array with Fields */
-        $hold_array = array();
-
-        foreach (\get_object_vars($input_object) as $key => $value) {
-            $hold_array[$key] = $value;
-        }
-
-        /** Step 2. Sort Array by Key */
-        ksort($hold_array);
-
-        /** Step 3. Create New Object */
-        $new_object = new stdClass();
-
-        foreach ($hold_array as $key => $value) {
-            $new_object->$key = $value;
-        }
-
-        /** Step 4. Return Object */
-        return $new_object;
     }
 }

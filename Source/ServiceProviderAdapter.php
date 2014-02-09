@@ -264,25 +264,25 @@ class ServiceProviderAdapter implements ServiceProviderAdapterInterface
     }
 
     /**
-     * Following Class creation, Service Provider requests the Service Provider Controller set Services in the Container
-     *
-     * @return  string
-     * @since   1.0
-     */
-    public function setService()
-    {
-        return $this->service_provider->setService();
-    }
-
-    /**
      * Following Class creation, Service Provider requests the Service Provider Controller remove Services from the Container
      *
      * @return  string
      * @since   1.0
      */
-    public function removeService()
+    public function removeServices()
     {
-        return $this->service_provider->removeService();
+        return $this->service_provider->removeServices();
+    }
+
+    /**
+     * Following Class creation, Service Provider requests the Service Provider Controller instantiate Services
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function setServices()
+    {
+        return $this->service_provider->setServices();
     }
 
     /**

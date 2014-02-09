@@ -125,9 +125,9 @@ Add these four methods: getService, setService, cloneService, and removeService 
      * @results  $this
      * @since    1.0
      */
-    public function removeService($service)
+    public function removeServices($service)
     {
-        $this->ioc->removeService($service);
+        $this->ioc->removeServices($service);
 
         return $this;
     }
@@ -168,7 +168,7 @@ statements passed into the Container will be used outside of the Front Controlle
             return $connect->cloneService($service);
         };
         $removeService = function ($service) use ($connect) {
-            return $connect->removeService($service);
+            return $connect->removeServices($service);
         };
 
         $services_folder = 'Molajo\\Service';
@@ -300,7 +300,7 @@ Removes the existing Container registry entry for this service.
 
 ```php
 $removeService = $this->removeService;
-$database = $removeService('Database');
+$database = $removeServices('Database');
 
 ```
 

@@ -9,6 +9,7 @@
     "vendor/molajo/framework/Service/",
     "vendor/molajo/Http/Service/",
     "vendor/molajo/language/Service/",
+    "vendor/molajo/molajito/Service/",
     "vendor/molajo/render/Service/",
     "vendor/molajo/resource/Service/",
     "vendor/molajo/route/Service/",

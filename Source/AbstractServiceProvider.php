@@ -8,10 +8,11 @@
  */
 namespace Molajo\IoC;
 
-use Exception;
-use ReflectionClass;
 use CommonApi\IoC\ServiceProviderInterface;
 use CommonApi\Exception\RuntimeException;
+use Exception;
+use ReflectionClass;
+use stdClass;
 
 /**
  * Abstract Service Provider
@@ -114,20 +115,20 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     protected static $static_service_instance = null;
 
     /**
-     * Services to request the Controller set using the Container setServices method
-     *
-     * @var     array
-     * @since   1.0
-     */
-    protected $set_container_instance = array();
-
-    /**
      * Services to request the Controller remove using the Container setServices method
      *
      * @var     array
      * @since   1.0
      */
-    protected $remove_container_instance = array();
+    protected $remove_services = array();
+
+    /**
+     * Services to request the Controller update the service entry
+     *
+     * @var     array
+     * @since   1.0
+     */
+    protected $set_services = array();
 
     /**
      * Services to request the Controller schedule for class creation
@@ -135,7 +136,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
      * @var     array
      * @since   1.0
      */
-    protected $schedule_service = array();
+    protected $schedule_services = array();
 
     /**
      * List of Property Array
@@ -154,9 +155,9 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
         'dependencies',
         'service_instance',
         'static_service_instance',
-        'set_container_instance',
-        'remove_container_instance',
-        'schedule_service'
+        'remove_services',
+        'set_services',
+        'schedule_services'
     );
 
     /**
@@ -168,7 +169,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
      */
     public function __construct(array $options = array())
     {
-        $this->schedule_service = array();
+        $this->schedule_services = array();
 
         if (is_array($options)) {
         } else {
@@ -260,11 +261,11 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
 
                     /** Only one interface */
                     if (count($dependency->implemented_by) === 1) {
-                        $options                                  = array();
-                        $options['service_namespace']             = $dependency->implemented_by[0];
-                        $options['service_name']                  = $dependency_name;
-                        $this->schedule_service[$dependency_name] = $options;
-                        $this->dependencies[$dependency_name]     = $options;
+                        $options                                   = array();
+                        $options['service_namespace']              = $dependency->implemented_by[0];
+                        $options['service_name']                   = $dependency_name;
+                        $this->schedule_services[$dependency_name] = $options;
+                        $this->dependencies[$dependency_name]      = $options;
                     } else {
 
                         /** Multiple interfaces */
@@ -491,27 +492,26 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Following Class creation, Service Provider Controller requests the instance of the
-     *  Service Provider in order to return it to the requester and/or store it in the IoC
-     *
-     * @return  array
-     * @since   1.0
-     */
-    public function setService()
-    {
-        return $this->set_container_instance;
-    }
-
-    /**
      * Following Class creation, Service Provider Controller requests the Service Provider
      *  remove Services from the Container
      *
      * @return  array
      * @since   1.0
      */
-    public function removeService()
+    public function removeServices()
     {
-        return $this->remove_container_instance;
+        return $this->remove_services;
+    }
+
+    /**
+     * Service Provider Controller requests any Services (other than the current service) to be saved
+     *
+     * @return  array
+     * @since   1.0
+     */
+    public function setServices()
+    {
+        return $this->set_services;
     }
 
     /**
@@ -523,7 +523,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
      */
     public function scheduleServices()
     {
-        return $this->schedule_service;
+        return $this->schedule_services;
     }
 
     /**
@@ -555,5 +555,36 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
         }
 
         return $temp_array;
+    }
+
+    /**
+     * Sort Object
+     *
+     * @param   object $input_object
+     *
+     * @return  object
+     * @since   1.0
+     */
+    protected function sortObject($input_object)
+    {
+        /** Step 1. Load Array with Fields */
+        $hold_array = array();
+
+        foreach (\get_object_vars($input_object) as $key => $value) {
+            $hold_array[$key] = $value;
+        }
+
+        /** Step 2. Sort Array by Key */
+        ksort($hold_array);
+
+        /** Step 3. Create New Object */
+        $new_object = new stdClass();
+
+        foreach ($hold_array as $key => $value) {
+            $new_object->$key = $value;
+        }
+
+        /** Step 4. Return Object */
+        return $new_object;
     }
 }
