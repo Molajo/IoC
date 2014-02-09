@@ -25,5 +25,11 @@
         "psr-4": {
             "Molajo\\IoC\\": "Source/"
         }
-    }
+    },
+
+    "archive": {
+        "exclude": ["/.dev"]
+    },
+
+    "minimum-stability": "dev"
 }
