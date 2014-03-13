@@ -23,20 +23,20 @@ $classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/.dev/Classes', 'Molajo\\');
 $classmap = array_merge($classmap, $results);
 
-$results  = createClassMap($base . '/.dev/Service/CacheMock', 'Molajo\\Service\\CacheMock\\');
+$results  = createClassMap($base . '/.dev/Factories/CacheMock', 'Molajo\\Factories\\CacheMock\\');
 $classmap = array_merge($classmap, $results);
 
-$results  = createClassMap($base . '/.dev/Service/ConfigurationMock', 'Molajo\\Service\\ConfigurationMock\\');
+$results  = createClassMap($base . '/.dev/Factories/ConfigurationMock', 'Molajo\\Factories\\ConfigurationMock\\');
 $classmap = array_merge($classmap, $results);
 
 $results  = createClassMap($base . '/Source/Api', 'Molajo\\IoC\\Api\\');
 $classmap = array_merge($classmap, $results);
 
-$classmap['Molajo\\IoC\\AbstractServiceProvider'] = $base . '/Source/AbstractServiceProvider.php';
-$classmap['Molajo\\IoC\\Container']               = $base . '/Source/Container.php';
-$classmap['Molajo\\IoC\\ServiceProviderAdapter']  = $base . '/Source/ServiceProviderAdapter.php';
-$classmap['Molajo\\IoC\\Controller']              = $base . '/Source/Controller.php';
-$classmap['Molajo\\IoC\\StandardServiceProvider'] = $base . '/Source/StandardServiceProvider.php';
+$classmap['Molajo\\IoC\\FactoryBase']           = $base . '/Source/FactoryBase.php';
+$classmap['Molajo\\IoC\\Container']             = $base . '/Source/Container.php';
+$classmap['Molajo\\IoC\\FactoryMethod']         = $base . '/Source/FactoryMethod.php';
+$classmap['Molajo\\IoC\\Controller']            = $base . '/Source/Controller.php';
+$classmap['Molajo\\IoC\\StandardFactoryMethod'] = $base . '/Source/StandardFactoryMethod.php';
 ksort($classmap);
 
 spl_autoload_register(

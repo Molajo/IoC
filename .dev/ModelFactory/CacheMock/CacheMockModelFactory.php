@@ -1,27 +1,27 @@
 <?php
 /**
- * Cache Service Provider
+ * Cache Factory Method
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Service\CacheMock;
+namespace Molajo\Factories\CacheMock;
 
 use Exception;
-use Molajo\IoC\AbstractServiceProvider;
-use CommonApi\IoC\ServiceProviderInterface;
+use Molajo\IoC\FactoryBase;
+use CommonApi\IoC\FactoryMethodInterface;
 use CommonApi\Exception\RuntimeException;
 
 /**
- * Cache Service Provider
+ * Cache Factory Method
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class CacheMockServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
+class CacheMockFactoryMethod extends FactoryBase implements FactoryMethodInterface, FactoryMethodBatchSchedulingInterface
 {
     /**
      * Constructor
@@ -30,15 +30,15 @@ class CacheMockServiceProvider extends AbstractServiceProvider implements Servic
      */
     public function __construct(array $options = array())
     {
-        $options['service_name']             = basename(__DIR__);
+        $options['product_name']             = basename(__DIR__);
         $options['store_instance_indicator'] = true;
-        $options['service_namespace']        = 'Molajo\\CacheMock';
+        $options['product_namespace']        = 'Molajo\\CacheMock';
 
         parent::__construct($options);
     }
 
     /**
-     * Instantiate a new handler and inject it into the Adapter for the ServiceProviderInterface
+     * Instantiate a new handler and inject it into the Adapter for the FactoryMethodInterface
      * Retrieve a list of Interface dependencies and return the data ot the controller.
      *
      * @return  array
@@ -63,7 +63,7 @@ class CacheMockServiceProvider extends AbstractServiceProvider implements Servic
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException;
      */
-    public function instantiateService()
+    public function instantiateClass()
     {
         $options = array();
         if (isset($this->options['foo'])) {
@@ -78,13 +78,13 @@ class CacheMockServiceProvider extends AbstractServiceProvider implements Servic
         $options['configuration'] = $this->dependencies['ConfigurationMock'];
 
         try {
-            $class                  = $this->service_namespace;
-            $this->service_instance = new $class($options);
+            $class                = $this->product_namespace;
+            $this->product_result = new $class($options);
 
         } catch (Exception $e) {
 
             throw new RuntimeException
-            ('IoC Service Provider Instance Failed for ' . $this->service_namespace
+            ('IoC Factory Method Adapter Instance Failed for ' . $this->product_namespace
             . ' failed.' . $e->getMessage());
         }
 

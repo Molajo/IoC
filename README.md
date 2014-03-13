@@ -13,27 +13,27 @@ These are the basic steps to implementing the Inversion of Control (IoC) package
 1. Create a [Service Folder](https://github.com/Molajo/IoC#1-service-folder) to store custom dependency injection handlers.
 2. Update the [Front Controller](https://github.com/Molajo/IoC#2-front-controller) for the Inversion of Control Container (IoCC).
 3. [Request Services](https://github.com/Molajo/IoC#3-application-service-requests) from the IoCC within the Application.
-4. Create [Custom Service Providers](https://github.com/Molajo/IoC#4---custom-dependency-injection-handlers) for Services.
+4. Create [Custom Factory Methods](https://github.com/Molajo/IoC#4---custom-dependency-injection-handlers) for Services.
 
 ### 1. Service Folder
 
-Create a folder within your application to store Service Service Providers. Each Customer Handler has a folder
-containing a class file named `ClassnameServiceProvider.php`. When instantiating the IoCC, you'll provide
+Create a folder within your application to store Service Factory Methods. Each Customer Handler has a folder
+containing a class file named `ClassnameFactoryMethod.php`. When instantiating the IoCC, you'll provide
 the namespace of the Services Folder.
 
 ```
 Molajo
 .. Services
 .. .. Database
-.. .. .. DatabaseServiceProvider.php
+.. .. .. DatabaseFactoryMethod.php
 .. .. Configuration
-.. .. .. ConfigurationServiceProvider.php
+.. .. .. ConfigurationFactoryMethod.php
 .. .. Modelread
-.. .. .. ModelreadServiceProvider.php
+.. .. .. ModelreadFactoryMethod.php
 .. .. etc ..
 
 ```
-The default namespace for a services folder is `Molajo\Service`. Whatever value is used, it will
+The default namespace for a services folder is `Molajo\Services`. Whatever value is used, it will
 be passed in as a parameter when instantiating the Container class.
 
 ### 2. Front Controller
@@ -125,9 +125,9 @@ Add these four methods: getService, setService, cloneService, and removeService 
      * @results  $this
      * @since    1.0
      */
-    public function removeServices($service)
+    public function removeContainerEntries($service)
     {
-        $this->ioc->removeServices($service);
+        $this->ioc->removeContainerEntries($service);
 
         return $this;
     }
@@ -168,10 +168,10 @@ statements passed into the Container will be used outside of the Front Controlle
             return $connect->cloneService($service);
         };
         $removeService = function ($service) use ($connect) {
-            return $connect->removeServices($service);
+            return $connect->removeContainerEntries($service);
         };
 
-        $services_folder = 'Molajo\\Service';
+        $services_folder = 'Molajo\\Services';
 
         $this->ioc = new Container($getService, $setService, $cloneService, $removeService, $services_folder);
 
@@ -199,7 +199,7 @@ name;
 - **$cloneService** - clone the container registry entry for a specified service, returning the cloned instance;
 - **$removeService** - remove the container registry entry specified;
 
-When the IoC Container creates a Service Provider instance, it injects it with all four closures before injecting
+When the IoC Container creates a Factory Method instance, it injects it with all four closures before injecting
 the handler into the DI Adapter. The handler can use those class properties to interact with the IoCC.
 In this example, the handler requests the dependent Application Service.
 
@@ -218,7 +218,7 @@ In this example, the handler requests the dependent Application Service.
 
 #### getService Parameters
 
-1. **$service** Fully qualified namespace (ex. `Molajo\\Service\\Database\\DatabaseInjector`) or
+1. **$service** Fully qualified namespace (ex. `Molajo\\Services\\Database\\DatabaseInjector`) or
 the name of the Services sub-folder (ex. `Database`).
 2. **$options** Optional associative array contain runtime parameters required by the service.
 
@@ -258,9 +258,9 @@ $database = $getService('Molajo\\User', $options);
 
 ```
 
-#### Example 3: Standard Service Provider
+#### Example 3: Standard Factory Method
 
-A Service Service Provider is not always needed. Classes can be created by the Standard Service Provider. It will match
+A Service Factory Method is not always needed. Classes can be created by the Standard Factory Method. It will match
 the values defined in the $options associative array with the Constructor parameters and use that data
 to create the class. For the service name, use the fully qualified class name.
 
@@ -300,28 +300,28 @@ Removes the existing Container registry entry for this service.
 
 ```php
 $removeService = $this->removeService;
-$database = $removeServices('Database');
+$database = $removeContainerEntries('Database');
 
 ```
 
-### 4 - Custom Service Providers
+### 4 - Custom Factory Methods
 
 To create a Custom Dependency Injection Handler:
 
 1. Add a folder to the **Services Folder** defined in [Step 1](https://github.com/Molajo/IoC#1-service-folder). The folder name is the name of the service.
-2. Create a PHP file in that folder named `ServiceNameServiceProvider.php`.
+2. Create a PHP file in that folder named `ServiceNameFactoryMethod.php`.
 
 
 ```
 Molajo
 .. Services
 .. .. ServiceName
-.. .. .. ServiceNameServiceProvider.php
+.. .. .. ServiceNameFactoryMethod.php
 ```
 
 #### Standard Properties
 
-The Custom Service Provider has access to the following class properties:
+The Custom Factory Method has access to the following class properties:
 
 1. **$getService** - Closure to request a service of the IoCC, defined above
 2. **$setService** - Closure to set a service contained within the IoCC registry, defined above
@@ -332,19 +332,19 @@ The Custom Service Provider has access to the following class properties:
 8. **$store_instance_indicator** - defaults to false, set to true  in the constructor to store the instance in the IoCC registry
 7. **$static_instance_indicator** - defaults to false, set to true in the constructor to request a static instance
 7. **$store_properties_indicator** - defaults to false, set to true in the constructor to store the properties, not the instance, in the IoCC registry
-9. **$service_instance** - populated with the instantiated class
+9. **$product_result** - populated with the instantiated class
 10. **$options** - associative array provided by the getService call
 
-#### Custom Service Provider Starter
+#### Custom Factory Method Starter
 
 Below is a basic starting pattern for a Custom Dependency Injection Handler.
-The event methods available to the Service Provider are: onBeforeInstantiation, Instantiate, onAfterInstantiation,
-initialise, onAfterServiceInitialise, and getServiceInstance.
+The event methods available to the Factory Method are: onBeforeInstantiation, Instantiate, onAfterInstantiation,
+initialise, onAfterServiceInitialise, and getProductValue.
 Each method can be used to inject code at different points in the class creation process. The
-like-named [AbstractHandler](https://github.com/Molajo/IoC/blob/master/Handler/AbstractServiceProvider.php)
+like-named [AbstractHandler](https://github.com/Molajo/IoC/blob/master/Handler/AbstractFactoryMethod.php)
 method will be used for any omitted methods in the custom class.  It is a good idea to become familiar with that class.
 
-The [Molajo\Service](https://github.com/Molajo/Standard/tree/master/vendor/Molajo/Services)
+The [Molajo\Services](https://github.com/Molajo/Standard/tree/master/vendor/Molajo/Services)
 folder is also a good source of examples of Custom DI Injectors.
 
 ```php
@@ -356,10 +356,10 @@ folder is also a good source of examples of Custom DI Injectors.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Service\Example;
+namespace Molajo\Services\Example;
 
-use Molajo\IoC\AbstractServiceProvider;
-use CommonApi\IoC\ServiceProviderInterface;
+use Molajo\IoC\AbstractFactoryMethod;
+use CommonApi\IoC\FactoryMethodInterface;
 use CommonApi\Exception\RuntimeException;
 
 /**
@@ -370,7 +370,7 @@ use CommonApi\Exception\RuntimeException;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since     1.0
  */
-class ExampleServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
+class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMethodInterface
 {
     /**
      * Constructor
@@ -412,7 +412,7 @@ class ExampleServiceProvider extends AbstractServiceProvider implements ServiceP
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException;
      */
-    public function instantiateService()
+    public function instantiateClass()
     {
         return parent::instantiate($create_static);
     }
@@ -454,15 +454,15 @@ class ExampleServiceProvider extends AbstractServiceProvider implements ServiceP
     }
 
     /**
-     * Get Service Instance
+     * Get Product Result
      *
      * @return  object
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException;
      */
-    public function getServiceInstance()
+    public function getProductValue()
     {
-        return parent::getServiceInstance();
+        return parent::getProductValue();
     }
 }
 

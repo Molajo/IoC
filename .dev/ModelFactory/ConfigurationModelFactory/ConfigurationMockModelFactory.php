@@ -1,25 +1,25 @@
 <?php
 /**
- * Configuration Service Provider
+ * Configuration Factory Method
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Service\ConfigurationMock;
+namespace Molajo\Factories\ConfigurationMock;
 
-use Molajo\IoC\AbstractServiceProvider;
-use CommonApi\IoC\ServiceProviderInterface;
+use Molajo\IoC\FactoryBase;
+use CommonApi\IoC\FactoryMethodInterface;
 
 /**
- * Configuration Service Provider
+ * Configuration Factory Method
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class ConfigurationMockServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
+class ConfigurationMockFactoryMethod extends FactoryBase implements FactoryMethodInterface, FactoryMethodBatchSchedulingInterface
 {
     /**
      * Constructor
@@ -28,9 +28,9 @@ class ConfigurationMockServiceProvider extends AbstractServiceProvider implement
      */
     public function __construct(array $options = array())
     {
-        $options['service_name']             = basename(__DIR__);
+        $options['product_name']             = basename(__DIR__);
         $options['store_instance_indicator'] = true;
-        $options['service_namespace']        = 'Molajo\\ConfigurationMock';
+        $options['product_namespace']        = 'Molajo\\ConfigurationMock';
         $options['dog']                      = 'food';
 
         parent::__construct($options);

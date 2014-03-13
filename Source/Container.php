@@ -11,7 +11,7 @@ namespace Molajo\IoC;
 use Exception;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\IoC\ContainerInterface;
-use CommonApi\IoC\ServiceProviderInterface;
+use CommonApi\IoC\FactoryMethodInterface;
 use stdClass;
 
 /**
@@ -33,20 +33,20 @@ class Container implements ContainerInterface
     protected $container_registry = array();
 
     /**
-     * Service Aliases => Namespaces
+     * Factory Method Aliases => Namespaces
      *
      * @var     array
      * @since   1.0
      */
-    protected $service_provider_aliases = array();
+    protected $adapter_aliases = array();
 
     /**
-     * Service Namespaces => Aliases
+     * Product Namespaces => Aliases
      *
      * @var     array
      * @since   1.0
      */
-    protected $service_provider_namespace = array();
+    protected $adapter_namespaces = array();
 
     /**
      * Class Dependencies derived from Reflection
@@ -57,15 +57,15 @@ class Container implements ContainerInterface
     protected $class_dependencies = array();
 
     /**
-     * Process Services
+     * Process Requests
      *
      * @var     array
      * @since   1.0
      */
-    protected $process_services = array();
+    protected $process_requests = array();
 
     /**
-     * Services Queue
+     * Request Queue
      *
      * @var     array
      * @since   1.0
@@ -73,12 +73,12 @@ class Container implements ContainerInterface
     protected $queue_id = 1;
 
     /**
-     * New Services Queue
+     * New Requests Queue
      *
      * @var     array
      * @since   1.0
      */
-    protected $service_process_queue = array();
+    protected $request_process_queue = array();
 
     /**
      * Dependency of Array
@@ -89,12 +89,12 @@ class Container implements ContainerInterface
     protected $dependency_of = array();
 
     /**
-     * Standard IoC Service Provider (Used when no custom Service Provider is required)
+     * Standard IoC Factory Method (Used when no custom Factory Method is required)
      *
      * @var     array
      * @since   1.0
      */
-    protected $standard_service_provider_namespace = 'Molajo\\IoC\\StandardServiceProvider';
+    protected $standard_adapter_namespaces = 'Molajo\\IoC\\StandardFactoryMethod';
 
     /**
      * Constructor
@@ -105,16 +105,16 @@ class Container implements ContainerInterface
      * @since  1.0
      */
     public function __construct(
-        array $service_provider_aliases = array(),
+        array $adapter_aliases = array(),
         $class_dependencies_filename = null,
-        $standard_service_provider_namespace = 'Molajo\\IoC\\StandardServiceProvider'
+        $standard_adapter_namespaces = 'Molajo\\IoC\\StandardFactoryMethod'
     ) {
-        $this->service_provider_aliases   = $service_provider_aliases;
-        $this->service_provider_namespace = array();
+        $this->adapter_aliases   = $adapter_aliases;
+        $this->adapter_namespaces = array();
 
-        if (count($this->service_provider_aliases) > 0) {
-            foreach ($this->service_provider_aliases as $key => $value) {
-                $this->service_provider_namespace[$value] = $key;
+        if (count($this->adapter_aliases) > 0) {
+            foreach ($this->adapter_aliases as $key => $value) {
+                $this->adapter_namespaces[$value] = $key;
             }
         }
 
@@ -122,42 +122,42 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Get a Service, recursively resolving dependencies
+     * Schedule Factory recursively resolving dependencies
      *
-     * @param   string $service_name
+     * @param   string $product_name
      * @param   array  $options
      *
      * @return  mixed
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function scheduleService($service_name = null, array $options = array())
+    public function scheduleFactoryMethod($product_name = null, array $options = array())
     {
-        if (isset($this->container_registry[strtolower($service_name)])) {
-            return $this->container_registry[strtolower($service_name)];
+        if (isset($this->container_registry[strtolower($product_name)])) {
+            return $this->container_registry[strtolower($product_name)];
         }
 
         $this->dependency_of         = array();
-        $this->service_process_queue = array();
+        $this->request_process_queue = array();
 
-        $this->setWorkObject($service_name, $options);
+        $this->setWorkObject($product_name, $options);
 
-        $schedule_service_name     = $service_name;
-        $count                     = 0;
-        $continue_processing       = true;
-        $schedule_service_instance = null;
+        $schedule_product_name   = $product_name;
+        $count                   = 0;
+        $continue_processing     = true;
+        $schedule_product_result = null;
 
         while ($continue_processing === true) {
 
-            /** 1. Get the next Service in order of ID in the Processing Queue */
-            foreach ($this->process_services as $id => $object) {
+            /** 1. Get the next Request in order of ID in the Processing Queue */
+            foreach ($this->process_requests as $id => $object) {
 
                 $s = $object;
-//echo 'Service: ' . $s->name . '<br />';
-                /** 2. Can the Service be finished? */
+//echo 'Request: ' . $s->name . '<br />';
+                /** 2. Can the Request be finished? */
                 $finish = false;
 
-                if ($s->service_instance == '') {
+                if ($s->product_result == '') {
                 } else {
                     $finish = true;
                 }
@@ -169,23 +169,23 @@ class Container implements ContainerInterface
                 }
 
                 if ($finish === true) {
-                    $s->service_instance = $this->completeService($s);
-                    unset($this->process_services[$id]);
+                    $s->product_result = $this->completeRequest($s);
+                    unset($this->process_requests[$id]);
                 }
 
                 /** 3. Use Instance */
-                if ($s->service_instance == '') {
+                if ($s->product_result == '') {
 
                     $count ++;
 
                     if ($count > 400) {
-                        echo 'The following services ' . count($this->process_services) . ' remain: <br />';
+                        echo 'The following requests ' . count($this->process_requests) . ' remain: <br />';
 
-                        foreach ($this->process_services as $service) {
-                            echo 'Service: ' . $service->name . '<br />';
+                        foreach ($this->process_requests as $request) {
+                            echo 'Request: ' . $request->name . '<br />';
 
-                            if (count($service->dependencies) > 0) {
-                                foreach ($service->dependencies as $name => $options) {
+                            if (count($request->dependencies) > 0) {
+                                foreach ($request->dependencies as $name => $options) {
                                     echo 'Dependencies: ' . $name . '<br />';
                                 }
                             }
@@ -197,32 +197,32 @@ class Container implements ContainerInterface
 
                 } else {
 
-                    if ($s->requested_name == $schedule_service_name) {
-                        if ($s->service_instance == '') {
+                    if ($s->requested_name == $schedule_product_name) {
+                        if ($s->product_result == '') {
                         } else {
-                            $schedule_service_instance = $s->service_instance;
+                            $schedule_product_result = $s->product_result;
                         }
                     }
                 }
             }
 
-            /** Service Process Queue accumulates new Dependencies and Newly Scheduled Services              */
-            /** setWorkObject creates a new process_services entry for those which need to be created        */
-            /** If new process_services are found, the loop continues                                        */
+            /** Request Process Queue accumulates new Dependencies and Newly Scheduled Requests              */
+            /** setWorkObject creates a new process_requests entry for those which need to be created        */
+            /** If new process_requests are found, the loop continues                                        */
 
-            if (count($this->service_process_queue) > 0) {
-                foreach ($this->service_process_queue as $service_name => $options) {
-                    $this->setWorkObject($service_name, $options);
-                    unset($this->service_process_queue[$service_name]);
+            if (count($this->request_process_queue) > 0) {
+                foreach ($this->request_process_queue as $product_name => $options) {
+                    $this->setWorkObject($product_name, $options);
+                    unset($this->request_process_queue[$product_name]);
                 }
             }
 
-            if (count($this->process_services) === 0) {
+            if (count($this->process_requests) === 0) {
                 $continue_processing = false;
             }
         }
 
-        return $schedule_service_instance;
+        return $schedule_product_result;
     }
 
     /**
@@ -239,8 +239,8 @@ class Container implements ContainerInterface
             return true;
         }
 
-        if (isset($this->service_provider_aliases[$key])) {
-            if (isset($this->container_registry[strtolower($this->service_provider_aliases[$key])])) {
+        if (isset($this->adapter_aliases[$key])) {
+            if (isset($this->container_registry[strtolower($this->adapter_aliases[$key])])) {
                 return true;
             }
         }
@@ -263,9 +263,9 @@ class Container implements ContainerInterface
             return $this->container_registry[strtolower($key)];
         }
 
-        if (isset($this->service_provider_aliases[$key])) {
-            if (isset($this->container_registry[strtolower($this->service_provider_aliases[$key])])) {
-                return $this->container_registry[strtolower($this->service_provider_aliases[$key])];
+        if (isset($this->adapter_aliases[$key])) {
+            if (isset($this->container_registry[strtolower($this->adapter_aliases[$key])])) {
+                return $this->container_registry[strtolower($this->adapter_aliases[$key])];
             }
         }
 
@@ -288,21 +288,21 @@ class Container implements ContainerInterface
 
         $this->container_registry[$newkey] = $value;
 
-        if (isset($this->service_provider_namespace[$key])) {
+        if (isset($this->adapter_namespaces[$key])) {
         } else {
-            $this->service_provider_namespace[$key] = $key;
+            $this->adapter_namespaces[$key] = $key;
         }
 
-        if (isset($this->service_provider_aliases[$key])) {
+        if (isset($this->adapter_aliases[$key])) {
         } else {
-            $this->service_provider_aliases[$key] = $key;
+            $this->adapter_aliases[$key] = $key;
         }
 
         return $this;
     }
 
     /**
-     * Remove the existing service instance
+     * Remove the existing container instance
      *
      * @param   string $key
      *
@@ -318,9 +318,9 @@ class Container implements ContainerInterface
             return $this;
         }
 
-        if (isset($this->service_provider_aliases[$key])) {
-            if (isset($this->container_registry[strtolower($this->service_provider_aliases[$key])])) {
-                unset($this->container_registry[strtolower($this->service_provider_aliases[$key])]);
+        if (isset($this->adapter_aliases[$key])) {
+            if (isset($this->container_registry[strtolower($this->adapter_aliases[$key])])) {
+                unset($this->container_registry[strtolower($this->adapter_aliases[$key])]);
             }
         }
 
@@ -329,7 +329,7 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Clone the existing service instance and return the cloned instance
+     * Clone the existing container instance and return the cloned instance
      *
      * @param   string $key
      *
@@ -345,89 +345,89 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Set the Service Work Object used within this class
+     * Set the Request Work Object used within this class
      *
-     * @param   string $service_name
+     * @param   string $product_name
      * @param   array  $options
      *
      * @return  object
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    protected function setWorkObject($service_name, array $options = array())
+    protected function setWorkObject($product_name, array $options = array())
     {
         /** 1. Set key values */
-        $s = $this->setContainerKey($service_name, $options);
+        $s = $this->setContainerKey($product_name, $options);
 
         /** 2. Instance not found, but ignore due to 'if_exists' */
-        if ($s->service_instance == '') {
+        if ($s->product_result == '') {
 
             if (isset($options['if_exists'])) {
-                $s->service_instance            = false;
-                $this->process_services[$s->id] = $s;
+                $s->product_result              = false;
+                $this->process_requests[$s->id] = $s;
 
                 return $this;
             }
         }
 
         /** 3. Instance found in container */
-        if ($s->service_instance == '') {
+        if ($s->product_result == '') {
         } else {
-            $this->process_services[$s->id] = $s;
+            $this->process_requests[$s->id] = $s;
 
             return $this;
         }
 
-        /** 4. Create Service Provider Instance to use for DI and Class Creation */
-        $this->instantiateServiceProvider($s);
+        /** 4. Create Factory Method Adapter Instance to use for DI and Class Creation */
+        $this->instantiateFactoryMethod($s);
 
         return $this;
     }
 
     /**
-     * Get Service Provider Namespace
+     * Get Factory Method Namespace
      *
-     * @param   string $service_name
+     * @param   string $product_name
      *
      * @return  $this
      * @since   1.0
      */
-    protected function instantiateServiceProvider($s)
+    protected function instantiateFactoryMethod($s)
     {
-        /** 1. Create Service Provider Instance */
+        /** 1. Create Factory Method Adapter Instance */
         try {
 
-            $service_provider = $this->getServiceProvider
+            $factory_method_adapter = $this->getFactoryMethodAdapter
                 (
                     $s->name,
-                    $s->service_provider_namespace,
+                    $s->adapter_namespaces,
                     $s->options
                 );
 
         } catch (Exception $e) {
             throw new RuntimeException
-            ('IoC instantiateServiceProvider: Exception: ' . $e->getMessage());
+            ('IoC instantiateFactoryMethod: Exception: ' . $e->getMessage());
         }
 
-        /** 2. Create Service Adapter Instance */
+        /** 2. Create Factory Method Adapter Instance */
         try {
 
-            $adapter = $this->getServiceProviderAdapter($service_provider);
+            $adapter = $this->getFactoryMethod($factory_method_adapter);
 
         } catch (Exception $e) {
             throw new RuntimeException
-            ('IoC instantiateServiceProvider: Exception: ' . $e->getMessage());
+            ('IoC instantiateFactoryMethod: Exception: ' . $e->getMessage());
         }
 
-        /** 3. Retrieve Service Item metadata and set dependencies */
-        $s->service_namespace = $adapter->getServiceNamespace();
-        $s->options           = $adapter->getServiceOptions();
+        /** 3. Retrieve request metadata and set dependencies */
+        $s->product_namespace = $adapter->getNamespace();
+        $s->options           = $adapter->getOptions();
 
         /** 4. Set Dependencies */
         $reflection = null;
 
-        if (isset($this->class_dependencies[$s->service_namespace])) {
-            $reflection = $this->class_dependencies[$s->service_namespace];
+        if (isset($this->class_dependencies[$s->product_namespace])) {
+            $reflection = $this->class_dependencies[$s->product_namespace];
         } else {
             //todo - automate reflection
             $reflection = array();
@@ -444,9 +444,9 @@ class Container implements ContainerInterface
 
                 if ($response === true) {
                     $dependency_value = $this->get($dependency);
-                    $adapter->setDependencyInstance($dependency, $dependency_value);
+                    $adapter->setDependencyValue($dependency, $dependency_value);
                 } else {
-                    $this->service_process_queue[$dependency] = $dependency_options;
+                    $this->request_process_queue[$dependency] = $dependency_options;
                     if (isset($this->dependency_of[$dependency])) {
                         $temp = $this->dependency_of[$dependency];
                     } else {
@@ -461,107 +461,107 @@ class Container implements ContainerInterface
         /** 5. Clean up */
         $s->adapter = $adapter;
 
-        $this->process_services[$s->id] = $s;
+        $this->process_requests[$s->id] = $s;
 
         return $this;
     }
 
     /**
-     * Get Service Provider Namespace
+     * Get Factory Method Namespace
      *
-     * @param   string $service_name
+     * @param   string $product_name
      *
      * @return  object
      * @since   1.0
      */
-    protected function setContainerKey($service_name, array $options = array())
+    protected function setContainerKey($product_name, array $options = array())
     {
-        /** 1. Initialise Service Object */
-        $s                             = new stdClass();
-        $id                            = $this->queue_id ++;
-        $s->id                         = $id;
-        $s->options                    = $options;
-        $s->options['ioc_id']          = $s->id;
-        $s->requested_name             = $service_name;
-        $s->name                       = '';
-        $s->container_key              = '';
-        $s->service_provider_namespace = '';
-        $s->service_instance           = '';
+        /** 1. Initialise Request Object */
+        $s                                   = new stdClass();
+        $id                                  = $this->queue_id ++;
+        $s->id                               = $id;
+        $s->options                          = $options;
+        $s->options['ioc_id']                = $s->id;
+        $s->requested_name                   = $product_name;
+        $s->name                             = '';
+        $s->container_key                    = '';
+        $s->adapter_namespaces = '';
+        $s->product_result                   = '';
 
         /** 2. Key sent in is a valid container entry key (or alias for container key) */
-        $response = $this->has($service_name);
+        $response = $this->has($product_name);
         if ($response === true) {
-            $s->name             = $this->service_provider_aliases[$service_name];
-            $s->container_key    = $service_name;
-            $s->service_instance = $this->get($this->service_provider_aliases[$service_name]);
+            $s->name           = $this->adapter_aliases[$product_name];
+            $s->container_key  = $product_name;
+            $s->product_result = $this->get($this->adapter_aliases[$product_name]);
 
             return $s;
         }
 
-        if (isset($this->service_provider_aliases[$service_name])) {
+        if (isset($this->adapter_aliases[$product_name])) {
 
-            $response = $this->has($this->service_provider_aliases[$service_name]);
+            $response = $this->has($this->adapter_aliases[$product_name]);
 
             if ($response === true) {
 
-                $s->name             = $service_name;
-                $s->container_key    = $this->service_provider_aliases[$service_name];
-                $s->service_instance = $this->get($this->service_provider_aliases[$service_name]);
+                $s->name           = $product_name;
+                $s->container_key  = $this->adapter_aliases[$product_name];
+                $s->product_result = $this->get($this->adapter_aliases[$product_name]);
 
                 return $s;
             }
         }
 
         /** 3. Options array includes namespace */
-        if (isset($options['service_provider_namespace'])) {
+        if (isset($options['adapter_namespaces'])) {
 
-            $this->service_provider_namespace[$options['service_provider_namespace']] = $service_name;
-            $this->service_provider_alias[$service_name]                              = $options['service_provider_namespace'];
+            $this->adapter_namespaces[$options['adapter_namespaces']] = $product_name;
+            $this->factory_method_adapter_alias[$product_name]                                    = $options['adapter_namespaces'];
 
-            $s->name                       = $service_name;
-            $s->service_provider_namespace = $options['service_provider_namespace']
-                . '\\' . $service_name . 'ServiceProvider';
-            $s->container_key              = $options['service_provider_namespace'];
-
-            return $s;
-        }
-
-        /** 4. Alias for Standard Service Provider sent in */
-        if (isset($this->service_provider_aliases[$service_name])) {
-
-            $s->name                       = $service_name;
-            $s->service_provider_namespace = $this->service_provider_aliases[$service_name]
-                . '\\' . $service_name . 'ServiceProvider';
-            $s->container_key              = $this->service_provider_aliases[$service_name];
+            $s->name                             = $product_name;
+            $s->adapter_namespaces = $options['adapter_namespaces']
+                . '\\' . $product_name . 'FactoryMethod';
+            $s->container_key                    = $options['adapter_namespaces'];
 
             return $s;
         }
 
-        /** 5. Service Provider Namespace sent in */
-        if (isset($this->service_provider_namespace[$service_name])) {
+        /** 4. Alias for Standard Factory Method sent in */
+        if (isset($this->adapter_aliases[$product_name])) {
 
-            $s->name                       = $this->service_provider_namespace[$service_name];
-            $s->service_provider_namespace = $service_name . '\\' . $s->name . 'ServiceProvider';
-            $s->container_key              = $service_name;
+            $s->name                             = $product_name;
+            $s->adapter_namespaces = $this->adapter_aliases[$product_name]
+                . '\\' . $product_name . 'FactoryMethod';
+            $s->container_key                    = $this->adapter_aliases[$product_name];
 
             return $s;
         }
 
-        /** 6. Use Standard Service Provider */
+        /** 5. Factory Method Namespace sent in */
+        if (isset($this->adapter_namespaces[$product_name])) {
+
+            $s->name                             = $this->adapter_namespaces[$product_name];
+            $s->adapter_namespaces = $product_name . '\\' . $s->name . 'FactoryMethod';
+            $s->container_key                    = $product_name;
+
+            return $s;
+        }
+
+        /** 6. Use Standard Factory Method */
         $ns
-                                               = $this->standard_service_provider_namespace
-            . '\\' . $service_name . 'ServiceProvider';
-        $s->name                               = $service_name;
-        $s->service_provider_namespace         = $this->standard_service_provider_namespace;
-        $s->container_key                      = $ns;
-        $this->service_provider_namespace[$ns] = $ns;
-        $this->service_provider_alias[$ns]     = $ns;
+                                                     = $this->standard_adapter_namespaces
+            . '\\' . $product_name . 'FactoryMethod';
+        $s->name                                     = $product_name;
+        $s->adapter_namespaces         = $this->standard_adapter_namespaces;
+        $s->container_key                            = $ns;
+        $this->adapter_namespaces[$ns] = $ns;
+        $this->factory_method_adapter_alias[$ns]     = $ns;
 
         /** 6a. Exists */
         $response = $this->has($ns);
 
         if ($response === true) {
-            $s->service_instance = $this->get($ns);
+            $s->product_result = $this->get($ns);
 
             return $s;
         }
@@ -572,68 +572,68 @@ class Container implements ContainerInterface
     /**
      * Instantiate Class now that dependencies have been satisfied and finish processing
      *
-     * @param   string $s service object
+     * @param   string $s
      *
      * @return  object
      * @since   1.0
      */
-    protected function completeService($s)
+    protected function completeRequest($s)
     {
         /** 0. Have instance */
-        if ($s->service_instance == '') {
+        if ($s->product_result == '') {
         } else {
-            $this->satisfyDependency($s->name, $s->service_instance);
+            $this->satisfyDependency($s->name, $s->product_result);
 
-            return $s->service_instance;
+            return $s->product_result;
         }
 
-        /** 1. Share Dependency Instances with Service Provider for final processing before creating class */
+        /** 1. Share Dependency Instances with Factory Method for final processing before creating class */
         $s->adapter->onBeforeInstantiation();
 
-        /** 2. Trigger the Service Provider to create the class */
-        $s->adapter->instantiateService();
+        /** 2. Trigger the Factory Method to create the class */
+        $s->adapter->instantiateClass();
 
-        /** 3. Trigger the Service Provider to execute logic that follows class instantiation */
+        /** 3. Trigger the Factory Method to execute logic that follows class instantiation */
         $s->adapter->onAfterInstantiation();
 
         /** 4. Get instance for the just instantiated class */
-        $service_instance    = $s->adapter->getServiceInstance();
-        $s->service_instance = $service_instance;
+        $product_result    = $s->adapter->getProductValue();
+        $s->product_result = $product_result;
 
-        /** 5. Store instance in Container (if so requested by the Service Provider) */
-        if ($s->adapter->getStoreInstanceIndicator() === true) {
-            $this->set($s->container_key, $s->service_instance);
+        /** 5. Store instance in Container (if so requested by the Factory Method) */
+        if ($s->adapter->getStoreContainerEntryIndicator() === true) {
+            $this->set($s->container_key, $s->product_result);
         }
 
-        /** 6. See if the Service Provider has services that should now be removed from the container */
-        $remove = $s->adapter->removeServices();
+        /** 6. Factory Method requests container removals */
+        $remove = $s->adapter->removeContainerEntries();
 
         if (is_array($remove) && count($remove) > 0) {
-            foreach ($remove as $service_name) {
-                if ($this->has($service_name) === true) {
-                    $this->remove($service_name);
+            foreach ($remove as $product_name) {
+                if ($this->has($product_name) === true) {
+                    $this->remove($product_name);
                 }
             }
         }
 
-        /** 7.  */
-        $set = $s->adapter->setServices();
+        /** 7. Factory Method requests container values be set */
+        $set = $s->adapter->setContainerEntries();
 
         if (is_array($set) && count($set) > 0) {
-            foreach ($set as $service_name => $value) {
-                $this->set($service_name, $value);
+            foreach ($set as $product_name => $value) {
+                $this->set($product_name, $value);
             }
         }
 
-        /** 8. Schedule additional Services as instructed by the Service Provider */
-        $next = $s->adapter->scheduleServices();
+        /** 8. Factory Method schedules factory processing */
+        $next = $s->adapter->scheduleFactories();
 
         // Avoid adding twice
         if (is_array($next) && count($next) > 0) {
-            foreach ($next as $service_name => $options) {
-                foreach ($this->service_process_queue as $key => $value) {
-                    if ($service_name == $key) {
-                        unset($next[$service_name]);
+            foreach ($next as $product_name => $options) {
+                foreach ($this->request_process_queue as $key => $value) {
+                    if ($product_name == $key) {
+                        unset($next[$product_name]);
                         break;
                     }
                 }
@@ -641,18 +641,18 @@ class Container implements ContainerInterface
         }
 
         if (is_array($next) && count($next) > 0) {
-            foreach ($next as $service_name => $options) {
-                $this->service_process_queue[$service_name] = $options;
+            foreach ($next as $product_name => $options) {
+                $this->request_process_queue[$product_name] = $options;
             }
         }
 
-        /** 8. Schedule additional Services as instructed by the Service Provider */
+        /** 8. Schedule additional Services as instructed by the Factory Method */
         // Avoid adding twice
         if (is_array($next) && count($next) > 0) {
-            foreach ($next as $service_name => $options) {
-                foreach ($this->service_process_queue as $key => $value) {
-                    if ($service_name == $key) {
-                        unset($next[$service_name]);
+            foreach ($next as $product_name => $options) {
+                foreach ($this->request_process_queue as $key => $value) {
+                    if ($product_name == $key) {
+                        unset($next[$product_name]);
                         break;
                     }
                 }
@@ -660,15 +660,15 @@ class Container implements ContainerInterface
         }
 
         if (is_array($next) && count($next) > 0) {
-            foreach ($next as $service_name => $options) {
-                $this->service_process_queue[$service_name] = $options;
+            foreach ($next as $product_name => $options) {
+                $this->request_process_queue[$product_name] = $options;
             }
         }
 
         /** 10. Return Instance */
-        $this->satisfyDependency($s->name, $service_instance);
+        $this->satisfyDependency($s->name, $product_result);
 
-        return $service_instance;
+        return $product_result;
     }
 
     /**
@@ -690,10 +690,10 @@ class Container implements ContainerInterface
         $temp = $this->dependency_of[$dependency];
 
         foreach ($temp as $id) {
-            if (isset($this->process_services[$id])) {
-                $s = $this->process_services[$id];
-                $s->adapter->setDependencyInstance($dependency, $dependency_value);
-                $this->process_services[$id] = $s;
+            if (isset($this->process_requests[$id])) {
+                $s = $this->process_requests[$id];
+                $s->adapter->setDependencyValue($dependency, $dependency_value);
+                $this->process_requests[$id] = $s;
             }
         }
 
@@ -703,71 +703,71 @@ class Container implements ContainerInterface
     /**
      * Instantiate DI Adapter, injecting it with the Handler instance
      *
-     * @param   ServiceProviderInterface $service_provider
+     * @param   FactoryMethodInterface $factory_method_adapter
      *
-     * @return  object  CommonApi\IoC\ServiceProviderInterface
+     * @return  object  CommonApi\IoC\FactoryMethodInterface
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    protected function getServiceProviderAdapter(ServiceProviderInterface $service_provider)
+    protected function getFactoryMethod(FactoryMethodInterface $factory_method_adapter)
     {
         try {
-            $adapter = new ServiceProviderAdapter($service_provider);
+            $adapter = new FactoryMethodController($factory_method_adapter);
 
         } catch (Exception $e) {
             throw new RuntimeException
-            ('Ioc getServiceProviderAdapter Instantiate ServiceItem Exception: ' . $e->getMessage());
+            ('Ioc getFactoryMethod Instantiate ServiceItem Exception: ' . $e->getMessage());
         }
 
         return $adapter;
     }
 
     /**
-     * Instantiate Service Provider to inject into the Adapter Constructor
+     * Instantiate Factory Method to inject into the Adapter Constructor
      *
-     * @param   string $service
-     * @param   string $service_provider_namespace
+     * @param   string $request
+     * @param   string $adapter_namespaces
      * @param   string $options
      *
      * @return  object
      * @throws  \CommonApi\Exception\RuntimeException
      * @since   1.0
      */
-    protected function getServiceProvider($service, $service_provider_namespace, $options)
+    protected function getFactoryMethodAdapter($request, $adapter_namespaces, $options)
     {
         if (is_array($options) && count($options) > 0) {
         } else {
             $options = array();
         }
 
-        $options['service_name'] = $service;
+        $options['product_name'] = $request;
 
-        if ($service_provider_namespace == $this->standard_service_provider_namespace) {
-            if (isset($options['service_provider_namespace'])) {
+        if ($adapter_namespaces == $this->standard_adapter_namespaces) {
+            if (isset($options['adapter_namespaces'])) {
             } else {
-                if (isset($this->service_provider_aliases[$service])) {
-                    $options['service_provider_namespace'] = $this->service_provider_aliases[$service];
+                if (isset($this->adapter_aliases[$request])) {
+                    $options['adapter_namespaces'] = $this->adapter_aliases[$request];
                 }
             }
         }
 
         try {
-            $class = $service_provider_namespace;
+            $class = $adapter_namespaces;
 
-            $service_provider = new $class($options);
+            $factory_method_adapter = new $class($options);
 
         } catch (Exception $e) {
 
             throw new RuntimeException
-            ('IoC getServiceProvider Instantiation Exception: '
-            . $service_provider_namespace . ' ' . $e->getMessage());
+            ('IoC getFactoryMethod Instantiation Exception: '
+            . $adapter_namespaces . ' ' . $e->getMessage());
         }
 
-        return $service_provider;
+        return $factory_method_adapter;
     }
 
     /**
-     * Load Class Dependencies and Service Provider Aliases
+     * Load Class Dependencies and Factory Method Aliases
      *
      * @param  string $filename
      *

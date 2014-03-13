@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract Service Provider
+ * Base Factory Method
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -8,21 +8,22 @@
  */
 namespace Molajo\IoC;
 
-use CommonApi\IoC\ServiceProviderInterface;
-use CommonApi\Exception\RuntimeException;
 use Exception;
+use CommonApi\Exception\RuntimeException;
+use CommonApi\IoC\FactoryMethodInterface;
+use CommonApi\IoC\FactoryMethodBatchSchedulingInterface;
 use ReflectionClass;
 use stdClass;
 
 /**
- * Abstract Service Provider
+ * Base Factory Method
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-abstract class AbstractServiceProvider implements ServiceProviderInterface
+abstract class FactoryBase implements FactoryMethodInterface, FactoryMethodBatchSchedulingInterface
 {
     /**
      * IoC ID from Controller
@@ -33,20 +34,20 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     protected $ioc_id = null;
 
     /**
-     * Service Name
+     * Product Name
      *
      * @var     string
      * @since   1.0
      */
-    protected $service_name = null;
+    protected $product_name = null;
 
     /**
-     * Service Namespace
+     * Product Namespace
      *
      * @var     string
      * @since   1.0
      */
-    protected $service_namespace = null;
+    protected $product_namespace = null;
 
     /**
      * Static Instance Indicator
@@ -87,7 +88,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
      * @var     array
      * @since   1.0
      */
-    protected $reflection = null;
+    protected $reflection = array();
 
     /**
      * Dependencies
@@ -98,45 +99,45 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     protected $dependencies = array();
 
     /**
-     * Service Instance
+     * Product Result
      *
      * @var     object
      * @since   1.0
      */
-    protected $service_instance = null;
+    protected $product_result = null;
 
     /**
-     * Static Service Instance
+     * Static Product Result
      *
      * @static
      * @var    object  Services
      * @since  1.0
      */
-    protected static $static_service_instance = null;
+    protected static $static_product_result = null;
 
     /**
-     * Services to request the Controller remove using the Container setServices method
+     * Container Entries to remove from IoCC
      *
      * @var     array
      * @since   1.0
      */
-    protected $remove_services = array();
+    protected $remove_container_entries = array();
 
     /**
-     * Services to request the Controller update the service entry
+     * Services to update within the IoCC
      *
      * @var     array
      * @since   1.0
      */
-    protected $set_services = array();
+    protected $set_container_entries = array();
 
     /**
-     * Services to request the Controller schedule for class creation
+     * Services to schedule for Product Creation
      *
      * @var     array
      * @since   1.0
      */
-    protected $schedule_services = array();
+    protected $schedule_factory_methods = array();
 
     /**
      * List of Property Array
@@ -144,20 +145,20 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
      * @var    array
      * @since  1.0
      */
-    protected $service_provider_property_array = array(
+    protected $factory_method_adapter_property_array = array(
         'ioc_id',
-        'service_name',
-        'service_namespace',
+        'product_name',
+        'product_namespace',
         'static_instance_indicator',
         'store_instance_indicator',
         'store_properties_indicator',
         'reflection',
         'dependencies',
-        'service_instance',
-        'static_service_instance',
-        'remove_services',
-        'set_services',
-        'schedule_services'
+        'product_result',
+        'static_product_result',
+        'remove_container_entries',
+        'set_container_entries',
+        'schedule_factory_methods'
     );
 
     /**
@@ -169,7 +170,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
      */
     public function __construct(array $options = array())
     {
-        $this->schedule_services = array();
+        $this->schedule_factory_methods = array();
 
         if (is_array($options)) {
         } else {
@@ -177,7 +178,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
         }
 
         if (count($options) > 0) {
-            foreach ($this->service_provider_property_array as $property) {
+            foreach ($this->factory_method_adapter_property_array as $property) {
                 if (isset($options[$property])) {
                     $this->$property = $options[$property];
                     unset($options[$property]);
@@ -189,40 +190,40 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Service Provider Controller requests Service Namespace from Service Provider
+     * Factory Method Controller requests Product Namespace from Factory Method
      *
      * @return  string
      * @since   1.0
      */
-    public function getServiceNamespace()
+    public function getNamespace()
     {
-        return $this->service_namespace;
+        return $this->product_namespace;
     }
 
     /**
-     * Service Provider Controller requests Service Options from Service Provider
+     * Factory Method Controller requests Service Options from Factory Method
      *
      * @return  array
      * @since   1.0
      */
-    public function getServiceOptions()
+    public function getOptions()
     {
         return $this->options;
     }
 
     /**
-     * Service Provider Controller retrieves "store instance indicator" from Service Provider
+     * Factory Method Controller retrieves "store instance indicator" from Factory Method
      *
      * @return  string
      * @since   1.0
      */
-    public function getStoreInstanceIndicator()
+    public function getStoreContainerEntryIndicator()
     {
         return $this->store_instance_indicator;
     }
 
     /**
-     * Service Provider can use this method to define Service Dependencies
+     * Factory Method can use this method to define Service Dependencies
      *  or use the Service Dependencies automatically defined by Reflection processes
      *
      * @param   array $reflection
@@ -255,16 +256,16 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
                 /** Interface */
                 $dependency_name = ucfirst(strtolower($dependency->name));
 
-                if ($dependency_name === $this->service_name) {
+                if ($dependency_name === $this->product_name) {
                     unset($this->reflection[$dependency_name]);
                 } else {
 
                     /** Only one interface */
                     if (count($dependency->implemented_by) === 1) {
                         $options                                   = array();
-                        $options['service_namespace']              = $dependency->implemented_by[0];
-                        $options['service_name']                   = $dependency_name;
-                        $this->schedule_services[$dependency_name] = $options;
+                        $options['product_namespace']              = $dependency->implemented_by[0];
+                        $options['product_name']                   = $dependency_name;
+                        $this->schedule_factory_methods[$dependency_name] = $options;
                         $this->dependencies[$dependency_name]      = $options;
                     } else {
 
@@ -280,7 +281,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
 
     /**
      * Logic contained within this method is invoked after Dependencies Instances are available
-     *  and before the instantiateService Method is invoked
+     *  and before the instantiateClass Method is invoked
      *
      * @param   array $dependency_values
      *
@@ -348,20 +349,20 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Service instantiated automatically or within this method by the Service Provider
+     * Service instantiated automatically or within this method by the Factory Method
      *
      * @return  $this
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function instantiateService()
+    public function instantiateClass()
     {
-        if ($this->service_namespace === null) {
+        if ($this->product_namespace === null) {
             return $this;
         }
 
         if ($this->static_instance_indicator === true) {
-            self::instantiateStatic($this->service_namespace);
+            self::instantiateStatic($this->product_namespace);
             return $this;
         }
 
@@ -386,30 +387,30 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
             }
         }
 
-        if (method_exists($this->service_namespace, '__construct')
+        if (method_exists($this->product_namespace, '__construct')
             && count($dependencies) > 0
         ) {
 
             try {
-                $reflection             = new ReflectionClass($this->service_namespace);
-                $this->service_instance = $reflection->newInstanceArgs($dependencies);
+                $reflection           = new ReflectionClass($this->product_namespace);
+                $this->product_result = $reflection->newInstanceArgs($dependencies);
 
                 return $this;
             } catch (Exception $e) {
 
                 throw new RuntimeException
-                ('IoC instantiateService Reflection Failed: ' . $this->service_namespace . ' ' . $e->getMessage());
+                ('IoC instantiateClass Reflection Failed: ' . $this->product_namespace . ' ' . $e->getMessage());
             }
         }
 
         try {
-            $class = $this->service_namespace;
+            $class = $this->product_namespace;
 
-            $this->service_instance = new $class();
+            $this->product_result = new $class();
         } catch (Exception $e) {
 
             throw new RuntimeException
-            ('IoC instantiateService Failed: ' . $this->service_namespace . '  ' . $e->getMessage());
+            ('IoC instantiateClass Failed: ' . $this->product_namespace . '  ' . $e->getMessage());
         }
 
         return $this;
@@ -418,7 +419,7 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     /**
      * Instantiate Service Class Statically
      *
-     * @param   string $service_namespace
+     * @param   string $product_namespace
      *
      * @static
      *
@@ -426,21 +427,21 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    public static function instantiateStatic($service_namespace)
+    public static function instantiateStatic($product_namespace)
     {
         try {
-            self::$static_service_instance = new $service_namespace();
+            self::$static_product_result = new $product_namespace();
 
         } catch (Exception $e) {
             throw new RuntimeException
-            ('IoC instantiateService instantiateStatic  ' . $service_namespace . ' ' . $e->getMessage());
+            ('IoC instantiateClass instantiateStatic  ' . $product_namespace . ' ' . $e->getMessage());
         }
 
         return;
     }
 
     /**
-     * Logic contained within this method is invoked after the Service Class construction
+     * Logic contained within this method is invoked after the class construction
      *  and can be used for setter logic or other post-construction processing
      *
      * @return  $this
@@ -452,19 +453,19 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Service Provider Controller requests Service Instance for just created Class from Service Provider
+     * Factory Method Controller requests Product Result for just created Class from Factory Method
      *
      * @return  object
      * @since   1.0
      */
-    public function getServiceInstance()
+    public function getProductValue()
     {
         if ($this->static_instance_indicator === true) {
 
             $this->store_instance_indicator   = true;
             $this->store_properties_indicator = false;
 
-            return self::$static_service_instance;
+            return self::$static_product_result;
 
         } else {
 
@@ -473,14 +474,14 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
                 $this->store_properties_indicator = false;
                 $this->static_instance_indicator  = false;
 
-                return $this->service_instance;
+                return $this->product_result;
 
             } elseif ($this->store_properties_indicator === true) {
 
                 $this->store_instance_indicator  = true;
                 $this->static_instance_indicator = false;
 
-                return $this->service_instance->get('*', array());
+                return $this->product_result->get('*', array());
             }
         }
 
@@ -488,42 +489,40 @@ abstract class AbstractServiceProvider implements ServiceProviderInterface
         $this->store_properties_indicator = false;
         $this->static_instance_indicator  = false;
 
-        return $this->service_instance;
+        return $this->product_result;
     }
 
     /**
-     * Following Class creation, Service Provider Controller requests the Service Provider
-     *  remove Services from the Container
+     * Request for array of Products to be removed from the IoC Container
      *
      * @return  array
      * @since   1.0
      */
-    public function removeServices()
+    public function removeContainerEntries()
     {
-        return $this->remove_services;
+        return $this->remove_container_entries;
     }
 
     /**
-     * Service Provider Controller requests any Services (other than the current service) to be saved
+     * Request for array of Products and Values to be saved to the IoC Container
      *
      * @return  array
      * @since   1.0
      */
-    public function setServices()
+    public function setContainerEntries()
     {
-        return $this->set_services;
+        return $this->set_container_entries;
     }
 
     /**
-     * Service Provider can request additional Service Providers be added to the queue
-     *  for processing. Method executed following onAfterInstantiation.
+     * Request for array of Factory Methods to be Scheduled
      *
      * @return  array
      * @since   1.0
      */
-    public function scheduleServices()
+    public function scheduleFactories()
     {
-        return $this->schedule_services;
+        return $this->schedule_factory_methods;
     }
 
     /**

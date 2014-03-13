@@ -8,8 +8,7 @@
  */
 namespace Molajo\Tests;
 
-use Molajo\StandardMock;
-use Molajo\IoC\StandardFactoryMethod;
+use Molajo\Factories\ConfigurationMock;
 use Molajo\IoC\FactoryMethod;
 use Molajo\Factories\ConfigurationMock\ConfigurationMockFactoryMethod;
 use CommonApi\IoC\FactoryMethodInterface;
@@ -20,7 +19,7 @@ use CommonApi\IoC\FactoryMethodInterface;
  * @return  object
  * @since   1.0
  */
-class StandardFactoryMethodTest extends \PHPUnit_Framework_TestCase
+class FactoryMethodTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var $ioc \Molajo\IoC\Container
@@ -35,38 +34,34 @@ class StandardFactoryMethodTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $options                             = array();
-        $options['product_name']             = 'StandardMock';
-        $options['product_namespace']        = 'Molajo\\StandardMock';
-        $options['store_instance_indicator'] = true;
-        $factory_method_adapter              = new StandardFactoryMethod($options);
+        $configuration                        = new ConfigurationMockFactoryMethod();
+        $this->factory_method_adapter_adapter = new FactoryMethod($configuration);
 
-        $this->factory_method_adapter_adapter = new FactoryMethod($factory_method_adapter);
         return $this;
     }
 
     /**
-     * @covers Molajo\IoC\StandardFactoryMethod::getNamespace
+     * @covers Molajo\Ioc\FactoryMethod::getNamespace
      */
     public function testgetNamespace()
     {
-        $this->assertEquals('Molajo\\StandardMock', $this->factory_method_adapter_adapter->getNamespace());
+        $this->assertEquals('Molajo\\ConfigurationMock', $this->factory_method_adapter_adapter->getNamespace());
 
         return $this;
     }
 
     /**
-     * @covers Molajo\IoC\StandardFactoryMethod::getOptions
+     * @covers Molajo\Ioc\FactoryMethod::getOptions
      */
     public function testgetOptions()
     {
-        $this->assertEquals(array(), $this->factory_method_adapter_adapter->getOptions());
+        $this->assertEquals(array('dog' => 'food'), $this->factory_method_adapter_adapter->getOptions());
 
         return $this;
     }
 
     /**
-     * @covers Molajo\IoC\StandardFactoryMethod::getStoreContainerEntryIndicator
+     * @covers Molajo\Ioc\FactoryMethod::getStoreContainerEntryIndicator
      */
     public function testgetStoreContainerEntryIndicator()
     {
@@ -76,7 +71,7 @@ class StandardFactoryMethodTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\IoC\StandardFactoryMethod::setDependencies
+     * @covers Molajo\Ioc\FactoryMethod::setDependencies
      */
     public function testsetDependencies()
     {
@@ -86,7 +81,7 @@ class StandardFactoryMethodTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\IoC\StandardFactoryMethod::onBeforeInstantiation
+     * @covers Molajo\Ioc\FactoryMethod::onBeforeInstantiation
      */
     public function testonBeforeInstantiation()
     {
@@ -97,7 +92,7 @@ class StandardFactoryMethodTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\IoC\StandardFactoryMethod::instantiateClass
+     * @covers Molajo\Ioc\FactoryMethod::instantiateClass
      */
     public function testinstantiateClass()
     {
@@ -108,7 +103,7 @@ class StandardFactoryMethodTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Molajo\IoC\StandardFactoryMethod::onAfterInstantiation
+     * @covers Molajo\Ioc\FactoryMethod::onAfterInstantiation
      */
     public function testonAfterInstantiation()
     {

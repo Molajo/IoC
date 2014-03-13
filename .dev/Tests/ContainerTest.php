@@ -167,7 +167,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
         $this->container->setService('Cache', $cache);
 
-        $container_contents = $this->container->removeServices('Cache');
+        $container_contents = $this->container->removeContainerEntries('Cache');
 
         if (isset($container_contents['cache'])) {
             $results = false;
@@ -218,9 +218,9 @@ class ContainerMock extends Container
      * @return  $this
      * @since   1.0
      */
-    public function removeServices($container_key)
+    public function removeContainerEntries($container_key)
     {
-        parent::removeServices($container_key);
+        parent::removeContainerEntries($container_key);
 
         return $this->container_registry;
     }
