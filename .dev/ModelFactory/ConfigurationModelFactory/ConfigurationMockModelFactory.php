@@ -8,8 +8,8 @@
  */
 namespace Molajo\Factories\ConfigurationMock;
 
-use Molajo\IoC\FactoryBase;
-use CommonApi\IoC\FactoryMethodInterface;
+use Molajo\IoC\FactoryMethodBase;
+use CommonApi\IoC\FactoryInterface;
 
 /**
  * Configuration Factory Method
@@ -19,7 +19,7 @@ use CommonApi\IoC\FactoryMethodInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class ConfigurationMockFactoryMethod extends FactoryBase implements FactoryMethodInterface, FactoryMethodBatchSchedulingInterface
+class ConfigurationMockFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * Constructor

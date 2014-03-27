@@ -10,8 +10,8 @@ namespace Molajo\IoC;
 
 use Exception;
 use CommonApi\Exception\RuntimeException;
-use CommonApi\IoC\FactoryMethodInterface;
-use CommonApi\IoC\FactoryMethodBatchSchedulingInterface;
+use CommonApi\IoC\FactoryInterface;
+use CommonApi\IoC\FactoryBatchInterface;
 use ReflectionClass;
 use stdClass;
 
@@ -23,7 +23,7 @@ use stdClass;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-abstract class FactoryBase implements FactoryMethodInterface, FactoryMethodBatchSchedulingInterface
+abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * IoC ID from Controller
@@ -262,11 +262,11 @@ abstract class FactoryBase implements FactoryMethodInterface, FactoryMethodBatch
 
                     /** Only one interface */
                     if (count($dependency->implemented_by) === 1) {
-                        $options                                   = array();
-                        $options['product_namespace']              = $dependency->implemented_by[0];
-                        $options['product_name']                   = $dependency_name;
+                        $options                                          = array();
+                        $options['product_namespace']                     = $dependency->implemented_by[0];
+                        $options['product_name']                          = $dependency_name;
                         $this->schedule_factory_methods[$dependency_name] = $options;
-                        $this->dependencies[$dependency_name]      = $options;
+                        $this->dependencies[$dependency_name]             = $options;
                     } else {
 
                         /** Multiple interfaces */

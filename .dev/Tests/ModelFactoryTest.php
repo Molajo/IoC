@@ -11,7 +11,7 @@ namespace Molajo\Tests;
 use Molajo\Factories\ConfigurationMock;
 use Molajo\IoC\FactoryMethod;
 use Molajo\Factories\ConfigurationMock\ConfigurationMockFactoryMethod;
-use CommonApi\IoC\FactoryMethodInterface;
+use CommonApi\IoC\FactoryInterface;
 
 /**
  * Initialise

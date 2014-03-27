@@ -32,7 +32,7 @@ $classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/Source/Api', 'Molajo\\IoC\\Api\\');
 $classmap = array_merge($classmap, $results);
 
-$classmap['Molajo\\IoC\\FactoryBase']           = $base . '/Source/FactoryBase.php';
+$classmap['Molajo\\IoC\\FactoryMethodBase']     = $base . '/Source/FactoryMethodBase.php';
 $classmap['Molajo\\IoC\\Container']             = $base . '/Source/Container.php';
 $classmap['Molajo\\IoC\\FactoryMethod']         = $base . '/Source/FactoryMethod.php';
 $classmap['Molajo\\IoC\\Controller']            = $base . '/Source/Controller.php';

@@ -12,7 +12,7 @@ use Molajo\StandardMock;
 use Molajo\IoC\StandardFactoryMethod;
 use Molajo\IoC\FactoryMethod;
 use Molajo\Factories\ConfigurationMock\ConfigurationMockFactoryMethod;
-use CommonApi\IoC\FactoryMethodInterface;
+use CommonApi\IoC\FactoryInterface;
 
 /**
  * Initialise

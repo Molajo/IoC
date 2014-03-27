@@ -9,8 +9,8 @@
 namespace Molajo\Factories\CacheMock;
 
 use Exception;
-use Molajo\IoC\FactoryBase;
-use CommonApi\IoC\FactoryMethodInterface;
+use Molajo\IoC\FactoryMethodBase;
+use CommonApi\IoC\FactoryInterface;
 use CommonApi\Exception\RuntimeException;
 
 /**
@@ -21,7 +21,7 @@ use CommonApi\Exception\RuntimeException;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class CacheMockFactoryMethod extends FactoryBase implements FactoryMethodInterface, FactoryMethodBatchSchedulingInterface
+class CacheMockFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * Constructor
@@ -38,7 +38,6 @@ class CacheMockFactoryMethod extends FactoryBase implements FactoryMethodInterfa
     }
 
     /**
-     * Instantiate a new handler and inject it into the Adapter for the FactoryMethodInterface
      * Retrieve a list of Interface dependencies and return the data ot the controller.
      *
      * @return  array

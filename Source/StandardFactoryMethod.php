@@ -8,8 +8,8 @@
  */
 namespace Molajo\IoC;
 
-use CommonApi\IoC\FactoryMethodInterface;
-use CommonApi\IoC\FactoryMethodBatchSchedulingInterface;
+use CommonApi\IoC\FactoryInterface;
+use CommonApi\IoC\FactoryBatchInterface;
 
 /**
  * Standard Factory Method
@@ -37,7 +37,7 @@ use CommonApi\IoC\FactoryMethodBatchSchedulingInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class StandardFactoryMethod extends FactoryBase implements FactoryMethodInterface, FactoryMethodBatchSchedulingInterface
+class StandardFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * Constructor

@@ -8,9 +8,8 @@
  */
 namespace Molajo\IoC;
 
-use CommonApi\IoC\FactoryMethodControllerInterface;
-use CommonApi\IoC\FactoryMethodInterface;
-use CommonApi\IoC\FactoryMethodBatchSchedulingInterface;
+use CommonApi\IoC\FactoryInterface;
+use CommonApi\IoC\FactoryBatchInterface;
 
 /**
  * Factory Method Controller
@@ -24,8 +23,7 @@ use CommonApi\IoC\FactoryMethodBatchSchedulingInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class FactoryMethodController
-    implements FactoryMethodControllerInterface, FactoryMethodInterface, FactoryMethodBatchSchedulingInterface
+class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * Dependencies
@@ -54,10 +52,9 @@ class FactoryMethodController
     /**
      * Factory Method Adapter Instance
      *
-     * @var     object  CommonApi\IoC\FactoryMethodInterface
-     * @since   1.0
+     * @var     object  CommonApi\IoC\FactoryInterface     * @since   1.0
      */
-    protected $factory_method_adapter;
+    protected $factory_adapter;
 
     /**
      * Product Result
@@ -65,7 +62,7 @@ class FactoryMethodController
      * @var     object
      * @since   1.0
      */
-    protected $product_result;
+    protected $product;
 
     /**
      * Container Key
@@ -81,14 +78,14 @@ class FactoryMethodController
     /**
      * The Constructor is invoked by Controller->setProductWorkObject for each request
      *
-     * @param  FactoryMethodInterface $factory_method_adapter
+     * @param  FactoryInterface $factory_adapter
      *
      * @since  1.0
      */
     public function __construct(
-        FactoryMethodInterface $factory_method_adapter
+        FactoryInterface $factory_adapter
     ) {
-        $this->factory_method_adapter = $factory_method_adapter;
+        $this->factory_adapter = $factory_adapter;
     }
 
     /**
@@ -99,7 +96,7 @@ class FactoryMethodController
      */
     public function getNamespace()
     {
-        return $this->factory_method_adapter->getNamespace();
+        return $this->factory_adapter->getNamespace();
     }
 
     /**
@@ -110,7 +107,7 @@ class FactoryMethodController
      */
     public function getOptions()
     {
-        return $this->factory_method_adapter->getOptions();
+        return $this->factory_adapter->getOptions();
     }
 
     /**
@@ -121,7 +118,7 @@ class FactoryMethodController
      */
     public function getStoreContainerEntryIndicator()
     {
-        return $this->factory_method_adapter->getStoreContainerEntryIndicator();
+        return $this->factory_adapter->getStoreContainerEntryIndicator();
     }
 
     /**
@@ -137,7 +134,7 @@ class FactoryMethodController
      */
     public function setDependencies(array $reflection = null)
     {
-        $this->dependencies = $this->factory_method_adapter->setDependencies($reflection);
+        $this->dependencies = $this->factory_adapter->setDependencies($reflection);
 
         if (is_array($this->dependencies) && count($this->dependencies) > 0) {
         } else {
@@ -218,7 +215,7 @@ class FactoryMethodController
      */
     public function onBeforeInstantiation(array $values = array())
     {
-        $this->factory_method_adapter->onBeforeInstantiation($this->dependency_values);
+        $this->factory_adapter->onBeforeInstantiation($this->dependency_values);
 
         return $this;
     }
@@ -231,7 +228,7 @@ class FactoryMethodController
      */
     public function instantiateClass()
     {
-        $this->factory_method_adapter->instantiateClass();
+        $this->factory_adapter->instantiateClass();
 
         return $this;
     }
@@ -245,7 +242,7 @@ class FactoryMethodController
      */
     public function onAfterInstantiation()
     {
-        $this->factory_method_adapter->onAfterInstantiation();
+        $this->factory_adapter->onAfterInstantiation();
 
         return $this;
     }
@@ -258,9 +255,9 @@ class FactoryMethodController
      */
     public function getProductValue()
     {
-        $this->product_result = $this->factory_method_adapter->getProductValue();
+        $this->product = $this->factory_adapter->getProductValue();
 
-        return $this->product_result;
+        return $this->product;
     }
 
     /**
@@ -271,7 +268,7 @@ class FactoryMethodController
      */
     public function removeContainerEntries()
     {
-        return $this->factory_method_adapter->removeContainerEntries();
+        return $this->factory_adapter->removeContainerEntries();
     }
 
     /**
@@ -282,7 +279,7 @@ class FactoryMethodController
      */
     public function setContainerEntries()
     {
-        return $this->factory_method_adapter->setContainerEntries();
+        return $this->factory_adapter->setContainerEntries();
     }
 
     /**
@@ -293,6 +290,6 @@ class FactoryMethodController
      */
     public function scheduleFactories()
     {
-        return $this->factory_method_adapter->scheduleFactories();
+        return $this->factory_adapter->scheduleFactories();
     }
 }
