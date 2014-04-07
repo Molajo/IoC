@@ -410,7 +410,7 @@ class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMetho
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function instantiateClass()
     {
@@ -422,7 +422,7 @@ class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMetho
      *
      * @return  object
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function onAfterInstantiation()
     {
@@ -434,7 +434,7 @@ class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMetho
      *
      * @return  object
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function initialise()
     {
@@ -446,7 +446,7 @@ class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMetho
      *
      * @return  object
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function onAfterServiceInitialise()
     {
@@ -458,7 +458,7 @@ class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMetho
      *
      * @return  object
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function getProductValue()
     {
