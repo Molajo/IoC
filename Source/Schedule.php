@@ -21,7 +21,7 @@ use stdClass;
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
- * @since      1.0
+ * @since      1.0.0
  */
 class Schedule implements ScheduleInterface
 {
@@ -152,6 +152,10 @@ class Schedule implements ScheduleInterface
 
         if ($product === true) {
             return $this->container->get(strtolower($product_name));
+        } else {
+            if (isset($options['if_exists'])) {
+                return false;
+            }
         }
 
         $this->dependency_of         = array();
@@ -174,7 +178,9 @@ class Schedule implements ScheduleInterface
                 /** 2. Can the Request be finished? */
                 $finish = false;
 
-                if ($work_object->product_result == '') {
+                if ($work_object->product_result === false) {
+                    $finish = true;
+                } elseif ($work_object->product_result == '') {
                 } else {
                     $finish = true;
                 }
@@ -478,6 +484,12 @@ class Schedule implements ScheduleInterface
     protected function completeRequest($work_object)
     {
         /** 0. Have instance */
+        if ($work_object->product_result === false) {
+            $this->satisfyDependency($work_object->name, $work_object->product_result);
+
+            return $work_object->product_result;
+        }
+
         if ($work_object->product_result == '') {
         } else {
             $this->satisfyDependency($work_object->name, $work_object->product_result);
