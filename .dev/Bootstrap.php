@@ -7,8 +7,11 @@
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 $base = substr(__DIR__, 0, strlen(__DIR__) - 5);
+if (function_exists('CreateClassMap')) {
+} else {
+    include_once __DIR__ . '/CreateClassMap.php';
+}
 include_once $base . '/vendor/autoload.php';
-include_once __DIR__ . '/CreateClassMap.php';
 
 $classmap['Molajo\\IoC\\Container']               = $base . '/Source/Container.php';
 $classmap['Molajo\\IoC\\FactoryMethodBase']       = $base . '/Source/FactoryMethodBase.php';
