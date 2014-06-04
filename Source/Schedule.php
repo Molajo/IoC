@@ -85,7 +85,6 @@ class Schedule implements ScheduleInterface
      * Constructor
      *
      * @param ContainerInterface $container
-     * @param array              $adapter_aliases
      * @param null               $class_dependencies_filename
      * @param string             $standard_adapter_namespaces
      *
@@ -661,6 +660,19 @@ class Schedule implements ScheduleInterface
         }
 
         return true;
+    }
+
+    /**
+     * Get the primary key for container
+     *
+     * @param   string $key
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getContainerEntryKey($key)
+    {
+        return $this->container->getKey($key, false);
     }
 
     /**

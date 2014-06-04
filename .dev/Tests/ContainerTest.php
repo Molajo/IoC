@@ -33,6 +33,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::get
      * @covers  Molajo\IoC\Container::set
      * @covers  Molajo\IoC\Container::remove
+     * @covers  Molajo\IoC\Container::getKey
+     * @covers  Molajo\IoC\Container::testAlias
+     * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testContainerKey
+     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @return void
      * @since   1.0
@@ -67,7 +72,13 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::get
      * @covers  Molajo\IoC\Container::set
      * @covers  Molajo\IoC\Container::remove
-     * @expectedException \CommonApi\Exception\RuntimeException
+     * @covers  Molajo\IoC\Container::getKey
+     * @covers  Molajo\IoC\Container::testAlias
+     * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testContainerKey
+     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     *
+     * @expectedException \CommonApi\Exception\InvalidArgumentException
      * @expectedExceptionMessage IoCC Entry for Key: a does not exist
      *
      * @return  void
@@ -88,6 +99,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::get
      * @covers  Molajo\IoC\Container::set
      * @covers  Molajo\IoC\Container::remove
+     * @covers  Molajo\IoC\Container::getKey
+     * @covers  Molajo\IoC\Container::testAlias
+     * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testContainerKey
+     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @return void
      * @since   1.0
@@ -116,7 +132,13 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::get
      * @covers  Molajo\IoC\Container::set
      * @covers  Molajo\IoC\Container::remove
-     * @expectedException \CommonApi\Exception\RuntimeException
+     * @covers  Molajo\IoC\Container::getKey
+     * @covers  Molajo\IoC\Container::testAlias
+     * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testContainerKey
+     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     *
+     * @expectedException \CommonApi\Exception\InvalidArgumentException
      * @expectedExceptionMessage IoCC Entry for Key: Molajo\Factories\Dispatcher does not exist
      *
      * @return  void
@@ -138,6 +160,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::get
      * @covers  Molajo\IoC\Container::set
      * @covers  Molajo\IoC\Container::remove
+     * @covers  Molajo\IoC\Container::getKey
+     * @covers  Molajo\IoC\Container::testAlias
+     * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testContainerKey
+     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @return void
      * @since   1.0
@@ -151,7 +178,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $a_stuff = new stdClass();
         $a_stuff->here = 'more';
 
-        //$this->assertEquals($container->has('Dispatcher'), false);
+        $this->assertEquals($container->has('Dispatcher'), false);
         $this->assertEquals($container->set('Dispatcher', $a_stuff), $container);
         $this->assertEquals($container->has('Molajo\\Factories\\Dispatcher'), true);
         $this->assertEquals($container->get('Molajo\\Factories\\Dispatcher'), $a_stuff);
@@ -167,6 +194,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::get
      * @covers  Molajo\IoC\Container::set
      * @covers  Molajo\IoC\Container::remove
+     * @covers  Molajo\IoC\Container::getKey
+     * @covers  Molajo\IoC\Container::testAlias
+     * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testContainerKey
+     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @return void
      * @since   1.0

@@ -8,7 +8,7 @@
  */
 namespace Molajo\IoC;
 
-use CommonApi\Exception\RuntimeException;
+use CommonApi\Exception\InvalidArgumentException;
 use CommonApi\IoC\ContainerInterface;
 
 /**
@@ -87,9 +87,13 @@ class Container implements ContainerInterface
      */
     public function get($key)
     {
-        $key = $this->getKey($key, true);
+        $results = $this->getKey($key, true);
 
-        return $this->container_registry[$key];
+        if ($results === false) {
+            throw new InvalidArgumentException('Get IoCC Entry for Key: ' . $key . ' does not exist');
+        }
+
+        return $this->container_registry[$results];
     }
 
     /**
@@ -119,9 +123,13 @@ class Container implements ContainerInterface
      */
     public function remove($key)
     {
-        $key = $this->getKey($key, true);
+        $results = $this->getKey($key);
 
-        unset($this->container_registry[$key]);
+        if ($results === false) {
+            throw new InvalidArgumentException('Remove IoCC Entry for Key: ' . $key . ' does not exist');
+        }
+
+        unset($this->container_registry[$results]);
 
         return $this;
     }
@@ -135,25 +143,13 @@ class Container implements ContainerInterface
      * @return  boolean
      * @since   1.0
      */
-    public function getKey($key, $exception = false)
+    public function getKey($key)
     {
         if ($this->testContainerKey($key) === true) {
             return $key;
         }
 
-        $results = $this->testAlias($key);
-
-        if ($results === false) {
-        } else {
-            $key = $results;
-            return $key;
-        }
-
-        if ($exception === true) {
-            throw new RuntimeException('Requested IoCC Entry for Key: ' . $key . ' does not exist');
-        }
-
-        return false;
+        return $this->testAlias($key);
     }
 
     /**
@@ -199,7 +195,6 @@ class Container implements ContainerInterface
 
         if (isset($array[$key])) {
             if ($this->testContainerKey($array[$key]) === true) {
-                echo 'Foundit: ' . $key . ' ' , $array[$key];
                 return $array[$key];
             }
         }
