@@ -161,6 +161,8 @@ class Container implements ContainerInterface
         if (isset($this->adapter_aliases[$key])) {
             if (isset($this->container_registry[strtolower($this->adapter_aliases[$key])])) {
                 unset($this->container_registry[strtolower($this->adapter_aliases[$key])]);
+
+                return $this;
             }
         }
 
