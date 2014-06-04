@@ -26,12 +26,28 @@ use stdClass;
 class Schedule implements ScheduleInterface
 {
     /**
-     * Container    \CommonApi\IoC\ContainerInterface
+     * Container Registry
      *
-     * @var     object
+     * @var     array
      * @since   1.0
      */
     protected $container = null;
+
+    /**
+     * Factory Method Aliases => Namespaces
+     *
+     * @var     array
+     * @since   1.0
+     */
+    protected $adapter_aliases = array();
+
+    /**
+     * Factory Method Namespaces => Aliases
+     *
+     * @var     array
+     * @since   1.0
+     */
+    protected $adapter_namespaces = array();
 
     /**
      * Class Dependencies derived from Reflection
@@ -93,18 +109,25 @@ class Schedule implements ScheduleInterface
      */
     public function __construct(
         ContainerInterface $container,
+        array $adapter_aliases = array(),
         $class_dependencies_filename = null,
         $standard_adapter_namespaces = 'Molajo\\IoC\\StandardFactoryMethod'
     ) {
-        $this->container                   = $container;
-        $this->standard_adapter_namespaces = $standard_adapter_namespaces;
+        $this->container          = $container;
+        $this->adapter_aliases    = $adapter_aliases;
+        $this->adapter_namespaces = array();
+
+        if (count($this->adapter_aliases) > 0) {
+            foreach ($this->adapter_aliases as $key => $value) {
+                $this->adapter_namespaces[$value] = $key;
+            }
+        }
+
         $this->loadClassDependencies($class_dependencies_filename);
     }
 
     /**
-     * Schedule Factory
-     *
-     * Handles requests for FactoryMethod product, including dependency fulfillment
+     * Schedule Factory recursively resolving dependencies
      *
      * @param   string $product_name
      * @param   array  $options
@@ -115,8 +138,20 @@ class Schedule implements ScheduleInterface
      */
     public function scheduleFactoryMethod($product_name = null, array $options = array())
     {
-        if ($this->hasContainerEntry($product_name) === true) {
-            return $this->getContainerEntry($product_name);
+        if (isset($options['set'])) {
+            if (isset($options['value'])) {
+                $value = $options['value'];
+            } else {
+                $value = null;
+            }
+
+            return $this->container->set($product_name, $value);
+        }
+
+        $product = $this->container->has(strtolower($product_name));
+
+        if ($product === true) {
+            return $this->container->get(strtolower($product_name));
         }
 
         if (isset($options['if_exists'])) {
@@ -164,7 +199,7 @@ class Schedule implements ScheduleInterface
                 /** 3. Use Instance */
                 if ($work_object->product_result == '') {
 
-                    $count++;
+                    $count ++;
 
                     if ($count > 400) {
 
@@ -275,9 +310,7 @@ class Schedule implements ScheduleInterface
 
         } catch (Exception $e) {
             throw new RuntimeException
-            (
-                'IoC instantiateFactoryMethod: Exception: ' . $e->getMessage()
-            );
+            ('IoC instantiateFactoryMethod: Exception: ' . $e->getMessage());
         }
 
         /** 2. Create Factory Method Adapter Instance */
@@ -286,9 +319,7 @@ class Schedule implements ScheduleInterface
 
         } catch (Exception $e) {
             throw new RuntimeException
-            (
-                'IoC instantiateFactoryMethod: Exception: ' . $e->getMessage()
-            );
+            ('IoC instantiateFactoryMethod: Exception: ' . $e->getMessage());
         }
 
         /** 3. Retrieve request metadata and set dependencies */
@@ -351,7 +382,7 @@ class Schedule implements ScheduleInterface
     {
         /** 1. Initialise Request Object */
         $work_object                     = new stdClass();
-        $id                              = $this->queue_id++;
+        $id                              = $this->queue_id ++;
         $work_object->id                 = $id;
         $work_object->options            = $options;
         $work_object->options['ioc_id']  = $work_object->id;
@@ -593,9 +624,7 @@ class Schedule implements ScheduleInterface
 
         } catch (Exception $e) {
             throw new RuntimeException
-            (
-                'Ioc getFactoryMethod Instantiate ServiceItem Exception: ' . $e->getMessage()
-            );
+            ('Ioc getFactoryMethod Instantiate ServiceItem Exception: ' . $e->getMessage());
         }
 
         return $adapter;
@@ -637,47 +666,11 @@ class Schedule implements ScheduleInterface
         } catch (Exception $e) {
 
             throw new RuntimeException
-            (
-                'IoC getFactoryMethod Instantiation Exception: '
-                . $adapter_namespaces . ' ' . $e->getMessage()
-            );
+            ('IoC getFactoryMethod Instantiation Exception: '
+                . $adapter_namespaces . ' ' . $e->getMessage());
         }
 
         return $factory_method_adapter;
-    }
-
-    /**
-     * See if product already exists within the container
-     *
-     * @param   string $key
-     *
-     * @return  mixed
-     * @since   1.0
-     */
-    protected function hasContainerEntry($key)
-    {
-        if ($this->container->has($key) === false) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * See if product already exists within the container
-     *
-     * @param   string $key
-     *
-     * @return  mixed
-     * @since   1.0
-     */
-    protected function getContainerEntry($key)
-    {
-        if ($this->container->has($key) === false) {
-            return false;
-        }
-
-        return $this->container->get($key);
     }
 
     /**
@@ -690,17 +683,6 @@ class Schedule implements ScheduleInterface
      */
     protected function loadClassDependencies($filename = null)
     {
-        if (isset($options['set'])) {
-            if (isset($options['value'])) {
-                $value = $options['value'];
-            } else {
-                $value = null;
-            }
-
-            return $this->container->set($product_name, $value);
-        }
-
-
         if (file_exists($filename)) {
         } else {
             return $this;

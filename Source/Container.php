@@ -89,7 +89,7 @@ class Container implements ContainerInterface
     {
         $key = $this->getKey($key, true);
 
-        return $this->container_registry[strtolower($key)];
+        return $this->container_registry[$key];
     }
 
     /**
@@ -103,23 +103,7 @@ class Container implements ContainerInterface
      */
     public function set($key, $value)
     {
-        $newkey = $this->getKey($key, false);
-
-        if ($newkey === false) {
-            $newkey = strtolower($key);
-        }
-
-        $this->container_registry[$newkey] = $value;
-
-        if (isset($this->adapter_namespaces[$key])) {
-        } else {
-            $this->adapter_namespaces[$key] = $key;
-        }
-
-        if (isset($this->adapter_aliases[$key])) {
-        } else {
-            $this->adapter_aliases[$key] = $key;
-        }
+        $this->container_registry[$key] = $value;
 
         return $this;
     }
@@ -150,20 +134,108 @@ class Container implements ContainerInterface
      * @return  bool
      * @since   1.0
      */
-    protected function getKey($key, $exception = false)
+    public function getSetKey($key)
     {
-        if (isset($this->container_registry[strtolower($key)])) {
-            return strtolower($key);
+        $results = $this->getKey($key);
+
+        if ($results === false) {
+            return $key;
         }
 
-        if (isset($this->adapter_namespaces[$key])) {
-            if (isset($this->container_registry[strtolower($this->adapter_namespaces[$key])])) {
-                return strtolower($this->adapter_namespaces[$key]);
-            }
+        return $results;
+    }
+
+    /**
+     * Determine if an alias value exists for this key
+     *
+     * @param   string  $key
+     * @param   boolean $exception
+     *
+     * @return  boolean
+     * @since   1.0
+     */
+    public function getKey($key, $exception = false)
+    {
+        if ($this->testContainerKey($key) === true) {
+            return $key;
+        }
+
+        $results = $this->testAlias($key);
+        if ($results === false) {
+        } else {
+            $key = $results;
+            return $key;
         }
 
         if ($exception === true) {
             throw new RuntimeException('Requested IoCC Entry for Key: ' . $key . ' does not exist');
+        }
+
+        return false;
+    }
+
+    /**
+     * Set adapter namespace array entries associated with alias keys
+     *
+     * @param   string  $key
+     *
+     * @return  boolean
+     * @since   1.0
+     */
+    protected function testAlias($key)
+    {
+        $arrays = array('adapter_aliases', 'adapter_namespaces');
+
+        foreach ($arrays as $array) {
+
+            $test = $this->testAliasKey($key, $this->$array);
+
+            if ($test === false) {
+            } else {
+                $key = $test;
+                return $key;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Set adapter namespace array entries associated with alias keys
+     *
+     * @param   string  $key
+     * @param   array   $array
+     *
+     * @return  boolean
+     * @since   1.0
+     */
+    protected function testAliasKey($key, array $array = array())
+    {
+        if (count($array) === 0) {
+            return false;
+        }
+
+        if (isset($array[$key])) {
+            if ($this->testContainerKey($array[$key]) === true) {
+                return $array[$key];
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if a container entry exists for this key
+     *
+     * @param   string  $key
+     *
+     * @return  boolean
+     * @since   1.0
+     */
+    protected function testContainerKey($key)
+    {
+        if (isset($this->container_registry[$key])) {
+            return true;
         }
 
         return false;
