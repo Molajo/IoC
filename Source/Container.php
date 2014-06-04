@@ -35,7 +35,7 @@ class Container implements ContainerInterface
      * @var     array
      * @since   1.0
      */
-    protected $adapter_aliases = array();
+    protected $factory_method_aliases = array();
 
     /**
      * Factory Method Namespaces => Aliases
@@ -43,20 +43,20 @@ class Container implements ContainerInterface
      * @var     array
      * @since   1.0
      */
-    protected $adapter_namespaces = array();
+    protected $factory_method_namespaces = array();
 
     /**
      * Constructor
      *
-     * @param  array $adapter_aliases
+     * @param  array $factory_method_aliases
      *
      * @since  1.0
      */
     public function __construct(
-        array $adapter_aliases = array()
+        array $factory_method_aliases = array()
     ) {
-        $this->adapter_aliases = $adapter_aliases;
-        $this->setAdapterNamespaces();
+        $this->factory_method_aliases = $factory_method_aliases;
+        $this->setFactoryMethodNamespaces();
     }
 
     /**
@@ -129,25 +129,6 @@ class Container implements ContainerInterface
     /**
      * Determine if an alias value exists for this key
      *
-     * @param   string $key
-     *
-     * @return  bool
-     * @since   1.0
-     */
-    public function getSetKey($key)
-    {
-        $results = $this->getKey($key);
-
-        if ($results === false) {
-            return $key;
-        }
-
-        return $results;
-    }
-
-    /**
-     * Determine if an alias value exists for this key
-     *
      * @param   string  $key
      * @param   boolean $exception
      *
@@ -161,6 +142,7 @@ class Container implements ContainerInterface
         }
 
         $results = $this->testAlias($key);
+
         if ($results === false) {
         } else {
             $key = $results;
@@ -175,7 +157,7 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Set adapter namespace array entries associated with alias keys
+     * Set factory method namespace array entries associated with alias keys
      *
      * @param   string  $key
      *
@@ -184,7 +166,7 @@ class Container implements ContainerInterface
      */
     protected function testAlias($key)
     {
-        $arrays = array('adapter_aliases', 'adapter_namespaces');
+        $arrays = array('factory_method_aliases', 'factory_method_namespaces');
 
         foreach ($arrays as $array) {
 
@@ -201,7 +183,7 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Set adapter namespace array entries associated with alias keys
+     * Set factory method namespace array entries associated with alias keys
      *
      * @param   string  $key
      * @param   array   $array
@@ -217,6 +199,7 @@ class Container implements ContainerInterface
 
         if (isset($array[$key])) {
             if ($this->testContainerKey($array[$key]) === true) {
+                echo 'Foundit: ' . $key . ' ' , $array[$key];
                 return $array[$key];
             }
         }
@@ -242,18 +225,18 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Set adapter namespace array entries associated with alias keys
+     * Set factory method namespace array entries associated with alias keys
      *
      * @return  $this
      * @since   1.0
      */
-    protected function setAdapterNamespaces()
+    protected function setFactoryMethodNamespaces()
     {
-        $this->adapter_namespaces = array();
+        $this->factory_method_namespaces = array();
 
-        if (count($this->adapter_aliases) > 0) {
-            foreach ($this->adapter_aliases as $key => $value) {
-                $this->adapter_namespaces[$value] = $key;
+        if (count($this->factory_method_aliases) > 0) {
+            foreach ($this->factory_method_aliases as $key => $value) {
+                $this->factory_method_namespaces[$value] = $key;
             }
         }
 
