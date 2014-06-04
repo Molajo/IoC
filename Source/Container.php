@@ -55,14 +55,8 @@ class Container implements ContainerInterface
     public function __construct(
         array $adapter_aliases = array()
     ) {
-        $this->adapter_aliases    = $adapter_aliases;
-        $this->adapter_namespaces = array();
-
-        if (count($this->adapter_aliases) > 0) {
-            foreach ($this->adapter_aliases as $key => $value) {
-                $this->adapter_namespaces[$value] = $key;
-            }
-        }
+        $this->adapter_aliases = $adapter_aliases;
+        $this->setAdapterNamespaces();
     }
 
     /**
@@ -75,18 +69,11 @@ class Container implements ContainerInterface
      */
     public function has($key)
     {
-        $key = strtolower($key);
-        if (isset($this->container_registry[$key])) {
-            return true;
+        if ($this->getKey($key, false) === false) {
+            return false;
         }
 
-        if (isset($this->adapter_aliases[$key])) {
-            if (isset($this->container_registry[strtolower($this->adapter_aliases[$key])])) {
-                return true;
-            }
-        }
-
-        return false;
+        return true;
     }
 
     /**
@@ -100,17 +87,9 @@ class Container implements ContainerInterface
      */
     public function get($key)
     {
-        if (isset($this->container_registry[strtolower($key)])) {
-            return $this->container_registry[strtolower($key)];
-        }
+        $key = $this->getKey($key, true);
 
-        if (isset($this->adapter_aliases[$key])) {
-            if (isset($this->container_registry[strtolower($this->adapter_aliases[$key])])) {
-                return $this->container_registry[strtolower($this->adapter_aliases[$key])];
-            }
-        }
-
-        throw new RuntimeException('IoCC Entry for Key: ' . $key . ' does not exist');
+        return $this->container_registry[strtolower($key)];
     }
 
     /**
@@ -124,7 +103,11 @@ class Container implements ContainerInterface
      */
     public function set($key, $value)
     {
-        $newkey = strtolower($key);
+        $newkey = $this->getKey($key, false);
+
+        if ($newkey === false) {
+            $newkey = strtolower($key);
+        }
 
         $this->container_registry[$newkey] = $value;
 
@@ -152,20 +135,56 @@ class Container implements ContainerInterface
      */
     public function remove($key)
     {
-        if (isset($this->container_registry[strtolower($key)])) {
-            unset($this->container_registry[strtolower($key)]);
+        $key = $this->getKey($key, true);
 
-            return $this;
+        unset($this->container_registry[$key]);
+
+        return $this;
+    }
+
+    /**
+     * Determine if an alias value exists for this key
+     *
+     * @param   string $key
+     *
+     * @return  bool
+     * @since   1.0
+     */
+    protected function getKey($key, $exception = false)
+    {
+        if (isset($this->container_registry[strtolower($key)])) {
+            return strtolower($key);
         }
 
-        if (isset($this->adapter_aliases[$key])) {
-            if (isset($this->container_registry[strtolower($this->adapter_aliases[$key])])) {
-                unset($this->container_registry[strtolower($this->adapter_aliases[$key])]);
-
-                return $this;
+        if (isset($this->adapter_namespaces[$key])) {
+            if (isset($this->container_registry[strtolower($this->adapter_namespaces[$key])])) {
+                return strtolower($this->adapter_namespaces[$key]);
             }
         }
 
-        throw new RuntimeException('Requested Removal of IoCC Entry for Key: ' . $key . ' does not exist');
+        if ($exception === true) {
+            throw new RuntimeException('Requested IoCC Entry for Key: ' . $key . ' does not exist');
+        }
+
+        return false;
+    }
+
+    /**
+     * Set adapter namespace array entries associated with alias keys
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setAdapterNamespaces()
+    {
+        $this->adapter_namespaces = array();
+
+        if (count($this->adapter_aliases) > 0) {
+            foreach ($this->adapter_aliases as $key => $value) {
+                $this->adapter_namespaces[$value] = $key;
+            }
+        }
+
+        return $this;
     }
 }

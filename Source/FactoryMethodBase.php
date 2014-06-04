@@ -214,7 +214,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Factory Method Controller retrieves "store instance indicator" from Factory Method
      *
-     * @return  string
+     * @return  boolean
      * @since   1.0
      */
     public function getStoreContainerEntryIndicator()
@@ -561,7 +561,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      *
      * @param   object $input_object
      *
-     * @return  object
+     * @return  stdClass
      * @since   1.0
      */
     protected function sortObject($input_object)

@@ -253,7 +253,7 @@ class Schedule implements ScheduleInterface
      * @param   string $product_name
      * @param   array  $options
      *
-     * @return  object
+     * @return  Schedule
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
@@ -290,7 +290,7 @@ class Schedule implements ScheduleInterface
     /**
      * Get Factory Method Namespace
      *
-     * @param   object $work_object
+     * @param   stdClass $work_object
      *
      * @return  $this
      * @since   1.0
@@ -375,7 +375,7 @@ class Schedule implements ScheduleInterface
      * @param   string $product_name
      * @param   array  $options
      *
-     * @return  object
+     * @return  stdClass
      * @since   1.0
      */
     protected function setContainerKey($product_name, array $options = array())
@@ -614,7 +614,7 @@ class Schedule implements ScheduleInterface
      *
      * @param   FactoryInterface $factory_method_adapter
      *
-     * @return  object  CommonApi\IoC\FactoryInterface     * @since   1.0
+     * @return  FactoryMethodController  CommonApi\IoC\FactoryInterface     * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     protected function getFactoryMethod(FactoryInterface $factory_method_adapter)

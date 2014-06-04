@@ -81,7 +81,7 @@ class MapFactories implements MapInterface
     /**
      * Create resource map of folder/file locations and Fully Qualified Namespaces
      *
-     * @return  object
+     * @return  MapFactories
      * @since   1.0
      */
     public function createMap()
@@ -111,7 +111,6 @@ class MapFactories implements MapInterface
     /**
      * Map IoCC Dependency Injection Handler Namespaces
      *
-     * @param   array $folders
      *
      * @since   1.0
      * @return  $this
