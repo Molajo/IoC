@@ -152,10 +152,10 @@ class Schedule implements ScheduleInterface
 
         if ($product === true) {
             return $this->container->get(strtolower($product_name));
-        } else {
-            if (isset($options['if_exists'])) {
-                return false;
-            }
+        }
+
+        if (isset($options['if_exists'])) {
+            return false;
         }
 
         $this->dependency_of         = array();
@@ -202,7 +202,6 @@ class Schedule implements ScheduleInterface
                     $count ++;
 
                     if ($count > 400) {
-                        echo 'The following requests ' . count($this->process_requests) . ' remain: <br />';
 
                         foreach ($this->process_requests as $request) {
                             echo 'Request: ' . $request->name . '<br />';

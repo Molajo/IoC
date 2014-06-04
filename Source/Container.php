@@ -75,7 +75,8 @@ class Container implements ContainerInterface
      */
     public function has($key)
     {
-        if (isset($this->container_registry[strtolower($key)])) {
+        $key = strtolower($key);
+        if (isset($this->container_registry[$key])) {
             return true;
         }
 
@@ -109,8 +110,7 @@ class Container implements ContainerInterface
             }
         }
 
-        throw new RuntimeException
-        ('IoCC Entry for Key: ' . $key . ' does not exist');
+        throw new RuntimeException('IoCC Entry for Key: ' . $key . ' does not exist');
     }
 
     /**
@@ -164,7 +164,6 @@ class Container implements ContainerInterface
             }
         }
 
-        throw new RuntimeException
-        ('Requested Removal of IoCC Entry for Key: ' . $key . ' does not exist');
+        throw new RuntimeException('Requested Removal of IoCC Entry for Key: ' . $key . ' does not exist');
     }
 }
