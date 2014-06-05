@@ -25,7 +25,7 @@ class Container implements ContainerInterface
      * Container Registry
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $container_registry = array();
 
@@ -33,7 +33,7 @@ class Container implements ContainerInterface
      * Factory Method Aliases => Namespaces
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $factory_method_aliases = array();
 
@@ -41,7 +41,7 @@ class Container implements ContainerInterface
      * Factory Method Namespaces => Aliases
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $factory_method_namespaces = array();
 
@@ -50,7 +50,7 @@ class Container implements ContainerInterface
      *
      * @param  array $factory_method_aliases
      *
-     * @since  1.0
+     * @since  1.0.0
      */
     public function __construct(
         array $factory_method_aliases = array()
@@ -65,7 +65,7 @@ class Container implements ContainerInterface
      * @param   string $key
      *
      * @return  bool
-     * @since   1.0
+     * @since  1.0.0
      */
     public function has($key)
     {
@@ -82,7 +82,7 @@ class Container implements ContainerInterface
      * @param   string $key
      *
      * @return  mixed
-     * @since   1.0
+     * @since  1.0.0
      * @throws  \CommonApi\Exception\InvalidArgumentException
      */
     public function get($key)
@@ -103,7 +103,7 @@ class Container implements ContainerInterface
      * @param   mixed  $value
      *
      * @return  $this
-     * @since   1.0
+     * @since  1.0.0
      */
     public function set($key, $value)
     {
@@ -118,7 +118,7 @@ class Container implements ContainerInterface
      * @param   string $key
      *
      * @return  $this
-     * @since   1.0
+     * @since  1.0.0
      * @throws  \CommonApi\Exception\InvalidArgumentException
      */
     public function remove($key)
@@ -141,7 +141,7 @@ class Container implements ContainerInterface
      * @param   boolean $exception
      *
      * @return  boolean
-     * @since   1.0
+     * @since  1.0.0
      */
     public function getKey($key)
     {
@@ -158,7 +158,7 @@ class Container implements ContainerInterface
      * @param   string  $key
      *
      * @return  boolean
-     * @since   1.0
+     * @since  1.0.0
      */
     protected function testAlias($key)
     {
@@ -185,7 +185,7 @@ class Container implements ContainerInterface
      * @param   array   $array
      *
      * @return  boolean
-     * @since   1.0
+     * @since  1.0.0
      */
     protected function testAliasKey($key, array $array = array())
     {
@@ -208,7 +208,7 @@ class Container implements ContainerInterface
      * @param   string  $key
      *
      * @return  boolean
-     * @since   1.0
+     * @since  1.0.0
      */
     protected function testContainerKey($key)
     {
@@ -223,7 +223,7 @@ class Container implements ContainerInterface
      * Set factory method namespace array entries associated with alias keys
      *
      * @return  $this
-     * @since   1.0
+     * @since  1.0.0
      */
     protected function setFactoryMethodNamespaces()
     {

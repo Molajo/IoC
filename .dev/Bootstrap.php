@@ -19,6 +19,10 @@ $classmap['Molajo\\IoC\\FactoryMethodController'] = $base . '/Source/FactoryMeth
 $classmap['Molajo\\IoC\\MapFactories']            = $base . '/Source/MapFactories.php';
 $classmap['Molajo\\IoC\\Schedule']                = $base . '/Source/Schedule.php';
 $classmap['Molajo\\IoC\\StandardFactoryMethod']   = $base . '/Source/StandardFactoryMethod.php';
+$classmap['Molajo\\Factories\\Dispatcher\\DispatcherFactoryMethod']
+    = $base . '/.dev/Tests/Files/Factories/Dispatcher/DispatcherFactoryMethod.php';
+$classmap['Molajo\\Factories\\Dispatcher\\DispatcherDogFactoryMethod']
+    = $base . '/.dev/Tests/Files/Factories/Dispatcher/DispatcherDogFactoryMethod.php';
 
 spl_autoload_register(
     function ($class) use ($classmap) {

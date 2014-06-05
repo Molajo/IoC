@@ -59,7 +59,7 @@ Define a class property in which to store the IoCC instance.
      * Inversion of Control Container
      *
      * @var    object
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $iocc;
 
@@ -147,7 +147,7 @@ statements passed into the Container will be used outside of the Front Controlle
      *  Services defined in Services.xml
      *
      * @return  $this
-     * @since   1.0
+     * @since  1.0.0
      * @throws  FrontcontrollerException
      */
     public function initialise()
@@ -377,7 +377,7 @@ class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMetho
      *
      * @param   $options
      *
-     * @since   1.0
+     * @since  1.0.0
      */
     public function __construct(array $options = array())
     {
@@ -396,7 +396,7 @@ class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMetho
      * Follows instantiation of the service class and before the method identified as the "start" method
      *
      * @return  object
-     * @since   1.0
+     * @since  1.0.0
      */
     public funonBeforeInstantiationtances()
     {
@@ -409,7 +409,7 @@ class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMetho
      * @param   bool $create_static
      *
      * @return  $this
-     * @since   1.0
+     * @since  1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public function instantiateClass()
@@ -421,7 +421,7 @@ class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMetho
      * Follows the completion of the instantiate service method
      *
      * @return  object
-     * @since   1.0
+     * @since  1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public function onAfterInstantiation()
@@ -433,7 +433,7 @@ class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMetho
      * Initialise Service Class, if the method exists
      *
      * @return  object
-     * @since   1.0
+     * @since  1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public function initialise()
@@ -445,7 +445,7 @@ class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMetho
      * Follows the completion of Initialise
      *
      * @return  object
-     * @since   1.0
+     * @since  1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public function onAfterServiceInitialise()
@@ -457,7 +457,7 @@ class ExampleFactoryMethod extends AbstractFactoryMethod implements FactoryMetho
      * Get Product Result
      *
      * @return  object
-     * @since   1.0
+     * @since  1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public function getProductValue()

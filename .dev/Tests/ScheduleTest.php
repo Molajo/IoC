@@ -30,7 +30,7 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * Object to test
      *
      * @var     object CommonApi\IoC\ScheduleInterface
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $schedule;
 
@@ -38,7 +38,7 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * Container
      *
      * @var     object CommonApi\IoC\ContainerInterface
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $container;
 
@@ -52,20 +52,10 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::remove
      *
      * @covers  Molajo\IoC\Schedule::__construct
-     * @covers  Molajo\IoC\Schedule::scheduleFactoryMethod
-     * @covers  Molajo\IoC\Schedule::setWorkObject
-     * @covers  Molajo\IoC\Schedule::instantiateFactoryMethod
-     * @covers  Molajo\IoC\Schedule::setContainerKey
-     * @covers  Molajo\IoC\Schedule::completeRequest
-     * @covers  Molajo\IoC\Schedule::satisfyDependency
-     * @covers  Molajo\IoC\Schedule::getFactoryMethod
-     * @covers  Molajo\IoC\Schedule::getFactoryMethodAdapter
-     * @covers  Molajo\IoC\Schedule::hasContainerEntry
-     * @covers  Molajo\IoC\Schedule::getContainerEntry
-     * @covers  Molajo\IoC\Schedule::loadClassDependencies
+
      *
      * @return void
-     * @since   1.0
+     * @since  1.0.0
      */
     public function setup()
     {
@@ -92,27 +82,9 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
     /**
      * Test Empty configuration
      *
-     * @covers  Molajo\IoC\Container::__construct
-     * @covers  Molajo\IoC\Container::has
-     * @covers  Molajo\IoC\Container::get
-     * @covers  Molajo\IoC\Container::set
-     * @covers  Molajo\IoC\Container::remove
-     *
-     * @covers  Molajo\IoC\Schedule::__construct
-     * @covers  Molajo\IoC\Schedule::scheduleFactoryMethod
-     * @covers  Molajo\IoC\Schedule::setWorkObject
-     * @covers  Molajo\IoC\Schedule::instantiateFactoryMethod
-     * @covers  Molajo\IoC\Schedule::setContainerKey
-     * @covers  Molajo\IoC\Schedule::completeRequest
-     * @covers  Molajo\IoC\Schedule::satisfyDependency
-     * @covers  Molajo\IoC\Schedule::getFactoryMethod
-     * @covers  Molajo\IoC\Schedule::getFactoryMethodAdapter
-     * @covers  Molajo\IoC\Schedule::hasContainerEntry
-     * @covers  Molajo\IoC\Schedule::getContainerEntry
-     * @covers  Molajo\IoC\Schedule::loadClassDependencies
      *
      * @return void
-     * @since   1.0
+     * @since  1.0.0
      */
     public function testLoadedContainerEntries()
     {

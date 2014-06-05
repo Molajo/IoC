@@ -29,7 +29,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * IoC ID from Controller
      *
      * @var     string
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $ioc_id = null;
 
@@ -37,7 +37,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Product Name
      *
      * @var     string
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $product_name = null;
 
@@ -45,7 +45,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Product Namespace
      *
      * @var     string
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $product_namespace = null;
 
@@ -53,7 +53,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Static Instance Indicator
      *
      * @var     boolean
-     * @since   1.0
+     * @since  1.0.0
      * @static
      */
     protected $static_instance_indicator = false;
@@ -62,7 +62,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Store Instance Indicator
      *
      * @var     boolean
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $store_instance_indicator = false;
 
@@ -70,7 +70,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Store Properties
      *
      * @var     boolean
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $store_properties_indicator = false;
 
@@ -78,7 +78,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Options
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $options = array();
 
@@ -86,7 +86,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Reflection Parameters
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $reflection = array();
 
@@ -94,7 +94,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Dependencies
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $dependencies = array();
 
@@ -102,7 +102,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Product Result
      *
      * @var     object
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $product_result = null;
 
@@ -111,7 +111,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      *
      * @static
      * @var    object  Services
-     * @since  1.0
+     * @since  1.0.0
      */
     protected static $static_product_result = null;
 
@@ -119,7 +119,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Container Entries to remove from IoCC
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $remove_container_entries = array();
 
@@ -127,7 +127,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Services to update within the IoCC
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $set_container_entries = array();
 
@@ -135,7 +135,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Services to schedule for Product Creation
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $schedule_factory_methods = array();
 
@@ -143,7 +143,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * List of Property Array
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $factory_method_adapter_property_array = array(
         'ioc_id',
@@ -166,7 +166,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      *
      * @param   $options
      *
-     * @since   1.0
+     * @since  1.0.0
      */
     public function __construct(array $options = array())
     {
@@ -193,7 +193,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Factory Method Controller requests Product Namespace from Factory Method
      *
      * @return  string
-     * @since   1.0
+     * @since  1.0.0
      */
     public function getNamespace()
     {
@@ -204,7 +204,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Factory Method Controller requests Service Options from Factory Method
      *
      * @return  array
-     * @since   1.0
+     * @since  1.0.0
      */
     public function getOptions()
     {
@@ -215,7 +215,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Factory Method Controller retrieves "store instance indicator" from Factory Method
      *
      * @return  boolean
-     * @since   1.0
+     * @since  1.0.0
      */
     public function getStoreContainerEntryIndicator()
     {
@@ -229,7 +229,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * @param   array $reflection
      *
      * @return  array
-     * @since   1.0
+     * @since  1.0.0
      */
     public function setDependencies(array $reflection = null)
     {
@@ -286,7 +286,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * @param   array $dependency_values
      *
      * @return  array
-     * @since   1.0
+     * @since  1.0.0
      */
     public function onBeforeInstantiation(array $dependency_values = null)
     {
@@ -352,7 +352,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Service instantiated automatically or within this method by the Factory Method
      *
      * @return  $this
-     * @since   1.0
+     * @since  1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public function instantiateClass()
@@ -424,7 +424,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * @static
      *
      * @return  void
-     * @since   1.0
+     * @since  1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public static function instantiateStatic($product_namespace)
@@ -445,7 +445,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      *  and can be used for setter logic or other post-construction processing
      *
      * @return  $this
-     * @since   1.0
+     * @since  1.0.0
      */
     public function onAfterInstantiation()
     {
@@ -456,7 +456,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Factory Method Controller requests Product Result for just created Class from Factory Method
      *
      * @return  object
-     * @since   1.0
+     * @since  1.0.0
      */
     public function getProductValue()
     {
@@ -496,7 +496,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Request for array of Products to be removed from the IoC Container
      *
      * @return  array
-     * @since   1.0
+     * @since  1.0.0
      */
     public function removeContainerEntries()
     {
@@ -507,7 +507,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Request for array of Products and Values to be saved to the IoC Container
      *
      * @return  array
-     * @since   1.0
+     * @since  1.0.0
      */
     public function setContainerEntries()
     {
@@ -518,7 +518,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Request for array of Factory Methods to be Scheduled
      *
      * @return  array
-     * @since   1.0
+     * @since  1.0.0
      */
     public function scheduleFactories()
     {
@@ -531,7 +531,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * @param  string $file_name
      *
      * @return array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected function readFile($file_name)
     {
@@ -562,7 +562,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * @param   object $input_object
      *
      * @return  stdClass
-     * @since   1.0
+     * @since  1.0.0
      */
     protected function sortObject($input_object)
     {

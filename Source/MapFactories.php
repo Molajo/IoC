@@ -25,7 +25,7 @@ class MapFactories implements MapInterface
      * Factories Folders
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $folders = array();
 
@@ -33,7 +33,7 @@ class MapFactories implements MapInterface
      * IoC Factory Method Namespaces - lookup table
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $adapter_namespace_prefix = 'Molajo\Factories';
 
@@ -41,7 +41,7 @@ class MapFactories implements MapInterface
      * Service Aliases
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $adapter_aliases = array();
 
@@ -49,7 +49,7 @@ class MapFactories implements MapInterface
      * Factory Method Alias Filename
      *
      * @var    string
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $adapter_alias_filename;
 
@@ -60,7 +60,7 @@ class MapFactories implements MapInterface
      * @param  string $adapter_namespace_prefix
      * @param  null   $adapter_alias_filename
      *
-     * @since  1.0
+     * @since  1.0.0
      */
     public function __construct(
         array $folders = array(),
@@ -82,7 +82,7 @@ class MapFactories implements MapInterface
      * Create resource map of folder/file locations and Fully Qualified Namespaces
      *
      * @return  MapFactories
-     * @since   1.0
+     * @since  1.0.0
      */
     public function createMap()
     {
@@ -112,7 +112,7 @@ class MapFactories implements MapInterface
      * Map IoCC Dependency Injection Handler Namespaces
      *
      *
-     * @since   1.0
+     * @since  1.0.0
      * @return  $this
      */
     protected function MapFactories()
@@ -144,7 +144,7 @@ class MapFactories implements MapInterface
      *
      * @param   string $adapter_folder
      *
-     * @since   1.0
+     * @since  1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      * @return  array
      */

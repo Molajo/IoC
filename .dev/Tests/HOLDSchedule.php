@@ -29,7 +29,7 @@ class Schedule implements ScheduleInterface
      * Container Registry
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $container = null;
 
@@ -37,7 +37,7 @@ class Schedule implements ScheduleInterface
      * Factory Method Aliases => Namespaces
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $adapter_aliases = array();
 
@@ -45,7 +45,7 @@ class Schedule implements ScheduleInterface
      * Factory Method Namespaces => Aliases
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $adapter_namespaces = array();
 
@@ -53,7 +53,7 @@ class Schedule implements ScheduleInterface
      * Class Dependencies derived from Reflection
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $class_dependencies = array();
 
@@ -61,7 +61,7 @@ class Schedule implements ScheduleInterface
      * Process Request Queue
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $process_requests = array();
 
@@ -69,7 +69,7 @@ class Schedule implements ScheduleInterface
      * Request Queue
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $queue_id = 1;
 
@@ -77,7 +77,7 @@ class Schedule implements ScheduleInterface
      * New Requests Queue
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $request_process_queue = array();
 
@@ -85,7 +85,7 @@ class Schedule implements ScheduleInterface
      * Dependency of Array
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $dependency_of = array();
 
@@ -93,7 +93,7 @@ class Schedule implements ScheduleInterface
      * Standard IoC Factory Method (Used when no custom Factory Method is required)
      *
      * @var     array
-     * @since   1.0
+     * @since  1.0.0
      */
     protected $standard_adapter_namespaces = 'Molajo\\IoC\\StandardFactoryMethod';
 
@@ -105,7 +105,7 @@ class Schedule implements ScheduleInterface
      * @param null               $class_dependencies_filename
      * @param string             $standard_adapter_namespaces
      *
-     * @since  1.0
+     * @since  1.0.0
      */
     public function __construct(
         ContainerInterface $container,
@@ -133,7 +133,7 @@ class Schedule implements ScheduleInterface
      * @param   array  $options
      *
      * @return  mixed
-     * @since   1.0
+     * @since  1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public function scheduleFactoryMethod($product_name = null, array $options = array())
@@ -254,7 +254,7 @@ class Schedule implements ScheduleInterface
      * @param   array  $options
      *
      * @return  Schedule
-     * @since   1.0
+     * @since  1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     protected function setWorkObject($product_name, array $options = array())
@@ -293,7 +293,7 @@ class Schedule implements ScheduleInterface
      * @param   stdClass $work_object
      *
      * @return  $this
-     * @since   1.0
+     * @since  1.0.0
      * @throws \CommonApi\Exception\RuntimeException
      */
     protected function instantiateFactoryMethod($work_object)
@@ -376,7 +376,7 @@ class Schedule implements ScheduleInterface
      * @param   array  $options
      *
      * @return  stdClass
-     * @since   1.0
+     * @since  1.0.0
      */
     protected function setContainerKey($product_name, array $options = array())
     {
@@ -478,7 +478,7 @@ class Schedule implements ScheduleInterface
      * @param   string $work_object
      *
      * @return  object
-     * @since   1.0
+     * @since  1.0.0
      */
     protected function completeRequest($work_object)
     {
@@ -587,7 +587,7 @@ class Schedule implements ScheduleInterface
      * @param   mixed  $dependency_value
      *
      * @return  $this
-     * @since   1.0
+     * @since  1.0.0
      */
     protected function satisfyDependency($dependency, $dependency_value)
     {
@@ -614,7 +614,7 @@ class Schedule implements ScheduleInterface
      *
      * @param   FactoryInterface $factory_method_adapter
      *
-     * @return  FactoryMethodController  CommonApi\IoC\FactoryInterface     * @since   1.0
+     * @return  FactoryMethodController  CommonApi\IoC\FactoryInterface     * @since  1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     protected function getFactoryMethod(FactoryInterface $factory_method_adapter)
@@ -638,7 +638,7 @@ class Schedule implements ScheduleInterface
      * @param   string $options
      *
      * @return  FactoryInterface     * @throws  \CommonApi\Exception\RuntimeException
-     * @since   1.0
+     * @since  1.0.0
      */
     protected function getFactoryMethodAdapter($request, $adapter_namespaces, $options)
     {
@@ -678,7 +678,7 @@ class Schedule implements ScheduleInterface
      *
      * @param  string $filename
      *
-     * @since   1.0
+     * @since  1.0.0
      * @return  $this
      */
     protected function loadClassDependencies($filename = null)

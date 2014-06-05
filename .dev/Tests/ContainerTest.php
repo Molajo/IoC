@@ -40,7 +40,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @return void
-     * @since   1.0
+     * @since  1.0.0
      */
     public function testEmpty()
     {
@@ -82,7 +82,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionMessage IoCC Entry for Key: a does not exist
      *
      * @return  void
-     * @since   1.0
+     * @since  1.0.0
      */
     public function testGetNotExisting()
     {
@@ -106,7 +106,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @return void
-     * @since   1.0
+     * @since  1.0.0
      */
     public function testLoadConfiguration()
     {
@@ -142,7 +142,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionMessage IoCC Entry for Key: Molajo\Factories\Dispatcher does not exist
      *
      * @return  void
-     * @since   1.0
+     * @since  1.0.0
      */
     public function testLoadConfigurationNotExisting()
     {
@@ -167,7 +167,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @return void
-     * @since   1.0
+     * @since  1.0.0
      */
     public function testAliases()
     {
@@ -201,7 +201,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @return void
-     * @since   1.0
+     * @since  1.0.0
      */
     public function testNamepaceToAlias()
     {
