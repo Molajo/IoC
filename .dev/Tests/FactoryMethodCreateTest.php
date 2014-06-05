@@ -141,4 +141,63 @@ class FactoryMethodCreateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(file_get_contents(__DIR__ . '/StandardFactoryMethod.txt'),
             serialize($create->instantiateFactoryMethod()));
     }
+
+    /**
+     * Pass in Standard Factory Method Namespace
+     *
+     *
+     * @covers  Molajo\IoC\FactoryMethodCreate::__construct
+     * @covers  Molajo\IoC\FactoryMethodCreate::instantiateFactoryMethod
+     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodAdapter
+     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodController
+     *
+     * @covers  Molajo\IoC\FactoryMethodController::__construct
+     * @covers  Molajo\IoC\FactoryMethodController::getNamespace
+     * @covers  Molajo\IoC\FactoryMethodController::getOptions
+     * @covers  Molajo\IoC\FactoryMethodController::getStoreContainerEntryIndicator
+     * @covers  Molajo\IoC\FactoryMethodController::setDependencies
+     * @covers  Molajo\IoC\FactoryMethodController::removeDependency
+     * @covers  Molajo\IoC\FactoryMethodController::setDependencyValue
+     * @covers  Molajo\IoC\FactoryMethodController::getRemainingDependencyCount
+     * @covers  Molajo\IoC\FactoryMethodController::onBeforeInstantiation
+     * @covers  Molajo\IoC\FactoryMethodController::instantiateClass
+     * @covers  Molajo\IoC\FactoryMethodController::onAfterInstantiation
+     * @covers  Molajo\IoC\FactoryMethodController::getProductValue
+     * @covers  Molajo\IoC\FactoryMethodController::removeContainerEntries
+     * @covers  Molajo\IoC\FactoryMethodController::setContainerEntries
+     * @covers  Molajo\IoC\FactoryMethodController::scheduleFactories
+     *
+     * @covers  Molajo\IoC\StandardFactoryMethod::__construct
+     * @covers  Molajo\IoC\FactoryMethodBase::getNamespace
+     * @covers  Molajo\IoC\FactoryMethodBase::getOptions
+     * @covers  Molajo\IoC\FactoryMethodBase::getStoreContainerEntryIndicator
+     * @covers  Molajo\IoC\FactoryMethodBase::setDependencies
+     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiation
+     * @covers  Molajo\IoC\FactoryMethodBase::instantiateClass
+     * @covers  Molajo\IoC\FactoryMethodBase::instantiateStatic
+     * @covers  Molajo\IoC\FactoryMethodBase::onAfterInstantiation
+     * @covers  Molajo\IoC\FactoryMethodBase::getProductValue
+     * @covers  Molajo\IoC\FactoryMethodBase::removeContainerEntries
+     * @covers  Molajo\IoC\FactoryMethodBase::setContainerEntries
+     * @covers  Molajo\IoC\FactoryMethodBase::scheduleFactories
+     * @covers  Molajo\IoC\FactoryMethodBase::readFile
+     * @covers  Molajo\IoC\FactoryMethodBase::sortObject
+     *
+     * @expectedException \CommonApi\Exception\RuntimeException
+     * @expectedExceptionMessage IoC FactoryMethodCreate::getFactoryMethodAdapter Class does not exist: Molajo\IoC\DoesNotExist
+     *
+     * @return void
+     * @since  1.0.0
+     */
+    public function testClassDoesNotExist()
+    {
+        $options                    = array();
+        $options['product_name']    = 'Standard';
+        $options['container_key']   = 'Molajo\\IoC\\DoesNotExist';
+        $options['ioc_id']          = 1;
+        $options['factory_method_namespace'] = $options['container_key'];
+
+        $create = new FactoryMethodCreate($options);
+        $create->instantiateFactoryMethod();
+    }
 }

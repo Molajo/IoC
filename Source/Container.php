@@ -69,7 +69,7 @@ class Container implements ContainerInterface
      */
     public function has($key)
     {
-        if ($this->getKey($key, false) === false) {
+        if ($this->getKey($key) === false) {
             return false;
         }
 
@@ -87,13 +87,9 @@ class Container implements ContainerInterface
      */
     public function get($key)
     {
-        $results = $this->getKey($key, true);
+        $key = $this->action($key, 'get');
 
-        if ($results === false) {
-            throw new InvalidArgumentException('Get IoCC Entry for Key: ' . $key . ' does not exist');
-        }
-
-        return $this->container_registry[$results];
+        return $this->container_registry[$key];
     }
 
     /**
@@ -123,13 +119,9 @@ class Container implements ContainerInterface
      */
     public function remove($key)
     {
-        $results = $this->getKey($key);
+        $key = $this->action($key, 'remove');
 
-        if ($results === false) {
-            throw new InvalidArgumentException('Remove IoCC Entry for Key: ' . $key . ' does not exist');
-        }
-
-        unset($this->container_registry[$results]);
+        unset($this->container_registry[$key]);
 
         return $this;
     }
@@ -161,6 +153,27 @@ class Container implements ContainerInterface
         }
 
         return false;
+    }
+
+    /**
+     * Perform action
+     *
+     * @param   string $key
+     * @param   string $type
+     *
+     * @return  string
+     * @since   1.0.0
+     * @throws  \CommonApi\Exception\InvalidArgumentException
+     */
+    protected function action($key, $action)
+    {
+        $results = $this->getKey($key, true);
+
+        if ($results === false) {
+            throw new InvalidArgumentException('Get IoCC Entry for Key: ' . $key . ' Action: ' . $action . ' does not exist');
+        }
+
+        return $results;
     }
 
     /**

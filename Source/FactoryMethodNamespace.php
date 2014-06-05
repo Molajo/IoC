@@ -59,8 +59,8 @@ class FactoryMethodNamespace
         $standard_adapter_namespace,
         array $options = array()
     ) {
-        $this->standard_adapter_namespace  = $standard_adapter_namespace;
-        $this->options                     = $options;
+        $this->standard_adapter_namespace = $standard_adapter_namespace;
+        $this->options                    = $options;
     }
 
     /**
@@ -90,25 +90,21 @@ class FactoryMethodNamespace
     /**
      * Build a possible Namespace path and test it for class
      *
-     * @param   string  $value
+     * @param   string $value
      *
      * @return  mixed
      * @since   1.0.0
      */
     protected function getFactoryNamespaceFolderFile($option_entry)
     {
-        $test = array();
-
         if (isset($this->options[$option_entry])) {
-            $test[0] = $this->options[$option_entry];
         } else {
             return false;
         }
 
-        $folder    = $this->getLastFolder($test[0]);
-
-        $separator = '\\';
-        $test[1] = $test[0] . $separator . $folder . 'FactoryMethod';
+        $test    = array();
+        $test[0] = $this->options[$option_entry];
+        $test[1] = $this->getFolderFile($test[0]);
 
         foreach ($test as $value) {
             if ($this->checkClassExists($value) === true) {
@@ -117,6 +113,21 @@ class FactoryMethodNamespace
         }
 
         return false;
+    }
+
+    /**
+     * Get Folder File Namespace
+     *
+     * @param   string $path
+     *
+     * @return  mixed
+     * @since   1.0.0
+     */
+    protected function getFolderFile($path)
+    {
+        $folder    = $this->getLastFolder($path);
+        $separator = '\\';
+        return $path . $separator . $folder . 'FactoryMethod';
     }
 
     /**

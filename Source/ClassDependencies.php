@@ -73,18 +73,6 @@ class ClassDependencies
     {
         $results = false;
 
-        foreach ($this->option_entry as $option_entry) {
-            $results = $this->getFactoryNamespaceFolderFile($option_entry);
-            if ($results === true) {
-                break;
-            }
-        }
-
-        if ($results === false) {
-            $this->options['factory_method_namespace'] = $this->standard_adapter_namespace;
-        }
-
-        return $this->options;
     }
 
 

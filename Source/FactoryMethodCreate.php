@@ -8,7 +8,6 @@
  */
 namespace Molajo\IoC;
 
-use Exception;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\IoC\FactoryInterface;
 
@@ -74,16 +73,14 @@ class FactoryMethodCreate
     {
         $class = $options['factory_method_namespace'];
 
-        try {
-            $factory_method_adapter = new $class($options);
-
-        } catch (Exception $e) {
-
+        if (class_exists($class)) {
+        } else {
             throw new RuntimeException(
-                'IoC FactoryMethodCreate::getFactoryMethodAdapter Class Instantiation Exception: '
-                . $class . ' ' . $e->getMessage()
+                'IoC FactoryMethodCreate::getFactoryMethodAdapter Class does not exist: ' . $class
             );
         }
+
+        $factory_method_adapter = new $class($options);
 
         return $factory_method_adapter;
     }
@@ -99,15 +96,6 @@ class FactoryMethodCreate
      */
     protected function getFactoryMethodController(FactoryInterface $factory_method_adapter)
     {
-        try {
-            return new FactoryMethodController($factory_method_adapter);
-
-        } catch (Exception $e) {
-
-            throw new RuntimeException(
-                'IoC FactoryMethodCreate::getFactoryMethodController Class Instantiation Exception '
-                . ' for FactoryMethodController ' . $e->getMessage()
-            );
-        }
+        return new FactoryMethodController($factory_method_adapter);
     }
 }
