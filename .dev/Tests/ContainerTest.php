@@ -8,8 +8,6 @@
  */
 namespace Molajo\IoC;
 
-use CommonApi\Exception\RuntimeException;
-use CommonApi\IoC\ContainerInterface;
 use stdClass;
 use PHPUnit_Framework_TestCase;
 
@@ -38,20 +36,13 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testAliasKey
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::getKeyNamespace
      *
      * @return void
      * @since  1.0.0
      */
     public function testEmpty()
     {
-        /**
-        $class   = new \ReflectionClass('Molajo\IoC\Container');
-        $methods = $class->getMethods();
-        foreach ($methods as $method) {
-        echo '     * @covers  ' . $method->class . '::' . $method->name . PHP_EOL;
-        }
-        die;
-*/
         $container = new Container();
 
         $a_stuff = new stdClass();
@@ -77,6 +68,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testAliasKey
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::getKeyNamespace
      *
      * @expectedException \CommonApi\Exception\InvalidArgumentException
      * @expectedExceptionMessage IoCC Entry for Key: a does not exist
@@ -104,6 +96,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testAliasKey
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::getKeyNamespace
      *
      * @return void
      * @since  1.0.0
@@ -137,6 +130,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testAliasKey
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::getKeyNamespace
      *
      * @expectedException \CommonApi\Exception\InvalidArgumentException
      * @expectedExceptionMessage IoCC Entry for Key: Molajo\Factories\Dispatcher does not exist
@@ -165,6 +159,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testAliasKey
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::getKeyNamespace
      *
      * @return void
      * @since  1.0.0
@@ -199,6 +194,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testAliasKey
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::getKeyNamespace
      *
      * @return void
      * @since  1.0.0

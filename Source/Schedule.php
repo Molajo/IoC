@@ -8,9 +8,9 @@
  */
 namespace Molajo\IoC;
 
-
 use CommonApi\IoC\ContainerInterface;
 use CommonApi\IoC\ScheduleInterface;
+use stdClass;
 
 /**
  * Schedule for processing Factory Method Requests and Container Entries
@@ -26,7 +26,7 @@ class Schedule implements ScheduleInterface
      * Container    \CommonApi\IoC\ContainerInterface
      *
      * @var     object
-     * @since  1.0.0
+     * @since   1.0.0
      */
     protected $container = null;
 
@@ -34,7 +34,7 @@ class Schedule implements ScheduleInterface
      * Class Dependencies derived from Reflection
      *
      * @var     array
-     * @since  1.0.0
+     * @since   1.0.0
      */
     protected $class_dependencies = array();
 
@@ -42,7 +42,7 @@ class Schedule implements ScheduleInterface
      * Request Queue
      *
      * @var     array
-     * @since  1.0.0
+     * @since   1.0.0
      */
     protected $queue_id = 1;
 
@@ -50,7 +50,7 @@ class Schedule implements ScheduleInterface
      * Process Request Queue
      *
      * @var     array
-     * @since  1.0.0
+     * @since   1.0.0
      */
     protected $process_requests = array();
 
@@ -58,7 +58,7 @@ class Schedule implements ScheduleInterface
      * New Requests Queue
      *
      * @var     array
-     * @since  1.0.0
+     * @since   1.0.0
      */
     protected $request_process_queue = array();
 
@@ -66,7 +66,7 @@ class Schedule implements ScheduleInterface
      * Dependency of Array
      *
      * @var     array
-     * @since  1.0.0
+     * @since   1.0.0
      */
     protected $dependency_of = array();
 
@@ -74,16 +74,16 @@ class Schedule implements ScheduleInterface
      * Standard IoC Factory Method (Used when no custom Factory Method is required)
      *
      * @var     array
-     * @since  1.0.0
+     * @since   1.0.0
      */
     protected $standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
 
     /**
      * Constructor
      *
-     * @param ContainerInterface $container
-     * @param null               $class_dependencies_filename
-     * @param string             $standard_adapter_namespace
+     * @param  ContainerInterface $container
+     * @param  null               $class_dependencies_filename
+     * @param  string             $standard_adapter_namespace
      *
      * @since  1.0.0
      */
@@ -94,7 +94,7 @@ class Schedule implements ScheduleInterface
     ) {
         $this->container                   = $container;
         $this->standard_adapter_namespaces = $standard_adapter_namespace;
-        $this->loadClassDependencies($class_dependencies_filename);
+//        $this->loadClassDependencies($class_dependencies_filename);
     }
 
     /**
@@ -106,7 +106,7 @@ class Schedule implements ScheduleInterface
      * @param   array  $options
      *
      * @return  $this
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function scheduleFactoryMethod($product_name = null, array $options = array())
     {
@@ -125,13 +125,13 @@ class Schedule implements ScheduleInterface
         $options = $this->getFactoryMethodNamespace($options);
 
 
-        var_dump($options);
+        $work_object                     = new stdClass();
+        $work_object->options            = $options;
+        $work_object->factory_method     = $this->createFactoryMethod($options);
+        $work_object->product_result     = null;
+
+        var_dump($work_object);
         die;
-
-        $options['class_dependencies'] = $this->getReflectionDependencies($options['factory_method_namespace']);
-
-        $this->instantiateFactoryMethod($options);
-
         return $this;
     }
 
@@ -154,89 +154,18 @@ class Schedule implements ScheduleInterface
     }
 
     /**
-     * Is Factory Method Namespace in options?
+     * Instantiate Factory Method Create Class which will create the Product Factory Method
      *
      * @param   array $options
      *
-     * @return  mixed
-     * @since  1.0.0
+     * @return  boolean
+     * @since   1.0.0
      */
-    protected function getFactoryNamespaceOptions(array $options = array())
+    protected function createFactoryMethod(array $options = array())
     {
-        if (isset($options['factory_method_namespace'])) {
-            return $options;
-        }
+        $create = new FactoryMethodCreate($options);
 
-        return false;
-    }
-
-    /**
-     * Is Factory Method Namespace the Product Name?
-     *
-     * @param   array $options
-     *
-     * @return  mixed
-     * @since  1.0.0
-     */
-    protected function getFactoryNamespaceProductName(array $options = array())
-    {
-        if (class_exists($options['product_name'])) {
-            $options['factory_method_namespace'] = $options['product_name'];
-            return $options;
-        }
-
-        return false;
-    }
-
-    /**
-     * Is Factory Method Namespace the Container Key?
-     *
-     * @param   array $options
-     *
-     * @return  mixed
-     * @since  1.0.0
-     */
-    protected function getFactoryNamespaceContainerKey(array $options = array())
-    {
-        $results = $this->getLastFolder($options['container_key']);
-        if ($results === false) {
-            $options['factory_method_namespace'] = $this->standard_adapter_namespace;
-            return $options;
-        }
-
-        if (class_exists($options['product_name'])) {
-            return $options['product_name'];
-        }
-    }
-
-    /**
-     * Is Factory Method Namespace the Product Name?
-     *
-     * @param   array $options
-     *
-     * @return  array
-     * @since  1.0.0
-     */
-    protected function getFactoryNamespaceDefault(array $options = array())
-    {
-        $options['factory_method_namespace'] = $this->standard_adapter_namespace;
-
-        return $options;
-    }
-
-    /**
-     * Retrieve the last folder in string
-     *
-     * @param   string $value
-     *
-     * @return  mixed
-     * @since  1.0.0
-     */
-    protected function getLastFolder($value)
-    {
-        if (strrpos($value, '/')) {
-            return substr($value, strrpos($value, '/') + 1, 999);
-        }
+        return $create->instantiateFactoryMethod();
 
         return false;
     }
@@ -260,6 +189,51 @@ class Schedule implements ScheduleInterface
         }
 
         return $reflection;
+    }
+
+    /**
+     * Reflection Dependencies
+     *
+     * @param   string $product_namespace
+     *
+     * @return  array
+     * @since  1.0.0
+     */
+    protected function getDependenciesDependencies()
+    {
+        $reflection = null;
+
+        if (isset($this->class_dependencies[$work_object->product_namespace])) {
+            $reflection = $this->class_dependencies[$work_object->product_namespace];
+        } else {
+            //todo - automate reflection
+            $reflection = array();
+        }
+
+        $work_object->dependencies = $adapter->setDependencies($reflection);
+
+        /** 5. Process Dependencies */
+        if (count($work_object->dependencies) > 0) {
+
+            foreach ($work_object->dependencies as $dependency => $dependency_options) {
+
+                $response = $this->container->has($dependency);
+
+                if ($response === true) {
+                    $dependency_value = $this->container->get($dependency);
+                    $adapter->setDependencyValue($dependency, $dependency_value);
+                } else {
+                    $this->request_process_queue[$dependency] = $dependency_options;
+                    if (isset($this->dependency_of[$dependency])) {
+                        $temp = $this->dependency_of[$dependency];
+                    } else {
+                        $temp = array();
+                    }
+                    $temp[]                           = $work_object->id;
+                    $this->dependency_of[$dependency] = $temp;
+                }
+            }
+        }
     }
 
     /**
@@ -392,6 +366,114 @@ class Schedule implements ScheduleInterface
     }
 
     /**
+     * Instantiate Class now that dependencies have been satisfied and finish processing
+     *
+     * @param   string $work_object
+     *
+     * @return  object
+     * @since  1.0.0
+     */
+    protected function completeRequest($work_object)
+    {
+        /** 0. Have instance */
+        if ($work_object->product_result === false) {
+            $this->satisfyDependency($work_object->name, $work_object->product_result);
+
+            return $work_object->product_result;
+        }
+
+        if ($work_object->product_result == '') {
+        } else {
+            $this->satisfyDependency($work_object->name, $work_object->product_result);
+
+            return $work_object->product_result;
+        }
+
+        /** 1. Share Dependency Instances with Factory Method for final processing before creating class */
+        $work_object->adapter->onBeforeInstantiation();
+
+        /** 2. Trigger the Factory Method to create the class */
+        $work_object->adapter->instantiateClass();
+
+        /** 3. Trigger the Factory Method to execute logic that follows class instantiation */
+        $work_object->adapter->onAfterInstantiation();
+
+        /** 4. Get instance for the just instantiated class */
+        $product_result              = $work_object->adapter->getProductValue();
+        $work_object->product_result = $product_result;
+
+        /** 5. Store instance in Container (if so requested by the Factory Method) */
+        if ($work_object->adapter->getStoreContainerEntryIndicator() === true) {
+            $this->container->set($work_object->container_key, $work_object->product_result);
+        }
+
+        /** 6. Factory Method requests container removals */
+        $remove = $work_object->adapter->removeContainerEntries();
+
+        if (is_array($remove) && count($remove) > 0) {
+            foreach ($remove as $product_name) {
+                if ($this->container->has($product_name) === true) {
+                    $this->container->remove($product_name);
+                }
+            }
+        }
+
+        /** 7. Factory Method requests container values be set */
+        $set = $work_object->adapter->setContainerEntries();
+
+        if (is_array($set) && count($set) > 0) {
+            foreach ($set as $product_name => $value) {
+                $this->container->set($product_name, $value);
+            }
+        }
+
+        /** 9. Factory Method schedules factory processing */
+        $next = $work_object->adapter->scheduleFactories();
+
+        // Avoid adding twice
+        if (is_array($next) && count($next) > 0) {
+            foreach ($next as $product_name => $options) {
+                foreach ($this->request_process_queue as $key => $value) {
+                    if ($product_name == $key) {
+                        unset($next[$product_name]);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (is_array($next) && count($next) > 0) {
+            foreach ($next as $product_name => $options) {
+                $this->request_process_queue[$product_name] = $options;
+            }
+        }
+
+        /** 8. Schedule additional Services as instructed by the Factory Method */
+        // Avoid adding twice
+        if (is_array($next) && count($next) > 0) {
+            foreach ($next as $product_name => $options) {
+                foreach ($this->request_process_queue as $key => $value) {
+                    if ($product_name == $key) {
+                        unset($next[$product_name]);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (is_array($next) && count($next) > 0) {
+            foreach ($next as $product_name => $options) {
+                $this->request_process_queue[$product_name] = $options;
+            }
+        }
+
+        /** 10. Return Instance */
+        $this->satisfyDependency($work_object->name, $product_result);
+
+        return $product_result;
+    }
+
+    /**
      * See if product already exists within the container
      *
      * @param   string $key
@@ -436,49 +518,5 @@ class Schedule implements ScheduleInterface
         }
 
         return $this->container->get($key);
-    }
-
-    /**
-     * Load Class Dependencies and Factory Method Aliases
-     *
-     * @param  string $filename
-     *
-     * @since  1.0.0
-     * @return  $this
-     */
-    protected function loadClassDependencies($filename = null)
-    {
-        if (isset($options['set'])) {
-            if (isset($options['value'])) {
-                $value = $options['value'];
-            } else {
-                $value = null;
-            }
-
-            return $this->container->set($product_name, $value);
-        }
-
-
-        if (file_exists($filename)) {
-        } else {
-            return $this;
-        }
-
-        $x = file_get_contents($filename);
-
-        $input = json_decode($x);
-
-        if (count($input) > 0) {
-        } else {
-            return array();
-        }
-
-        foreach ($input as $class) {
-            if (isset($class->constructor_parameters)) {
-                $this->class_dependencies[$class->fqns] = $class->constructor_parameters;
-            }
-        }
-
-        return $this;
     }
 }

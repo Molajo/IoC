@@ -50,6 +50,12 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::get
      * @covers  Molajo\IoC\Container::set
      * @covers  Molajo\IoC\Container::remove
+     * @covers  Molajo\IoC\Container::getKey
+     * @covers  Molajo\IoC\Container::testAlias
+     * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testContainerKey
+     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::getKeyNamespace
      *
      * @covers  Molajo\IoC\Schedule::__construct
 

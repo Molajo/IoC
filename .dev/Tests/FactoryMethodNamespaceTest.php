@@ -23,6 +23,12 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
     /**
      * Pass in Full namespace
      *
+     * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
+     * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
+     *
      * @return void
      * @since  1.0.0
      */
@@ -44,6 +50,12 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
 
     /**
      * Pass in namespace
+     *
+     * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
+     * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
      *
      * @return void
      * @since  1.0.0
@@ -68,6 +80,12 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
     /**
      * Test product name as namespace + folder + 'FactoryMethod'
      *
+     * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
+     * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
+     *
      * @return void
      * @since  1.0.0
      */
@@ -88,6 +106,12 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test container_key as namespace  + folder + 'FactoryMethod'
+     *
+     * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
+     * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
      *
      * @return void
      * @since  1.0.0

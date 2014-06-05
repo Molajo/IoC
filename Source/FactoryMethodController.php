@@ -28,7 +28,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
     /**
      * Dependencies
      *
-     * @var     array
+     * @var    array
      * @since  1.0.0
      */
     protected $dependencies = null;
@@ -36,7 +36,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
     /**
      * Reflection Dependencies
      *
-     * @var     object
+     * @var    object
      * @since  1.0.0
      */
     protected $reflection = null;
@@ -44,7 +44,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
     /**
      * Dependencies that have been satisfied
      *
-     * @var     array
+     * @var    array
      * @since  1.0.0
      */
     protected $dependency_values = array();
@@ -52,14 +52,15 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
     /**
      * Factory Method Adapter Instance
      *
-     * @var     object  CommonApi\IoC\FactoryInterface     * @since  1.0.0
+     * @var    object  CommonApi\IoC\FactoryInterface
+     * @since  1.0.0
      */
     protected $factory_adapter;
 
     /**
      * Product Result
      *
-     * @var     object
+     * @var    object
      * @since  1.0.0
      */
     protected $product;
@@ -70,7 +71,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * Value is the Factory Method Namespace unless it is Standard Factory Method
      * in which case it is the Namespace for the Class, itself
      *
-     * @var     string
+     * @var    string
      * @since  1.0.0
      */
     protected $container_key;
@@ -92,7 +93,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * Factory Method Controller requests Product Namespace from Factory Method
      *
      * @return  string
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function getNamespace()
     {
@@ -103,7 +104,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * Factory Method Controller requests Service Options from Factory Method
      *
      * @return  array
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function getOptions()
     {
@@ -114,7 +115,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * Factory Method Controller retrieves "store instance indicator" from Factory Method
      *
      * @return  string
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function getStoreContainerEntryIndicator()
     {
@@ -130,7 +131,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * @param   array $reflection
      *
      * @return  array
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function setDependencies(array $reflection = null)
     {
@@ -156,7 +157,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * @param   string $dependency
      *
      * @return  $this
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function removeDependency($dependency)
     {
@@ -176,7 +177,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * @param   object $dependency_value
      *
      * @return  $this
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function setDependencyValue($dependency, $dependency_value)
     {
@@ -191,7 +192,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * Note: no communication with the Factory Method in this method
      *
      * @return  int
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function getRemainingDependencyCount()
     {
@@ -208,10 +209,11 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
     }
 
     /**
-     * Factory Method Controller shares Dependency Instances with Factory Method for final processing before Class creation
+     * Factory Method Controller shares Dependency Instances with Factory Method for final processing
+     * before Class creation
      *
      * @return  $this
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function onBeforeInstantiation(array $values = array())
     {
@@ -224,7 +226,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * Factory Method Controller triggers the Factory Method to create the Class for the Service
      *
      * @return  $this
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function instantiateClass()
     {
@@ -238,7 +240,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      *  Location for Setter Dependencies or any other actions that must follow Class Creation
      *
      * @return  $this
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function onAfterInstantiation()
     {
@@ -251,7 +253,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * Factory Method Controller requests Product Result for just created Class from Factory Method
      *
      * @return  object
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function getProductValue()
     {
@@ -261,10 +263,11 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
     }
 
     /**
-     * Following Class creation, Factory Method requests the Factory Method Controller remove Services from the Container
+     * Following Class creation, Factory Method requests the Factory Method Controller
+     *  remove Products from the Container
      *
      * @return  string
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function removeContainerEntries()
     {
@@ -275,7 +278,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * Following Class creation, Factory Method requests the Factory Method Controller instantiate Services
      *
      * @return  $this
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function setContainerEntries()
     {
@@ -286,7 +289,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * Following Class creation, Factory Method requests the Factory Method Controller instantiate Services
      *
      * @return  $this
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function scheduleFactories()
     {

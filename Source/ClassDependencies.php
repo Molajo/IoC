@@ -1,6 +1,6 @@
 <?php
 /**
- * Factory Method Namespace
+ * Class Dependencies
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -9,14 +9,14 @@
 namespace Molajo\IoC;
 
 /**
- * Get the Factory Method Namespace for Product
+ * Get the dependencies for a class using Dependencies processes
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class FactoryMethodNamespace
+class ClassDependencies
 {
     /**
      * Standard IoC Factory Method (Used when no custom Factory Method is required)
@@ -59,7 +59,7 @@ class FactoryMethodNamespace
         $standard_adapter_namespace,
         array $options = array()
     ) {
-        $this->standard_adapter_namespace  = $standard_adapter_namespace;
+        $this->standard_adapter_namespaces = $standard_adapter_namespace;
         $this->options                     = $options;
     }
 
@@ -87,70 +87,48 @@ class FactoryMethodNamespace
         return $this->options;
     }
 
-    /**
-     * Build a possible Namespace path and test it for class
-     *
-     * @param   string  $value
-     *
-     * @return  mixed
-     * @since   1.0.0
-     */
-    protected function getFactoryNamespaceFolderFile($option_entry)
-    {
-        $test = array();
 
-        if (isset($this->options[$option_entry])) {
-            $test[0] = $this->options[$option_entry];
-        } else {
-            return false;
+    /**
+     * Load Class Dependencies and Factory Method Aliases
+     *
+     * @param  string $filename
+     *
+     * @since  1.0.0
+     * @return  $this
+     */
+    protected function loadClassDependencies($filename = null)
+    {
+        if (isset($options['set'])) {
+            if (isset($options['value'])) {
+                $value = $options['value'];
+            } else {
+                $value = null;
+            }
+
+            return $this->container->set($product_name, $value);
         }
 
-        $folder    = $this->getLastFolder($test[0]);
 
-        $separator = '\\';
-        $test[1] = $test[0] . $separator . $folder . 'FactoryMethod';
+        if (file_exists($filename)) {
+        } else {
+            return $this;
+        }
 
-        foreach ($test as $value) {
-            if ($this->checkClassExists($value) === true) {
-                return true;
+        $x = file_get_contents($filename);
+
+        $input = json_decode($x);
+
+        if (count($input) > 0) {
+        } else {
+            return array();
+        }
+
+        foreach ($input as $class) {
+            if (isset($class->constructor_parameters)) {
+                $this->class_dependencies[$class->fqns] = $class->constructor_parameters;
             }
         }
 
-        return false;
-    }
-
-    /**
-     * Check class exists
-     *
-     * @param   string $value
-     *
-     * @return  mixed
-     * @since   1.0.0
-     */
-    protected function checkClassExists($value)
-    {
-        if (class_exists($value)) {
-            $this->options['factory_method_namespace'] = $value;
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Retrieve the last folder in string
-     *
-     * @param   string $value
-     *
-     * @return  mixed
-     * @since   1.0.0
-     */
-    protected function getLastFolder($value)
-    {
-        if (strrpos($value, '\\')) {
-            return substr($value, strrpos($value, '\\') + 1, 999);
-        }
-
-        return false;
+        return $this;
     }
 }
