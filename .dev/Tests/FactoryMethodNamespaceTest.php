@@ -65,7 +65,6 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($factory_method_namespace->get(), $options);
     }
 
-
     /**
      * Test product name as namespace + folder + 'FactoryMethod'
      *

@@ -121,9 +121,12 @@ class Schedule implements ScheduleInterface
         $options['product_name']  = $product_name;
         $options['container_key'] = $this->getContainerEntryKey($product_name);
         $options['ioc_id']        = $this->queue_id++;
+
+        $options = $this->getFactoryMethodNamespace($options);
+
+
         var_dump($options);
         die;
-        $options = $this->getFactoryMethodNamespace($options);
 
         $options['class_dependencies'] = $this->getReflectionDependencies($options['factory_method_namespace']);
 
@@ -143,7 +146,7 @@ class Schedule implements ScheduleInterface
     protected function getFactoryMethodNamespace($options)
     {
         $namespace = new FactoryMethodNamespace(
-            $this->$standard_adapter_namespace,
+            $this->standard_adapter_namespace,
             $options
         );
 
@@ -415,7 +418,7 @@ class Schedule implements ScheduleInterface
      */
     protected function getContainerEntryKey($key)
     {
-        return $this->container->getKey($key, false);
+        return $this->container->getKey($key, true);
     }
 
     /**

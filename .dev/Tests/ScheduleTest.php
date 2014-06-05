@@ -65,7 +65,7 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
         $a_stuff = new stdClass();
         $a_stuff->here = 'stuff in the container';
 
-        $this->container->set('Molajo\\Factories\\Dispatcher', $a_stuff);
+        $this->container->set('Molajo\\Factories\\User', $a_stuff);
         $this->container->set('Email', $a_stuff);
         $this->container->set('Noalias', $a_stuff);
 
@@ -91,7 +91,22 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
         $a_stuff = new stdClass();
         $a_stuff->here = 'stuff in the container';
 
-        $this->assertEquals($this->schedule->scheduleFactoryMethod('Molajo\\Factories\\Dispatcher'), $a_stuff);
-        $this->assertEquals($this->schedule->scheduleFactoryMethod('Dispatcher'), $a_stuff);
+        $this->assertEquals($this->schedule->scheduleFactoryMethod('Molajo\\Factories\\User'), $a_stuff);
+        $this->assertEquals($this->schedule->scheduleFactoryMethod('User'), $a_stuff);
+    }
+
+    /**
+     * Test Empty configuration
+     *
+     *
+     * @return void
+     * @since  1.0.0
+     */
+    public function testDispatcher()
+    {
+        $a_stuff = new stdClass();
+        $a_stuff->here = 'stuff in the container';
+
+        //$this->schedule->scheduleFactoryMethod('Dispatcher');
     }
 }

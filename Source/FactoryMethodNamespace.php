@@ -97,24 +97,40 @@ class FactoryMethodNamespace
      */
     protected function getFactoryNamespaceFolderFile($option_entry)
     {
+        $test = array();
+
         if (isset($this->options[$option_entry])) {
-            $value = $this->options[$option_entry];
+            $test[0] = $this->options[$option_entry];
         } else {
             return false;
         }
 
-        if (class_exists($value)) {
-            $this->options['factory_method_namespace'] = $value;
-            return true;
-        }
-
-        $folder    = $this->getLastFolder($value);
+        $folder    = $this->getLastFolder($test[0]);
 
         $separator = '\\';
-        $namespace = $value . $separator . $folder . 'FactoryMethod';
+        $test[1] = $test[0] . $separator . $folder . 'FactoryMethod';
 
-        if (class_exists($namespace)) {
-            $this->options['factory_method_namespace'] = $namespace;
+        foreach ($test as $value) {
+            if ($this->checkClassExists($value) === true) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check class exists
+     *
+     * @param   string $value
+     *
+     * @return  mixed
+     * @since   1.0.0
+     */
+    protected function checkClassExists($value)
+    {
+        if (class_exists($value)) {
+            $this->options['factory_method_namespace'] = $value;
             return true;
         }
 

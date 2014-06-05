@@ -135,21 +135,32 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Determine if an alias value exists for this key
+     * Determine if container entry - or factory method namespace - exists for this key
      *
      * @param   string  $key
-     * @param   boolean $exception
+     * @param   boolean $namespace
      *
      * @return  boolean
-     * @since  1.0.0
+     * @since   1.0.0
      */
-    public function getKey($key)
+    public function getKey($key, $namespace = false)
     {
         if ($this->testContainerKey($key) === true) {
             return $key;
         }
 
-        return $this->testAlias($key);
+        $value = $this->testAlias($key);
+
+        if ($value === false) {
+        } else {
+            return $value;
+        }
+
+        if ($namespace === true) {
+            return $this->getKeyNamespace($key);
+        }
+
+        return false;
     }
 
     /**
@@ -223,7 +234,7 @@ class Container implements ContainerInterface
      * Set factory method namespace array entries associated with alias keys
      *
      * @return  $this
-     * @since  1.0.0
+     * @since   1.0.0
      */
     protected function setFactoryMethodNamespaces()
     {
@@ -236,5 +247,26 @@ class Container implements ContainerInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Set factory method namespace array entries associated with alias keys
+     *
+     * @param   string
+     *
+     * @return  mixed
+     * @since   1.0.0
+     */
+    protected function getKeyNamespace($key)
+    {
+        if (isset($this->factory_method_aliases[$key]) === true) {
+            return $this->factory_method_aliases[$key];
+        }
+
+        if (isset($this->factory_method_namespaces[$key]) === true) {
+            return $key;
+        }
+
+        return false;
     }
 }
