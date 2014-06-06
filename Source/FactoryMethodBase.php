@@ -397,10 +397,9 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
 
                 return $this;
             } catch (Exception $e) {
-
                 throw new RuntimeException(
-                    'IoC instantiateClass Reflection Failed: ' . $this->product_namespace . ' ' . $e->getMessage())
-                ;
+                    'IoC instantiateClass Reflection Failed: ' . $this->product_namespace . ' ' . $e->getMessage()
+                );
             }
         }
 

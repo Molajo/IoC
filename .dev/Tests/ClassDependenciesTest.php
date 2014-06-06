@@ -87,6 +87,15 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
 
         $work_object = $this->class_dependencies->get($work_object);
 
+        $this->assertEquals(count($work_object->reflection), 1);
+        $this->assertEquals($work_object->reflection[0]->name, 'event_dispatcher');
+        $this->assertEquals($work_object->reflection[0]->default_available, false);
+        $this->assertEquals($work_object->reflection[0]->default_value, null);
+        $this->assertEquals($work_object->reflection[0]->instance_of, 'CommonApi\Event\EventDispatcherInterface');
+        $this->assertEquals($work_object->reflection[0]->is_instantiable, false);
+        $this->assertEquals($work_object->reflection[0]->implemented_by[0], 'Molajo\Event\EventDispatcher');
+        $this->assertEquals($work_object->reflection[0]->concrete, false);
+
         $this->assertEquals(count($work_object->dependencies), 1);
         $this->assertEquals(
             $work_object->dependencies['Event_dispatcher']['product_namespace'],

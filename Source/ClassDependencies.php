@@ -56,8 +56,8 @@ class ClassDependencies
     public function get($work_object)
     {
         $work_object->product_namespace = $work_object->factory_method->getNamespace();
-        $reflection                     = $this->getReflectionDependencies($work_object->product_namespace);
-        $work_object->dependencies      = $work_object->factory_method->setDependencies($reflection);
+        $work_object->reflection        = $this->getReflectionDependencies($work_object->product_namespace);
+        $work_object->dependencies      = $work_object->factory_method->setDependencies($work_object->reflection);
 
         return $work_object;
     }

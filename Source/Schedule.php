@@ -62,6 +62,15 @@ class Schedule implements ScheduleInterface
      */
     protected $to_be_processed_requests = array();
 
+
+    /**
+     * Process Request Queue
+     *
+     * @var     array
+     * @since   1.0.0
+     */
+    protected $request_names_to_id = array();
+
     /**
      * Standard IoC Factory Method (Used when no custom Factory Method is required)
      *
@@ -117,10 +126,11 @@ class Schedule implements ScheduleInterface
         }
 
         $this->queue_id = 1;
+        $work_object    = $this->setProductRequest($product_name, $options);
 
-        $work_object = $this->setProductRequest($product_name, $options);
+        $this->setProcessRequestsArray($this->queue_id, $product_name, $work_object);
 
-        $this->process_requests[$work_object->options['ioc_id']] = $work_object;
+        $this->processRequestQueue();
 
         return $this->product_result;
     }
@@ -130,9 +140,8 @@ class Schedule implements ScheduleInterface
      *
      * Handles requests for FactoryMethod product, including dependency fulfillment
      *
-     * @return  Schedule
+     * @return  $this
      * @since   1.0.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function processRequestQueue()
     {
@@ -152,17 +161,17 @@ class Schedule implements ScheduleInterface
      * Process each product request to satisfy dependencies and, when all dependencies
      *  have been met, to complete the Factory Method processes including creating the product
      *
-     * @return  Schedule
+     * @return  $this
      * @since   1.0.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function processRequests()
     {
         foreach ($this->process_requests as $id => $work_object) {
+
             $work_object = $this->satisfyDependencies($work_object);
 
             if ($work_object->adapter->getRemainingDependencyCount() === 0) {
-                $work_object = $this->completeRequest($work_object);
+                $this->product_result = $this->processFactoryModel($work_object);
             }
         }
 
@@ -173,22 +182,15 @@ class Schedule implements ScheduleInterface
      * Process each product request to satisfy dependencies and, when all dependencies
      *  have been met, to complete the Factory Method processes including creating the product
      *
-     * @return  Schedule
+     * @return  $this
      * @since   1.0.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function processNewRequestQueue()
     {
         foreach ($this->to_be_processed_requests as $product_name => $options) {
-            $work_object                                             = $this->setProductRequest(
-                $product_name,
-                $options
-            );
-            $this->process_requests[$work_object->options['ioc_id']] = $work_object;
-            unset($this->to_be_processed_requests[$product_name]);
+            $work_object = $this->setProductRequest($product_name, $options);
+            $this->setProcessRequestsArray($work_object->options['ioc_id'], $product_name, $work_object);
         }
-
-        $this->to_be_processed_requests = array();
 
         return $this;
     }
@@ -201,7 +203,7 @@ class Schedule implements ScheduleInterface
      * @param   string $product_name
      * @param   array  $options
      *
-     * @return  $this
+     * @return  stdClass
      * @since   1.0.0
      */
     public function setProductRequest($product_name = null, array $options = array())
@@ -216,12 +218,16 @@ class Schedule implements ScheduleInterface
         $work_object->options        = $options;
         $work_object->factory_method = $this->createFactoryMethod($options);
         $work_object->dependencies   = new stdClass();
-        $work_object->dependency_of  = new stdClass();
+
+        $work_object->dependency_of = array();
+        if (isset($options['dependency_of'])) {
+            $work_object->dependency_of[] = $options['dependency_of'];
+        }
+
         $work_object->product_result = new stdClass();
 
         $work_object = $this->setClassDependencies($work_object);
-        var_dump($work_object);
-        die;
+
         return $work_object;
     }
 
@@ -272,7 +278,7 @@ class Schedule implements ScheduleInterface
     }
 
     /**
-     * Get Dependencies for Product Requested
+     * Process each outstanding dependency for product request
      *
      * @param   stdClass $work_object
      *
@@ -281,34 +287,111 @@ class Schedule implements ScheduleInterface
      */
     protected function satisfyDependencies($work_object)
     {
-        //foreach ($work_object->dependencies as $product_name => )
+        $satisfied = array();
+
+        foreach ($work_object->dependencies as $key => $dependency_array) {
+
+            if ((string)$dependency_array[1] == null) {
+                $dependency_name = $dependency_array[0];
+            } else {
+                $dependency_name = $dependency_array[1];
+            }
+
+            $results = $this->satisfyDependency($dependency_name, $key, $work_object);
+
+            if ($results === true) {
+                $satisfied[] = $key;
+            }
+        }
+
+        if (count($satisfied) > 0) {
+            foreach ($satisfied as $key) {
+                unset($work_object->dependencies[$key]);
+            }
+        }
+
+        return $work_object;
     }
 
     /**
      * Update Service for Dependency Value
      *
-     * @param   string $dependency
-     * @param   mixed  $dependency_value
+     * @param   string   $dependency
+     * @param   mixed    $dependency_value
+     * @param   stdClass $work_object
      *
      * @return  $this
-     * @since  1.0.0
+     * @since   1.0.0
      */
-    protected function satisfyDependency($dependency, $dependency_value)
+    protected function satisfyDependency($dependency_name, $dependency_key, $work_object)
     {
-        if (isset($this->dependency_of[$dependency])) {
+        if ($this->hasContainerEntry($dependency_name) === false) {
         } else {
-            return $this;
+            $dependency_value = $this->getContainerEntry($dependency_name);
+            $work_object->factory_method->setDependencyValue($dependency_key, $dependency_value);
+
+            return true;
         }
 
-        $temp = $this->dependency_of[$dependency];
+        $this->addDependencyToQueue($dependency_name, $work_object->container_key);
 
-        foreach ($temp as $id) {
-            if (isset($this->process_requests[$id])) {
-                $work_object = $this->process_requests[$id];
-                $work_object->adapter->setDependencyValue($dependency, $dependency_value);
-                $this->process_requests[$id] = $work_object;
-            }
+        return false;
+    }
+
+    /**
+     * Add Dependency to Queue
+     *
+     * @param   string $dependency_name
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function addDependencyToQueue($dependency_name, $product_name)
+    {
+        if (isset($this->request_names_to_id[$dependency_name])) {
+        } else {
+            $this->to_be_processed_requests[$dependency_name] = array('dependency_of', $product_name);
         }
+
+        return $this;
+    }
+
+    /**
+     * Set an entry in the process_requests array and a cross reference in $request_names_to_id
+     *
+     * @param   integer $queue_id
+     * @param   string  $product_name
+     * @param   object  $work_object
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function setProcessRequestsArray($queue_id, $product_name, $work_object)
+    {
+        $this->process_requests[$queue_id]        = $work_object;
+        $this->request_names_to_id[$product_name] = $queue_id;
+
+        if (isset($this->to_be_processed_requests[$product_name])) {
+            unset($this->to_be_processed_requests[$product_name]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set an entry in the process_requests array and a cross reference in $request_names_to_id
+     *
+     * @param   string $product_name
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function unsetProcessRequestsArray($product_name)
+    {
+        $queue_id = $this->request_names_to_id[$product_name];
+
+        unset($this->process_requests[$queue_id]);
+        unset($this->request_names_to_id[$product_name]);
 
         return $this;
     }
@@ -319,115 +402,154 @@ class Schedule implements ScheduleInterface
      * @param   string $work_object
      *
      * @return  object
-     * @since  1.0.0
+     * @since   1.0.0
      */
-    protected function completeRequest($work_object)
+    protected function processFactoryModel($work_object)
     {
+        $methods = array(
+            'processFactoryModelProductCreate',
+            'processFactoryModelRemoveContainerEntries',
+            'processFactoryModelSetContainerEntries',
+            'processFactoryModelScheduleRequests',
+            'processFactoryModelSetDependencyOfInstances'
+        );
 
-        unset($this->process_requests[$id]);
-        if ($work_object->requested_name == $schedule_product_name) {
-            if ($work_object->product_result == '') {
-            } else {
-                $schedule_product_result = $work_object->product_result;
-            }
+        foreach ($methods as $method) {
+            $work_object = $this->$method($work_object);
         }
 
-        /** 0. Have instance */
-        if ($work_object->product_result === false) {
-            $this->satisfyDependency($work_object->name, $work_object->product_result);
+        return $work_object->product_result;
+    }
 
-            return $work_object->product_result;
-        }
+    /**
+     * Instantiate Class
+     *
+     * @param   string $work_object
+     *
+     * @return  stdClass
+     * @since   1.0.0
+     */
+    protected function processFactoryModelProductCreate($work_object)
+    {
+        $work_object->factory_method->onBeforeInstantiation();
 
-        if ($work_object->product_result == '') {
-        } else {
-            $this->satisfyDependency($work_object->name, $work_object->product_result);
+        $work_object->factory_method->instantiateClass();
 
-            return $work_object->product_result;
-        }
+        $work_object->factory_method->onAfterInstantiation();
 
-        /** 1. Share Dependency Instances with Factory Method for final processing before creating class */
-        $work_object->adapter->onBeforeInstantiation();
-
-        /** 2. Trigger the Factory Method to create the class */
-        $work_object->adapter->instantiateClass();
-
-        /** 3. Trigger the Factory Method to execute logic that follows class instantiation */
-        $work_object->adapter->onAfterInstantiation();
-
-        /** 4. Get instance for the just instantiated class */
-        $product_result              = $work_object->adapter->getProductValue();
+        $product_result              = $work_object->factory_method->getProductValue();
         $work_object->product_result = $product_result;
 
-        /** 5. Store instance in Container (if so requested by the Factory Method) */
-        if ($work_object->adapter->getStoreContainerEntryIndicator() === true) {
+        if ($work_object->factory_method->getStoreContainerEntryIndicator() === true) {
             $this->container->set($work_object->container_key, $work_object->product_result);
         }
 
-        /** 6. Factory Method requests container removals */
-        $remove = $work_object->adapter->removeContainerEntries();
+        return $work_object;
+    }
 
-        if (is_array($remove) && count($remove) > 0) {
-            foreach ($remove as $product_name) {
+    /**
+     * Remove Container Entries, as requested by Factory Model
+     *
+     * @param   string $work_object
+     *
+     * @return  stdClass
+     * @since   1.0.0
+     */
+    protected function processFactoryModelRemoveContainerEntries($work_object)
+    {
+        $this->processFactoryModelArray($work_object->factory_method->removeContainerEntries(), 'remove');
+
+        return $work_object;
+    }
+
+    /**
+     * Set Container Entries, as requested by Factory Model
+     *
+     * @param   string $work_object
+     *
+     * @return  stdClass
+     * @since   1.0.0
+     */
+    protected function processFactoryModelSetContainerEntries($work_object)
+    {
+        $this->processFactoryModelArray($work_object->factory_method->setContainerEntries(), 'set');
+
+        return $work_object;
+    }
+
+    /**
+     * Set Container Entries, as requested by Factory Model
+     *
+     * @param   array  $array
+     * @param   string $method
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function processFactoryModelArray($array, $method)
+    {
+        if (is_array($array) && count($array) > 0) {
+        } else {
+            return $this;
+        }
+
+        foreach ($array as $product_name => $value) {
+
+            if ($method === 'set') {
+                $this->container->set($product_name, $value);
+            } else {
                 if ($this->container->has($product_name) === true) {
                     $this->container->remove($product_name);
                 }
             }
         }
 
-        /** 7. Factory Method requests container values be set */
-        $set = $work_object->adapter->setContainerEntries();
+        return $this;
+    }
 
-        if (is_array($set) && count($set) > 0) {
-            foreach ($set as $product_name => $value) {
-                $this->container->set($product_name, $value);
+    /**
+     * Schedule additional Product requests, as specified by Factory Model
+     *
+     * @param   string $work_object
+     *
+     * @return  stdClass
+     * @since   1.0.0
+     */
+    protected function processFactoryModelScheduleRequests($work_object)
+    {
+        $schedule = $work_object->factory_method->scheduleFactories();
+
+        if (is_array($schedule) && count($schedule) > 0) {
+            foreach ($schedule as $product_name => $options) {
+                $this->to_be_processed_requests[$product_name] = $options;
             }
         }
 
-        /** 9. Factory Method schedules factory processing */
-        $next = $work_object->adapter->scheduleFactories();
+        return $work_object;
+    }
 
-        // Avoid adding twice
-        if (is_array($next) && count($next) > 0) {
-            foreach ($next as $product_name => $options) {
-                foreach ($this->request_process_queue as $key => $value) {
-                    if ($product_name == $key) {
-                        unset($next[$product_name]);
-                        break;
-                    }
-                }
-            }
+    /**
+     * Update Service for Dependency Value
+     *
+     * @param   stdClass $work_object
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function processFactoryModelSetDependencyOfInstances($work_object)
+    {
+        if (count($work_object->dependency_of) === 0) {
+            return $work_object;
         }
 
-        if (is_array($next) && count($next) > 0) {
-            foreach ($next as $product_name => $options) {
-                $this->request_process_queue[$product_name] = $options;
-            }
+        foreach ($work_object->dependency_of as $dependency_key) {
+            $queue_id          = $this->request_names_to_id[$dependency_key];
+            $dependency_object = $this->process_requests[$queue_id];
+
+            $dependency_object->factory_method->setDependencyValue($dependency_key, $work_object->product_result);
         }
 
-        /** 8. Schedule additional Services as instructed by the Factory Method */
-        // Avoid adding twice
-        if (is_array($next) && count($next) > 0) {
-            foreach ($next as $product_name => $options) {
-                foreach ($this->request_process_queue as $key => $value) {
-                    if ($product_name == $key) {
-                        unset($next[$product_name]);
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (is_array($next) && count($next) > 0) {
-            foreach ($next as $product_name => $options) {
-                $this->request_process_queue[$product_name] = $options;
-            }
-        }
-
-        /** 10. Return Instance */
-        $this->satisfyDependency($work_object->name, $product_result);
-
-        return $product_result;
+        return $work_object;
     }
 
     /**
@@ -436,7 +558,7 @@ class Schedule implements ScheduleInterface
      * @param   string $key
      *
      * @return  boolean
-     * @since  1.0.0
+     * @since   1.0.0
      */
     protected function hasContainerEntry($key)
     {
@@ -453,7 +575,7 @@ class Schedule implements ScheduleInterface
      * @param   string $key
      *
      * @return  string
-     * @since  1.0.0
+     * @since   1.0.0
      */
     protected function getContainerEntryKey($key)
     {
@@ -466,7 +588,7 @@ class Schedule implements ScheduleInterface
      * @param   string $key
      *
      * @return  mixed
-     * @since  1.0.0
+     * @since   1.0.0
      */
     protected function getContainerEntry($key)
     {
