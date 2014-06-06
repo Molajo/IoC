@@ -62,7 +62,6 @@ class Schedule implements ScheduleInterface
      */
     protected $to_be_processed_requests = array();
 
-
     /**
      * Process Request Queue
      *
@@ -103,7 +102,12 @@ class Schedule implements ScheduleInterface
     ) {
         $this->container                  = $container;
         $this->class_dependencies         = $class_dependencies;
-        $this->standard_adapter_namespace = $standard_adapter_namespace;
+
+        if (trim($standard_adapter_namespace) === '') {
+            $this->standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
+        } else {
+            $this->standard_adapter_namespace = $standard_adapter_namespace;
+        }
     }
 
     /**
@@ -170,7 +174,7 @@ class Schedule implements ScheduleInterface
 
             $work_object = $this->satisfyDependencies($work_object);
 
-            if ($work_object->adapter->getRemainingDependencyCount() === 0) {
+            if ($work_object->factory_method->getRemainingDependencyCount() === 0) {
                 $this->product_result = $this->processFactoryModel($work_object);
             }
         }
@@ -216,6 +220,7 @@ class Schedule implements ScheduleInterface
 
         $work_object                 = new stdClass();
         $work_object->options        = $options;
+
         $work_object->factory_method = $this->createFactoryMethod($options);
         $work_object->dependencies   = new stdClass();
 
@@ -291,13 +296,10 @@ class Schedule implements ScheduleInterface
 
         foreach ($work_object->dependencies as $key => $dependency_array) {
 
-            if ((string)$dependency_array[1] == null) {
-                $dependency_name = $dependency_array[0];
-            } else {
-                $dependency_name = $dependency_array[1];
-            }
+            $dependency_name = $dependency_array['product_name'];
+            $dependency_namespace = $dependency_array['product_namespace'];
 
-            $results = $this->satisfyDependency($dependency_name, $key, $work_object);
+            $results = $this->satisfyDependency($dependency_name, $key, $dependency_namespace, $work_object);
 
             if ($results === true) {
                 $satisfied[] = $key;
@@ -316,14 +318,14 @@ class Schedule implements ScheduleInterface
     /**
      * Update Service for Dependency Value
      *
+     * @param   string   $dependency_name
      * @param   string   $dependency_key
-     * @param   mixed    $dependency_name
      * @param   stdClass $work_object
      *
      * @return  boolean
      * @since   1.0.0
      */
-    protected function satisfyDependency($dependency_name, $dependency_key, $work_object)
+    protected function satisfyDependency($dependency_name, $dependency_key, $dependency_namespace, $work_object)
     {
         if ($this->hasContainerEntry($dependency_name) === false) {
         } else {
@@ -333,7 +335,7 @@ class Schedule implements ScheduleInterface
             return true;
         }
 
-        $this->addDependencyToQueue($dependency_name, $work_object->container_key);
+        $this->addDependencyToQueue($dependency_name, $dependency_namespace, $work_object->options['container_key']);
 
         return false;
     }
@@ -342,15 +344,21 @@ class Schedule implements ScheduleInterface
      * Add Dependency to Queue
      *
      * @param   string $dependency_name
+     * @param   string $product_name
+     * @param   string $product_namespace
      *
      * @return  $this
      * @since   1.0.0
      */
-    protected function addDependencyToQueue($dependency_name, $product_name)
+    protected function addDependencyToQueue($dependency_name, $dependency_namespace, $product_name)
     {
         if (isset($this->request_names_to_id[$dependency_name])) {
         } else {
-            $this->to_be_processed_requests[$dependency_name] = array('dependency_of', $product_name);
+            $this->to_be_processed_requests[$dependency_name]
+                = array(
+                'dependency_of' => $product_name,
+                'product_namespace' => $dependency_namespace
+            );
         }
 
         return $this;
@@ -432,11 +440,8 @@ class Schedule implements ScheduleInterface
     protected function processFactoryModelProductCreate($work_object)
     {
         $work_object->factory_method->onBeforeInstantiation();
-
         $work_object->factory_method->instantiateClass();
-
         $work_object->factory_method->onAfterInstantiation();
-
         $product_result              = $work_object->factory_method->getProductValue();
         $work_object->product_result = $product_result;
 

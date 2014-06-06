@@ -249,7 +249,7 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
         $a_stuff = new stdClass();
         $a_stuff->here = 'stuff in the container';
 
-       // $x = $this->schedule->scheduleFactoryMethod('Dispatcher');
+        //$x = $this->schedule->scheduleFactoryMethod('Dispatcher');
 
         //var_dump($x);
     }

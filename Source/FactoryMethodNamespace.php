@@ -75,6 +75,7 @@ class FactoryMethodNamespace
 
         foreach ($this->option_entry as $option_entry) {
             $results = $this->getFactoryNamespaceFolderFile($option_entry);
+
             if ($results === true) {
                 break;
             }
