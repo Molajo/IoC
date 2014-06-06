@@ -19,12 +19,12 @@ namespace Molajo\IoC;
 class ClassDependencies
 {
     /**
-     * Standard IoC Factory Method (Used when no custom Factory Method is required)
+     * Class Dependencies by QCN
      *
-     * @var    string
+     * @var    array
      * @since  1.0.0
      */
-    protected $standard_adapter_namespace;
+    protected $class_dependencies;
 
     /**
      * Options
@@ -35,19 +35,6 @@ class ClassDependencies
     protected $options = array();
 
     /**
-     * Methods
-     *
-     * @var    array
-     * @since  1.0.0
-     */
-    protected $option_entry
-        = array(
-            'factory_method_namespace',
-            'product_name',
-            'container_key'
-        );
-
-    /**
      * Constructor
      *
      * @param  string $standard_adapter_namespace
@@ -55,62 +42,100 @@ class ClassDependencies
      *
      * @since  1.0.0
      */
-    public function __construct(
-        $standard_adapter_namespace,
-        array $options = array()
-    ) {
-        $this->standard_adapter_namespaces = $standard_adapter_namespace;
-        $this->options                     = $options;
+    public function __construct($class_dependencies_filename = null)
+    {
+        $this->loadClassDependencies($class_dependencies_filename);
     }
 
     /**
-     * Determine the Factory Method Namespace for Product Requested
+     * Set Factory Method Reflection Values and retrieve Dependencies
+     *
+     * @param   object
+     *
+     * @return  object
+     * @since   1.0.0
+     */
+    public function get($work_object)
+    {
+        $work_object->product_namespace = $work_object->factory_method->getNamespace();
+        $reflection                     = $this->getReflectionDependencies($work_object->product_namespace);
+        $work_object->dependencies      = $work_object->factory_method->setDependencies($reflection);
+
+        return $work_object;
+    }
+
+    /**
+     * Reflection Dependencies for Namespace
+     *
+     * @param   string $namespace
      *
      * @return  array
      * @since   1.0.0
      */
-    public function get()
+    protected function getReflectionDependencies($namespace)
     {
-        $results = false;
+        $reflection = null;
 
+        if (isset($this->class_dependencies[$namespace])) {
+            $reflection = $this->class_dependencies[$namespace];
+        } else {
+            //todo - automate reflection
+            $reflection = array();
+        }
+
+        return $reflection;
     }
 
-
     /**
-     * Load Class Dependencies and Factory Method Aliases
+     * Load Class Dependencies derived using Reflection into Class Property
      *
-     * @param  string $filename
+     * @param   string $filename
      *
-     * @since  1.0.0
+     * @since   1.0.0
      * @return  $this
      */
     protected function loadClassDependencies($filename = null)
     {
-        if (isset($options['set'])) {
-            if (isset($options['value'])) {
-                $value = $options['value'];
-            } else {
-                $value = null;
-            }
+        $input = $this->readFile($filename);
 
-            return $this->container->set($product_name, $value);
+        if ($input === false) {
+        } else {
+            $this->processClassDependencyData($input);
         }
 
+        return $this;
+    }
 
+    /**
+     * Read json encoded file
+     *
+     * @param  string $filename
+     *
+     * @since   1.0.0
+     * @return  array
+     */
+    protected function readFile($filename = null)
+    {
         if (file_exists($filename)) {
         } else {
-            return $this;
+            return false;
         }
 
         $x = file_get_contents($filename);
 
-        $input = json_decode($x);
+        return json_decode($x);
+    }
 
-        if (count($input) > 0) {
-        } else {
-            return array();
-        }
-
+    /**
+     * Read json encoded file
+     *
+     * @param   object
+     *
+     * @since   1.0.0
+     * @return  $this
+     */
+    protected function processClassDependencyData($input)
+    {
         foreach ($input as $class) {
             if (isset($class->constructor_parameters)) {
                 $this->class_dependencies[$class->fqns] = $class->constructor_parameters;

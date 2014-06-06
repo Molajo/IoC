@@ -45,7 +45,6 @@ class FactoryMethodCreate
     /**
      * Get Factory Method Namespace
      *
-     * @param   array $options
      *
      * @return  FactoryInterface
      * @since   1.0.0

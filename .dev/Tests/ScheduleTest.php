@@ -68,6 +68,9 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
         $aliases = readJsonFile(__DIR__ . '/Files/FactoryMethodAliases.json');
         $this->container = new Container($aliases);
 
+        $file = __DIR__ . '/Files/ClassDependencies.json';
+        $class_dependencies = new ClassDependencies($file);
+
         $a_stuff = new stdClass();
         $a_stuff->here = 'stuff in the container';
 
@@ -80,7 +83,7 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
 
         $this->schedule = new Schedule(
             $this->container,
-            $class_dependencies_filename,
+            $class_dependencies,
             $standard_adapter_namespaces
         );
     }

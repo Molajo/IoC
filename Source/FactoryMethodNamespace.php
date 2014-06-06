@@ -90,9 +90,8 @@ class FactoryMethodNamespace
     /**
      * Build a possible Namespace path and test it for class
      *
-     * @param   string $value
      *
-     * @return  mixed
+     * @return  boolean
      * @since   1.0.0
      */
     protected function getFactoryNamespaceFolderFile($option_entry)
@@ -120,7 +119,7 @@ class FactoryMethodNamespace
      *
      * @param   string $path
      *
-     * @return  mixed
+     * @return  string
      * @since   1.0.0
      */
     protected function getFolderFile($path)
@@ -135,7 +134,7 @@ class FactoryMethodNamespace
      *
      * @param   string $value
      *
-     * @return  mixed
+     * @return  boolean
      * @since   1.0.0
      */
     protected function checkClassExists($value)
@@ -153,7 +152,7 @@ class FactoryMethodNamespace
      *
      * @param   string $value
      *
-     * @return  mixed
+     * @return  string|false
      * @since   1.0.0
      */
     protected function getLastFolder($value)

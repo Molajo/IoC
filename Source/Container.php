@@ -159,9 +159,9 @@ class Container implements ContainerInterface
      * Perform action
      *
      * @param   string $key
-     * @param   string $type
+     * @param   string $action
      *
-     * @return  string
+     * @return  boolean
      * @since   1.0.0
      * @throws  \CommonApi\Exception\InvalidArgumentException
      */
@@ -170,7 +170,9 @@ class Container implements ContainerInterface
         $results = $this->getKey($key, true);
 
         if ($results === false) {
-            throw new InvalidArgumentException('Get IoCC Entry for Key: ' . $key . ' Action: ' . $action . ' does not exist');
+            throw new InvalidArgumentException(
+                'Get IoCC Entry for Key: ' . $key . ' Action: ' . $action . ' does not exist'
+            );
         }
 
         return $results;
@@ -266,6 +268,7 @@ class Container implements ContainerInterface
      * Set factory method namespace array entries associated with alias keys
      *
      * @param   string
+     * @param string $key
      *
      * @return  mixed
      * @since   1.0.0

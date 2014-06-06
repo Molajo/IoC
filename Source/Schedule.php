@@ -23,20 +23,20 @@ use stdClass;
 class Schedule implements ScheduleInterface
 {
     /**
-     * Container    \CommonApi\IoC\ContainerInterface
+     * Container
      *
-     * @var     object
+     * @var     object  CommonApi\IoC\ContainerInterface
      * @since   1.0.0
      */
     protected $container = null;
 
     /**
-     * Class Dependencies derived from Reflection
+     * Class Dependencies
      *
-     * @var     array
+     * @var     object
      * @since   1.0.0
      */
-    protected $class_dependencies = array();
+    protected $class_dependencies = null;
 
     /**
      * Request Queue
@@ -60,15 +60,7 @@ class Schedule implements ScheduleInterface
      * @var     array
      * @since   1.0.0
      */
-    protected $request_process_queue = array();
-
-    /**
-     * Dependency of Array
-     *
-     * @var     array
-     * @since   1.0.0
-     */
-    protected $dependency_of = array();
+    protected $unqueued_requests = array();
 
     /**
      * Standard IoC Factory Method (Used when no custom Factory Method is required)
@@ -81,20 +73,20 @@ class Schedule implements ScheduleInterface
     /**
      * Constructor
      *
-     * @param  ContainerInterface $container
-     * @param  null               $class_dependencies_filename
-     * @param  string             $standard_adapter_namespace
+     * @param  ContainerInterface  $container
+     * @param  object              $class_dependencies
+     * @param  string              $standard_adapter_namespace
      *
      * @since  1.0.0
      */
     public function __construct(
         ContainerInterface $container,
-        $class_dependencies_filename = null,
+        $class_dependencies,
         $standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod'
     ) {
         $this->container                   = $container;
+        $this->class_dependencies          = $class_dependencies;
         $this->standard_adapter_namespaces = $standard_adapter_namespace;
-//        $this->loadClassDependencies($class_dependencies_filename);
     }
 
     /**
@@ -124,10 +116,11 @@ class Schedule implements ScheduleInterface
 
         $options = $this->getFactoryMethodNamespace($options);
 
-
         $work_object                     = new stdClass();
         $work_object->options            = $options;
         $work_object->factory_method     = $this->createFactoryMethod($options);
+        $work_object->dependencies       = $this->getDependencies($work_object);
+        $work_object->dependency_of      = null;
         $work_object->product_result     = null;
 
         var_dump($work_object);
@@ -156,84 +149,64 @@ class Schedule implements ScheduleInterface
     /**
      * Instantiate Factory Method Create Class which will create the Product Factory Method
      *
-     * @param   array $options
+     * @param   array  $options
      *
-     * @return  boolean
+     * @return  array
      * @since   1.0.0
      */
-    protected function createFactoryMethod(array $options = array())
+    protected function createFactoryMethod(array $options)
     {
         $create = new FactoryMethodCreate($options);
 
         return $create->instantiateFactoryMethod();
-
-        return false;
     }
 
     /**
-     * Reflection Dependencies
+     * Get Dependencies for Product Requested
      *
-     * @param   string $product_namespace
+     * @param   stdClass $work_object
+     *
+     * @return  stdClass $work_object
+     * @since   1.0.0
+     */
+    protected function getDependencies($work_object)
+    {
+        return $this->dependencies->get($work_object);
+    }
+
+    /**
+     * Get Dependencies
+     *
+     * @param   string  $factory_method_namespace
      *
      * @return  array
      * @since  1.0.0
      */
-    protected function getReflectionDependencies($product_namespace)
+    protected function getReflectionDependencies($work_object)
     {
-        $reflection = array();
-
-        if (isset($this->class_dependencies[$product_namespace])) {
-            $reflection = $this->class_dependencies[$product_namespace];
-        } else {
-            //todo - automate reflection
-        }
-
-        return $reflection;
-    }
-
-    /**
-     * Reflection Dependencies
-     *
-     * @param   string $product_namespace
-     *
-     * @return  array
-     * @since  1.0.0
-     */
-    protected function getDependenciesDependencies()
-    {
-        $reflection = null;
-
-        if (isset($this->class_dependencies[$work_object->product_namespace])) {
-            $reflection = $this->class_dependencies[$work_object->product_namespace];
-        } else {
-            //todo - automate reflection
-            $reflection = array();
-        }
-
-        $work_object->dependencies = $adapter->setDependencies($reflection);
-
-        /** 5. Process Dependencies */
         if (count($work_object->dependencies) > 0) {
 
-            foreach ($work_object->dependencies as $dependency => $dependency_options) {
+        foreach ($work_object->dependencies as $dependency => $dependency_options) {
 
-                $response = $this->container->has($dependency);
+        $response = $this->container->has($dependency);
 
-                if ($response === true) {
-                    $dependency_value = $this->container->get($dependency);
-                    $adapter->setDependencyValue($dependency, $dependency_value);
-                } else {
-                    $this->request_process_queue[$dependency] = $dependency_options;
-                    if (isset($this->dependency_of[$dependency])) {
-                        $temp = $this->dependency_of[$dependency];
-                    } else {
-                        $temp = array();
-                    }
-                    $temp[]                           = $work_object->id;
-                    $this->dependency_of[$dependency] = $temp;
-                }
-            }
+        if ($response === true) {
+        $dependency_value = $this->container->get($dependency);
+        $adapter->setDependencyValue($dependency, $dependency_value);
+        } else {
+        $this->request_process_queue[$dependency] = $dependency_options;
+        if (isset($this->dependency_of[$dependency])) {
+        $temp = $this->dependency_of[$dependency];
+        } else {
+        $temp = array();
         }
+        $temp[]                           = $work_object->id;
+        $this->dependency_of[$dependency] = $temp;
+        }
+        }
+        }
+
+        return $work_object;
     }
 
     /**
@@ -478,7 +451,7 @@ class Schedule implements ScheduleInterface
      *
      * @param   string $key
      *
-     * @return  mixed
+     * @return  boolean
      * @since  1.0.0
      */
     protected function hasContainerEntry($key)

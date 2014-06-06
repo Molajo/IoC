@@ -33,7 +33,6 @@ class DispatcherFactoryMethod extends FactoryMethodBase implements FactoryInterf
     {
         $options['product_namespace'] = 'Molajo\\Event\\Dispatcher';
         $options['store_instance_indicator'] = true;
-        $options['product_name'] = basename(__DIR__);
 
         parent::__construct($options);
     }
