@@ -72,9 +72,9 @@ class Schedule implements ScheduleInterface
     protected $request_names_to_id = array();
 
     /**
-     * Standard IoC Factory Method (Used when no custom Factory Method is required)
+     * Standard IoC Factory Method Namespace (Used when no custom Factory Method is required)
      *
-     * @var     array
+     * @var     string
      * @since   1.0.0
      */
     protected $standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
@@ -316,11 +316,11 @@ class Schedule implements ScheduleInterface
     /**
      * Update Service for Dependency Value
      *
-     * @param   string   $dependency
-     * @param   mixed    $dependency_value
+     * @param   string   $dependency_key
+     * @param   mixed    $dependency_name
      * @param   stdClass $work_object
      *
-     * @return  $this
+     * @return  boolean
      * @since   1.0.0
      */
     protected function satisfyDependency($dependency_name, $dependency_key, $work_object)
@@ -361,7 +361,7 @@ class Schedule implements ScheduleInterface
      *
      * @param   integer $queue_id
      * @param   string  $product_name
-     * @param   object  $work_object
+     * @param   stdClass  $work_object
      *
      * @return  $this
      * @since   1.0.0
@@ -399,7 +399,7 @@ class Schedule implements ScheduleInterface
     /**
      * Instantiate Class now that dependencies have been satisfied and finish processing
      *
-     * @param   string $work_object
+     * @param   stdClass $work_object
      *
      * @return  object
      * @since   1.0.0
@@ -426,7 +426,7 @@ class Schedule implements ScheduleInterface
      *
      * @param   string $work_object
      *
-     * @return  stdClass
+     * @return  string
      * @since   1.0.0
      */
     protected function processFactoryModelProductCreate($work_object)
@@ -452,7 +452,7 @@ class Schedule implements ScheduleInterface
      *
      * @param   string $work_object
      *
-     * @return  stdClass
+     * @return  string
      * @since   1.0.0
      */
     protected function processFactoryModelRemoveContainerEntries($work_object)
@@ -467,7 +467,7 @@ class Schedule implements ScheduleInterface
      *
      * @param   string $work_object
      *
-     * @return  stdClass
+     * @return  string
      * @since   1.0.0
      */
     protected function processFactoryModelSetContainerEntries($work_object)
@@ -512,7 +512,7 @@ class Schedule implements ScheduleInterface
      *
      * @param   string $work_object
      *
-     * @return  stdClass
+     * @return  string
      * @since   1.0.0
      */
     protected function processFactoryModelScheduleRequests($work_object)
@@ -533,7 +533,7 @@ class Schedule implements ScheduleInterface
      *
      * @param   stdClass $work_object
      *
-     * @return  $this
+     * @return  stdClass
      * @since   1.0.0
      */
     protected function processFactoryModelSetDependencyOfInstances($work_object)
