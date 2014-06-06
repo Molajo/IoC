@@ -37,8 +37,6 @@ class ClassDependencies
     /**
      * Constructor
      *
-     * @param  string $standard_adapter_namespace
-     * @param  array  $options
      *
      * @since  1.0.0
      */

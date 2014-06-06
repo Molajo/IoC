@@ -115,7 +115,7 @@ class MapFactories implements MapInterface
      * @since  1.0.0
      * @return  $this
      */
-    protected function MapFactories()
+    protected function mapFactories()
     {
         if (is_array($this->folders) && count($this->folders) > 0) {
         } else {
@@ -152,8 +152,9 @@ class MapFactories implements MapInterface
     {
         if (is_dir($adapter_folder)) {
         } else {
-            throw new RuntimeException
-            ('Container: getFolders Failed. Folder does not exist ' . $adapter_folder);
+            throw new RuntimeException(
+                'Container: getFolders Failed. Folder does not exist ' . $adapter_folder
+            );
         }
 
         $temp_folders = array();

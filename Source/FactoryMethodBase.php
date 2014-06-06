@@ -352,7 +352,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Service instantiated automatically or within this method by the Factory Method
      *
      * @return  $this
-     * @since  1.0.0
+     * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public function instantiateClass()
@@ -398,8 +398,9 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
                 return $this;
             } catch (Exception $e) {
 
-                throw new RuntimeException
-                ('IoC instantiateClass Reflection Failed: ' . $this->product_namespace . ' ' . $e->getMessage());
+                throw new RuntimeException(
+                    'IoC instantiateClass Reflection Failed: ' . $this->product_namespace . ' ' . $e->getMessage())
+                ;
             }
         }
 
@@ -409,8 +410,9 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
             $this->product_result = new $class();
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('IoC instantiateClass Failed: ' . $this->product_namespace . '  ' . $e->getMessage());
+            throw new RuntimeException(
+                'IoC instantiateClass Failed: ' . $this->product_namespace . '  ' . $e->getMessage()
+            );
         }
 
         return $this;
@@ -433,8 +435,9 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
             self::$static_product_result = new $product_namespace();
 
         } catch (Exception $e) {
-            throw new RuntimeException
-            ('IoC instantiateClass instantiateStatic  ' . $product_namespace . ' ' . $e->getMessage());
+            throw new RuntimeException(
+                'IoC instantiateClass instantiateStatic  ' . $product_namespace . ' ' . $e->getMessage()
+            );
         }
 
         return;

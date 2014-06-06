@@ -130,7 +130,7 @@ class Schedule implements ScheduleInterface
      *
      * Handles requests for FactoryMethod product, including dependency fulfillment
      *
-     * @return  mixed
+     * @return  Schedule
      * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
@@ -152,7 +152,7 @@ class Schedule implements ScheduleInterface
      * Process each product request to satisfy dependencies and, when all dependencies
      *  have been met, to complete the Factory Method processes including creating the product
      *
-     * @return  mixed
+     * @return  Schedule
      * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
@@ -173,7 +173,7 @@ class Schedule implements ScheduleInterface
      * Process each product request to satisfy dependencies and, when all dependencies
      *  have been met, to complete the Factory Method processes including creating the product
      *
-     * @return  mixed
+     * @return  Schedule
      * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
@@ -248,7 +248,7 @@ class Schedule implements ScheduleInterface
      *
      * @param   array $options
      *
-     * @return  array
+     * @return  FactoryMethodController
      * @since   1.0.0
      */
     protected function createFactoryMethod(array $options)
