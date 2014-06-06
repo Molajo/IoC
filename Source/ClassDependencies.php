@@ -74,13 +74,12 @@ class ClassDependencies
      */
     protected function getReflectionDependencies($namespace)
     {
-        $reflection = null;
+        $reflection = array();
 
         if (isset($this->class_dependencies[$namespace])) {
             $reflection = $this->class_dependencies[$namespace];
         } else {
             //todo - automate reflection
-            $reflection = array();
         }
 
         return $reflection;
