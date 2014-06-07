@@ -155,6 +155,21 @@ class Container implements ContainerInterface
             return $this->createNewKey($key);
         }
 
+        $testing_methods = array(
+            'testContainerKey',
+            'testAlias',
+            'createNewKey'
+        );
+
+        foreach ($testing_methods as $method) {
+            $result = $this->$method($key, $must_exist);
+            if ($result === false) {
+            } else {
+                $key = $result;
+                return $key;
+            }
+        }
+
         return false;
     }
 
@@ -184,13 +199,18 @@ class Container implements ContainerInterface
     /**
      * If a container key does not exist, create a new key
      *
-     * @param   string $key
+     * @param   string  $key
+     * @param   boolean $must_exist
      *
      * @return  boolean
      * @since   1.0.0
      */
-    protected function createNewKey($key)
+    protected function createNewKey($key, $must_exist = false)
     {
+        if ($must_exist === true) {
+            return false;
+        }
+
         $results = $this->getKeyNamespace($key);
 
         if ($results === false) {
@@ -198,7 +218,6 @@ class Container implements ContainerInterface
         }
 
         $key = $results;
-
         return $key;
     }
 
@@ -246,8 +265,11 @@ class Container implements ContainerInterface
         }
 
         if (isset($array[$key])) {
-            if ($this->testContainerKey($array[$key], $must_exist) === true) {
-                return $array[$key];
+            $results = $this->testContainerKey($array[$key], $must_exist);
+            if ($results === false) {
+            } else {
+                $key = $results;
+                return $key;
             }
         }
 
@@ -260,17 +282,17 @@ class Container implements ContainerInterface
      * @param   string  $key
      * @param   boolean $must_exist
      *
-     * @return  boolean
+     * @return  mixed
      * @since   1.0.0
      */
     protected function testContainerKey($key, $must_exist = true)
     {
         if ($must_exist === false) {
-            return true;
+            return $key;
         }
 
         if (isset($this->container_registry[$key])) {
-            return true;
+            return $key;
         }
 
         return false;

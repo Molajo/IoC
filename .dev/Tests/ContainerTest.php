@@ -57,6 +57,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($container->remove('a'), $container);
         $this->assertEquals($container->has('a'), false);
     }
+
     /**
      * Test Empty configuration
      *
