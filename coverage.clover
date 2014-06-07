@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1402112100">
-  <project timestamp="1402112100">
+<coverage generated="1402143830">
+  <project timestamp="1402143830">
     <file name="/Users/amystephen/Sites/Molajo/IoC/.dev/Bootstrap.php">
       <line num="0" type="stmt" count="0"/>
       <line num="34" type="stmt" count="0"/>
@@ -174,43 +174,43 @@
     <package name="Molajo\IoC">
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/ClassDependencies.php">
         <class name="ClassDependencies" namespace="Molajo\IoC">
-          <metrics methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="25" elements="33" coveredelements="31"/>
+          <metrics methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="27" elements="33" coveredelements="33"/>
         </class>
-        <line num="43" type="method" name="__construct" crap="1" count="3"/>
-        <line num="45" type="stmt" count="3"/>
-        <line num="46" type="stmt" count="3"/>
-        <line num="56" type="method" name="get" crap="1" count="2"/>
-        <line num="58" type="stmt" count="2"/>
-        <line num="59" type="stmt" count="2"/>
-        <line num="60" type="stmt" count="2"/>
-        <line num="62" type="stmt" count="2"/>
-        <line num="73" type="method" name="getReflectionDependencies" crap="2" count="2"/>
-        <line num="75" type="stmt" count="2"/>
-        <line num="77" type="stmt" count="2"/>
+        <line num="43" type="method" name="__construct" crap="1" count="6"/>
+        <line num="45" type="stmt" count="6"/>
+        <line num="46" type="stmt" count="6"/>
+        <line num="56" type="method" name="get" crap="1" count="5"/>
+        <line num="58" type="stmt" count="5"/>
+        <line num="59" type="stmt" count="5"/>
+        <line num="60" type="stmt" count="5"/>
+        <line num="62" type="stmt" count="5"/>
+        <line num="73" type="method" name="getReflectionDependencies" crap="2" count="5"/>
+        <line num="75" type="stmt" count="5"/>
+        <line num="77" type="stmt" count="5"/>
         <line num="78" type="stmt" count="2"/>
         <line num="79" type="stmt" count="2"/>
-        <line num="83" type="stmt" count="2"/>
-        <line num="94" type="method" name="loadClassDependencies" crap="2.03" count="3"/>
-        <line num="96" type="stmt" count="3"/>
-        <line num="98" type="stmt" count="3"/>
-        <line num="99" type="stmt" count="0"/>
-        <line num="100" type="stmt" count="3"/>
-        <line num="103" type="stmt" count="3"/>
-        <line num="114" type="method" name="readFile" crap="2.03" count="3"/>
-        <line num="116" type="stmt" count="3"/>
-        <line num="117" type="stmt" count="3"/>
-        <line num="118" type="stmt" count="0"/>
-        <line num="121" type="stmt" count="3"/>
-        <line num="123" type="stmt" count="3"/>
-        <line num="134" type="method" name="processClassDependencyData" crap="3" count="3"/>
-        <line num="136" type="stmt" count="3"/>
-        <line num="137" type="stmt" count="3"/>
-        <line num="138" type="stmt" count="3"/>
-        <line num="139" type="stmt" count="3"/>
-        <line num="140" type="stmt" count="3"/>
-        <line num="142" type="stmt" count="3"/>
+        <line num="83" type="stmt" count="5"/>
+        <line num="94" type="method" name="loadClassDependencies" crap="2" count="6"/>
+        <line num="96" type="stmt" count="6"/>
+        <line num="98" type="stmt" count="6"/>
+        <line num="99" type="stmt" count="1"/>
+        <line num="100" type="stmt" count="6"/>
+        <line num="103" type="stmt" count="6"/>
+        <line num="114" type="method" name="readFile" crap="2" count="6"/>
+        <line num="116" type="stmt" count="6"/>
+        <line num="117" type="stmt" count="6"/>
+        <line num="118" type="stmt" count="1"/>
+        <line num="121" type="stmt" count="6"/>
+        <line num="123" type="stmt" count="6"/>
+        <line num="134" type="method" name="processClassDependencyData" crap="3" count="6"/>
+        <line num="136" type="stmt" count="6"/>
+        <line num="137" type="stmt" count="6"/>
+        <line num="138" type="stmt" count="6"/>
+        <line num="139" type="stmt" count="6"/>
+        <line num="140" type="stmt" count="6"/>
+        <line num="142" type="stmt" count="6"/>
         <line num="145" type="stmt" count="0"/>
-        <metrics loc="144" ncloc="69" classes="1" methods="6" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="25" elements="33" coveredelements="29"/>
+        <metrics loc="144" ncloc="69" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="27" elements="33" coveredelements="33"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/Container.php">
         <class name="Container" namespace="Molajo\IoC">
@@ -292,7 +292,7 @@
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/FactoryMethodBase.php">
         <class name="FactoryMethodBase" namespace="Molajo\IoC">
-          <metrics methods="15" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="163" coveredstatements="0" elements="178" coveredelements="0"/>
+          <metrics methods="15" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="163" coveredstatements="19" elements="178" coveredelements="21"/>
         </class>
         <line num="171" type="method" name="__construct" crap="30" count="0"/>
         <line num="173" type="stmt" count="0"/>
@@ -309,38 +309,38 @@
         <line num="187" type="stmt" count="0"/>
         <line num="189" type="stmt" count="0"/>
         <line num="190" type="stmt" count="0"/>
-        <line num="198" type="method" name="getNamespace" crap="2" count="0"/>
-        <line num="200" type="stmt" count="0"/>
+        <line num="198" type="method" name="getNamespace" crap="1" count="4"/>
+        <line num="200" type="stmt" count="4"/>
         <line num="209" type="method" name="getOptions" crap="2" count="0"/>
         <line num="211" type="stmt" count="0"/>
         <line num="220" type="method" name="getStoreContainerEntryIndicator" crap="2" count="0"/>
         <line num="222" type="stmt" count="0"/>
-        <line num="234" type="method" name="setDependencies" crap="72" count="0"/>
-        <line num="236" type="stmt" count="0"/>
+        <line num="234" type="method" name="setDependencies" crap="9.40" count="4"/>
+        <line num="236" type="stmt" count="4"/>
         <line num="237" type="stmt" count="0"/>
         <line num="238" type="stmt" count="0"/>
-        <line num="239" type="stmt" count="0"/>
-        <line num="242" type="stmt" count="0"/>
+        <line num="239" type="stmt" count="4"/>
+        <line num="242" type="stmt" count="4"/>
         <line num="243" type="stmt" count="0"/>
-        <line num="246" type="stmt" count="0"/>
-        <line num="247" type="stmt" count="0"/>
-        <line num="250" type="stmt" count="0"/>
-        <line num="253" type="stmt" count="0"/>
+        <line num="246" type="stmt" count="4"/>
+        <line num="247" type="stmt" count="3"/>
+        <line num="250" type="stmt" count="1"/>
+        <line num="253" type="stmt" count="1"/>
         <line num="254" type="stmt" count="0"/>
-        <line num="257" type="stmt" count="0"/>
-        <line num="259" type="stmt" count="0"/>
+        <line num="257" type="stmt" count="1"/>
+        <line num="259" type="stmt" count="1"/>
         <line num="260" type="stmt" count="0"/>
         <line num="261" type="stmt" count="0"/>
-        <line num="264" type="stmt" count="0"/>
-        <line num="265" type="stmt" count="0"/>
-        <line num="266" type="stmt" count="0"/>
-        <line num="267" type="stmt" count="0"/>
-        <line num="268" type="stmt" count="0"/>
-        <line num="269" type="stmt" count="0"/>
-        <line num="270" type="stmt" count="0"/>
+        <line num="264" type="stmt" count="1"/>
+        <line num="265" type="stmt" count="1"/>
+        <line num="266" type="stmt" count="1"/>
+        <line num="267" type="stmt" count="1"/>
+        <line num="268" type="stmt" count="1"/>
+        <line num="269" type="stmt" count="1"/>
+        <line num="270" type="stmt" count="1"/>
         <line num="273" type="stmt" count="0"/>
-        <line num="277" type="stmt" count="0"/>
-        <line num="279" type="stmt" count="0"/>
+        <line num="277" type="stmt" count="1"/>
+        <line num="279" type="stmt" count="1"/>
         <line num="291" type="method" name="onBeforeInstantiation" crap="240" count="0"/>
         <line num="294" type="stmt" count="0"/>
         <line num="295" type="stmt" count="0"/>
@@ -473,30 +473,30 @@
         <line num="586" type="stmt" count="0"/>
         <line num="589" type="stmt" count="0"/>
         <line num="592" type="stmt" count="0"/>
-        <metrics loc="591" ncloc="363" classes="1" methods="15" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="163" coveredstatements="0" elements="178" coveredelements="0"/>
+        <metrics loc="591" ncloc="363" classes="1" methods="15" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="163" coveredstatements="19" elements="178" coveredelements="20"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/FactoryMethodController.php">
         <class name="FactoryMethodController" namespace="Molajo\IoC">
-          <metrics methods="15" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="2" elements="52" coveredelements="3"/>
+          <metrics methods="15" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="11" elements="52" coveredelements="14"/>
         </class>
-        <line num="86" type="method" name="__construct" crap="1" count="2"/>
-        <line num="89" type="stmt" count="2"/>
-        <line num="90" type="stmt" count="2"/>
-        <line num="98" type="method" name="getNamespace" crap="2" count="0"/>
-        <line num="100" type="stmt" count="0"/>
+        <line num="86" type="method" name="__construct" crap="1" count="6"/>
+        <line num="89" type="stmt" count="6"/>
+        <line num="90" type="stmt" count="6"/>
+        <line num="98" type="method" name="getNamespace" crap="1" count="4"/>
+        <line num="100" type="stmt" count="4"/>
         <line num="109" type="method" name="getOptions" crap="2" count="0"/>
         <line num="111" type="stmt" count="0"/>
         <line num="120" type="method" name="getStoreContainerEntryIndicator" crap="2" count="0"/>
         <line num="122" type="stmt" count="0"/>
-        <line num="136" type="method" name="setDependencies" crap="20" count="0"/>
-        <line num="138" type="stmt" count="0"/>
-        <line num="140" type="stmt" count="0"/>
-        <line num="141" type="stmt" count="0"/>
-        <line num="142" type="stmt" count="0"/>
-        <line num="145" type="stmt" count="0"/>
-        <line num="146" type="stmt" count="0"/>
-        <line num="147" type="stmt" count="0"/>
-        <line num="149" type="stmt" count="0"/>
+        <line num="136" type="method" name="setDependencies" crap="4" count="4"/>
+        <line num="138" type="stmt" count="4"/>
+        <line num="140" type="stmt" count="4"/>
+        <line num="141" type="stmt" count="1"/>
+        <line num="142" type="stmt" count="3"/>
+        <line num="145" type="stmt" count="4"/>
+        <line num="146" type="stmt" count="1"/>
+        <line num="147" type="stmt" count="4"/>
+        <line num="149" type="stmt" count="4"/>
         <line num="162" type="method" name="removeDependency" crap="6" count="0"/>
         <line num="164" type="stmt" count="0"/>
         <line num="165" type="stmt" count="0"/>
@@ -532,30 +532,30 @@
         <line num="294" type="method" name="scheduleFactories" crap="2" count="0"/>
         <line num="296" type="stmt" count="0"/>
         <line num="299" type="stmt" count="0"/>
-        <metrics loc="298" ncloc="128" classes="1" methods="15" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="2" elements="52" coveredelements="3"/>
+        <metrics loc="298" ncloc="128" classes="1" methods="15" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="11" elements="52" coveredelements="14"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/FactoryMethodCreate.php">
         <class name="FactoryMethodCreate" namespace="Molajo\IoC">
           <metrics methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="17" coveredelements="17"/>
         </class>
         <line num="0" type="stmt" count="0"/>
-        <line num="39" type="method" name="__construct" crap="1" count="5"/>
-        <line num="42" type="stmt" count="5"/>
-        <line num="43" type="stmt" count="5"/>
-        <line num="53" type="method" name="instantiateFactoryMethod" crap="1" count="5"/>
-        <line num="55" type="stmt" count="5"/>
-        <line num="57" type="stmt" count="4"/>
-        <line num="59" type="stmt" count="4"/>
-        <line num="71" type="method" name="getFactoryMethodAdapter" crap="2" count="5"/>
-        <line num="73" type="stmt" count="5"/>
-        <line num="75" type="stmt" count="5"/>
-        <line num="76" type="stmt" count="4"/>
+        <line num="39" type="method" name="__construct" crap="1" count="8"/>
+        <line num="42" type="stmt" count="8"/>
+        <line num="43" type="stmt" count="8"/>
+        <line num="53" type="method" name="instantiateFactoryMethod" crap="1" count="8"/>
+        <line num="55" type="stmt" count="8"/>
+        <line num="57" type="stmt" count="7"/>
+        <line num="59" type="stmt" count="7"/>
+        <line num="71" type="method" name="getFactoryMethodAdapter" crap="2" count="8"/>
+        <line num="73" type="stmt" count="8"/>
+        <line num="75" type="stmt" count="8"/>
+        <line num="76" type="stmt" count="7"/>
         <line num="77" type="stmt" count="1"/>
         <line num="79" type="stmt" count="1"/>
-        <line num="82" type="stmt" count="4"/>
-        <line num="84" type="stmt" count="4"/>
-        <line num="96" type="method" name="getFactoryMethodController" crap="1" count="4"/>
-        <line num="98" type="stmt" count="4"/>
+        <line num="82" type="stmt" count="7"/>
+        <line num="84" type="stmt" count="7"/>
+        <line num="96" type="method" name="getFactoryMethodController" crap="1" count="7"/>
+        <line num="98" type="stmt" count="7"/>
         <line num="101" type="stmt" count="0"/>
         <metrics loc="100" ncloc="46" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="17" coveredelements="17"/>
       </file>
@@ -815,9 +815,9 @@
         <class name="StandardFactoryMethod" namespace="Molajo\IoC">
           <metrics methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
         </class>
-        <line num="49" type="method" name="__construct" crap="1" count="1"/>
-        <line num="51" type="stmt" count="1"/>
-        <line num="52" type="stmt" count="1"/>
+        <line num="49" type="method" name="__construct" crap="1" count="2"/>
+        <line num="51" type="stmt" count="2"/>
+        <line num="52" type="stmt" count="2"/>
         <metrics loc="53" ncloc="13" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
       </file>
     </package>
@@ -1074,6 +1074,6 @@
       <line num="53" type="stmt" count="0"/>
       <metrics loc="53" ncloc="51" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="0" elements="29" coveredelements="0"/>
     </file>
-    <metrics files="26" loc="3681" ncloc="1928" classes="16" methods="131" coveredmethods="40" conditionals="0" coveredconditionals="0" statements="782" coveredstatements="272" elements="913" coveredelements="312"/>
+    <metrics files="26" loc="3681" ncloc="1928" classes="16" methods="131" coveredmethods="45" conditionals="0" coveredconditionals="0" statements="782" coveredstatements="302" elements="913" coveredelements="347"/>
   </project>
 </coverage>

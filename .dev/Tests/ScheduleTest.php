@@ -255,8 +255,8 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
         $a_stuff = new stdClass();
         $a_stuff->here = 'stuff in the container';
 
-        $x = $this->schedule->scheduleFactoryMethod('Dispatcher');
+        $class_instance = $this->schedule->scheduleFactoryMethod('Dispatcher');
 
-        var_dump($x);
+        $this->assertEquals(get_class($class_instance), 'Molajo\Event\EventDispatcher');
     }
 }
