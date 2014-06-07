@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1402151323">
-  <project timestamp="1402151323">
+<coverage generated="1402151454">
+  <project timestamp="1402151454">
     <file name="/Users/amystephen/Sites/Molajo/IoC/.dev/Bootstrap.php">
       <line num="0" type="stmt" count="0"/>
       <line num="34" type="stmt" count="0"/>
@@ -175,10 +175,10 @@
         <line num="141" type="method" name="getKey" crap="4.02" count="6"/>
         <line num="143" type="stmt" count="6"/>
         <line num="144" type="stmt" count="3"/>
-        <line num="147" type="stmt" count="5"/>
-        <line num="149" type="stmt" count="5"/>
+        <line num="147" type="stmt" count="6"/>
+        <line num="149" type="stmt" count="6"/>
         <line num="150" type="stmt" count="5"/>
-        <line num="151" type="stmt" count="1"/>
+        <line num="151" type="stmt" count="2"/>
         <line num="154" type="stmt" count="5"/>
         <line num="155" type="stmt" count="0"/>
         <line num="158" type="stmt" count="5"/>
@@ -195,22 +195,22 @@
         <line num="197" type="stmt" count="0"/>
         <line num="200" type="stmt" count="0"/>
         <line num="202" type="stmt" count="0"/>
-        <line num="214" type="method" name="testAlias" crap="3" count="5"/>
-        <line num="216" type="stmt" count="5"/>
-        <line num="218" type="stmt" count="5"/>
-        <line num="220" type="stmt" count="5"/>
-        <line num="222" type="stmt" count="5"/>
+        <line num="214" type="method" name="testAlias" crap="3" count="6"/>
+        <line num="216" type="stmt" count="6"/>
+        <line num="218" type="stmt" count="6"/>
+        <line num="220" type="stmt" count="6"/>
+        <line num="222" type="stmt" count="6"/>
         <line num="223" type="stmt" count="5"/>
-        <line num="224" type="stmt" count="1"/>
-        <line num="225" type="stmt" count="1"/>
+        <line num="224" type="stmt" count="2"/>
+        <line num="225" type="stmt" count="2"/>
         <line num="227" type="stmt" count="5"/>
         <line num="229" type="stmt" count="5"/>
-        <line num="242" type="method" name="testAliasKey" crap="4" count="5"/>
-        <line num="244" type="stmt" count="5"/>
+        <line num="242" type="method" name="testAliasKey" crap="4" count="6"/>
+        <line num="244" type="stmt" count="6"/>
         <line num="245" type="stmt" count="4"/>
-        <line num="248" type="stmt" count="1"/>
-        <line num="249" type="stmt" count="1"/>
-        <line num="250" type="stmt" count="1"/>
+        <line num="248" type="stmt" count="2"/>
+        <line num="249" type="stmt" count="2"/>
+        <line num="250" type="stmt" count="2"/>
         <line num="252" type="stmt" count="1"/>
         <line num="254" type="stmt" count="1"/>
         <line num="266" type="method" name="testContainerKey" crap="3.07" count="6"/>
@@ -218,7 +218,7 @@
         <line num="269" type="stmt" count="0"/>
         <line num="272" type="stmt" count="6"/>
         <line num="273" type="stmt" count="4"/>
-        <line num="276" type="stmt" count="5"/>
+        <line num="276" type="stmt" count="6"/>
         <line num="288" type="method" name="getKeyNamespace" crap="12" count="0"/>
         <line num="290" type="stmt" count="0"/>
         <line num="291" type="stmt" count="0"/>
