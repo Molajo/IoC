@@ -155,15 +155,7 @@ class Schedule implements ScheduleInterface
             $this->processRequests();
 
             if (count($this->to_be_processed_requests) > 0) {
-                $this->processNewRequestQueue();
-            }
-
-            $count++;
-            if ($count > 500) {
-
-                var_dump($this->process_requests);
-
-                throw new \Exception('processRequestQueue endless loop');
+                $count = $this->processNewRequestQueue($count);
             }
         }
 
@@ -181,8 +173,6 @@ class Schedule implements ScheduleInterface
     {
         foreach ($this->process_requests as $id => $work_object) {
 
-          //  $work_object = $this->satisfyDependencies($work_object);
-
             if ($work_object->factory_method->getRemainingDependencyCount() === 0) {
                 $this->processFactoryModel($work_object);
             }
@@ -195,17 +185,25 @@ class Schedule implements ScheduleInterface
      * Process each product request to satisfy dependencies and, when all dependencies
      *  have been met, to complete the Factory Method processes including creating the product
      *
-     * @return  $this
+     * @param   integer  $count
+     *
+     * @return  integer
      * @since   1.0.0
      */
-    public function processNewRequestQueue()
+    public function processNewRequestQueue($count)
     {
         foreach ($this->to_be_processed_requests as $product_name => $options) {
             $work_object = $this->setProductRequest($product_name, $options);
             $this->setProcessRequestsArray($product_name, $work_object);
         }
 
-        return $this;
+        $count++;
+        if ($count > 500) {
+            var_dump($this->process_requests);
+            throw new \Exception('processRequestQueue endless loop');
+        }
+
+        return $count;
     }
 
     /**
@@ -227,11 +225,26 @@ class Schedule implements ScheduleInterface
 
         $options = $this->getFactoryMethodNamespace($options);
 
+        return $this->setProductRequestWorkObject($product_name, $options);
+    }
+
+    /**
+     * Process Product Request
+     *
+     * Initializes request and adds into the processing queue
+     *
+     * @param   string $product_name
+     * @param   array  $options
+     *
+     * @return  stdClass
+     * @since   1.0.0
+     */
+    public function setProductRequestWorkObject($product_name = null, array $options = array())
+    {
         $work_object          = new stdClass();
         $work_object->options = $options;
 
         $work_object->factory_method = $this->createFactoryMethod($options);
-        $work_object->dependencies   = new stdClass();
 
         $work_object->dependency_of = array();
         if (isset($options['dependency_of'])) {
@@ -307,16 +320,34 @@ class Schedule implements ScheduleInterface
 
         foreach ($work_object->dependencies as $key => $dependency_array) {
 
-            $dependency_name      = $dependency_array['product_name'];
-            $dependency_namespace = $dependency_array['product_namespace'];
-
-            $results = $this->satisfyDependency($dependency_name, $key, $dependency_namespace, $work_object);
+            $results = $this->satisfyDependency(
+                $dependency_array['product_name'],
+                $key,
+                $dependency_array['product_namespace'],
+                $work_object
+            );
 
             if ($results === true) {
                 $satisfied[] = $key;
             }
         }
 
+        $this->satisfyDependenciesUnset($work_object, $satisfied);
+
+        return $work_object;
+    }
+
+    /**
+     * Unset dependencies
+     *
+     * @param   stdClass $work_object
+     * @param   array    $satisfied
+     *
+     * @return  stdClass $work_object
+     * @since   1.0.0
+     */
+    protected function satisfyDependenciesUnset($work_object, array $satisfied = array())
+    {
         if (count($satisfied) > 0) {
             foreach ($satisfied as $key) {
                 unset($work_object->dependencies[$key]);
@@ -356,7 +387,7 @@ class Schedule implements ScheduleInterface
      *
      * @param   string $dependency_name
      * @param   string $product_name
-     * @param   string $product_namespace
+     * @param   string $dependency_namespace
      *
      * @return  $this
      * @since   1.0.0
@@ -402,7 +433,7 @@ class Schedule implements ScheduleInterface
      *
      * @param   stdClass $work_object
      *
-     * @return  object
+     * @return  Schedule
      * @since   1.0.0
      */
     protected function processFactoryModel($work_object)
@@ -476,7 +507,9 @@ class Schedule implements ScheduleInterface
      */
     protected function processFactoryModelRemoveContainerEntries($work_object)
     {
-        $this->processFactoryModelArray($work_object->factory_method->removeContainerEntries(), 'remove');
+        if (count($work_object->factory_method->removeContainerEntries()) > 0) {
+            $this->processFactoryModelArray($work_object->factory_method->removeContainerEntries(), 'remove');
+        }
 
         return $work_object;
     }
@@ -491,7 +524,9 @@ class Schedule implements ScheduleInterface
      */
     protected function processFactoryModelSetContainerEntries($work_object)
     {
-        $this->processFactoryModelArray($work_object->factory_method->setContainerEntries(), 'set');
+        if (count($work_object->factory_method->setContainerEntries()) > 0) {
+            $this->processFactoryModelArray($work_object->factory_method->setContainerEntries(), 'set');
+        }
 
         return $work_object;
     }
@@ -507,11 +542,6 @@ class Schedule implements ScheduleInterface
      */
     protected function processFactoryModelArray($array, $method)
     {
-        if (is_array($array) && count($array) > 0) {
-        } else {
-            return $this;
-        }
-
         foreach ($array as $product_name => $value) {
 
             if ($method === 'set') {

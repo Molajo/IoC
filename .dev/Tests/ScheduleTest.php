@@ -51,15 +51,17 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Schedule::processRequests
      * @covers  Molajo\IoC\Schedule::processNewRequestQueue
      * @covers  Molajo\IoC\Schedule::setProductRequest
+     * @covers  Molajo\IoC\Schedule::setProductRequestWorkObject
      * @covers  Molajo\IoC\Schedule::getFactoryMethodNamespace
      * @covers  Molajo\IoC\Schedule::createFactoryMethod
      * @covers  Molajo\IoC\Schedule::setClassDependencies
      * @covers  Molajo\IoC\Schedule::satisfyDependencies
+     * @covers  Molajo\IoC\Schedule::satisfyDependenciesUnset
      * @covers  Molajo\IoC\Schedule::satisfyDependency
      * @covers  Molajo\IoC\Schedule::addDependencyToQueue
      * @covers  Molajo\IoC\Schedule::setProcessRequestsArray
-     * @covers  Molajo\IoC\Schedule::unsetProcessRequestsArray
      * @covers  Molajo\IoC\Schedule::processFactoryModel
+     * @covers  Molajo\IoC\Schedule::unsetProcessRequestsArray
      * @covers  Molajo\IoC\Schedule::processFactoryModelProductCreate
      * @covers  Molajo\IoC\Schedule::processFactoryModelRemoveContainerEntries
      * @covers  Molajo\IoC\Schedule::processFactoryModelSetContainerEntries
@@ -132,15 +134,17 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Schedule::processRequests
      * @covers  Molajo\IoC\Schedule::processNewRequestQueue
      * @covers  Molajo\IoC\Schedule::setProductRequest
+     * @covers  Molajo\IoC\Schedule::setProductRequestWorkObject
      * @covers  Molajo\IoC\Schedule::getFactoryMethodNamespace
      * @covers  Molajo\IoC\Schedule::createFactoryMethod
      * @covers  Molajo\IoC\Schedule::setClassDependencies
      * @covers  Molajo\IoC\Schedule::satisfyDependencies
+     * @covers  Molajo\IoC\Schedule::satisfyDependenciesUnset
      * @covers  Molajo\IoC\Schedule::satisfyDependency
      * @covers  Molajo\IoC\Schedule::addDependencyToQueue
      * @covers  Molajo\IoC\Schedule::setProcessRequestsArray
-     * @covers  Molajo\IoC\Schedule::unsetProcessRequestsArray
      * @covers  Molajo\IoC\Schedule::processFactoryModel
+     * @covers  Molajo\IoC\Schedule::unsetProcessRequestsArray
      * @covers  Molajo\IoC\Schedule::processFactoryModelProductCreate
      * @covers  Molajo\IoC\Schedule::processFactoryModelRemoveContainerEntries
      * @covers  Molajo\IoC\Schedule::processFactoryModelSetContainerEntries
@@ -197,15 +201,17 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Schedule::processRequests
      * @covers  Molajo\IoC\Schedule::processNewRequestQueue
      * @covers  Molajo\IoC\Schedule::setProductRequest
+     * @covers  Molajo\IoC\Schedule::setProductRequestWorkObject
      * @covers  Molajo\IoC\Schedule::getFactoryMethodNamespace
      * @covers  Molajo\IoC\Schedule::createFactoryMethod
      * @covers  Molajo\IoC\Schedule::setClassDependencies
      * @covers  Molajo\IoC\Schedule::satisfyDependencies
+     * @covers  Molajo\IoC\Schedule::satisfyDependenciesUnset
      * @covers  Molajo\IoC\Schedule::satisfyDependency
      * @covers  Molajo\IoC\Schedule::addDependencyToQueue
      * @covers  Molajo\IoC\Schedule::setProcessRequestsArray
-     * @covers  Molajo\IoC\Schedule::unsetProcessRequestsArray
      * @covers  Molajo\IoC\Schedule::processFactoryModel
+     * @covers  Molajo\IoC\Schedule::unsetProcessRequestsArray
      * @covers  Molajo\IoC\Schedule::processFactoryModelProductCreate
      * @covers  Molajo\IoC\Schedule::processFactoryModelRemoveContainerEntries
      * @covers  Molajo\IoC\Schedule::processFactoryModelSetContainerEntries

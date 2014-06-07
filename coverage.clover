@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1402108834">
-  <project timestamp="1402108834">
+<coverage generated="1402112100">
+  <project timestamp="1402112100">
     <file name="/Users/amystephen/Sites/Molajo/IoC/.dev/Bootstrap.php">
       <line num="0" type="stmt" count="0"/>
       <line num="34" type="stmt" count="0"/>
@@ -609,7 +609,7 @@
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/Schedule.php">
         <class name="Schedule" namespace="Molajo\IoC">
-          <metrics methods="24" coveredmethods="24" conditionals="0" coveredconditionals="0" statements="166" coveredstatements="141" elements="190" coveredelements="165"/>
+          <metrics methods="26" coveredmethods="25" conditionals="0" coveredconditionals="0" statements="171" coveredstatements="143" elements="197" coveredelements="168"/>
         </class>
         <line num="98" type="method" name="__construct" crap="2.01" count="2"/>
         <line num="103" type="stmt" count="2"/>
@@ -629,180 +629,187 @@
         <line num="135" type="stmt" count="1"/>
         <line num="137" type="stmt" count="1"/>
         <line num="139" type="stmt" count="1"/>
-        <line num="150" type="method" name="processRequestQueue" crap="4.07" count="1"/>
+        <line num="150" type="method" name="processRequestQueue" crap="3" count="1"/>
         <line num="152" type="stmt" count="1"/>
         <line num="153" type="stmt" count="1"/>
         <line num="155" type="stmt" count="1"/>
         <line num="157" type="stmt" count="1"/>
         <line num="158" type="stmt" count="1"/>
         <line num="159" type="stmt" count="1"/>
-        <line num="161" type="stmt" count="1"/>
+        <line num="160" type="stmt" count="1"/>
         <line num="162" type="stmt" count="1"/>
-        <line num="164" type="stmt" count="0"/>
-        <line num="166" type="stmt" count="0"/>
-        <line num="168" type="stmt" count="1"/>
-        <line num="170" type="stmt" count="1"/>
-        <line num="180" type="method" name="processRequests" crap="3" count="1"/>
-        <line num="182" type="stmt" count="1"/>
-        <line num="186" type="stmt" count="1"/>
-        <line num="187" type="stmt" count="1"/>
-        <line num="188" type="stmt" count="1"/>
-        <line num="189" type="stmt" count="1"/>
-        <line num="191" type="stmt" count="1"/>
-        <line num="201" type="method" name="processNewRequestQueue" crap="2" count="1"/>
-        <line num="203" type="stmt" count="1"/>
-        <line num="204" type="stmt" count="1"/>
-        <line num="205" type="stmt" count="1"/>
+        <line num="172" type="method" name="processRequests" crap="3" count="1"/>
+        <line num="174" type="stmt" count="1"/>
+        <line num="176" type="stmt" count="1"/>
+        <line num="177" type="stmt" count="1"/>
+        <line num="178" type="stmt" count="1"/>
+        <line num="179" type="stmt" count="1"/>
+        <line num="181" type="stmt" count="1"/>
+        <line num="193" type="method" name="processNewRequestQueue" crap="3.10" count="1"/>
+        <line num="195" type="stmt" count="1"/>
+        <line num="196" type="stmt" count="1"/>
+        <line num="197" type="stmt" count="1"/>
+        <line num="198" type="stmt" count="1"/>
+        <line num="200" type="stmt" count="1"/>
+        <line num="201" type="stmt" count="1"/>
+        <line num="202" type="stmt" count="0"/>
+        <line num="203" type="stmt" count="0"/>
         <line num="206" type="stmt" count="1"/>
-        <line num="208" type="stmt" count="1"/>
-        <line num="222" type="method" name="setProductRequest" crap="2" count="1"/>
+        <line num="220" type="method" name="setProductRequest" crap="1" count="1"/>
+        <line num="222" type="stmt" count="1"/>
+        <line num="223" type="stmt" count="1"/>
         <line num="224" type="stmt" count="1"/>
-        <line num="225" type="stmt" count="1"/>
         <line num="226" type="stmt" count="1"/>
         <line num="228" type="stmt" count="1"/>
-        <line num="230" type="stmt" count="1"/>
-        <line num="231" type="stmt" count="1"/>
-        <line num="233" type="stmt" count="1"/>
-        <line num="234" type="stmt" count="1"/>
-        <line num="236" type="stmt" count="1"/>
-        <line num="237" type="stmt" count="1"/>
-        <line num="238" type="stmt" count="1"/>
-        <line num="239" type="stmt" count="1"/>
-        <line num="241" type="stmt" count="1"/>
-        <line num="243" type="stmt" count="1"/>
+        <line num="242" type="method" name="setProductRequestWorkObject" crap="2" count="1"/>
+        <line num="244" type="stmt" count="1"/>
         <line num="245" type="stmt" count="1"/>
         <line num="247" type="stmt" count="1"/>
-        <line num="258" type="method" name="getFactoryMethodNamespace" crap="1" count="1"/>
+        <line num="249" type="stmt" count="1"/>
+        <line num="250" type="stmt" count="1"/>
+        <line num="251" type="stmt" count="1"/>
+        <line num="252" type="stmt" count="1"/>
+        <line num="254" type="stmt" count="1"/>
+        <line num="256" type="stmt" count="1"/>
+        <line num="258" type="stmt" count="1"/>
         <line num="260" type="stmt" count="1"/>
-        <line num="261" type="stmt" count="1"/>
-        <line num="263" type="stmt" count="1"/>
-        <line num="265" type="stmt" count="1"/>
-        <line num="276" type="method" name="createFactoryMethod" crap="1" count="1"/>
+        <line num="271" type="method" name="getFactoryMethodNamespace" crap="1" count="1"/>
+        <line num="273" type="stmt" count="1"/>
+        <line num="274" type="stmt" count="1"/>
+        <line num="276" type="stmt" count="1"/>
         <line num="278" type="stmt" count="1"/>
-        <line num="280" type="stmt" count="1"/>
-        <line num="291" type="method" name="setClassDependencies" crap="1" count="1"/>
+        <line num="289" type="method" name="createFactoryMethod" crap="1" count="1"/>
+        <line num="291" type="stmt" count="1"/>
         <line num="293" type="stmt" count="1"/>
-        <line num="304" type="method" name="satisfyDependencies" crap="6.60" count="1"/>
+        <line num="304" type="method" name="setClassDependencies" crap="1" count="1"/>
         <line num="306" type="stmt" count="1"/>
-        <line num="308" type="stmt" count="1"/>
-        <line num="310" type="stmt" count="1"/>
-        <line num="311" type="stmt" count="1"/>
-        <line num="313" type="stmt" count="1"/>
-        <line num="315" type="stmt" count="1"/>
-        <line num="316" type="stmt" count="0"/>
-        <line num="317" type="stmt" count="0"/>
-        <line num="318" type="stmt" count="1"/>
-        <line num="320" type="stmt" count="1"/>
-        <line num="321" type="stmt" count="0"/>
-        <line num="322" type="stmt" count="0"/>
-        <line num="323" type="stmt" count="0"/>
-        <line num="324" type="stmt" count="0"/>
+        <line num="317" type="method" name="satisfyDependencies" crap="3.03" count="1"/>
+        <line num="319" type="stmt" count="1"/>
+        <line num="321" type="stmt" count="1"/>
+        <line num="323" type="stmt" count="1"/>
+        <line num="324" type="stmt" count="1"/>
+        <line num="325" type="stmt" count="1"/>
         <line num="326" type="stmt" count="1"/>
-        <line num="339" type="method" name="satisfyDependency" crap="2.31" count="1"/>
-        <line num="341" type="stmt" count="1"/>
-        <line num="342" type="stmt" count="1"/>
-        <line num="343" type="stmt" count="0"/>
-        <line num="344" type="stmt" count="0"/>
-        <line num="346" type="stmt" count="0"/>
-        <line num="349" type="stmt" count="1"/>
+        <line num="328" type="stmt" count="1"/>
+        <line num="330" type="stmt" count="1"/>
+        <line num="331" type="stmt" count="0"/>
+        <line num="332" type="stmt" count="0"/>
+        <line num="333" type="stmt" count="1"/>
+        <line num="335" type="stmt" count="1"/>
+        <line num="337" type="stmt" count="1"/>
+        <line num="349" type="method" name="satisfyDependenciesUnset" crap="5.67" count="1"/>
         <line num="351" type="stmt" count="1"/>
-        <line num="364" type="method" name="addDependencyToQueue" crap="2.02" count="1"/>
-        <line num="366" type="stmt" count="1"/>
-        <line num="367" type="stmt" count="0"/>
-        <line num="368" type="stmt" count="1"/>
-        <line num="370" type="stmt" count="1"/>
+        <line num="352" type="stmt" count="0"/>
+        <line num="353" type="stmt" count="0"/>
+        <line num="354" type="stmt" count="0"/>
+        <line num="355" type="stmt" count="0"/>
+        <line num="357" type="stmt" count="1"/>
+        <line num="370" type="method" name="satisfyDependency" crap="2.31" count="1"/>
         <line num="372" type="stmt" count="1"/>
-        <line num="375" type="stmt" count="1"/>
-        <line num="387" type="method" name="setProcessRequestsArray" crap="2" count="1"/>
-        <line num="389" type="stmt" count="1"/>
-        <line num="390" type="stmt" count="1"/>
-        <line num="391" type="stmt" count="1"/>
-        <line num="393" type="stmt" count="1"/>
-        <line num="394" type="stmt" count="1"/>
-        <line num="395" type="stmt" count="1"/>
+        <line num="373" type="stmt" count="1"/>
+        <line num="374" type="stmt" count="0"/>
+        <line num="375" type="stmt" count="0"/>
+        <line num="377" type="stmt" count="0"/>
+        <line num="380" type="stmt" count="1"/>
+        <line num="382" type="stmt" count="1"/>
+        <line num="395" type="method" name="addDependencyToQueue" crap="2.02" count="1"/>
         <line num="397" type="stmt" count="1"/>
-        <line num="408" type="method" name="processFactoryModel" crap="2" count="1"/>
-        <line num="411" type="stmt" count="1"/>
-        <line num="412" type="stmt" count="1"/>
-        <line num="413" type="stmt" count="1"/>
-        <line num="414" type="stmt" count="1"/>
-        <line num="416" type="stmt" count="1"/>
-        <line num="418" type="stmt" count="1"/>
-        <line num="419" type="stmt" count="1"/>
+        <line num="398" type="stmt" count="0"/>
+        <line num="399" type="stmt" count="1"/>
+        <line num="401" type="stmt" count="1"/>
+        <line num="403" type="stmt" count="1"/>
+        <line num="406" type="stmt" count="1"/>
+        <line num="418" type="method" name="setProcessRequestsArray" crap="2" count="1"/>
         <line num="420" type="stmt" count="1"/>
+        <line num="421" type="stmt" count="1"/>
         <line num="422" type="stmt" count="1"/>
         <line num="424" type="stmt" count="1"/>
+        <line num="425" type="stmt" count="1"/>
         <line num="426" type="stmt" count="1"/>
-        <line num="437" type="method" name="unsetProcessRequestsArray" crap="1" count="1"/>
-        <line num="439" type="stmt" count="1"/>
-        <line num="441" type="stmt" count="1"/>
+        <line num="428" type="stmt" count="1"/>
+        <line num="439" type="method" name="processFactoryModel" crap="2" count="1"/>
         <line num="442" type="stmt" count="1"/>
+        <line num="443" type="stmt" count="1"/>
         <line num="444" type="stmt" count="1"/>
-        <line num="454" type="method" name="processFactoryModelProductCreate" crap="2" count="1"/>
-        <line num="456" type="stmt" count="1"/>
+        <line num="445" type="stmt" count="1"/>
+        <line num="447" type="stmt" count="1"/>
+        <line num="449" type="stmt" count="1"/>
+        <line num="450" type="stmt" count="1"/>
+        <line num="451" type="stmt" count="1"/>
+        <line num="453" type="stmt" count="1"/>
+        <line num="455" type="stmt" count="1"/>
         <line num="457" type="stmt" count="1"/>
-        <line num="458" type="stmt" count="1"/>
-        <line num="459" type="stmt" count="1"/>
-        <line num="460" type="stmt" count="1"/>
-        <line num="462" type="stmt" count="1"/>
-        <line num="463" type="stmt" count="1"/>
-        <line num="464" type="stmt" count="1"/>
-        <line num="466" type="stmt" count="1"/>
-        <line num="477" type="method" name="processFactoryModelRemoveContainerEntries" crap="1" count="1"/>
-        <line num="479" type="stmt" count="1"/>
-        <line num="481" type="stmt" count="1"/>
-        <line num="492" type="method" name="processFactoryModelSetContainerEntries" crap="1" count="1"/>
+        <line num="468" type="method" name="unsetProcessRequestsArray" crap="1" count="1"/>
+        <line num="470" type="stmt" count="1"/>
+        <line num="472" type="stmt" count="1"/>
+        <line num="473" type="stmt" count="1"/>
+        <line num="475" type="stmt" count="1"/>
+        <line num="485" type="method" name="processFactoryModelProductCreate" crap="2" count="1"/>
+        <line num="487" type="stmt" count="1"/>
+        <line num="488" type="stmt" count="1"/>
+        <line num="489" type="stmt" count="1"/>
+        <line num="490" type="stmt" count="1"/>
+        <line num="491" type="stmt" count="1"/>
+        <line num="493" type="stmt" count="1"/>
         <line num="494" type="stmt" count="1"/>
-        <line num="496" type="stmt" count="1"/>
-        <line num="508" type="method" name="processFactoryModelArray" crap="26.83" count="1"/>
+        <line num="495" type="stmt" count="1"/>
+        <line num="497" type="stmt" count="1"/>
+        <line num="508" type="method" name="processFactoryModelRemoveContainerEntries" crap="2.50" count="1"/>
         <line num="510" type="stmt" count="1"/>
         <line num="511" type="stmt" count="0"/>
-        <line num="512" type="stmt" count="1"/>
-        <line num="515" type="stmt" count="0"/>
-        <line num="517" type="stmt" count="0"/>
-        <line num="518" type="stmt" count="0"/>
-        <line num="519" type="stmt" count="0"/>
-        <line num="520" type="stmt" count="0"/>
-        <line num="521" type="stmt" count="0"/>
-        <line num="522" type="stmt" count="0"/>
-        <line num="524" type="stmt" count="0"/>
-        <line num="526" type="stmt" count="0"/>
-        <line num="537" type="method" name="processFactoryModelScheduleRequests" crap="4" count="1"/>
-        <line num="539" type="stmt" count="1"/>
-        <line num="541" type="stmt" count="1"/>
-        <line num="542" type="stmt" count="1"/>
-        <line num="543" type="stmt" count="1"/>
-        <line num="544" type="stmt" count="1"/>
-        <line num="545" type="stmt" count="1"/>
-        <line num="547" type="stmt" count="1"/>
-        <line num="558" type="method" name="processFactoryModelSetDependencyOfInstances" crap="3" count="1"/>
-        <line num="560" type="stmt" count="1"/>
-        <line num="561" type="stmt" count="1"/>
-        <line num="564" type="stmt" count="1"/>
-        <line num="565" type="stmt" count="1"/>
-        <line num="566" type="stmt" count="1"/>
-        <line num="567" type="stmt" count="1"/>
-        <line num="568" type="stmt" count="1"/>
+        <line num="512" type="stmt" count="0"/>
+        <line num="514" type="stmt" count="1"/>
+        <line num="525" type="method" name="processFactoryModelSetContainerEntries" crap="2.50" count="1"/>
+        <line num="527" type="stmt" count="1"/>
+        <line num="528" type="stmt" count="0"/>
+        <line num="529" type="stmt" count="0"/>
+        <line num="531" type="stmt" count="1"/>
+        <line num="543" type="method" name="processFactoryModelArray" crap="20" count="0"/>
+        <line num="545" type="stmt" count="0"/>
+        <line num="547" type="stmt" count="0"/>
+        <line num="548" type="stmt" count="0"/>
+        <line num="549" type="stmt" count="0"/>
+        <line num="550" type="stmt" count="0"/>
+        <line num="551" type="stmt" count="0"/>
+        <line num="552" type="stmt" count="0"/>
+        <line num="554" type="stmt" count="0"/>
+        <line num="556" type="stmt" count="0"/>
+        <line num="567" type="method" name="processFactoryModelScheduleRequests" crap="4" count="1"/>
         <line num="569" type="stmt" count="1"/>
-        <line num="570" type="stmt" count="1"/>
         <line num="571" type="stmt" count="1"/>
+        <line num="572" type="stmt" count="1"/>
         <line num="573" type="stmt" count="1"/>
-        <line num="584" type="method" name="hasContainerEntry" crap="2" count="2"/>
-        <line num="586" type="stmt" count="2"/>
-        <line num="587" type="stmt" count="1"/>
+        <line num="574" type="stmt" count="1"/>
+        <line num="575" type="stmt" count="1"/>
+        <line num="577" type="stmt" count="1"/>
+        <line num="588" type="method" name="processFactoryModelSetDependencyOfInstances" crap="3" count="1"/>
         <line num="590" type="stmt" count="1"/>
-        <line num="601" type="method" name="getContainerEntryKey" crap="2" count="1"/>
+        <line num="591" type="stmt" count="1"/>
+        <line num="594" type="stmt" count="1"/>
+        <line num="595" type="stmt" count="1"/>
+        <line num="596" type="stmt" count="1"/>
+        <line num="597" type="stmt" count="1"/>
+        <line num="598" type="stmt" count="1"/>
+        <line num="599" type="stmt" count="1"/>
+        <line num="600" type="stmt" count="1"/>
+        <line num="601" type="stmt" count="1"/>
         <line num="603" type="stmt" count="1"/>
-        <line num="604" type="stmt" count="1"/>
-        <line num="605" type="stmt" count="1"/>
-        <line num="606" type="stmt" count="1"/>
-        <line num="607" type="stmt" count="1"/>
-        <line num="618" type="method" name="getContainerEntry" crap="2.15" count="1"/>
+        <line num="614" type="method" name="hasContainerEntry" crap="2" count="2"/>
+        <line num="616" type="stmt" count="2"/>
+        <line num="617" type="stmt" count="1"/>
         <line num="620" type="stmt" count="1"/>
-        <line num="621" type="stmt" count="0"/>
-        <line num="624" type="stmt" count="1"/>
-        <line num="627" type="stmt" count="0"/>
-        <metrics loc="626" ncloc="360" classes="1" methods="24" coveredmethods="16" conditionals="0" coveredconditionals="0" statements="166" coveredstatements="141" elements="190" coveredelements="157"/>
+        <line num="631" type="method" name="getContainerEntryKey" crap="2" count="1"/>
+        <line num="633" type="stmt" count="1"/>
+        <line num="634" type="stmt" count="1"/>
+        <line num="635" type="stmt" count="1"/>
+        <line num="636" type="stmt" count="1"/>
+        <line num="637" type="stmt" count="1"/>
+        <line num="648" type="method" name="getContainerEntry" crap="2.15" count="1"/>
+        <line num="650" type="stmt" count="1"/>
+        <line num="651" type="stmt" count="0"/>
+        <line num="654" type="stmt" count="1"/>
+        <line num="657" type="stmt" count="0"/>
+        <metrics loc="656" ncloc="370" classes="1" methods="26" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="171" coveredstatements="143" elements="197" coveredelements="158"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/StandardFactoryMethod.php">
         <class name="StandardFactoryMethod" namespace="Molajo\IoC">
@@ -1067,6 +1074,6 @@
       <line num="53" type="stmt" count="0"/>
       <metrics loc="53" ncloc="51" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="0" elements="29" coveredelements="0"/>
     </file>
-    <metrics files="26" loc="3651" ncloc="1918" classes="16" methods="129" coveredmethods="41" conditionals="0" coveredconditionals="0" statements="777" coveredstatements="270" elements="906" coveredelements="311"/>
+    <metrics files="26" loc="3681" ncloc="1928" classes="16" methods="131" coveredmethods="40" conditionals="0" coveredconditionals="0" statements="782" coveredstatements="272" elements="913" coveredelements="312"/>
   </project>
 </coverage>
