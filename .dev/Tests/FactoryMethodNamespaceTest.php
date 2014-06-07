@@ -25,12 +25,15 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
      *
      * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
      * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::processNamespaceOptions
      * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::testFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFolderFile
      * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
      * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
      *
-     * @return void
-     * @since  1.0.0
+     * @return  void
+     * @since   1.0.0
      */
     public function testPassInNamespaceFull()
     {
@@ -53,12 +56,15 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
      *
      * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
      * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::processNamespaceOptions
      * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::testFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFolderFile
      * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
      * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
      *
-     * @return void
-     * @since  1.0.0
+     * @return  void
+     * @since   1.0.0
      */
     public function testPassInNamespacePlus()
     {
@@ -82,12 +88,15 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
      *
      * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
      * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::processNamespaceOptions
      * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::testFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFolderFile
      * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
      * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
      *
-     * @return void
-     * @since  1.0.0
+     * @return  void
+     * @since   1.0.0
      */
     public function testProductNamePlus()
     {
@@ -109,12 +118,15 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
      *
      * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
      * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::processNamespaceOptions
      * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::testFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFolderFile
      * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
      * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
      *
-     * @return void
-     * @since  1.0.0
+     * @return  void
+     * @since   1.0.0
      */
     public function testContainerKeyNamespace()
     {
@@ -128,6 +140,72 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
 
         $options['factory_method_namespace']
             = $options['container_key'] . '\\' . $options['product_name'] . 'FactoryMethod';
+
+        $this->assertEquals($factory_method_namespace->get(), $options);
+    }
+
+    /**
+     * No namespace
+     *
+     * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
+     * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::processNamespaceOptions
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::testFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
+     *
+     * @return  void
+     * @since   1.0.0
+     */
+    public function testNoNamespace()
+    {
+        $options                    = array();
+        $options['product_name']    = 'Whoknows';
+        $options['container_key']   = 'Whoknows';
+        $options['ioc_id']          = 1;
+        $options['factory_method_namespace'] = null;
+        $options['product_namespace']    = 'Molajo\\Who\\Whoknows';
+
+        $standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
+
+        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace, $options);
+
+        $options['factory_method_namespace'] = $standard_adapter_namespace;
+
+        $this->assertEquals($factory_method_namespace->get(), $options);
+    }
+
+    /**
+     * No default namespace
+     *
+     * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
+     * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::processNamespaceOptions
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::testFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
+     *
+     * @return  void
+     * @since   1.0.0
+     */
+    public function testNoDefaultNamespace()
+    {
+        $options                    = array();
+        $options['product_name']    = 'Whoknows';
+        $options['container_key']   = 'Whoknows';
+        $options['ioc_id']          = 1;
+        $options['factory_method_namespace'] = null;
+        $options['product_namespace']    = 'Molajo\\Who\\Whoknows';
+
+        $standard_adapter_namespace = null;
+
+        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace, $options);
+
+        $options['factory_method_namespace'] = 'Molajo\IoC\StandardFactoryMethod';
 
         $this->assertEquals($factory_method_namespace->get(), $options);
     }

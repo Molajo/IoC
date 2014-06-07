@@ -72,6 +72,15 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Schedule::getContainerEntryKey
      * @covers  Molajo\IoC\Schedule::getContainerEntry
      *
+     * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
+     * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::processNamespaceOptions
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::testFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
+     *
      * @covers  Molajo\IoC\FactoryMethodCreate::__construct
      * @covers  Molajo\IoC\FactoryMethodCreate::instantiateFactoryMethod
      * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodAdapter
@@ -155,6 +164,15 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Schedule::getContainerEntryKey
      * @covers  Molajo\IoC\Schedule::getContainerEntry
      *
+     * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
+     * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::processNamespaceOptions
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::testFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
+     *
      * @covers  Molajo\IoC\FactoryMethodCreate::__construct
      * @covers  Molajo\IoC\FactoryMethodCreate::instantiateFactoryMethod
      * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodAdapter
@@ -221,6 +239,15 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Schedule::hasContainerEntry
      * @covers  Molajo\IoC\Schedule::getContainerEntryKey
      * @covers  Molajo\IoC\Schedule::getContainerEntry
+     *
+     * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
+     * @covers  Molajo\IoC\FactoryMethodNamespace::get
+     * @covers  Molajo\IoC\FactoryMethodNamespace::processNamespaceOptions
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::testFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getFolderFile
+     * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
+     * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
      *
      * @covers  Molajo\IoC\FactoryMethodCreate::__construct
      * @covers  Molajo\IoC\FactoryMethodCreate::instantiateFactoryMethod

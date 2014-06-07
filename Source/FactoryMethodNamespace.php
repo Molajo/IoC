@@ -59,7 +59,12 @@ class FactoryMethodNamespace
         $standard_adapter_namespace,
         array $options = array()
     ) {
-        $this->standard_adapter_namespace = $standard_adapter_namespace;
+        if (trim($standard_adapter_namespace) === '') {
+            $this->standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
+        } else {
+            $this->standard_adapter_namespace = $standard_adapter_namespace;
+        }
+
         $this->options                    = $options;
     }
 
@@ -71,17 +76,7 @@ class FactoryMethodNamespace
      */
     public function get()
     {
-        $results = false;
-
-        foreach ($this->option_entry as $option_entry) {
-            $results = $this->getFactoryNamespaceFolderFile($option_entry);
-
-            if ($results === true) {
-                break;
-            }
-        }
-
-        if ($results === false) {
+        if ($this->processNamespaceOptions() === false) {
             $this->options['factory_method_namespace'] = $this->standard_adapter_namespace;
         }
 
@@ -89,8 +84,28 @@ class FactoryMethodNamespace
     }
 
     /**
-     * Build a possible Namespace path and test it for class
+     * Loop through Namespace possibilities
      *
+     * @return  boolean
+     * @since   1.0.0
+     */
+    protected function processNamespaceOptions()
+    {
+        $results = false;
+
+        foreach ($this->option_entry as $option_entry) {
+
+            if ($this->getFactoryNamespaceFolderFile($option_entry) === true) {
+                $results = true;
+                break;
+            }
+        }
+
+        return $results;
+    }
+
+    /**
+     * Build a possible Namespace path and test it for class
      *
      * @return  boolean
      * @since   1.0.0
@@ -102,6 +117,19 @@ class FactoryMethodNamespace
             return false;
         }
 
+        return $this->testFactoryNamespaceFolderFile($option_entry);
+    }
+
+    /**
+     * Test the folder/file results for possible namespace
+     *
+     * @param   $option_entry
+     *
+     * @return  bool
+     * @since   1.0.0
+     */
+    protected function testFactoryNamespaceFolderFile($option_entry)
+    {
         $test    = array();
         $test[0] = $this->options[$option_entry];
         $test[1] = $this->getFolderFile($test[0]);
