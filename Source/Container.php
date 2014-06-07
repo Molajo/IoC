@@ -230,20 +230,50 @@ class Container implements ContainerInterface
      */
     protected function testAliasKey($key, $must_exist = false, array $array = array())
     {
-        if (count($array) === 0) {
-            return false;
+        if (isset($array[$key])) {
+            return $this->testAliasKeyExists($key, $array[$key], $must_exist);
         }
 
-        if (isset($array[$key])) {
+        return false;
+    }
 
-            $results = $this->testContainerKey($array[$key], $must_exist);
+    /**
+     * Set factory method namespace array entries associated with alias keys
+     *
+     * @param   string  $key
+     * @param   string  $alias_key
+     * @param   boolean $must_exist
+     *
+     * @return  false|string
+     * @since   1.0.0
+     */
+    protected function testAliasKeyExists($key, $alias_key, $must_exist)
+    {
+        if ($must_exist === false) {
+            return $alias_key;
+        }
 
-            if ($results === false) {
-            } else {
-                echo $key;
-                $key = $results;
-                return $key;
-            }
+        if ($this->testContainerKeyMustExist($alias_key) === true
+            || $this->testContainerKeyMustExist($key) === true
+        ) {
+            return $alias_key;
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if a container entry exists for this key
+     *
+     * @param   string  $key
+     *
+     * @return  string|false
+     * @since   1.0.0
+     */
+    protected function testContainerKeyMustExist($key)
+    {
+        if (isset($this->container_registry[$key])) {
+            return true;
         }
 
         return false;

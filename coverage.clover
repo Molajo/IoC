@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1402156294">
-  <project timestamp="1402156294">
+<coverage generated="1402157381">
+  <project timestamp="1402157381">
     <file name="/Users/amystephen/Sites/Molajo/IoC/.dev/Bootstrap.php">
       <line num="0" type="stmt" count="0"/>
       <line num="34" type="stmt" count="0"/>
@@ -153,7 +153,7 @@
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/Container.php">
         <class name="Container" namespace="Molajo\IoC">
-          <metrics methods="15" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="74" coveredstatements="73" elements="89" coveredelements="88"/>
+          <metrics methods="17" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="76" coveredstatements="62" elements="93" coveredelements="77"/>
         </class>
         <line num="55" type="method" name="__construct" crap="1" count="7"/>
         <line num="58" type="stmt" count="7"/>
@@ -185,67 +185,71 @@
         <line num="170" type="stmt" count="2"/>
         <line num="171" type="stmt" count="2"/>
         <line num="174" type="stmt" count="4"/>
-        <line num="186" type="method" name="createNewKey" crap="3" count="6"/>
+        <line num="186" type="method" name="createNewKey" crap="3.21" count="6"/>
         <line num="188" type="stmt" count="6"/>
         <line num="189" type="stmt" count="5"/>
         <line num="192" type="stmt" count="1"/>
         <line num="194" type="stmt" count="1"/>
         <line num="195" type="stmt" count="1"/>
-        <line num="198" type="stmt" count="1"/>
-        <line num="200" type="stmt" count="1"/>
+        <line num="198" type="stmt" count="0"/>
+        <line num="200" type="stmt" count="0"/>
         <line num="212" type="method" name="testAlias" crap="1" count="7"/>
         <line num="214" type="stmt" count="7"/>
         <line num="216" type="stmt" count="7"/>
         <line num="218" type="stmt" count="7"/>
-        <line num="231" type="method" name="testAliasKey" crap="4" count="7"/>
+        <line num="231" type="method" name="testAliasKey" crap="2" count="7"/>
         <line num="233" type="stmt" count="7"/>
-        <line num="234" type="stmt" count="4"/>
-        <line num="237" type="stmt" count="3"/>
-        <line num="239" type="stmt" count="3"/>
-        <line num="241" type="stmt" count="3"/>
-        <line num="242" type="stmt" count="2"/>
-        <line num="243" type="stmt" count="2"/>
-        <line num="244" type="stmt" count="2"/>
-        <line num="245" type="stmt" count="2"/>
-        <line num="247" type="stmt" count="2"/>
-        <line num="249" type="stmt" count="2"/>
-        <line num="260" type="method" name="testContainerKey" crap="2" count="7"/>
-        <line num="262" type="stmt" count="7"/>
-        <line num="263" type="stmt" count="4"/>
-        <line num="266" type="stmt" count="7"/>
-        <line num="277" type="method" name="getKeyNamespace" crap="3.07" count="1"/>
-        <line num="279" type="stmt" count="1"/>
-        <line num="280" type="stmt" count="1"/>
-        <line num="283" type="stmt" count="1"/>
-        <line num="284" type="stmt" count="0"/>
-        <line num="287" type="stmt" count="1"/>
-        <line num="301" type="method" name="testLoop" crap="4" count="7"/>
-        <line num="303" type="stmt" count="7"/>
-        <line num="305" type="stmt" count="7"/>
-        <line num="307" type="stmt" count="7"/>
-        <line num="309" type="stmt" count="7"/>
-        <line num="310" type="stmt" count="7"/>
-        <line num="311" type="stmt" count="5"/>
-        <line num="313" type="stmt" count="5"/>
-        <line num="315" type="stmt" count="7"/>
-        <line num="316" type="stmt" count="6"/>
-        <line num="318" type="stmt" count="6"/>
-        <line num="332" type="method" name="testLoopEvaluate" crap="2" count="7"/>
-        <line num="334" type="stmt" count="7"/>
+        <line num="234" type="stmt" count="3"/>
+        <line num="237" type="stmt" count="6"/>
+        <line num="250" type="method" name="testAliasKeyExists" crap="20" count="0"/>
+        <line num="252" type="stmt" count="0"/>
+        <line num="253" type="stmt" count="0"/>
+        <line num="256" type="stmt" count="0"/>
+        <line num="257" type="stmt" count="0"/>
+        <line num="258" type="stmt" count="0"/>
+        <line num="259" type="stmt" count="0"/>
+        <line num="262" type="stmt" count="0"/>
+        <line num="273" type="method" name="testContainerKeyMustExist" crap="6" count="0"/>
+        <line num="275" type="stmt" count="0"/>
+        <line num="276" type="stmt" count="0"/>
+        <line num="279" type="stmt" count="0"/>
+        <line num="290" type="method" name="testContainerKey" crap="2" count="7"/>
+        <line num="292" type="stmt" count="7"/>
+        <line num="293" type="stmt" count="3"/>
+        <line num="296" type="stmt" count="7"/>
+        <line num="307" type="method" name="getKeyNamespace" crap="3.58" count="1"/>
+        <line num="309" type="stmt" count="1"/>
+        <line num="310" type="stmt" count="0"/>
+        <line num="313" type="stmt" count="1"/>
+        <line num="314" type="stmt" count="0"/>
+        <line num="317" type="stmt" count="1"/>
+        <line num="331" type="method" name="testLoop" crap="4" count="7"/>
+        <line num="333" type="stmt" count="7"/>
         <line num="335" type="stmt" count="7"/>
-        <line num="336" type="stmt" count="7"/>
+        <line num="337" type="stmt" count="7"/>
         <line num="339" type="stmt" count="7"/>
-        <line num="350" type="method" name="setFactoryMethodNamespaces" crap="3" count="7"/>
-        <line num="352" type="stmt" count="7"/>
-        <line num="353" type="stmt" count="7"/>
-        <line num="355" type="stmt" count="7"/>
-        <line num="356" type="stmt" count="3"/>
-        <line num="357" type="stmt" count="3"/>
-        <line num="358" type="stmt" count="3"/>
-        <line num="359" type="stmt" count="3"/>
-        <line num="361" type="stmt" count="7"/>
-        <line num="364" type="stmt" count="0"/>
-        <metrics loc="363" ncloc="191" classes="1" methods="15" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="74" coveredstatements="73" elements="89" coveredelements="87"/>
+        <line num="340" type="stmt" count="7"/>
+        <line num="341" type="stmt" count="5"/>
+        <line num="343" type="stmt" count="5"/>
+        <line num="345" type="stmt" count="7"/>
+        <line num="346" type="stmt" count="6"/>
+        <line num="348" type="stmt" count="6"/>
+        <line num="362" type="method" name="testLoopEvaluate" crap="2" count="7"/>
+        <line num="364" type="stmt" count="7"/>
+        <line num="365" type="stmt" count="7"/>
+        <line num="366" type="stmt" count="7"/>
+        <line num="369" type="stmt" count="7"/>
+        <line num="380" type="method" name="setFactoryMethodNamespaces" crap="3" count="7"/>
+        <line num="382" type="stmt" count="7"/>
+        <line num="383" type="stmt" count="7"/>
+        <line num="385" type="stmt" count="7"/>
+        <line num="386" type="stmt" count="3"/>
+        <line num="387" type="stmt" count="3"/>
+        <line num="388" type="stmt" count="3"/>
+        <line num="389" type="stmt" count="3"/>
+        <line num="391" type="stmt" count="7"/>
+        <line num="394" type="stmt" count="0"/>
+        <metrics loc="393" ncloc="203" classes="1" methods="17" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="76" coveredstatements="62" elements="93" coveredelements="75"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/FactoryMethodBase.php">
         <class name="FactoryMethodBase" namespace="Molajo\IoC">
@@ -822,6 +826,6 @@
       <line num="53" type="stmt" count="0"/>
       <metrics loc="53" ncloc="51" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="0" elements="29" coveredelements="0"/>
     </file>
-    <metrics files="20" loc="2844" ncloc="1492" classes="13" methods="105" coveredmethods="32" conditionals="0" coveredconditionals="0" statements="591" coveredstatements="177" elements="696" coveredelements="209"/>
+    <metrics files="20" loc="2874" ncloc="1504" classes="13" methods="107" coveredmethods="31" conditionals="0" coveredconditionals="0" statements="593" coveredstatements="166" elements="700" coveredelements="197"/>
   </project>
 </coverage>
