@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1402153481">
-  <project timestamp="1402153481">
+<coverage generated="1402154485">
+  <project timestamp="1402154485">
     <file name="/Users/amystephen/Sites/Molajo/IoC/.dev/Bootstrap.php">
       <line num="0" type="stmt" count="0"/>
       <line num="34" type="stmt" count="0"/>
@@ -153,7 +153,7 @@
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/Container.php">
         <class name="Container" namespace="Molajo\IoC">
-          <metrics methods="13" coveredmethods="12" conditionals="0" coveredconditionals="0" statements="81" coveredstatements="68" elements="94" coveredelements="80"/>
+          <metrics methods="14" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="74" coveredstatements="63" elements="88" coveredelements="76"/>
         </class>
         <line num="55" type="method" name="__construct" crap="1" count="6"/>
         <line num="58" type="stmt" count="6"/>
@@ -172,85 +172,79 @@
         <line num="121" type="stmt" count="3"/>
         <line num="123" type="stmt" count="3"/>
         <line num="125" type="stmt" count="3"/>
-        <line num="141" type="method" name="getKey" crap="6.04" count="6"/>
-        <line num="143" type="stmt" count="6"/>
-        <line num="144" type="stmt" count="0"/>
+        <line num="141" type="method" name="getKey" crap="1" count="6"/>
+        <line num="144" type="stmt" count="6"/>
+        <line num="145" type="stmt" count="6"/>
         <line num="147" type="stmt" count="6"/>
         <line num="149" type="stmt" count="6"/>
-        <line num="150" type="stmt" count="6"/>
-        <line num="151" type="stmt" count="2"/>
-        <line num="154" type="stmt" count="6"/>
-        <line num="155" type="stmt" count="0"/>
-        <line num="159" type="stmt" count="6"/>
-        <line num="160" type="stmt" count="6"/>
-        <line num="162" type="stmt" count="6"/>
-        <line num="164" type="stmt" count="6"/>
-        <line num="165" type="stmt" count="6"/>
+        <line num="151" type="stmt" count="6"/>
+        <line num="164" type="method" name="action" crap="2" count="6"/>
         <line num="166" type="stmt" count="6"/>
-        <line num="167" type="stmt" count="5"/>
-        <line num="168" type="stmt" count="3"/>
-        <line num="169" type="stmt" count="3"/>
-        <line num="171" type="stmt" count="5"/>
-        <line num="173" type="stmt" count="5"/>
-        <line num="186" type="method" name="action" crap="2" count="6"/>
-        <line num="188" type="stmt" count="6"/>
-        <line num="190" type="stmt" count="6"/>
-        <line num="191" type="stmt" count="2"/>
-        <line num="192" type="stmt" count="2"/>
-        <line num="193" type="stmt" count="2"/>
-        <line num="196" type="stmt" count="4"/>
-        <line num="208" type="method" name="createNewKey" crap="6.28" count="5"/>
-        <line num="210" type="stmt" count="5"/>
-        <line num="211" type="stmt" count="5"/>
-        <line num="214" type="stmt" count="0"/>
-        <line num="216" type="stmt" count="0"/>
-        <line num="217" type="stmt" count="0"/>
-        <line num="220" type="stmt" count="0"/>
-        <line num="221" type="stmt" count="0"/>
-        <line num="233" type="method" name="testAlias" crap="3" count="6"/>
-        <line num="235" type="stmt" count="6"/>
-        <line num="237" type="stmt" count="6"/>
-        <line num="239" type="stmt" count="6"/>
-        <line num="241" type="stmt" count="6"/>
-        <line num="242" type="stmt" count="6"/>
-        <line num="243" type="stmt" count="2"/>
-        <line num="244" type="stmt" count="2"/>
-        <line num="246" type="stmt" count="6"/>
-        <line num="248" type="stmt" count="6"/>
-        <line num="261" type="method" name="testAliasKey" crap="4" count="6"/>
-        <line num="263" type="stmt" count="6"/>
-        <line num="264" type="stmt" count="4"/>
-        <line num="267" type="stmt" count="2"/>
-        <line num="268" type="stmt" count="2"/>
-        <line num="269" type="stmt" count="2"/>
-        <line num="270" type="stmt" count="2"/>
-        <line num="271" type="stmt" count="2"/>
-        <line num="272" type="stmt" count="2"/>
-        <line num="274" type="stmt" count="2"/>
-        <line num="276" type="stmt" count="2"/>
-        <line num="288" type="method" name="testContainerKey" crap="3.07" count="6"/>
-        <line num="290" type="stmt" count="6"/>
-        <line num="291" type="stmt" count="0"/>
-        <line num="294" type="stmt" count="6"/>
-        <line num="295" type="stmt" count="4"/>
-        <line num="298" type="stmt" count="6"/>
-        <line num="310" type="method" name="getKeyNamespace" crap="12" count="0"/>
-        <line num="312" type="stmt" count="0"/>
-        <line num="313" type="stmt" count="0"/>
-        <line num="316" type="stmt" count="0"/>
-        <line num="317" type="stmt" count="0"/>
-        <line num="320" type="stmt" count="0"/>
-        <line num="331" type="method" name="setFactoryMethodNamespaces" crap="3" count="6"/>
-        <line num="333" type="stmt" count="6"/>
-        <line num="334" type="stmt" count="6"/>
+        <line num="168" type="stmt" count="6"/>
+        <line num="169" type="stmt" count="2"/>
+        <line num="170" type="stmt" count="2"/>
+        <line num="171" type="stmt" count="2"/>
+        <line num="174" type="stmt" count="4"/>
+        <line num="186" type="method" name="createNewKey" crap="6.28" count="5"/>
+        <line num="188" type="stmt" count="5"/>
+        <line num="189" type="stmt" count="5"/>
+        <line num="192" type="stmt" count="0"/>
+        <line num="194" type="stmt" count="0"/>
+        <line num="195" type="stmt" count="0"/>
+        <line num="198" type="stmt" count="0"/>
+        <line num="200" type="stmt" count="0"/>
+        <line num="212" type="method" name="testAlias" crap="1" count="6"/>
+        <line num="214" type="stmt" count="6"/>
+        <line num="216" type="stmt" count="6"/>
+        <line num="218" type="stmt" count="6"/>
+        <line num="231" type="method" name="testAliasKey" crap="4" count="6"/>
+        <line num="233" type="stmt" count="6"/>
+        <line num="234" type="stmt" count="4"/>
+        <line num="237" type="stmt" count="2"/>
+        <line num="238" type="stmt" count="2"/>
+        <line num="239" type="stmt" count="2"/>
+        <line num="240" type="stmt" count="1"/>
+        <line num="241" type="stmt" count="2"/>
+        <line num="242" type="stmt" count="2"/>
+        <line num="244" type="stmt" count="1"/>
+        <line num="246" type="stmt" count="1"/>
+        <line num="258" type="method" name="testContainerKey" crap="3.07" count="6"/>
+        <line num="260" type="stmt" count="6"/>
+        <line num="261" type="stmt" count="0"/>
+        <line num="264" type="stmt" count="6"/>
+        <line num="265" type="stmt" count="4"/>
+        <line num="268" type="stmt" count="6"/>
+        <line num="279" type="method" name="getKeyNamespace" crap="12" count="0"/>
+        <line num="281" type="stmt" count="0"/>
+        <line num="282" type="stmt" count="0"/>
+        <line num="285" type="stmt" count="0"/>
+        <line num="286" type="stmt" count="0"/>
+        <line num="289" type="stmt" count="0"/>
+        <line num="303" type="method" name="testLoop" crap="5" count="6"/>
+        <line num="305" type="stmt" count="6"/>
+        <line num="307" type="stmt" count="6"/>
+        <line num="308" type="stmt" count="6"/>
+        <line num="309" type="stmt" count="6"/>
+        <line num="310" type="stmt" count="6"/>
+        <line num="311" type="stmt" count="6"/>
+        <line num="314" type="stmt" count="6"/>
+        <line num="315" type="stmt" count="6"/>
+        <line num="316" type="stmt" count="4"/>
+        <line num="317" type="stmt" count="4"/>
+        <line num="319" type="stmt" count="6"/>
+        <line num="320" type="stmt" count="5"/>
+        <line num="322" type="stmt" count="5"/>
+        <line num="333" type="method" name="setFactoryMethodNamespaces" crap="3" count="6"/>
+        <line num="335" type="stmt" count="6"/>
         <line num="336" type="stmt" count="6"/>
-        <line num="337" type="stmt" count="2"/>
-        <line num="338" type="stmt" count="2"/>
+        <line num="338" type="stmt" count="6"/>
         <line num="339" type="stmt" count="2"/>
         <line num="340" type="stmt" count="2"/>
-        <line num="342" type="stmt" count="6"/>
-        <line num="345" type="stmt" count="0"/>
-        <metrics loc="344" ncloc="192" classes="1" methods="13" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="81" coveredstatements="68" elements="94" coveredelements="77"/>
+        <line num="341" type="stmt" count="2"/>
+        <line num="342" type="stmt" count="2"/>
+        <line num="344" type="stmt" count="6"/>
+        <line num="347" type="stmt" count="0"/>
+        <metrics loc="346" ncloc="184" classes="1" methods="14" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="74" coveredstatements="63" elements="88" coveredelements="74"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/FactoryMethodBase.php">
         <class name="FactoryMethodBase" namespace="Molajo\IoC">
@@ -827,6 +821,6 @@
       <line num="53" type="stmt" count="0"/>
       <metrics loc="53" ncloc="51" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="0" elements="29" coveredelements="0"/>
     </file>
-    <metrics files="20" loc="2824" ncloc="1493" classes="13" methods="103" coveredmethods="27" conditionals="0" coveredconditionals="0" statements="598" coveredstatements="172" elements="701" coveredelements="199"/>
+    <metrics files="20" loc="2826" ncloc="1485" classes="13" methods="104" coveredmethods="29" conditionals="0" coveredconditionals="0" statements="591" coveredstatements="167" elements="695" coveredelements="196"/>
   </project>
 </coverage>

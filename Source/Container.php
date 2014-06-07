@@ -135,42 +135,20 @@ class Container implements ContainerInterface
      * @param   string  $key
      * @param   boolean $must_exist
      *
-     * @return  boolean
+     * @return  mixed
      * @since   1.0.0
      */
     public function getKey($key, $must_exist = false)
     {
-        if ($this->testContainerKey($key, true) === true) {
-            return $key;
-        }
-
-        $value = $this->testAlias($key, $must_exist);
-
-        if ($value === false) {
-        } else {
-            return $value;
-        }
-
-        if ($must_exist === false) {
-            return $this->createNewKey($key);
-        }
-
         $testing_methods = array(
             'testContainerKey',
             'testAlias',
             'createNewKey'
         );
 
-        foreach ($testing_methods as $method) {
-            $result = $this->$method($key, $must_exist);
-            if ($result === false) {
-            } else {
-                $key = $result;
-                return $key;
-            }
-        }
+        $array_input = array('dummy');
 
-        return false;
+        return $this->testLoop($key, $must_exist, $testing_methods, $array_input);
     }
 
     /**
@@ -179,7 +157,7 @@ class Container implements ContainerInterface
      * @param   string $key
      * @param   string $action
      *
-     * @return  boolean
+     * @return  string
      * @since   1.0.0
      * @throws  \CommonApi\Exception\InvalidArgumentException
      */
@@ -202,7 +180,7 @@ class Container implements ContainerInterface
      * @param   string  $key
      * @param   boolean $must_exist
      *
-     * @return  boolean
+     * @return  mixed
      * @since   1.0.0
      */
     protected function createNewKey($key, $must_exist = false)
@@ -218,6 +196,7 @@ class Container implements ContainerInterface
         }
 
         $key = $results;
+
         return $key;
     }
 
@@ -227,38 +206,29 @@ class Container implements ContainerInterface
      * @param   string  $key
      * @param   boolean $must_exist
      *
-     * @return  boolean
+     * @return  mixed
      * @since   1.0.0
      */
     protected function testAlias($key, $must_exist = false)
     {
-        $arrays = array('factory_method_aliases', 'factory_method_namespaces');
+        $testing_methods = array('testAliasKey');
 
-        foreach ($arrays as $array) {
+        $array_input = array('factory_method_aliases', 'factory_method_namespaces');
 
-            $test = $this->testAliasKey($key, $this->$array, $must_exist);
-
-            if ($test === false) {
-            } else {
-                $key = $test;
-                return $key;
-            }
-        }
-
-        return false;
+        return $this->testLoop($key, $must_exist, $testing_methods, $array_input);
     }
 
     /**
      * Set factory method namespace array entries associated with alias keys
      *
      * @param   string  $key
-     * @param   array   $array
      * @param   boolean $must_exist
+     * @param   array   $array
      *
      * @return  boolean
      * @since   1.0.0
      */
-    protected function testAliasKey($key, array $array = array(), $must_exist = false)
+    protected function testAliasKey($key, $must_exist = false, array $array = array())
     {
         if (count($array) === 0) {
             return false;
@@ -301,8 +271,7 @@ class Container implements ContainerInterface
     /**
      * Set factory method namespace array entries associated with alias keys
      *
-     * @param        string
-     * @param string $key
+     * @param   string $key
      *
      * @return  mixed
      * @since   1.0.0
@@ -315,6 +284,39 @@ class Container implements ContainerInterface
 
         if (isset($this->factory_method_namespaces[$key]) === true) {
             return $key;
+        }
+
+        return false;
+    }
+
+    /**
+     * Generic loop used for testing keys and reducing code duplication
+     *
+     * @param   string  $key
+     * @param   boolean $must_exist
+     * @param   array   $testing_methods
+     * @param   array   $array_input
+     *
+     * @return  mixed
+     * @since   1.0.0
+     */
+    public function testLoop($key, $must_exist, array $testing_methods, array $array_input)
+    {
+        foreach ($array_input as $input) {
+
+            foreach ($testing_methods as $method) {
+                if ($input === 'dummy') {
+                    $result = $this->$method($key, $must_exist);
+                } else {
+                    $result = $this->$method($key, $must_exist, $this->$input);
+                }
+
+                if ($result === false) {
+                } else {
+                    $key = $result;
+                    return $key;
+                }
+            }
         }
 
         return false;
