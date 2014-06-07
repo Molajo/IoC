@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1402157381">
-  <project timestamp="1402157381">
+<coverage generated="1402164094">
+  <project timestamp="1402164094">
     <file name="/Users/amystephen/Sites/Molajo/IoC/.dev/Bootstrap.php">
       <line num="0" type="stmt" count="0"/>
       <line num="34" type="stmt" count="0"/>
@@ -153,7 +153,7 @@
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/Container.php">
         <class name="Container" namespace="Molajo\IoC">
-          <metrics methods="17" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="76" coveredstatements="62" elements="93" coveredelements="77"/>
+          <metrics methods="17" coveredmethods="17" conditionals="0" coveredconditionals="0" statements="76" coveredstatements="72" elements="93" coveredelements="89"/>
         </class>
         <line num="55" type="method" name="__construct" crap="1" count="7"/>
         <line num="58" type="stmt" count="7"/>
@@ -201,18 +201,18 @@
         <line num="233" type="stmt" count="7"/>
         <line num="234" type="stmt" count="3"/>
         <line num="237" type="stmt" count="6"/>
-        <line num="250" type="method" name="testAliasKeyExists" crap="20" count="0"/>
-        <line num="252" type="stmt" count="0"/>
-        <line num="253" type="stmt" count="0"/>
-        <line num="256" type="stmt" count="0"/>
-        <line num="257" type="stmt" count="0"/>
-        <line num="258" type="stmt" count="0"/>
-        <line num="259" type="stmt" count="0"/>
-        <line num="262" type="stmt" count="0"/>
-        <line num="273" type="method" name="testContainerKeyMustExist" crap="6" count="0"/>
-        <line num="275" type="stmt" count="0"/>
-        <line num="276" type="stmt" count="0"/>
-        <line num="279" type="stmt" count="0"/>
+        <line num="250" type="method" name="testAliasKeyExists" crap="4" count="3"/>
+        <line num="252" type="stmt" count="3"/>
+        <line num="253" type="stmt" count="1"/>
+        <line num="256" type="stmt" count="2"/>
+        <line num="257" type="stmt" count="2"/>
+        <line num="258" type="stmt" count="2"/>
+        <line num="259" type="stmt" count="2"/>
+        <line num="262" type="stmt" count="1"/>
+        <line num="273" type="method" name="testContainerKeyMustExist" crap="2" count="2"/>
+        <line num="275" type="stmt" count="2"/>
+        <line num="276" type="stmt" count="2"/>
+        <line num="279" type="stmt" count="1"/>
         <line num="290" type="method" name="testContainerKey" crap="2" count="7"/>
         <line num="292" type="stmt" count="7"/>
         <line num="293" type="stmt" count="3"/>
@@ -249,7 +249,7 @@
         <line num="389" type="stmt" count="3"/>
         <line num="391" type="stmt" count="7"/>
         <line num="394" type="stmt" count="0"/>
-        <metrics loc="393" ncloc="203" classes="1" methods="17" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="76" coveredstatements="62" elements="93" coveredelements="75"/>
+        <metrics loc="393" ncloc="203" classes="1" methods="17" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="76" coveredstatements="72" elements="93" coveredelements="87"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/FactoryMethodBase.php">
         <class name="FactoryMethodBase" namespace="Molajo\IoC">
@@ -826,6 +826,6 @@
       <line num="53" type="stmt" count="0"/>
       <metrics loc="53" ncloc="51" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="0" elements="29" coveredelements="0"/>
     </file>
-    <metrics files="20" loc="2874" ncloc="1504" classes="13" methods="107" coveredmethods="31" conditionals="0" coveredconditionals="0" statements="593" coveredstatements="166" elements="700" coveredelements="197"/>
+    <metrics files="20" loc="2874" ncloc="1504" classes="13" methods="107" coveredmethods="33" conditionals="0" coveredconditionals="0" statements="593" coveredstatements="176" elements="700" coveredelements="209"/>
   </project>
 </coverage>

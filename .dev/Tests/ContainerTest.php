@@ -36,6 +36,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::createNewKey
      * @covers  Molajo\IoC\Container::testAlias
      * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testAliasKeyExists
+     * @covers  Molajo\IoC\Container::testContainerKeyMustExist
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
@@ -73,6 +75,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::createNewKey
      * @covers  Molajo\IoC\Container::testAlias
      * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testAliasKeyExists
+     * @covers  Molajo\IoC\Container::testContainerKeyMustExist
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
@@ -105,6 +109,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::createNewKey
      * @covers  Molajo\IoC\Container::testAlias
      * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testAliasKeyExists
+     * @covers  Molajo\IoC\Container::testContainerKeyMustExist
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
@@ -143,6 +149,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::createNewKey
      * @covers  Molajo\IoC\Container::testAlias
      * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testAliasKeyExists
+     * @covers  Molajo\IoC\Container::testContainerKeyMustExist
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
@@ -176,6 +184,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::createNewKey
      * @covers  Molajo\IoC\Container::testAlias
      * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testAliasKeyExists
+     * @covers  Molajo\IoC\Container::testContainerKeyMustExist
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
@@ -214,6 +224,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::createNewKey
      * @covers  Molajo\IoC\Container::testAlias
      * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testAliasKeyExists
+     * @covers  Molajo\IoC\Container::testContainerKeyMustExist
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
@@ -247,6 +259,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::createNewKey
      * @covers  Molajo\IoC\Container::testAlias
      * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testAliasKeyExists
+     * @covers  Molajo\IoC\Container::testContainerKeyMustExist
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
