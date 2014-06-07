@@ -46,9 +46,9 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
 
         $standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
 
-        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace, $options);
+        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace);
 
-        $this->assertEquals($factory_method_namespace->get(), $options);
+        $this->assertEquals($factory_method_namespace->get($options), $options);
     }
 
     /**
@@ -76,11 +76,11 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
 
         $standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
 
-        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace, $options);
+        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace);
 
         $options['factory_method_namespace'] .= '\\DispatcherFactoryMethod';
 
-        $this->assertEquals($factory_method_namespace->get(), $options);
+        $this->assertEquals($factory_method_namespace->get($options), $options);
     }
 
     /**
@@ -105,12 +105,12 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
         $options['ioc_id']          = 1;
         $standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
 
-        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace, $options);
+        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace);
 
         $options['factory_method_namespace']
             = $options['product_name'] . '\\' . 'DispatcherFactoryMethod';
 
-        $this->assertEquals($factory_method_namespace->get(), $options);
+        $this->assertEquals($factory_method_namespace->get($options), $options);
     }
 
     /**
@@ -136,12 +136,12 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
         $options['ioc_id']          = 1;
         $standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
 
-        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace, $options);
+        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace);
 
         $options['factory_method_namespace']
             = $options['container_key'] . '\\' . $options['product_name'] . 'FactoryMethod';
 
-        $this->assertEquals($factory_method_namespace->get(), $options);
+        $this->assertEquals($factory_method_namespace->get($options), $options);
     }
 
     /**
@@ -170,11 +170,11 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
 
         $standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
 
-        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace, $options);
+        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace);
 
         $options['factory_method_namespace'] = $standard_adapter_namespace;
 
-        $this->assertEquals($factory_method_namespace->get(), $options);
+        $this->assertEquals($factory_method_namespace->get($options), $options);
     }
 
     /**
@@ -203,10 +203,10 @@ class FactoryMethodNamespaceTest extends PHPUnit_Framework_TestCase
 
         $standard_adapter_namespace = null;
 
-        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace, $options);
+        $factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace);
 
         $options['factory_method_namespace'] = 'Molajo\IoC\StandardFactoryMethod';
 
-        $this->assertEquals($factory_method_namespace->get(), $options);
+        $this->assertEquals($factory_method_namespace->get($options), $options);
     }
 }

@@ -99,31 +99,21 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::set
      * @covers  Molajo\IoC\Container::remove
      * @covers  Molajo\IoC\Container::getKey
+     * @covers  Molajo\IoC\Container::action
      * @covers  Molajo\IoC\Container::testAlias
      * @covers  Molajo\IoC\Container::testAliasKey
      * @covers  Molajo\IoC\Container::testContainerKey
+     * @covers  Molajo\IoC\Container::createNewKey
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      * @covers  Molajo\IoC\Container::getKeyNamespace
-     * @covers  Molajo\IoC\Container::action
      *
      * @return void
      * @since  1.0.0
      */
     public function setup()
     {
-        $aliases = readJsonFile(__DIR__ . '/Files/FactoryMethodAliases.json');
-        $this->container = new Container($aliases);
-
-        $file = __DIR__ . '/Files/ClassDependencies.json';
-        $class_dependencies = new ClassDependencies($file);
-
-        $a_stuff = new stdClass();
-        $a_stuff->here = 'stuff in the container';
-
-        $this->container->set('Molajo\\Factories\\User', $a_stuff);
-        $this->container->set('Email', $a_stuff);
-        $this->container->set('Noalias', $a_stuff);
-
+        $factory_method_aliases = readJsonFile(__DIR__ . '/Files/FactoryMethodAliases.json');
+        $class_dependencies = __DIR__ . '/Files/ClassDependencies.json';
         $class_dependencies_filename = null;
         $standard_adapter_namespaces = null;
 
@@ -132,6 +122,13 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
             $class_dependencies,
             $standard_adapter_namespaces
         );
+
+        $a_stuff = new stdClass();
+        $a_stuff->here = 'stuff in the container';
+
+        $this->container->set('Molajo\\Factories\\User', $a_stuff);
+        $this->container->set('Email', $a_stuff);
+        $this->container->set('Noalias', $a_stuff);
     }
 
     /**

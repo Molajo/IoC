@@ -51,31 +51,30 @@ class FactoryMethodNamespace
      * Constructor
      *
      * @param  string $standard_adapter_namespace
-     * @param  array  $options
      *
      * @since  1.0.0
      */
-    public function __construct(
-        $standard_adapter_namespace,
-        array $options = array()
-    ) {
+    public function __construct($standard_adapter_namespace)
+    {
         if (trim($standard_adapter_namespace) === '') {
             $this->standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
         } else {
             $this->standard_adapter_namespace = $standard_adapter_namespace;
         }
-
-        $this->options                    = $options;
     }
 
     /**
      * Determine the Factory Method Namespace for Product Requested
      *
+     * @param   array  $options
+     *
      * @return  array
      * @since   1.0.0
      */
-    public function get()
+    public function get(array $options = array())
     {
+        $this->options = $options;
+
         if ($this->processNamespaceOptions() === false) {
             $this->options['factory_method_namespace'] = $this->standard_adapter_namespace;
         }

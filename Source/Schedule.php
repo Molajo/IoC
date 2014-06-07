@@ -39,6 +39,14 @@ class Schedule implements ScheduleInterface
     protected $class_dependencies = null;
 
     /**
+     * Factory Method Namespace
+     *
+     * @var     object
+     * @since   1.0.0
+     */
+    protected $factory_method_namespace = null;
+
+    /**
      * Request Queue
      *
      * @var     integer
@@ -90,24 +98,19 @@ class Schedule implements ScheduleInterface
      * Constructor
      *
      * @param  ContainerInterface $container
-     * @param  object             $class_dependencies
+     * @param  string             $class_dependencies_file
      * @param  string             $standard_adapter_namespace
      *
      * @since  1.0.0
      */
     public function __construct(
-        ContainerInterface $container,
-        $class_dependencies,
+        array $factory_method_aliases = array(),
+        $class_dependencies_file = '',
         $standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod'
     ) {
-        $this->container          = $container;
-        $this->class_dependencies = $class_dependencies;
-
-        if (trim($standard_adapter_namespace) === '') {
-            $this->standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
-        } else {
-            $this->standard_adapter_namespace = $standard_adapter_namespace;
-        }
+        $this->createContainer($factory_method_aliases);
+        $this->createClassDependencies($class_dependencies_file);
+        $this->createFactoryMethodNamespace($standard_adapter_namespace);
     }
 
     /**
@@ -185,7 +188,7 @@ class Schedule implements ScheduleInterface
      * Process each product request to satisfy dependencies and, when all dependencies
      *  have been met, to complete the Factory Method processes including creating the product
      *
-     * @param   integer  $count
+     * @param   integer $count
      *
      * @return  integer
      * @since   1.0.0
@@ -270,12 +273,7 @@ class Schedule implements ScheduleInterface
      */
     protected function getFactoryMethodNamespace($options)
     {
-        $namespace = new FactoryMethodNamespace(
-            $this->standard_adapter_namespace,
-            $options
-        );
-
-        return $namespace->get();
+        return $this->factory_method_namespace->get($options);
     }
 
     /**
@@ -474,6 +472,7 @@ class Schedule implements ScheduleInterface
 
         return $this;
     }
+
     /**
      * Instantiate Class
      *
@@ -592,7 +591,7 @@ class Schedule implements ScheduleInterface
         }
 
         foreach ($work_object->dependency_of as $dependency_key) {
-            $queue_id = $this->request_names_to_id[$dependency_key];
+            $queue_id          = $this->request_names_to_id[$dependency_key];
             $dependency_object = $this->process_requests[$queue_id];
             $dependency_object->factory_method->setDependencyValue(
                 $work_object->options['product_name'],
@@ -652,5 +651,56 @@ class Schedule implements ScheduleInterface
         }
 
         return $this->container->get($key);
+    }
+
+    /**
+     * Create Container
+     *
+     * @param   array $factory_method_aliases
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function createContainer(array $factory_method_aliases = array())
+    {
+        $this->container = new Container($factory_method_aliases);
+
+        return $this;
+    }
+
+    /**
+     * Create Factory Method Namespace Object
+     *
+     * @param   string $standard_adapter_namespace
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function createFactoryMethodNamespace($standard_adapter_namespace)
+    {
+        if (trim($standard_adapter_namespace) === '') {
+            $this->standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
+        } else {
+            $this->standard_adapter_namespace = $standard_adapter_namespace;
+        }
+
+        $this->factory_method_namespace = new FactoryMethodNamespace($standard_adapter_namespace);
+
+        return $this;
+    }
+
+    /**
+     * Create Class Dependencies Object
+     *
+     * @param   string $class_dependencies_file
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function createClassDependencies($class_dependencies_file)
+    {
+        $this->class_dependencies = new ClassDependencies($class_dependencies_file);
+
+        return $this;
     }
 }
