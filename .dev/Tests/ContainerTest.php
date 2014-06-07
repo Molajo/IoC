@@ -39,6 +39,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
+     * @covers  Molajo\IoC\Container::testLoopEvaluate
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @return void
@@ -75,6 +76,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
+     * @covers  Molajo\IoC\Container::testLoopEvaluate
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @expectedException \CommonApi\Exception\InvalidArgumentException
@@ -106,6 +108,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
+     * @covers  Molajo\IoC\Container::testLoopEvaluate
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @return void
@@ -143,6 +146,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
+     * @covers  Molajo\IoC\Container::testLoopEvaluate
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @expectedException \CommonApi\Exception\InvalidArgumentException
@@ -175,6 +179,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
+     * @covers  Molajo\IoC\Container::testLoopEvaluate
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @return void
@@ -212,6 +217,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testContainerKey
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
+     * @covers  Molajo\IoC\Container::testLoopEvaluate
      * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
      *
      * @return void
@@ -228,5 +234,35 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($container->set('Molajo\\Factories\\Dispatcher', $a_stuff), $container);
         $this->assertEquals($container->get('Molajo\\Factories\\Dispatcher'), $a_stuff);
         $this->assertEquals($container->get('Dispatcher'), $a_stuff);
+    }
+
+    /**
+     * @covers  Molajo\IoC\Container::__construct
+     * @covers  Molajo\IoC\Container::has
+     * @covers  Molajo\IoC\Container::get
+     * @covers  Molajo\IoC\Container::set
+     * @covers  Molajo\IoC\Container::remove
+     * @covers  Molajo\IoC\Container::getKey
+     * @covers  Molajo\IoC\Container::action
+     * @covers  Molajo\IoC\Container::createNewKey
+     * @covers  Molajo\IoC\Container::testAlias
+     * @covers  Molajo\IoC\Container::testAliasKey
+     * @covers  Molajo\IoC\Container::testContainerKey
+     * @covers  Molajo\IoC\Container::getKeyNamespace
+     * @covers  Molajo\IoC\Container::testLoop
+     * @covers  Molajo\IoC\Container::testLoopEvaluate
+     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     *
+     * @return void
+     * @since  1.0.0
+     */
+    public function testCreateNewKey()
+    {
+        $aliases = readJsonFile(__DIR__ . '/Files/FactoryMethodAliases.json');
+        $container = new Container($aliases);
+
+        $this->assertEquals($container->getKey('Molajo\\Factories\\DispatcherNew', false), 'Molajo\\Factories\\DispatcherNew');
+        $this->assertEquals($container->getKey('DispatcherNew', false), 'DispatcherNew');
+        $this->assertEquals($container->getKey('User', false), 'Molajo\\Factories\\User');
     }
 }

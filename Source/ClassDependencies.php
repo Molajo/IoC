@@ -39,6 +39,7 @@ class ClassDependencies
      *
      *
      * @since  1.0.0
+     * @param string $class_dependencies_filename
      */
     public function __construct($class_dependencies_filename = null)
     {

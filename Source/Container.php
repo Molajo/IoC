@@ -225,7 +225,7 @@ class Container implements ContainerInterface
      * @param   boolean $must_exist
      * @param   array   $array
      *
-     * @return  boolean
+     * @return  false|string
      * @since   1.0.0
      */
     protected function testAliasKey($key, $must_exist = false, array $array = array())
@@ -235,9 +235,12 @@ class Container implements ContainerInterface
         }
 
         if (isset($array[$key])) {
+
             $results = $this->testContainerKey($array[$key], $must_exist);
+
             if ($results === false) {
             } else {
+                echo $key;
                 $key = $results;
                 return $key;
             }
@@ -250,17 +253,12 @@ class Container implements ContainerInterface
      * Determine if a container entry exists for this key
      *
      * @param   string  $key
-     * @param   boolean $must_exist
      *
-     * @return  mixed
+     * @return  string|false
      * @since   1.0.0
      */
-    protected function testContainerKey($key, $must_exist = true)
+    protected function testContainerKey($key)
     {
-        if ($must_exist === false) {
-            return $key;
-        }
-
         if (isset($this->container_registry[$key])) {
             return $key;
         }
@@ -292,34 +290,53 @@ class Container implements ContainerInterface
     /**
      * Generic loop used for testing keys and reducing code duplication
      *
-     * @param   string  $key
-     * @param   boolean $must_exist
-     * @param   array   $testing_methods
-     * @param   array   $array_input
+     * @param   string     $key
+     * @param   boolean    $must_exist
+     * @param   string[]   $testing_methods
+     * @param   string[]   $array_input
      *
      * @return  mixed
      * @since   1.0.0
      */
-    public function testLoop($key, $must_exist, array $testing_methods, array $array_input)
+    protected function testLoop($key, $must_exist, array $testing_methods, array $array_input)
     {
         foreach ($array_input as $input) {
 
             foreach ($testing_methods as $method) {
-                if ($input === 'dummy') {
-                    $result = $this->$method($key, $must_exist);
-                } else {
-                    $result = $this->$method($key, $must_exist, $this->$input);
-                }
+
+                $result = $this->testLoopEvaluate($key, $must_exist, $method, $input);
 
                 if ($result === false) {
                 } else {
                     $key = $result;
+
                     return $key;
                 }
             }
         }
 
         return false;
+    }
+
+    /**
+     * Generic loop used for testing keys and reducing code duplication
+     *
+     * @param   string  $key
+     * @param   boolean $must_exist
+     * @param   string  $method
+     * @param   string  $input
+     *
+     * @return  mixed
+     * @since   1.0.0
+     */
+    protected function testLoopEvaluate($key, $must_exist, $method, $input)
+    {
+        if ($input === 'dummy') {
+            $result = $this->$method($key, $must_exist);
+            return $result;
+        }
+
+        return $this->$method($key, $must_exist, $this->$input);
     }
 
     /**

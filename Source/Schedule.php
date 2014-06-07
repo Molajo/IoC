@@ -97,7 +97,6 @@ class Schedule implements ScheduleInterface
     /**
      * Constructor
      *
-     * @param  ContainerInterface $container
      * @param  string             $class_dependencies_file
      * @param  string             $standard_adapter_namespace
      *
