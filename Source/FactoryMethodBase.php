@@ -173,21 +173,25 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     {
         $this->schedule_factory_methods = array();
 
-        if (is_array($options)) {
-        } else {
-            $options = array();
-        }
+        $this->options = $this->setOptionProperties($options);
+    }
 
-        if (count($options) > 0) {
-            foreach ($this->factory_method_adapter_property_array as $property) {
-                if (isset($options[$property])) {
-                    $this->$property = $options[$property];
-                    unset($options[$property]);
-                }
+    /**
+     * Factory Method Controller requests Product Namespace from Factory Method
+     *
+     * @return  string
+     * @since  1.0.0
+     */
+    protected function setOptionProperties($options)
+    {
+        foreach ($this->factory_method_adapter_property_array as $property) {
+            if (isset($options[$property])) {
+                $this->$property = $options[$property];
+                unset($options[$property]);
             }
         }
 
-        $this->options = $options;
+        return $options;
     }
 
     /**
@@ -326,18 +330,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
             $reflection = $this->reflection;
 
             foreach ($reflection as $dependency) {
-
-                /** Dependencies */
-                $found = $this->onBeforeInstantiationVerifyDependency($dependency);
-
-                /** Options */
-                if ($found === false) {
-                    $found = $this->onBeforeInstantiationVerifyOptions($dependency);
-                }
-
-                if ($found === false) {
-                    $this->dependencies[$dependency->name] = $dependency->default_value;
-                }
+                $this->onBeforeInstantiationReflection($dependency);
             }
         }
 
@@ -369,6 +362,29 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
         }
 
         return $dependency_values;
+    }
+
+    /**
+     * Before class instantiation, set gathered dependency values for dependencies
+     *
+     * @param   object $dependency
+     *
+     * @return  array
+     * @since   1.0.0
+     */
+    protected function onBeforeInstantiationReflection(array $dependency)
+    {
+        /** Dependencies */
+        $found = $this->onBeforeInstantiationVerifyDependency($dependency);
+
+        /** Options */
+        if ($found === false) {
+            $found = $this->onBeforeInstantiationVerifyOptions($dependency);
+        }
+
+        if ($found === false) {
+            $this->dependencies[$dependency->name] = $dependency->default_value;
+        }
     }
 
     /**
@@ -435,6 +451,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
         }
 
         $dependencies = array();
+
         if (count($this->reflection) > 0) {
             $dependencies = $this->processReflectionDependencies($dependencies);
         }
@@ -480,18 +497,11 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    protected function instantiateClassNotStatic(array $dependencies = array())
+    protected function instantiateClassNotStaticTryCatch(array $dependencies = array())
     {
         try {
 
-            if (method_exists($this->product_namespace, '__construct') && count($dependencies) > 0) {
-                $reflection           = new ReflectionClass($this->product_namespace);
-                $this->product_result = $reflection->newInstanceArgs($dependencies);
-
-            } else {
-                $class                = $this->product_namespace;
-                $this->product_result = new $class();
-            }
+            return $this->instantiateClassNotStatic($dependencies);
 
         } catch (Exception $e) {
 
@@ -499,6 +509,27 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
                 'IoC instantiateClass with dependencies Failed: '
                 . $this->product_namespace . ' ' . $e->getMessage()
             );
+        }
+    }
+
+    /**
+     * Instantiate Class with dependencies
+     *
+     * @param   array $dependencies
+     *
+     * @return  FactoryMethodBase
+     * @since   1.0.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    protected function instantiateClassNotStatic(array $dependencies = array())
+    {
+        if (method_exists($this->product_namespace, '__construct') && count($dependencies) > 0) {
+            $reflection           = new ReflectionClass($this->product_namespace);
+            $this->product_result = $reflection->newInstanceArgs($dependencies);
+
+        } else {
+            $class                = $this->product_namespace;
+            $this->product_result = new $class();
         }
 
         return $this;
