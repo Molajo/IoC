@@ -168,11 +168,23 @@ class MapFactories implements MapInterface
             );
         }
 
+        return $this->getFolderFiles(array_diff(scandir($adapter_folder), array('.', '..')), $adapter_folder);
+    }
+
+    /**
+     * Process each folder file
+     *
+     * @param   array  $files
+     * @param   string $adapter_folder
+     *
+     * @since   1.0.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     * @return  array
+     */
+    protected function getFolderFiles($files, $adapter_folder)
+    {
         $temp_folders = array();
-
-        $temp = array_diff(scandir($adapter_folder), array('.', '..'));
-
-        foreach ($temp as $item) {
+        foreach ($files as $item) {
             if (is_dir($adapter_folder . '/' . $item)) {
 
                 $temp_folders[$item] = $this->adapter_namespace_prefix . '\\' . $item;

@@ -29,16 +29,15 @@ class MapFactoriesTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\MapFactories::map
      * @covers  Molajo\IoC\MapFactories::mapFolder
      * @covers  Molajo\IoC\MapFactories::getFolders
+     * @covers  Molajo\IoC\MapFactories::getFolderFiles
      *
      * @return void
      * @since  1.0.0
      */
     public function testEmpty()
     {
-
         $folders[] = __DIR__ . '/Files/Factories';
         $folders[] = __DIR__ . '/Files/Factories2';
-
 
         $adapter_namespace_prefix = 'Molajo\Factories';
 

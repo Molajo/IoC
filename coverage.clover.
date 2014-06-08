@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1402255991">
-  <project timestamp="1402255991">
+<coverage generated="1402256437">
+  <project timestamp="1402256437">
     <file name="/Users/amystephen/Sites/Molajo/IoC/.dev/Bootstrap.php">
       <line num="0" type="stmt" count="0"/>
       <line num="38" type="stmt" count="0"/>
@@ -640,7 +640,7 @@
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/MapFactories.php">
         <class name="MapFactories" namespace="Molajo\IoC">
-          <metrics methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="50" coveredstatements="41" elements="55" coveredelements="46"/>
+          <metrics methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="50" coveredstatements="41" elements="56" coveredelements="47"/>
         </class>
         <line num="65" type="method" name="__construct" crap="2.06" count="1"/>
         <line num="70" type="stmt" count="1"/>
@@ -684,21 +684,22 @@
         <line num="147" type="stmt" count="1"/>
         <line num="148" type="stmt" count="1"/>
         <line num="150" type="stmt" count="1"/>
-        <line num="162" type="method" name="getFolders" crap="4.07" count="1"/>
+        <line num="162" type="method" name="getFolders" crap="2.26" count="1"/>
         <line num="164" type="stmt" count="1"/>
         <line num="165" type="stmt" count="1"/>
         <line num="166" type="stmt" count="0"/>
         <line num="168" type="stmt" count="0"/>
         <line num="171" type="stmt" count="1"/>
-        <line num="173" type="stmt" count="1"/>
-        <line num="175" type="stmt" count="1"/>
-        <line num="176" type="stmt" count="1"/>
-        <line num="178" type="stmt" count="1"/>
-        <line num="179" type="stmt" count="1"/>
-        <line num="180" type="stmt" count="1"/>
-        <line num="182" type="stmt" count="1"/>
-        <line num="185" type="stmt" count="0"/>
-        <metrics loc="184" ncloc="109" classes="1" methods="5" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="50" coveredstatements="41" elements="55" coveredelements="42"/>
+        <line num="184" type="method" name="getFolderFiles" crap="3" count="1"/>
+        <line num="186" type="stmt" count="1"/>
+        <line num="187" type="stmt" count="1"/>
+        <line num="188" type="stmt" count="1"/>
+        <line num="190" type="stmt" count="1"/>
+        <line num="191" type="stmt" count="1"/>
+        <line num="192" type="stmt" count="1"/>
+        <line num="194" type="stmt" count="1"/>
+        <line num="197" type="stmt" count="0"/>
+        <metrics loc="196" ncloc="111" classes="1" methods="6" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="50" coveredstatements="41" elements="56" coveredelements="43"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/StandardFactoryMethod.php">
         <class name="StandardFactoryMethod" namespace="Molajo\IoC">
@@ -957,6 +958,6 @@
       <line num="53" type="stmt" count="0"/>
       <metrics loc="53" ncloc="51" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="0" elements="29" coveredelements="0"/>
     </file>
-    <metrics files="26" loc="3407" ncloc="1740" classes="17" methods="130" coveredmethods="46" conditionals="0" coveredconditionals="0" statements="662" coveredstatements="266" elements="792" coveredelements="312"/>
+    <metrics files="26" loc="3419" ncloc="1742" classes="17" methods="131" coveredmethods="47" conditionals="0" coveredconditionals="0" statements="662" coveredstatements="266" elements="793" coveredelements="313"/>
   </project>
 </coverage>
