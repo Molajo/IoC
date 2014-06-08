@@ -278,6 +278,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Use reflection data to establish dependency for Interfaces
      *
+     * @param   string $dependency_name
      * @param   object $dependency
      *
      * @return  array
@@ -346,7 +347,9 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Before class instantiation, set gathered dependency values for dependencies
      *
-     * @return  $this
+     * @param   array $dependency_values
+     *
+     * @return  array
      * @since   1.0.0
      */
     protected function onBeforeInstantiationDependencyValues(array $dependency_values)
@@ -433,16 +436,10 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
 
         $dependencies = array();
         if (count($this->reflection) > 0) {
-            $dependencies = $this->processReflectionDependencies($dependencies);
+            $dependencies = $this->processReflectionDependencies($dependencies, $this->reflection);
         }
 
-        if (method_exists($this->product_namespace, '__construct')
-            && count($dependencies) > 0
-        ) {
-            return $this->instantiateClassWithDependencies($dependencies);
-        }
-
-        return $this->instantiateClassWithoutDependencies();
+        return $this->instantiateClassNotStatic($dependencies);
     }
 
     /**
@@ -483,43 +480,24 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    protected function instantiateClassWithDependencies(array $dependencies = array())
+    protected function instantiateClassNotStatic(array $dependencies = array())
     {
         try {
-            $reflection = new ReflectionClass($this->product_namespace);
 
-            $this->product_result = $reflection->newInstanceArgs($dependencies);
+            if (method_exists($this->product_namespace, '__construct') && count($dependencies) > 0) {
+                $reflection           = new ReflectionClass($this->product_namespace);
+                $this->product_result = $reflection->newInstanceArgs($dependencies);
+
+            } else {
+                $class                = $this->product_namespace;
+                $this->product_result = new $class();
+            }
 
         } catch (Exception $e) {
 
             throw new RuntimeException(
                 'IoC instantiateClass with dependencies Failed: '
                 . $this->product_namespace . ' ' . $e->getMessage()
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Instantiate Class without dependencies
-     *
-     * @return  mixed
-     * @since   1.0.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     */
-    protected function instantiateClassWithoutDependencies()
-    {
-        try {
-            $class = $this->product_namespace;
-
-            $this->product_result = new $class();
-
-        } catch (Exception $e) {
-
-            throw new RuntimeException(
-                'IoC instantiateClass without dependencies Failed: '
-                . $this->product_namespace . '  ' . $e->getMessage()
             );
         }
 
