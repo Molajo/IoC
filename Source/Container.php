@@ -267,7 +267,7 @@ class Container implements ContainerInterface
      *
      * @param   string  $key
      *
-     * @return  string|false
+     * @return  boolean
      * @since   1.0.0
      */
     protected function testContainerKeyMustExist($key)

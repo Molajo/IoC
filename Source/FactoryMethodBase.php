@@ -252,7 +252,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      *
      * @param   object $dependency
      *
-     * @return  array
+     * @return  FactoryMethodBase
      * @since   1.0.0
      */
     protected function setDependencyUsingReflection($dependency)
@@ -281,7 +281,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * @param   string $dependency_name
      * @param   object $dependency
      *
-     * @return  array
+     * @return  FactoryMethodBase
      * @since   1.0.0
      */
     protected function setDependencyUsingReflectionInterface($dependency_name, $dependency)
@@ -376,7 +376,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      *
      * @param   object $dependency
      *
-     * @return  $this
+     * @return  boolean
      * @since   1.0.0
      */
     protected function onBeforeInstantiationVerifyDependency($dependency)
@@ -398,7 +398,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      *
      * @param   object $dependency
      *
-     * @return  $this
+     * @return  boolean
      * @since   1.0.0
      */
     protected function onBeforeInstantiationVerifyOptions($dependency)
@@ -436,7 +436,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
 
         $dependencies = array();
         if (count($this->reflection) > 0) {
-            $dependencies = $this->processReflectionDependencies($dependencies, $this->reflection);
+            $dependencies = $this->processReflectionDependencies($dependencies);
         }
 
         return $this->instantiateClassNotStatic($dependencies);
@@ -476,7 +476,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      *
      * @param   array $dependencies
      *
-     * @return  mixed
+     * @return  FactoryMethodBase
      * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
