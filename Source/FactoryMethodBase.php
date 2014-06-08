@@ -8,10 +8,10 @@
  */
 namespace Molajo\IoC;
 
-use Exception;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\IoC\FactoryInterface;
 use CommonApi\IoC\FactoryBatchInterface;
+use Exception;
 use ReflectionClass;
 use stdClass;
 
@@ -28,7 +28,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * IoC ID from Controller
      *
-     * @var     string
+     * @var    string
      * @since  1.0.0
      */
     protected $ioc_id = null;
@@ -36,7 +36,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Product Name
      *
-     * @var     string
+     * @var    string
      * @since  1.0.0
      */
     protected $product_name = null;
@@ -44,7 +44,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Product Namespace
      *
-     * @var     string
+     * @var    string
      * @since  1.0.0
      */
     protected $product_namespace = null;
@@ -52,7 +52,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Static Instance Indicator
      *
-     * @var     boolean
+     * @var    boolean
      * @since  1.0.0
      * @static
      */
@@ -61,7 +61,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Store Instance Indicator
      *
-     * @var     boolean
+     * @var    boolean
      * @since  1.0.0
      */
     protected $store_instance_indicator = false;
@@ -69,7 +69,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Store Properties
      *
-     * @var     boolean
+     * @var    boolean
      * @since  1.0.0
      */
     protected $store_properties_indicator = false;
@@ -77,7 +77,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Options
      *
-     * @var     array
+     * @var    array
      * @since  1.0.0
      */
     protected $options = array();
@@ -85,7 +85,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Reflection Parameters
      *
-     * @var     array
+     * @var    array
      * @since  1.0.0
      */
     protected $reflection = array();
@@ -93,7 +93,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Dependencies
      *
-     * @var     array
+     * @var    array
      * @since  1.0.0
      */
     protected $dependencies = array();
@@ -101,7 +101,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Product Result
      *
-     * @var     object
+     * @var    object
      * @since  1.0.0
      */
     protected $product_result = null;
@@ -118,7 +118,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Container Entries to remove from IoCC
      *
-     * @var     array
+     * @var    array
      * @since  1.0.0
      */
     protected $remove_container_entries = array();
@@ -126,7 +126,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Services to update within the IoCC
      *
-     * @var     array
+     * @var    array
      * @since  1.0.0
      */
     protected $set_container_entries = array();
@@ -134,7 +134,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Services to schedule for Product Creation
      *
-     * @var     array
+     * @var    array
      * @since  1.0.0
      */
     protected $schedule_factory_methods = array();
@@ -145,21 +145,22 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * @var    array
      * @since  1.0.0
      */
-    protected $factory_method_adapter_property_array = array(
-        'ioc_id',
-        'product_name',
-        'product_namespace',
-        'static_instance_indicator',
-        'store_instance_indicator',
-        'store_properties_indicator',
-        'reflection',
-        'dependencies',
-        'product_result',
-        'static_product_result',
-        'remove_container_entries',
-        'set_container_entries',
-        'schedule_factory_methods'
-    );
+    protected $factory_method_adapter_property_array
+        = array(
+            'ioc_id',
+            'product_name',
+            'product_namespace',
+            'static_instance_indicator',
+            'store_instance_indicator',
+            'store_properties_indicator',
+            'reflection',
+            'dependencies',
+            'product_result',
+            'static_product_result',
+            'remove_container_entries',
+            'set_container_entries',
+            'schedule_factory_methods'
+        );
 
     /**
      * Constructor
@@ -229,54 +230,75 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * @param   array $reflection
      *
      * @return  array
-     * @since  1.0.0
+     * @since   1.0.0
      */
-    public function setDependencies(array $reflection = null)
+    public function setDependencies(array $reflection = array())
     {
-        if ($reflection === null) {
-            $this->reflection = array();
-        } else {
-            $this->reflection = $reflection;
-        }
-
-        if (count($this->dependencies) > 0) {
-            return $this->dependencies;
-        }
+        $this->reflection = $reflection;
 
         if (count($this->reflection) === 0) {
             return $this->dependencies;
         }
 
         foreach ($this->reflection as $dependency) {
-
-            /** Other data type parameters */
-            if ($dependency->instance_of === null) {
-            } else {
-
-                /** Interface */
-                $dependency_name = ucfirst(strtolower($dependency->name));
-
-                if ($dependency_name === $this->product_name) {
-                    unset($this->reflection[$dependency_name]);
-                } else {
-
-                    /** Only one interface */
-                    if (count($dependency->implemented_by) === 1) {
-                        $options                                          = array();
-                        $options['product_namespace']                     = $dependency->implemented_by[0];
-                        $options['product_name']                          = $dependency_name;
-                        $this->schedule_factory_methods[$dependency_name] = $options;
-                        $this->dependencies[$dependency_name]             = $options;
-                    } else {
-
-                        /** Multiple interfaces */
-                        $this->dependencies[$dependency_name] = array();
-                    }
-                }
-            }
+            $this->setDependencyUsingReflection($dependency);
         }
 
         return $this->dependencies;
+    }
+
+    /**
+     * Use reflection data to establish dependency
+     *
+     * @param   object $dependency
+     *
+     * @return  array
+     * @since   1.0.0
+     */
+    protected function setDependencyUsingReflection($dependency)
+    {
+        /** Other data type parameters */
+        if ($dependency->instance_of === null) {
+            return $this;
+        }
+
+        /** Interface */
+        $dependency_name = ucfirst(strtolower($dependency->name));
+
+        if ($dependency_name === $this->product_name) {
+            unset($this->reflection[$dependency_name]);
+
+        } else {
+            $this->setDependencyUsingReflectionInterface($dependency_name, $dependency);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use reflection data to establish dependency for Interfaces
+     *
+     * @param   object $dependency
+     *
+     * @return  array
+     * @since   1.0.0
+     */
+    protected function setDependencyUsingReflectionInterface($dependency_name, $dependency)
+    {
+        if (count($dependency->implemented_by) === 1) {
+            $options                                          = array();
+            $options['product_namespace']                     = $dependency->implemented_by[0];
+            $options['product_name']                          = $dependency_name;
+            $this->schedule_factory_methods[$dependency_name] = $options;
+            $this->dependencies[$dependency_name]             = $options;
+
+            return $this;
+        }
+
+        /** Multiple interfaces */
+        $this->dependencies[$dependency_name] = array();
+
+        return $this;
     }
 
     /**
@@ -286,16 +308,49 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * @param   array $dependency_values
      *
      * @return  array
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function onBeforeInstantiation(array $dependency_values = null)
     {
         /** Were Instantiated Classes Passed In? */
-        if ($dependency_values === null || count($dependency_values) == 0) {
+        if ($dependency_values === null || count($dependency_values) === 0) {
             return $this->dependencies;
         }
 
-        /** Store Instantiated Class within Dependencies Array */
+        $this->onBeforeInstantiationDependencyValues($dependency_values);
+
+        /** Make certain each Reflection entry matches a Dependencies or Options array */
+        if (count($this->reflection) > 0) {
+
+            $reflection = $this->reflection;
+
+            foreach ($reflection as $dependency) {
+
+                /** Dependencies */
+                $found = $this->onBeforeInstantiationVerifyDependency($dependency);
+
+                /** Options */
+                if ($found === false) {
+                    $found = $this->onBeforeInstantiationVerifyOptions($dependency);
+                }
+
+                if ($found === false) {
+                    $this->dependencies[$dependency->name] = $dependency->default_value;
+                }
+            }
+        }
+
+        return $this->dependencies;
+    }
+
+    /**
+     * Before class instantiation, set gathered dependency values for dependencies
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function onBeforeInstantiationDependencyValues(array $dependency_values)
+    {
         foreach ($dependency_values as $key1 => $value1) {
             foreach ($this->dependencies as $key2 => $value2) {
                 if (strtolower($key1) == strtolower($key2)) {
@@ -310,42 +365,53 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
             unset($dependency_values[$key]);
         }
 
-        /** Make certain each Reflection entry matches a Dependencies or Options array */
-        if (count($this->reflection) > 0) {
+        return $dependency_values;
+    }
 
-            $reflection = $this->reflection;
+    /**
+     * For specified dependency, determine if a dependency value exists
+     *
+     * @param   object $dependency
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function onBeforeInstantiationVerifyDependency($dependency)
+    {
+        $found = false;
 
-            foreach ($reflection as $dependency) {
-
-                $found = false;
-
-                /** Dependencies */
-                foreach ($this->dependencies as $key => $value) {
-
-                    if (strtolower($dependency->name) == strtolower($key)) {
-                        $found = true;
-                        break;
-                    }
-                }
-
-                /** Options */
-                if ($found === false) {
-                    foreach ($this->options as $key => $value) {
-                        if (strtolower($dependency->name) == strtolower($key)) {
-                            $this->dependencies[$dependency->name] = $value;
-                            $found                                 = true;
-                            break;
-                        }
-                    }
-                }
-
-                if ($found === false) {
-                    $this->dependencies[$dependency->name] = $dependency->default_value;
-                }
+        foreach ($this->dependencies as $key => $value) {
+            if (strtolower($dependency->name) == strtolower($key)) {
+                $found = true;
+                break;
             }
         }
 
-        return $this->dependencies;
+        return $found;
+    }
+
+    /**
+     * For specified dependency, determine if an options array entry value exists
+     *
+     * @param   object $dependency
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function onBeforeInstantiationVerifyOptions($dependency)
+    {
+        $found = false;
+
+        foreach ($this->options as $key => $value) {
+
+            if (strtolower($dependency->name) == strtolower($key)) {
+                $this->dependencies[$dependency->name] = $value;
+                $found                                 = true;
+                break;
+            }
+        }
+
+        return $found;
     }
 
     /**
@@ -353,7 +419,6 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      *
      * @return  $this
      * @since   1.0.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function instantiateClass()
     {
@@ -367,50 +432,94 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
         }
 
         $dependencies = array();
-
         if (count($this->reflection) > 0) {
-
-            foreach ($this->reflection as $dependency) {
-
-                $dependency_name  = $dependency->name;
-                $dependency_value = $dependency->default_value;
-
-                foreach ($this->dependencies as $key => $value) {
-
-                    if (strtolower($dependency_name) == strtolower($key)) {
-                        $dependency_value = $value;
-                        break;
-                    }
-                }
-
-                $dependencies[$dependency_name] = $dependency_value;
-            }
+            $dependencies = $this->processReflectionDependencies($dependencies);
         }
 
         if (method_exists($this->product_namespace, '__construct')
             && count($dependencies) > 0
         ) {
-
-            try {
-                $reflection           = new ReflectionClass($this->product_namespace);
-                $this->product_result = $reflection->newInstanceArgs($dependencies);
-
-                return $this;
-            } catch (Exception $e) {
-                throw new RuntimeException(
-                    'IoC instantiateClass Reflection Failed: ' . $this->product_namespace . ' ' . $e->getMessage()
-                );
-            }
+            return $this->instantiateClassWithDependencies($dependencies);
         }
 
+        return $this->instantiateClassWithoutDependencies();
+    }
+
+    /**
+     * Process Reflection Dependencies
+     *
+     * @param   array $dependencies
+     *
+     * @return  mixed
+     * @since   1.0.0
+     */
+    protected function processReflectionDependencies(array $dependencies = array())
+    {
+        foreach ($this->reflection as $dependency) {
+
+            $dependency_name  = $dependency->name;
+            $dependency_value = $dependency->default_value;
+
+            foreach ($this->dependencies as $key => $value) {
+
+                if (strtolower($dependency_name) == strtolower($key)) {
+                    $dependency_value = $value;
+                    break;
+                }
+            }
+
+            $dependencies[$dependency_name] = $dependency_value;
+        }
+
+        return $dependencies;
+    }
+
+    /**
+     * Instantiate Class with dependencies
+     *
+     * @param   array $dependencies
+     *
+     * @return  mixed
+     * @since   1.0.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    protected function instantiateClassWithDependencies(array $dependencies = array())
+    {
+        try {
+            $reflection = new ReflectionClass($this->product_namespace);
+
+            $this->product_result = $reflection->newInstanceArgs($dependencies);
+
+        } catch (Exception $e) {
+
+            throw new RuntimeException(
+                'IoC instantiateClass with dependencies Failed: '
+                . $this->product_namespace . ' ' . $e->getMessage()
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Instantiate Class without dependencies
+     *
+     * @return  mixed
+     * @since   1.0.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    protected function instantiateClassWithoutDependencies()
+    {
         try {
             $class = $this->product_namespace;
 
             $this->product_result = new $class();
+
         } catch (Exception $e) {
 
             throw new RuntimeException(
-                'IoC instantiateClass Failed: ' . $this->product_namespace . '  ' . $e->getMessage()
+                'IoC instantiateClass without dependencies Failed: '
+                . $this->product_namespace . '  ' . $e->getMessage()
             );
         }
 
@@ -425,7 +534,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * @static
      *
      * @return  void
-     * @since  1.0.0
+     * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public static function instantiateStatic($product_namespace)
@@ -447,7 +556,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      *  and can be used for setter logic or other post-construction processing
      *
      * @return  $this
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function onAfterInstantiation()
     {
@@ -455,37 +564,79 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     }
 
     /**
-     * Factory Method Controller requests Product Result for just created Class from Factory Method
+     * Factory Method Controller requests Product Result for just created Class
      *
      * @return  object
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function getProductValue()
     {
         if ($this->static_instance_indicator === true) {
-
-            $this->store_instance_indicator   = true;
-            $this->store_properties_indicator = false;
-
-            return self::$static_product_result;
-
-        } else {
-
-            if ($this->store_instance_indicator === true) {
-
-                $this->store_properties_indicator = false;
-                $this->static_instance_indicator  = false;
-
-                return $this->product_result;
-
-            } elseif ($this->store_properties_indicator === true) {
-
-                $this->store_instance_indicator  = true;
-                $this->static_instance_indicator = false;
-
-                return $this->product_result->get('*', array());
-            }
+            return $this->getProductValueStatic();
         }
+
+        if ($this->store_instance_indicator === true) {
+            return $this->getProductValueInstance();
+        }
+
+        if ($this->store_properties_indicator === true) {
+            return $this->getProductValueProperties();
+        }
+
+        return $this->getProductValueDoNotSave();
+    }
+
+    /**
+     * Get Product Value: Static
+     *
+     * @return  object
+     * @since   1.0.0
+     */
+    protected function getProductValueStatic()
+    {
+        $this->store_instance_indicator   = true;
+        $this->store_properties_indicator = false;
+
+        return self::$static_product_result;
+    }
+
+    /**
+     * Get Product Value: Instance
+     *
+     * @return  object
+     * @since   1.0.0
+     */
+    protected function getProductValueInstance()
+    {
+        $this->store_properties_indicator = false;
+        $this->static_instance_indicator  = false;
+
+        return $this->product_result;
+    }
+
+    /**
+     * Get Product Value: Properties
+     *
+     * @return  object
+     * @since   1.0.0
+     */
+    protected function getProductValueProperties()
+    {
+
+        $this->store_instance_indicator  = true;
+        $this->static_instance_indicator = false;
+
+        return $this->product_result->get('*', array());
+    }
+
+    /**
+     * Get Product Value: Properties
+     *
+     * @return  object
+     * @since  1.0.0
+     */
+    protected function getProductValueDoNotSave()
+    {
 
         $this->store_instance_indicator   = false;
         $this->store_properties_indicator = false;
@@ -530,15 +681,13 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Read File
      *
-     * @param  string $file_name
+     * @param   string $file_name
      *
-     * @return array
-     * @since  1.0.0
+     * @return  array
+     * @since   1.0.0
      */
     protected function readFile($file_name)
     {
-        $temp_array = array();
-
         if (file_exists($file_name)) {
         } else {
             return array();
@@ -546,8 +695,22 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
 
         $input = file_get_contents($file_name);
 
+        return $this->readFileIntoArray($input);
+    }
+
+    /**
+     * Process JSON string by loading into an array
+     *
+     * @param   string $input
+     *
+     * @return  array
+     * @since   1.0.0
+     */
+    protected function readFileIntoArray($input)
+    {
         $temp = json_decode($input);
 
+        $temp_array = array();
         if (count($temp) > 0) {
             $temp_array = array();
             foreach ($temp as $key => $value) {
@@ -568,24 +731,49 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      */
     protected function sortObject($input_object)
     {
-        /** Step 1. Load Array with Fields */
-        $hold_array = array();
+        $hold_array = $this->sortObjectLoadIntoArray($input_object);
 
+        return $this->sortObjectLoadSortedArrayIntoObject($hold_array);
+    }
+
+    /**
+     * Sort Object
+     *
+     * @param   object $input_object
+     *
+     * @return  array
+     * @since   1.0.0
+     */
+    protected function sortObjectLoadIntoArray($input_object)
+    {
+        $hold_array = array();
         foreach (\get_object_vars($input_object) as $key => $value) {
             $hold_array[$key] = $value;
         }
 
-        /** Step 2. Sort Array by Key */
         ksort($hold_array);
 
-        /** Step 3. Create New Object */
+        return $hold_array;
+    }
+
+    /**
+     * Sort Object
+     *
+     * @param   array $hold_array
+     *
+     * @return  stdClass
+     * @since   1.0.0
+     */
+    protected function sortObjectLoadSortedArrayIntoObject(array $hold_array = array())
+    {
         $new_object = new stdClass();
 
-        foreach ($hold_array as $key => $value) {
-            $new_object->$key = $value;
+        if (count($hold_array) > 0) {
+            foreach ($hold_array as $key => $value) {
+                $new_object->$key = $value;
+            }
         }
 
-        /** Step 4. Return Object */
         return $new_object;
     }
 }
