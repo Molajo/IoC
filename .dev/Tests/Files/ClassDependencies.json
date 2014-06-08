@@ -13189,10 +13189,10 @@
             "scheduleFactories"
         ]
     },
-    "Molajo\\IoC\\Controller": {
+    "Molajo\\IoC\\FactoryMethod\\Controller": {
         "name": "Controller",
         "namespace": "Molajo\\IoC",
-        "fqns": "Molajo\\IoC\\Controller",
+        "fqns": "Molajo\\IoC\\FactoryMethod\\Controller",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/ioc\/Source\/Controller.php",
         "path": "vendor\/molajo\/ioc\/Source\/Controller.php",
         "parent": false,
@@ -13267,7 +13267,7 @@
                     "Molajo\\Factories\\User\\UserFactoryMethod",
                     "Molajo\\Factories\\Userdata\\UserdataFactoryMethod",
                     "Molajo\\IoC\\Base",
-                    "Molajo\\IoC\\Controller",
+                    "Molajo\\IoC\\FactoryMethod\\Controller",
                     "Molajo\\IoC\\FactoryMethod\\Standard"
                 ],
                 "concrete": false

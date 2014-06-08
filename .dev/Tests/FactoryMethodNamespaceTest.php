@@ -46,7 +46,8 @@ class NamespaceTest extends PHPUnit_Framework_TestCase
 
         $standard_adapter_namespace = 'Molajo\\IoC\\FactoryMethod\\Standard';
 
-        $factory_method_namespace = new Namespace($standard_adapter_namespace);
+        $class = 'Molajo\\IoC\\Product\\SetNamespace';
+        $factory_method_namespace = new $class($standard_adapter_namespace);
 
         $this->assertEquals($factory_method_namespace->get($options), $options);
     }
@@ -76,7 +77,8 @@ class NamespaceTest extends PHPUnit_Framework_TestCase
 
         $standard_adapter_namespace = 'Molajo\\IoC\\FactoryMethod\\Standard';
 
-        $factory_method_namespace = new Namespace($standard_adapter_namespace);
+        $class = 'Molajo\\IoC\\Product\\SetNamespace';
+        $factory_method_namespace = new $class($standard_adapter_namespace);
 
         $options['factory_method_namespace'] .= '\\DispatcherFactoryMethod';
 
@@ -105,7 +107,8 @@ class NamespaceTest extends PHPUnit_Framework_TestCase
         $options['ioc_id']          = 1;
         $standard_adapter_namespace = 'Molajo\\IoC\\FactoryMethod\\Standard';
 
-        $factory_method_namespace = new Namespace($standard_adapter_namespace);
+        $class = 'Molajo\\IoC\\Product\\SetNamespace';
+        $factory_method_namespace = new $class($standard_adapter_namespace);
 
         $options['factory_method_namespace']
             = $options['product_name'] . '\\' . 'DispatcherFactoryMethod';
@@ -136,7 +139,8 @@ class NamespaceTest extends PHPUnit_Framework_TestCase
         $options['ioc_id']          = 1;
         $standard_adapter_namespace = 'Molajo\\IoC\\FactoryMethod\\Standard';
 
-        $factory_method_namespace = new Namespace($standard_adapter_namespace);
+        $class = 'Molajo\\IoC\\Product\\SetNamespace';
+        $factory_method_namespace = new $class($standard_adapter_namespace);
 
         $options['factory_method_namespace']
             = $options['container_key'] . '\\' . $options['product_name'] . 'FactoryMethod';
@@ -170,7 +174,8 @@ class NamespaceTest extends PHPUnit_Framework_TestCase
 
         $standard_adapter_namespace = 'Molajo\\IoC\\FactoryMethod\\Standard';
 
-        $factory_method_namespace = new Namespace($standard_adapter_namespace);
+        $class = 'Molajo\\IoC\\Product\\SetNamespace';
+        $factory_method_namespace = new $class($standard_adapter_namespace);
 
         $options['factory_method_namespace'] = $standard_adapter_namespace;
 
@@ -203,9 +208,10 @@ class NamespaceTest extends PHPUnit_Framework_TestCase
 
         $standard_adapter_namespace = null;
 
-        $factory_method_namespace = new Namespace($standard_adapter_namespace);
+        $class = 'Molajo\\IoC\\Product\\SetNamespace';
+        $factory_method_namespace = new $class($standard_adapter_namespace);
 
-        $options['factory_method_namespace'] = 'Molajo\IoC\Standard';
+        $options['factory_method_namespace'] = 'Molajo\IoC\FactoryMethod\Standard';
 
         $this->assertEquals($factory_method_namespace->get($options), $options);
     }
