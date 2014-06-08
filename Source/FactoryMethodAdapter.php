@@ -20,7 +20,7 @@ use stdClass;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class FactoryMethodAdapter extends FactoryMethodInstantiate
+abstract class FactoryMethodAdapter
 {
     /**
      * IoC ID from Controller
