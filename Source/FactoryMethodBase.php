@@ -179,10 +179,12 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     /**
      * Factory Method Controller requests Product Namespace from Factory Method
      *
-     * @return  string
-     * @since  1.0.0
+     * @param   array  $options
+     *
+     * @return  array
+     * @since   1.0.0
      */
-    protected function setOptionProperties($options)
+    protected function setOptionProperties(array $options = array())
     {
         foreach ($this->factory_method_adapter_property_array as $property) {
             if (isset($options[$property])) {
@@ -198,7 +200,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Factory Method Controller requests Product Namespace from Factory Method
      *
      * @return  string
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function getNamespace()
     {
@@ -209,7 +211,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Factory Method Controller requests Service Options from Factory Method
      *
      * @return  array
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function getOptions()
     {
@@ -220,7 +222,7 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      * Factory Method Controller retrieves "store instance indicator" from Factory Method
      *
      * @return  boolean
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function getStoreContainerEntryIndicator()
     {
@@ -261,12 +263,10 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      */
     protected function setDependencyUsingReflection($dependency)
     {
-        /** Other data type parameters */
         if ($dependency->instance_of === null) {
             return $this;
         }
 
-        /** Interface */
         $dependency_name = ucfirst(strtolower($dependency->name));
 
         if ($dependency_name === $this->product_name) {
@@ -317,22 +317,13 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      */
     public function onBeforeInstantiation(array $dependency_values = null)
     {
-        /** Were Instantiated Classes Passed In? */
         if ($dependency_values === null || count($dependency_values) === 0) {
             return $this->dependencies;
         }
 
         $this->onBeforeInstantiationDependencyValues($dependency_values);
 
-        /** Make certain each Reflection entry matches a Dependencies or Options array */
-        if (count($this->reflection) > 0) {
-
-            $reflection = $this->reflection;
-
-            foreach ($reflection as $dependency) {
-                $this->onBeforeInstantiationReflection($dependency);
-            }
-        }
+        $this->onBeforeInstantiationReflectionLoop();
 
         return $this->dependencies;
     }
@@ -347,17 +338,8 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
      */
     protected function onBeforeInstantiationDependencyValues(array $dependency_values)
     {
-        foreach ($dependency_values as $key1 => $value1) {
-            foreach ($this->dependencies as $key2 => $value2) {
-                if (strtolower($key1) == strtolower($key2)) {
-                    $this->dependencies[$key2] = $value1;
-                    unset($dependency_values[$key1]);
-                }
-            }
-        }
-
         foreach ($dependency_values as $key => $value) {
-            $this->dependencies[$key] = $value;
+            $this->dependencies[strtolower($key)] = $value;
             unset($dependency_values[$key]);
         }
 
@@ -365,19 +347,35 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
     }
 
     /**
-     * Before class instantiation, set gathered dependency values for dependencies
+     * Before class instantiation, process reflection array
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function onBeforeInstantiationReflectionLoop()
+    {
+        if (count($this->reflection) > 0) {
+            $reflection = $this->reflection;
+            foreach ($reflection as $dependency) {
+                $this->onBeforeInstantiationReflection($dependency);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Before class instantiation, process dependency
      *
      * @param   object $dependency
      *
-     * @return  array
+     * @return  $this
      * @since   1.0.0
      */
-    protected function onBeforeInstantiationReflection(array $dependency)
+    protected function onBeforeInstantiationReflection($dependency)
     {
-        /** Dependencies */
         $found = $this->onBeforeInstantiationVerifyDependency($dependency);
 
-        /** Options */
         if ($found === false) {
             $found = $this->onBeforeInstantiationVerifyOptions($dependency);
         }
@@ -385,6 +383,8 @@ abstract class FactoryMethodBase implements FactoryInterface, FactoryBatchInterf
         if ($found === false) {
             $this->dependencies[$dependency->name] = $dependency->default_value;
         }
+
+        return $this;
     }
 
     /**
