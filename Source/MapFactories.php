@@ -109,8 +109,7 @@ class MapFactories implements MapInterface
     }
 
     /**
-     * Map IoCC Dependency Injection Handler Namespaces
-     *
+     * Map all folders
      *
      * @since   1.0.0
      * @return  $this
@@ -123,18 +122,30 @@ class MapFactories implements MapInterface
         }
 
         foreach ($this->folders as $folder) {
-
-            $temp = $this->getFolders($folder);
-
-            if (is_array($temp) && count($temp) > 0) {
-                foreach ($temp as $product_name => $adapter_namespace_namespace) {
-                    $this->adapter_aliases[$product_name]
-                        = $adapter_namespace_namespace;
-                }
-            }
+            $this->mapFolder($folder);
         }
 
         ksort($this->adapter_aliases);
+
+        return $this;
+    }
+
+    /**
+     * Map the specific folder
+     *
+     * @since   1.0.0
+     * @return  $this
+     */
+    protected function mapFolder($folder)
+    {
+        $temp = $this->getFolders($folder);
+
+        if (is_array($temp) && count($temp) > 0) {
+            foreach ($temp as $product_name => $adapter_namespace_namespace) {
+                $this->adapter_aliases[$product_name]
+                    = $adapter_namespace_namespace;
+            }
+        }
 
         return $this;
     }
@@ -163,6 +174,7 @@ class MapFactories implements MapInterface
 
         foreach ($temp as $item) {
             if (is_dir($adapter_folder . '/' . $item)) {
+
                 $temp_folders[$item] = $this->adapter_namespace_prefix . '\\' . $item;
             }
         }

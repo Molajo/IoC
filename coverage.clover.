@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1402253634">
-  <project timestamp="1402253634">
+<coverage generated="1402255991">
+  <project timestamp="1402255991">
     <file name="/Users/amystephen/Sites/Molajo/IoC/.dev/Bootstrap.php">
       <line num="0" type="stmt" count="0"/>
       <line num="38" type="stmt" count="0"/>
@@ -638,6 +638,68 @@
         <line num="195" type="stmt" count="0"/>
         <metrics loc="194" ncloc="102" classes="1" methods="8" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="39" coveredstatements="32" elements="47" coveredelements="35"/>
       </file>
+      <file name="/Users/amystephen/Sites/Molajo/IoC/Source/MapFactories.php">
+        <class name="MapFactories" namespace="Molajo\IoC">
+          <metrics methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="50" coveredstatements="41" elements="55" coveredelements="46"/>
+        </class>
+        <line num="65" type="method" name="__construct" crap="2.06" count="1"/>
+        <line num="70" type="stmt" count="1"/>
+        <line num="71" type="stmt" count="1"/>
+        <line num="72" type="stmt" count="1"/>
+        <line num="74" type="stmt" count="1"/>
+        <line num="75" type="stmt" count="0"/>
+        <line num="76" type="stmt" count="0"/>
+        <line num="77" type="stmt" count="1"/>
+        <line num="79" type="stmt" count="1"/>
+        <line num="87" type="method" name="createMap" crap="2.08" count="1"/>
+        <line num="89" type="stmt" count="1"/>
+        <line num="91" type="stmt" count="1"/>
+        <line num="93" type="stmt" count="1"/>
+        <line num="94" type="stmt" count="1"/>
+        <line num="95" type="stmt" count="1"/>
+        <line num="96" type="stmt" count="1"/>
+        <line num="97" type="stmt" count="1"/>
+        <line num="99" type="stmt" count="1"/>
+        <line num="100" type="stmt" count="1"/>
+        <line num="101" type="stmt" count="1"/>
+        <line num="102" type="stmt" count="0"/>
+        <line num="103" type="stmt" count="0"/>
+        <line num="104" type="stmt" count="0"/>
+        <line num="105" type="stmt" count="0"/>
+        <line num="108" type="stmt" count="1"/>
+        <line num="117" type="method" name="map" crap="4.03" count="1"/>
+        <line num="119" type="stmt" count="1"/>
+        <line num="120" type="stmt" count="1"/>
+        <line num="121" type="stmt" count="0"/>
+        <line num="124" type="stmt" count="1"/>
+        <line num="125" type="stmt" count="1"/>
+        <line num="126" type="stmt" count="1"/>
+        <line num="128" type="stmt" count="1"/>
+        <line num="130" type="stmt" count="1"/>
+        <line num="139" type="method" name="mapFolder" crap="4" count="1"/>
+        <line num="141" type="stmt" count="1"/>
+        <line num="143" type="stmt" count="1"/>
+        <line num="144" type="stmt" count="1"/>
+        <line num="145" type="stmt" count="1"/>
+        <line num="147" type="stmt" count="1"/>
+        <line num="148" type="stmt" count="1"/>
+        <line num="150" type="stmt" count="1"/>
+        <line num="162" type="method" name="getFolders" crap="4.07" count="1"/>
+        <line num="164" type="stmt" count="1"/>
+        <line num="165" type="stmt" count="1"/>
+        <line num="166" type="stmt" count="0"/>
+        <line num="168" type="stmt" count="0"/>
+        <line num="171" type="stmt" count="1"/>
+        <line num="173" type="stmt" count="1"/>
+        <line num="175" type="stmt" count="1"/>
+        <line num="176" type="stmt" count="1"/>
+        <line num="178" type="stmt" count="1"/>
+        <line num="179" type="stmt" count="1"/>
+        <line num="180" type="stmt" count="1"/>
+        <line num="182" type="stmt" count="1"/>
+        <line num="185" type="stmt" count="0"/>
+        <metrics loc="184" ncloc="109" classes="1" methods="5" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="50" coveredstatements="41" elements="55" coveredelements="42"/>
+      </file>
       <file name="/Users/amystephen/Sites/Molajo/IoC/Source/StandardFactoryMethod.php">
         <class name="StandardFactoryMethod" namespace="Molajo\IoC">
           <metrics methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
@@ -691,6 +753,10 @@
     <file name="/Users/amystephen/Sites/Molajo/IoC/vendor/commonapi/ioc/FactoryInterface.php">
       <line num="63" type="stmt" count="0"/>
       <metrics loc="62" ncloc="15" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/Users/amystephen/Sites/Molajo/IoC/vendor/commonapi/resource/MapInterface.php">
+      <line num="29" type="stmt" count="0"/>
+      <metrics loc="28" ncloc="7" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
     <package name="Composer\Autoload">
       <file name="/Users/amystephen/Sites/Molajo/IoC/vendor/composer/ClassLoader.php">
@@ -891,6 +957,6 @@
       <line num="53" type="stmt" count="0"/>
       <metrics loc="53" ncloc="51" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="0" elements="29" coveredelements="0"/>
     </file>
-    <metrics files="24" loc="3195" ncloc="1624" classes="16" methods="125" coveredmethods="45" conditionals="0" coveredconditionals="0" statements="612" coveredstatements="225" elements="737" coveredelements="270"/>
+    <metrics files="26" loc="3407" ncloc="1740" classes="17" methods="130" coveredmethods="46" conditionals="0" coveredconditionals="0" statements="662" coveredstatements="266" elements="792" coveredelements="312"/>
   </project>
 </coverage>
