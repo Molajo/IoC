@@ -133,7 +133,7 @@ class FactoryMethodController implements FactoryInterface, FactoryBatchInterface
      * @return  array
      * @since   1.0.0
      */
-    public function setDependencies(array $reflection = null)
+    public function setDependencies(array $reflection = array())
     {
         $this->dependencies = $this->factory_adapter->setDependencies($reflection);
 

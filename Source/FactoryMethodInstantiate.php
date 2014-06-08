@@ -47,7 +47,7 @@ abstract class FactoryMethodInstantiate extends FactoryMethodAdapter
             $dependencies = $this->processReflectionDependencies($dependencies);
         }
 
-        return $this->instantiateClassNotStatic($dependencies);
+        return $this->instantiateClassNotStaticTryCatch($dependencies);
     }
 
     /**

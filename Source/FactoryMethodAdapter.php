@@ -169,18 +169,25 @@ abstract class FactoryMethodAdapter
     public function __construct(array $options = array())
     {
         $this->schedule_factory_methods = array();
-
-        if (is_array($options)) {
-        } else {
-            $options = array();
-        }
-
         if (count($options) > 0) {
-            foreach ($this->factory_method_adapter_property_array as $property) {
-                if (isset($options[$property])) {
-                    $this->$property = $options[$property];
-                    unset($options[$property]);
-                }
+            $this->setConstructorOptions($options);
+        }
+    }
+
+    /**
+     * Set Constructor Options
+     *
+     * @param   $options
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function setConstructorOptions(array $options = array())
+    {
+        foreach ($this->factory_method_adapter_property_array as $property) {
+            if (isset($options[$property])) {
+                $this->$property = $options[$property];
+                unset($options[$property]);
             }
         }
 

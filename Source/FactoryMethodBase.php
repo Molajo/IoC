@@ -34,9 +34,6 @@ abstract class FactoryMethodBase extends FactoryMethodInstantiate implements Fac
      */
     public function setDependencies(array $reflection = array())
     {
-        $class   = new \ReflectionClass('Molajo\IoC\FactoryMethodBase');
-        $methods = $class->getMethods();
-
         $this->reflection = $reflection;
 
         if (count($this->reflection) === 0) {

@@ -82,6 +82,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
      * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
      * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
+     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
      * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
@@ -153,6 +154,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
      * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
      * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
+     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
      * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
@@ -163,7 +165,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadSortedArrayIntoObject
      *
      * @return  void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function testClassWithReflectionDependencies()
     {
@@ -254,6 +256,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
      * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
      * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
+     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
      * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
@@ -264,7 +267,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadSortedArrayIntoObject
      *
      * @return  void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function testClassWithoutReflectionDependencies()
     {
@@ -339,6 +342,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
      * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
      * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
+     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
      * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
@@ -349,7 +353,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadSortedArrayIntoObject
      *
      * @return  void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function testClasswEmptyReflectionFile()
     {
@@ -427,6 +431,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
      * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
      * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
+     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
      * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
@@ -437,11 +442,11 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadSortedArrayIntoObject
      *
      * @return  void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function testClassNoInputReflectionFile()
     {
-        $class_dependencies       = NULL;
+        $class_dependencies       = null;
         $this->class_dependencies = new ClassDependencies($class_dependencies);
 
         $options                             = array();

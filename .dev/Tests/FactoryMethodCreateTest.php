@@ -69,6 +69,7 @@ class FactoryMethodCreateTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
      * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
      * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
+     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
      * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
@@ -149,6 +150,7 @@ class FactoryMethodCreateTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
      * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
      * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
+     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
      * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
@@ -228,6 +230,7 @@ class FactoryMethodCreateTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
      * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
      * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
+     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
      * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
      * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
