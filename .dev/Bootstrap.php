@@ -14,15 +14,15 @@ if (function_exists('CreateClassMap')) {
 include_once $base . '/vendor/autoload.php';
 
 $classmap['Molajo\\IoC\\Container']                = $base . '/Source/Container.php';
-$classmap['Molajo\\IoC\\FactoryMethodAdapter']     = $base . '/Source/FactoryMethodAdapter.php';
-$classmap['Molajo\\IoC\\FactoryMethodInstantiate'] = $base . '/Source/FactoryMethodInstantiate.php';
-$classmap['Molajo\\IoC\\FactoryMethodBase']        = $base . '/Source/FactoryMethodBase.php';
-$classmap['Molajo\\IoC\\FactoryMethodController']  = $base . '/Source/FactoryMethodController.php';
-$classmap['Molajo\\IoC\\FactoryMethodCreate']      = $base . '/Source/FactoryMethodCreate.php';
-$classmap['Molajo\\IoC\\FactoryMethodNamespace']   = $base . '/Source/FactoryMethodNamespace.php';
+$classmap['Molajo\\IoC\\FactoryMethod\\Adapter']     = $base . '/Source/Adapter.php';
+$classmap['Molajo\\IoC\\FactoryMethod\\Instantiate'] = $base . '/Source/Instantiate.php';
+$classmap['Molajo\\IoC\\FactoryMethod\\Base']        = $base . '/Source/Base.php';
+$classmap['Molajo\\IoC\\FactoryMethod\\Controller']  = $base . '/Source/Controller.php';
+$classmap['Molajo\\IoC\\Create']      = $base . '/Source/Create.php';
+$classmap['Molajo\\IoC\\Namespace']                = $base . '/Source/Namespace.php';
 $classmap['Molajo\\IoC\\MapFactories']             = $base . '/Source/MapFactories.php';
 $classmap['Molajo\\IoC\\Schedule']                 = $base . '/Source/Schedule.php';
-$classmap['Molajo\\IoC\\StandardFactoryMethod']    = $base . '/Source/StandardFactoryMethod.php';
+$classmap['Molajo\\IoC\\FactoryMethod\\Standard']    = $base . '/Source/Standard.php';
 
 $classmap['Molajo\\Event\\Dispatcher']
     = $base . '/.dev/Tests/Files/Event/Dispatcher.php';

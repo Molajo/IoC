@@ -1751,7 +1751,7 @@
         "fqns": "Molajo\\Factories\\Errorhandling\\ErrorhandlingFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/log\/Factories\/Errorhandling\/ErrorhandlingFactoryMethod.php",
         "path": "vendor\/molajo\/Log\/Factories\/Errorhandling\/ErrorhandlingFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -1796,7 +1796,7 @@
         "fqns": "Molajo\\Factories\\Exceptionhandling\\ExceptionhandlingFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/log\/Factories\/Exceptionhandling\/ExceptionhandlingFactoryMethod.php",
         "path": "vendor\/molajo\/Log\/Factories\/Exceptionhandling\/ExceptionhandlingFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -1841,7 +1841,7 @@
         "fqns": "Molajo\\Factories\\Logger\\LoggerFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/log\/Factories\/Logger\/LoggerFactoryMethod.php",
         "path": "vendor\/molajo\/Log\/Factories\/Logger\/LoggerFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2256,7 +2256,7 @@
         "fqns": "Molajo\\Factories\\Application\\ApplicationFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Application\/ApplicationFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Application\/ApplicationFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2302,7 +2302,7 @@
         "fqns": "Molajo\\Factories\\Authenticate\\AuthenticateFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Authenticate\/AuthenticateFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Authenticate\/AuthenticateFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2347,7 +2347,7 @@
         "fqns": "Molajo\\Factories\\Date\\DateFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Date\/DateFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Date\/DateFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2392,7 +2392,7 @@
         "fqns": "Molajo\\Factories\\Execute\\ExecuteFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Execute\/ExecuteFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Execute\/ExecuteFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2437,7 +2437,7 @@
         "fqns": "Molajo\\Factories\\Extensions\\ExtensionsFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Extensions\/ExtensionsFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Extensions\/ExtensionsFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2482,7 +2482,7 @@
         "fqns": "Molajo\\Factories\\Image\\ImageFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Image\/ImageFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Image\/ImageFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2527,7 +2527,7 @@
         "fqns": "Molajo\\Factories\\Plugindata\\PlugindataFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Plugindata\/PlugindataFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Plugindata\/PlugindataFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2572,7 +2572,7 @@
         "fqns": "Molajo\\Factories\\Resourcecontroller\\ResourcecontrollerFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Resourcecontroller\/ResourcecontrollerFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Resourcecontroller\/ResourcecontrollerFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2617,7 +2617,7 @@
         "fqns": "Molajo\\Factories\\Resourcerendering\\ResourcerenderingFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Resourcerendering\/ResourcerenderingFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Resourcerendering\/ResourcerenderingFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2662,7 +2662,7 @@
         "fqns": "Molajo\\Factories\\Runtimedata\\RuntimedataFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Runtimedata\/RuntimedataFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Runtimedata\/RuntimedataFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2707,7 +2707,7 @@
         "fqns": "Molajo\\Factories\\Site\\SiteFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Site\/SiteFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Site\/SiteFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2752,7 +2752,7 @@
         "fqns": "Molajo\\Factories\\Text\\TextFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Text\/TextFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Text\/TextFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -2798,7 +2798,7 @@
         "fqns": "Molajo\\Factories\\Url\\UrlFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Url\/UrlFactoryMethod.php",
         "path": "vendor\/molajo\/application\/Factories\/Url\/UrlFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -5176,7 +5176,7 @@
         "fqns": "Molajo\\Factories\\Authorisation\\AuthorisationFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/authorisation\/Factories\/Authorisation\/AuthorisationFactoryMethod.php",
         "path": "vendor\/molajo\/authorisation\/Factories\/Authorisation\/AuthorisationFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -5470,7 +5470,7 @@
         "fqns": "Molajo\\Factories\\Cache\\CacheFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/cache\/Factories\/Cache\/CacheFactoryMethod.php",
         "path": "vendor\/molajo\/cache\/Factories\/Cache\/CacheFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -5515,7 +5515,7 @@
         "fqns": "Molajo\\Factories\\Cachemodel\\CachemodelFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/cache\/Factories\/Cachemodel\/CachemodelFactoryMethod.php",
         "path": "vendor\/molajo\/cache\/Factories\/Cachemodel\/CachemodelFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -5560,7 +5560,7 @@
         "fqns": "Molajo\\Factories\\Cachepage\\CachepageFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/cache\/Factories\/Cachepage\/CachepageFactoryMethod.php",
         "path": "vendor\/molajo\/cache\/Factories\/Cachepage\/CachepageFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -5605,7 +5605,7 @@
         "fqns": "Molajo\\Factories\\Cachequery\\CachequeryFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/cache\/Factories\/Cachequery\/CachequeryFactoryMethod.php",
         "path": "vendor\/molajo\/cache\/Factories\/Cachequery\/CachequeryFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -5650,7 +5650,7 @@
         "fqns": "Molajo\\Factories\\Cachetemplate\\CachetemplateFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/cache\/Factories\/Cachetemplate\/CachetemplateFactoryMethod.php",
         "path": "vendor\/molajo\/cache\/Factories\/Cachetemplate\/CachetemplateFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -5934,7 +5934,7 @@
         "fqns": "Molajo\\Factories\\Database\\DatabaseFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/database\/Factories\/Database\/DatabaseFactoryMethod.php",
         "path": "vendor\/molajo\/database\/Factories\/Database\/DatabaseFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -6100,7 +6100,7 @@
         "fqns": "Molajo\\Factories\\Email\\EmailFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/email\/Factories\/Email\/EmailFactoryMethod.php",
         "path": "vendor\/molajo\/email\/Factories\/Email\/EmailFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -6378,7 +6378,7 @@
         "fqns": "Molajo\\Factories\\Dispatcher\\DispatcherFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/event\/Factories\/Dispatcher\/DispatcherFactoryMethod.php",
         "path": "vendor\/molajo\/event\/Factories\/Dispatcher\/DispatcherFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -6423,7 +6423,7 @@
         "fqns": "Molajo\\Factories\\Event\\EventFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/event\/Factories\/Event\/EventFactoryMethod.php",
         "path": "vendor\/molajo\/event\/Factories\/Event\/EventFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -6900,7 +6900,7 @@
         "fqns": "Molajo\\Factories\\Fieldhandler\\FieldhandlerFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/fieldhandler\/Factories\/Fieldhandler\/FieldhandlerFactoryMethod.php",
         "path": "vendor\/molajo\/fieldhandler\/Factories\/Fieldhandler\/FieldhandlerFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -12201,7 +12201,7 @@
         "fqns": "Molajo\\Factories\\Filesystem\\FilesystemFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/filesystem\/Factories\/Filesystem\/FilesystemFactoryMethod.php",
         "path": "vendor\/molajo\/filesystem\/Factories\/Filesystem\/FilesystemFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -12461,7 +12461,7 @@
         "fqns": "Molajo\\Factories\\Client\\ClientFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/http\/Factories\/Client\/ClientFactoryMethod.php",
         "path": "vendor\/molajo\/http\/Factories\/Client\/ClientFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -12506,7 +12506,7 @@
         "fqns": "Molajo\\Factories\\Request\\RequestFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/http\/Factories\/Request\/RequestFactoryMethod.php",
         "path": "vendor\/molajo\/http\/Factories\/Request\/RequestFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -12551,7 +12551,7 @@
         "fqns": "Molajo\\Factories\\Response\\ResponseFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/http\/Factories\/Response\/ResponseFactoryMethod.php",
         "path": "vendor\/molajo\/http\/Factories\/Response\/ResponseFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -12596,7 +12596,7 @@
         "fqns": "Molajo\\Factories\\Server\\ServerFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/http\/Factories\/Server\/ServerFactoryMethod.php",
         "path": "vendor\/molajo\/http\/Factories\/Server\/ServerFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -12641,7 +12641,7 @@
         "fqns": "Molajo\\Factories\\Upload\\UploadFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/http\/Factories\/Upload\/UploadFactoryMethod.php",
         "path": "vendor\/molajo\/http\/Factories\/Upload\/UploadFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -13144,12 +13144,12 @@
             "remove"
         ]
     },
-    "Molajo\\IoC\\FactoryMethodBase": {
-        "name": "FactoryMethodBase",
+    "Molajo\\IoC\\Base": {
+        "name": "Base",
         "namespace": "Molajo\\IoC",
-        "fqns": "Molajo\\IoC\\FactoryMethodBase",
-        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/ioc\/Source\/FactoryMethodBase.php",
-        "path": "vendor\/molajo\/ioc\/Source\/FactoryMethodBase.php",
+        "fqns": "Molajo\\IoC\\Base",
+        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/ioc\/Source\/Base.php",
+        "path": "vendor\/molajo\/ioc\/Source\/Base.php",
         "parent": false,
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryInterface",
@@ -13189,12 +13189,12 @@
             "scheduleFactories"
         ]
     },
-    "Molajo\\IoC\\FactoryMethodController": {
-        "name": "FactoryMethodController",
+    "Molajo\\IoC\\Controller": {
+        "name": "Controller",
         "namespace": "Molajo\\IoC",
-        "fqns": "Molajo\\IoC\\FactoryMethodController",
-        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/ioc\/Source\/FactoryMethodController.php",
-        "path": "vendor\/molajo\/ioc\/Source\/FactoryMethodController.php",
+        "fqns": "Molajo\\IoC\\Controller",
+        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/ioc\/Source\/Controller.php",
+        "path": "vendor\/molajo\/ioc\/Source\/Controller.php",
         "parent": false,
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryInterface",
@@ -13266,9 +13266,9 @@
                     "Molajo\\Factories\\Url\\UrlFactoryMethod",
                     "Molajo\\Factories\\User\\UserFactoryMethod",
                     "Molajo\\Factories\\Userdata\\UserdataFactoryMethod",
-                    "Molajo\\IoC\\FactoryMethodBase",
-                    "Molajo\\IoC\\FactoryMethodController",
-                    "Molajo\\IoC\\StandardFactoryMethod"
+                    "Molajo\\IoC\\Base",
+                    "Molajo\\IoC\\Controller",
+                    "Molajo\\IoC\\FactoryMethod\\Standard"
                 ],
                 "concrete": false
             }
@@ -13386,7 +13386,7 @@
             {
                 "name": "standard_adapter_namespaces",
                 "default_available": true,
-                "default_value": "Molajo\\IoC\\StandardFactoryMethod",
+                "default_value": "Molajo\\IoC\\FactoryMethod\\Standard",
                 "instance_of": null,
                 "is_instantiable": false
             }
@@ -13403,13 +13403,13 @@
             "scheduleFactoryMethod"
         ]
     },
-    "Molajo\\IoC\\StandardFactoryMethod": {
-        "name": "StandardFactoryMethod",
+    "Molajo\\IoC\\FactoryMethod\\Standard": {
+        "name": "Standard",
         "namespace": "Molajo\\IoC",
-        "fqns": "Molajo\\IoC\\StandardFactoryMethod",
-        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/ioc\/Source\/StandardFactoryMethod.php",
-        "path": "vendor\/molajo\/ioc\/Source\/StandardFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "fqns": "Molajo\\IoC\\FactoryMethod\\Standard",
+        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/ioc\/Source\/Standard.php",
+        "path": "vendor\/molajo\/ioc\/Source\/Standard.php",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -13454,7 +13454,7 @@
         "fqns": "Molajo\\Factories\\Language\\LanguageFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/language\/Factories\/Language\/LanguageFactoryMethod.php",
         "path": "vendor\/molajo\/language\/Factories\/Language\/LanguageFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -13499,7 +13499,7 @@
         "fqns": "Molajo\\Factories\\Molajito\\MolajitoFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/molajito\/Factories\/Molajito\/MolajitoFactoryMethod.php",
         "path": "vendor\/molajo\/molajito\/Factories\/Molajito\/MolajitoFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -15641,7 +15641,7 @@
         "fqns": "Molajo\\Factories\\Query\\QueryFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/query\/Factories\/Query\/QueryFactoryMethod.php",
         "path": "vendor\/molajo\/query\/Factories\/Query\/QueryFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -15686,7 +15686,7 @@
         "fqns": "Molajo\\Factories\\Resourcedata\\ResourcedataFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/query\/Factories\/Resourcedata\/ResourcedataFactoryMethod.php",
         "path": "vendor\/molajo\/query\/Factories\/Resourcedata\/ResourcedataFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -15732,7 +15732,7 @@
         "fqns": "Molajo\\Factories\\Resourcequery\\ResourcequeryFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/query\/Factories\/Resourcequery\/ResourcequeryFactoryMethod.php",
         "path": "vendor\/molajo\/query\/Factories\/Resourcequery\/ResourcequeryFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -17137,7 +17137,7 @@
         "fqns": "Molajo\\Factories\\Render\\RenderFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/render\/Factories\/Render\/RenderFactoryMethod.php",
         "path": "vendor\/molajo\/render\/Factories\/Render\/RenderFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -17418,7 +17418,7 @@
         "fqns": "Molajo\\Factories\\Resource\\ResourceFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/resource\/Factories\/Resource\/ResourceFactoryMethod.php",
         "path": "vendor\/molajo\/resource\/Factories\/Resource\/ResourceFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -17463,7 +17463,7 @@
         "fqns": "Molajo\\Factories\\Resourcecss\\ResourcecssFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/resource\/Factories\/Resourcecss\/ResourcecssFactoryMethod.php",
         "path": "vendor\/molajo\/resource\/Factories\/Resourcecss\/ResourcecssFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -17508,7 +17508,7 @@
         "fqns": "Molajo\\Factories\\Resourcecssdeclarations\\ResourcecssdeclarationsFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/resource\/Factories\/Resourcecssdeclarations\/ResourcecssdeclarationsFactoryMethod.php",
         "path": "vendor\/molajo\/resource\/Factories\/Resourcecssdeclarations\/ResourcecssdeclarationsFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -17553,7 +17553,7 @@
         "fqns": "Molajo\\Factories\\Resourcejs\\ResourcejsFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/resource\/Factories\/Resourcejs\/ResourcejsFactoryMethod.php",
         "path": "vendor\/molajo\/resource\/Factories\/Resourcejs\/ResourcejsFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -17598,7 +17598,7 @@
         "fqns": "Molajo\\Factories\\Resourcejsdeclarations\\ResourcejsdeclarationsFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/resource\/Factories\/Resourcejsdeclarations\/ResourcejsdeclarationsFactoryMethod.php",
         "path": "vendor\/molajo\/resource\/Factories\/Resourcejsdeclarations\/ResourcejsdeclarationsFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -18524,7 +18524,7 @@
         "fqns": "Molajo\\Factories\\Route\\RouteFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/route\/Factories\/Route\/RouteFactoryMethod.php",
         "path": "vendor\/molajo\/route\/Factories\/Route\/RouteFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -18777,7 +18777,7 @@
         "fqns": "Molajo\\Factories\\Activity\\ActivityFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/Activity\/ActivityFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/Activity\/ActivityFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -18822,7 +18822,7 @@
         "fqns": "Molajo\\Factories\\Authentication\\AuthenticationFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/Authentication\/AuthenticationFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/Authentication\/AuthenticationFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -18867,7 +18867,7 @@
         "fqns": "Molajo\\Factories\\Cookie\\CookieFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/Cookie\/CookieFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/Cookie\/CookieFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -18912,7 +18912,7 @@
         "fqns": "Molajo\\Factories\\Encrypt\\EncryptFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/Encrypt\/EncryptFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/Encrypt\/EncryptFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -18957,7 +18957,7 @@
         "fqns": "Molajo\\Factories\\Flashmessage\\FlashmessageFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/Flashmessage\/FlashmessageFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/Flashmessage\/FlashmessageFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -19002,7 +19002,7 @@
         "fqns": "Molajo\\Factories\\Instantiateuser\\InstantiateuserFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/Instantiateuser\/InstantiateuserFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/Instantiateuser\/InstantiateuserFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -19047,7 +19047,7 @@
         "fqns": "Molajo\\Factories\\Mailer\\MailerFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/Mailer\/MailerFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/Mailer\/MailerFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -19092,7 +19092,7 @@
         "fqns": "Molajo\\Factories\\Messages\\MessagesFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/Messages\/MessagesFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/Messages\/MessagesFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -19137,7 +19137,7 @@
         "fqns": "Molajo\\Factories\\Registration\\RegistrationFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/Registration\/RegistrationFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/Registration\/RegistrationFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -19182,7 +19182,7 @@
         "fqns": "Molajo\\Factories\\Session\\SessionFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/Session\/SessionFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/Session\/SessionFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -19227,7 +19227,7 @@
         "fqns": "Molajo\\Factories\\Template\\TemplateFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/Template\/TemplateFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/Template\/TemplateFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -19279,7 +19279,7 @@
         "fqns": "Molajo\\Factories\\User\\UserFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/User\/UserFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/User\/UserFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"
@@ -19325,7 +19325,7 @@
         "fqns": "Molajo\\Factories\\Userdata\\UserdataFactoryMethod",
         "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/user\/Factories\/Userdata\/UserdataFactoryMethod.php",
         "path": "vendor\/molajo\/user\/Factories\/Userdata\/UserdataFactoryMethod.php",
-        "parent": "Molajo\\IoC\\FactoryMethodBase",
+        "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
             "CommonApi\\IoC\\FactoryInterface"

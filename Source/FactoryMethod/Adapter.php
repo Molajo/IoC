@@ -6,21 +6,21 @@
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\IoC;
+namespace Molajo\IoC\FactoryMethod;
 
 use stdClass;
 
 /**
  * Factory Method Adapter
  *
- * FactoryMethodAdapter - FactoryMethodInstantiate - FactoryMethodBase
+ * Base - Instantiate - Adapter
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class FactoryMethodAdapter
+abstract class Adapter
 {
     /**
      * IoC ID from Controller

@@ -6,7 +6,7 @@
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\IoC;
+namespace Molajo\IoC\FactoryMethod;
 
 use CommonApi\Exception\RuntimeException;
 use Exception;
@@ -15,14 +15,14 @@ use ReflectionClass;
 /**
  * Factory Method Instantiate
  *
- * FactoryMethodAdapter - FactoryMethodInstantiate - FactoryMethodBase
+ * Base - Instantiate - Adapter
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class FactoryMethodInstantiate extends FactoryMethodAdapter
+abstract class Instantiate extends Adapter
 {
     /**
      * Service instantiated automatically or within this method by the Factory Method
@@ -84,7 +84,7 @@ abstract class FactoryMethodInstantiate extends FactoryMethodAdapter
      *
      * @param   array $dependencies
      *
-     * @return  FactoryMethodBase
+     * @return  Base
      * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
@@ -107,7 +107,7 @@ abstract class FactoryMethodInstantiate extends FactoryMethodAdapter
      *
      * @param   array $dependencies
      *
-     * @return  FactoryMethodBase
+     * @return  Base
      * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */

@@ -6,7 +6,7 @@
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\IoC;
+namespace Molajo\IoC\FactoryMethod;
 
 use CommonApi\IoC\FactoryInterface;
 use CommonApi\IoC\FactoryBatchInterface;
@@ -14,14 +14,14 @@ use CommonApi\IoC\FactoryBatchInterface;
 /**
  * Factory Method Base
  *
- * FactoryMethodAdapter - FactoryMethodInstantiate - FactoryMethodBase
+ * Base - Instantiate - Adapter
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class FactoryMethodBase extends FactoryMethodInstantiate implements FactoryInterface, FactoryBatchInterface
+abstract class Base extends Instantiate implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * Factory Method can use this method to define Service Dependencies
@@ -52,7 +52,7 @@ abstract class FactoryMethodBase extends FactoryMethodInstantiate implements Fac
      *
      * @param   object $dependency
      *
-     * @return  FactoryMethodBase
+     * @return  Base
      * @since   1.0.0
      */
     protected function setDependencyUsingReflection($dependency)
@@ -79,7 +79,7 @@ abstract class FactoryMethodBase extends FactoryMethodInstantiate implements Fac
      * @param   string $dependency_name
      * @param   object $dependency
      *
-     * @return  FactoryMethodBase
+     * @return  Base
      * @since   1.0.0
      */
     protected function setDependencyUsingReflectionInterface($dependency_name, $dependency)

@@ -1,15 +1,16 @@
 <?php
 /**
- * Factory Method Create
+ * Create
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\IoC;
+namespace Molajo\IoC\Product;
 
 use CommonApi\Exception\RuntimeException;
 use CommonApi\IoC\FactoryInterface;
+use Molajo\IoC\FactoryMethod\Controller;
 
 /**
  * Factory Method Create
@@ -19,7 +20,7 @@ use CommonApi\IoC\FactoryInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class FactoryMethodCreate
+class Create
 {
     /**
      * Options
@@ -52,9 +53,9 @@ class FactoryMethodCreate
      */
     public function instantiateFactoryMethod()
     {
-        $adapter = $this->getFactoryMethodAdapter($this->options);
+        $adapter = $this->getAdapter($this->options);
 
-        $controller = $this->getFactoryMethodController($adapter);
+        $controller = $this->getController($adapter);
 
         return $controller;
     }
@@ -68,14 +69,14 @@ class FactoryMethodCreate
      * @throws  \CommonApi\Exception\RuntimeException
      * @since   1.0.0
      */
-    protected function getFactoryMethodAdapter(array $options)
+    protected function getAdapter(array $options)
     {
         $class = $options['factory_method_namespace'];
 
         if (class_exists($class)) {
         } else {
             throw new RuntimeException(
-                'IoC FactoryMethodCreate::getFactoryMethodAdapter Class does not exist: ' . $class
+                'IoC Create::getAdapter Class does not exist: ' . $class
             );
         }
 
@@ -93,8 +94,8 @@ class FactoryMethodCreate
      * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    protected function getFactoryMethodController(FactoryInterface $factory_method_adapter)
+    protected function getController(FactoryInterface $factory_method_adapter)
     {
-        return new FactoryMethodController($factory_method_adapter);
+        return new Controller($factory_method_adapter);
     }
 }

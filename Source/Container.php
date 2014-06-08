@@ -1,6 +1,6 @@
 <?php
 /**
- * Inversion of Control Container
+ * Container - storage of product values
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -12,7 +12,7 @@ use CommonApi\Exception\InvalidArgumentException;
 use CommonApi\IoC\ContainerInterface;
 
 /**
- * Inversion of Control Container
+ * Container - storage of product values
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -55,7 +55,7 @@ class Container implements ContainerInterface
     public function __construct(
         array $factory_method_aliases = array()
     ) {
-        $this->setFactoryMethodNamespaces($factory_method_aliases);
+        $this->setNamespaces($factory_method_aliases);
     }
 
     /**
@@ -377,7 +377,7 @@ class Container implements ContainerInterface
      * @return  $this
      * @since   1.0.0
      */
-    protected function setFactoryMethodNamespaces(array $factory_method_aliases = array())
+    protected function setNamespaces(array $factory_method_aliases = array())
     {
         $this->factory_method_aliases    = $factory_method_aliases;
         $this->factory_method_namespaces = array();

@@ -6,7 +6,7 @@
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\IoC;
+namespace Molajo\IoC\FactoryMethod;
 
 use CommonApi\IoC\FactoryInterface;
 use CommonApi\IoC\FactoryBatchInterface;
@@ -37,7 +37,7 @@ use CommonApi\IoC\FactoryBatchInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class StandardFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
+class Standard extends Base implements FactoryInterface, FactoryBatchInterface
 {
 
 }

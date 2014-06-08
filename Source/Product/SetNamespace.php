@@ -1,12 +1,12 @@
 <?php
 /**
- * Factory Method Namespace
+ * Set Namespace
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\IoC;
+namespace Molajo\IoC\Product;
 
 /**
  * Get the Factory Method Namespace for Product
@@ -16,7 +16,7 @@ namespace Molajo\IoC;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class FactoryMethodNamespace
+class SetNamespace
 {
     /**
      * Standard IoC Factory Method (Used when no custom Factory Method is required)
@@ -57,7 +57,7 @@ class FactoryMethodNamespace
     public function __construct($standard_adapter_namespace)
     {
         if (trim($standard_adapter_namespace) === '') {
-            $this->standard_adapter_namespace = 'Molajo\\IoC\\StandardFactoryMethod';
+            $this->standard_adapter_namespace = 'Molajo\\IoC\\FactoryMethod\\Standard';
         } else {
             $this->standard_adapter_namespace = $standard_adapter_namespace;
         }

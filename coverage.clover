@@ -198,7 +198,7 @@
         <line num="365" type="stmt" count="7"/>
         <line num="366" type="stmt" count="7"/>
         <line num="369" type="stmt" count="7"/>
-        <line num="380" type="method" name="setFactoryMethodNamespaces" crap="3" count="7"/>
+        <line num="380" type="method" name="setNamespaces" crap="3" count="7"/>
         <line num="382" type="stmt" count="7"/>
         <line num="383" type="stmt" count="7"/>
         <line num="385" type="stmt" count="7"/>
@@ -210,8 +210,8 @@
         <line num="394" type="stmt" count="0"/>
         <metrics loc="393" ncloc="203" classes="1" methods="17" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="76" coveredstatements="72" elements="93" coveredelements="87"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/IoC/Source/FactoryMethodAdapter.php">
-        <class name="FactoryMethodAdapter" namespace="Molajo\IoC">
+      <file name="/Users/amystephen/Sites/Molajo/IoC/Source/Adapter.php">
+        <class name="Adapter" namespace="Molajo\IoC">
           <metrics methods="10" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="45" coveredstatements="0" elements="55" coveredelements="0"/>
         </class>
         <line num="169" type="method" name="__construct" crap="6" count="0"/>
@@ -272,8 +272,8 @@
         <line num="329" type="stmt" count="0"/>
         <metrics loc="328" ncloc="146" classes="1" methods="10" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="45" coveredstatements="0" elements="55" coveredelements="0"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/IoC/Source/FactoryMethodBase.php">
-        <class name="FactoryMethodBase" namespace="Molajo\IoC">
+      <file name="/Users/amystephen/Sites/Molajo/IoC/Source/Base.php">
+        <class name="Base" namespace="Molajo\IoC">
           <metrics methods="9" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="64" coveredstatements="0" elements="73" coveredelements="0"/>
         </class>
         <line num="35" type="method" name="setDependencies" crap="12" count="0"/>
@@ -352,8 +352,8 @@
         <line num="230" type="stmt" count="0"/>
         <metrics loc="229" ncloc="138" classes="1" methods="9" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="64" coveredstatements="0" elements="73" coveredelements="0"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/IoC/Source/FactoryMethodInstantiate.php">
-        <class name="FactoryMethodInstantiate" namespace="Molajo\IoC">
+      <file name="/Users/amystephen/Sites/Molajo/IoC/Source/Instantiate.php">
+        <class name="Instantiate" namespace="Molajo\IoC">
           <metrics methods="14" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="63" coveredstatements="0" elements="77" coveredelements="0"/>
         </class>
         <line num="33" type="method" name="instantiateClass" crap="20" count="0"/>
@@ -436,8 +436,8 @@
         <line num="280" type="stmt" count="0"/>
         <metrics loc="279" ncloc="164" classes="1" methods="14" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="63" coveredstatements="0" elements="77" coveredelements="0"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/IoC/Source/FactoryMethodNamespace.php">
-        <class name="FactoryMethodNamespace" namespace="Molajo\IoC">
+      <file name="/Users/amystephen/Sites/Molajo/IoC/Source/Namespace.php">
+        <class name="Namespace" namespace="Molajo\IoC">
           <metrics methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="39" coveredstatements="32" elements="47" coveredelements="40"/>
         </class>
         <line num="0" type="stmt" count="0"/>
@@ -491,8 +491,8 @@
         <line num="195" type="stmt" count="0"/>
         <metrics loc="194" ncloc="102" classes="1" methods="8" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="39" coveredstatements="32" elements="47" coveredelements="35"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/IoC/Source/StandardFactoryMethod.php">
-        <class name="StandardFactoryMethod" namespace="Molajo\IoC">
+      <file name="/Users/amystephen/Sites/Molajo/IoC/Source/Standard.php">
+        <class name="Standard" namespace="Molajo\IoC">
           <metrics methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
         </class>
         <line num="44" type="stmt" count="0"/>

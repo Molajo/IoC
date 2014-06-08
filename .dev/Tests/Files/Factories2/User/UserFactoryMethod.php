@@ -10,7 +10,7 @@ namespace Molajo\Factories\User;
 
 use CommonApi\IoC\FactoryInterface;
 use CommonApi\IoC\FactoryBatchInterface;
-use Molajo\IoC\FactoryMethodBase;
+use Molajo\IoC\FactoryMethod\Base;
 
 /**
  *  Mock User Factory Method
@@ -20,7 +20,7 @@ use Molajo\IoC\FactoryMethodBase;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class UserFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
+class UserFactoryMethod extends Base implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * Constructor

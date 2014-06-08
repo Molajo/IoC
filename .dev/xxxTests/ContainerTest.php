@@ -42,7 +42,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
      * @covers  Molajo\IoC\Container::testLoopEvaluate
-     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @return void
      * @since  1.0.0
@@ -81,7 +81,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
      * @covers  Molajo\IoC\Container::testLoopEvaluate
-     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @expectedException \CommonApi\Exception\InvalidArgumentException
      * @expectedExceptionMessage Get IoCC Entry for Key: a Action: get does not exist
@@ -115,7 +115,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
      * @covers  Molajo\IoC\Container::testLoopEvaluate
-     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @return void
      * @since  1.0.0
@@ -155,7 +155,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
      * @covers  Molajo\IoC\Container::testLoopEvaluate
-     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @expectedException \CommonApi\Exception\InvalidArgumentException
      * @expectedExceptionMessage Get IoCC Entry for Key: Molajo\Factories\Dispatcher Action: get does not exist
@@ -190,7 +190,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
      * @covers  Molajo\IoC\Container::testLoopEvaluate
-     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @return void
      * @since  1.0.0
@@ -230,7 +230,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
      * @covers  Molajo\IoC\Container::testLoopEvaluate
-     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @return void
      * @since  1.0.0
@@ -265,7 +265,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
      * @covers  Molajo\IoC\Container::testLoopEvaluate
-     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @return void
      * @since  1.0.0

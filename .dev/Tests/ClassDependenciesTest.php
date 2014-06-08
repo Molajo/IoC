@@ -30,67 +30,67 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
     protected $class_dependencies;
 
     /**
-     * @covers  Molajo\IoC\ClassDependencies::__construct
-     * @covers  Molajo\IoC\ClassDependencies::get
-     * @covers  Molajo\IoC\ClassDependencies::getReflectionDependencies
-     * @covers  Molajo\IoC\ClassDependencies::loadClassDependencies
-     * @covers  Molajo\IoC\ClassDependencies::readFile
-     * @covers  Molajo\IoC\ClassDependencies::processClassDependencyData
+     * @covers  Molajo\IoC\Product\ClassDependencies::__construct
+     * @covers  Molajo\IoC\Product\ClassDependencies::get
+     * @covers  Molajo\IoC\Product\ClassDependencies::getReflectionDependencies
+     * @covers  Molajo\IoC\Product\ClassDependencies::loadClassDependencies
+     * @covers  Molajo\IoC\Product\ClassDependencies::readFile
+     * @covers  Molajo\IoC\Product\ClassDependencies::processClassDependencyData
      *
-     * @covers  Molajo\IoC\FactoryMethodCreate::__construct
-     * @covers  Molajo\IoC\FactoryMethodCreate::instantiateFactoryMethod
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodAdapter
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodController
+     * @covers  Molajo\IoC\Product\Create::__construct
+     * @covers  Molajo\IoC\Product\Create::instantiateFactoryMethod
+     * @covers  Molajo\IoC\Product\Create::getAdapter
+     * @covers  Molajo\IoC\Product\Create::getController
      *
-     * @covers  Molajo\IoC\FactoryMethodController::__construct
-     * @covers  Molajo\IoC\FactoryMethodController::getNamespace
-     * @covers  Molajo\IoC\FactoryMethodController::getOptions
-     * @covers  Molajo\IoC\FactoryMethodController::getStoreContainerEntryIndicator
-     * @covers  Molajo\IoC\FactoryMethodController::setDependencies
-     * @covers  Molajo\IoC\FactoryMethodController::removeDependency
-     * @covers  Molajo\IoC\FactoryMethodController::setDependencyValue
-     * @covers  Molajo\IoC\FactoryMethodController::getRemainingDependencyCount
-     * @covers  Molajo\IoC\FactoryMethodController::onBeforeInstantiation
-     * @covers  Molajo\IoC\FactoryMethodController::instantiateClass
-     * @covers  Molajo\IoC\FactoryMethodController::onAfterInstantiation
-     * @covers  Molajo\IoC\FactoryMethodController::getProductValue
-     * @covers  Molajo\IoC\FactoryMethodController::removeContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodController::setContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodController::scheduleFactories
+     * @covers  Molajo\IoC\FactoryMethod\Controller::__construct
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getNamespace
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getOptions
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getStoreContainerEntryIndicator
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Controller::removeDependency
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setDependencyValue
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getRemainingDependencyCount
+     * @covers  Molajo\IoC\FactoryMethod\Controller::onBeforeInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Controller::instantiateClass
+     * @covers  Molajo\IoC\FactoryMethod\Controller::onAfterInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getProductValue
+     * @covers  Molajo\IoC\FactoryMethod\Controller::removeContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Controller::scheduleFactories
      *
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencies
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencyUsingReflection
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencyUsingReflectionInterface
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiation
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationDependencyValues
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationReflectionLoop
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationReflection
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationVerifyDependency
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationVerifyOptions
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClass
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::processReflectionDependencies
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClassNotStaticTryCatch
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClassNotStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::onAfterInstantiation
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValue
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueInstance
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueProperties
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueDoNotSave
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::removeContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
-     * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
-     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
-     * @covers  Molajo\IoC\FactoryMethodAdapter::readFile
-     * @covers  Molajo\IoC\FactoryMethodAdapter::readFileIntoArray
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObject
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadIntoArray
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadSortedArrayIntoObject
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencyUsingReflection
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencyUsingReflectionInterface
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationDependencyValues
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationReflectionLoop
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationReflection
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationVerifyDependency
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationVerifyOptions
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClass
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::processReflectionDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClassNotStaticTryCatch
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClassNotStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::onAfterInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValue
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueInstance
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueProperties
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueDoNotSave
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::removeContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::setContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::scheduleFactories
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::__construct
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::setConstructorOptions
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getNamespace
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getOptions
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getStoreContainerEntryIndicator
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::readFile
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::readFileIntoArray
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObject
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObjectLoadIntoArray
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObjectLoadSortedArrayIntoObject
      *
      * @return void
      * @since   1.0.0
@@ -98,71 +98,73 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
     public function setup()
     {
         $class_dependencies       = __DIR__ . '/Files/ClassDependencies.json';
-        $this->class_dependencies = new ClassDependencies($class_dependencies);
+
+        $class = 'Molajo\\IoC\\Product\\ClassDependencies';
+        $this->class_dependencies = new $class($class_dependencies);
     }
 
     /**
-     * @covers  Molajo\IoC\ClassDependencies::__construct
-     * @covers  Molajo\IoC\ClassDependencies::get
-     * @covers  Molajo\IoC\ClassDependencies::getReflectionDependencies
-     * @covers  Molajo\IoC\ClassDependencies::loadClassDependencies
-     * @covers  Molajo\IoC\ClassDependencies::readFile
-     * @covers  Molajo\IoC\ClassDependencies::processClassDependencyData
+     * @covers  Molajo\IoC\Product\ClassDependencies::__construct
+     * @covers  Molajo\IoC\Product\ClassDependencies::get
+     * @covers  Molajo\IoC\Product\ClassDependencies::getReflectionDependencies
+     * @covers  Molajo\IoC\Product\ClassDependencies::loadClassDependencies
+     * @covers  Molajo\IoC\Product\ClassDependencies::readFile
+     * @covers  Molajo\IoC\Product\ClassDependencies::processClassDependencyData
      *
-     * @covers  Molajo\IoC\FactoryMethodCreate::__construct
-     * @covers  Molajo\IoC\FactoryMethodCreate::instantiateFactoryMethod
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodAdapter
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodController
+     * @covers  Molajo\IoC\Product\Create::__construct
+     * @covers  Molajo\IoC\Product\Create::instantiateFactoryMethod
+     * @covers  Molajo\IoC\Product\Create::getAdapter
+     * @covers  Molajo\IoC\Product\Create::getController
      *
-     * @covers  Molajo\IoC\FactoryMethodController::__construct
-     * @covers  Molajo\IoC\FactoryMethodController::getNamespace
-     * @covers  Molajo\IoC\FactoryMethodController::getOptions
-     * @covers  Molajo\IoC\FactoryMethodController::getStoreContainerEntryIndicator
-     * @covers  Molajo\IoC\FactoryMethodController::setDependencies
-     * @covers  Molajo\IoC\FactoryMethodController::removeDependency
-     * @covers  Molajo\IoC\FactoryMethodController::setDependencyValue
-     * @covers  Molajo\IoC\FactoryMethodController::getRemainingDependencyCount
-     * @covers  Molajo\IoC\FactoryMethodController::onBeforeInstantiation
-     * @covers  Molajo\IoC\FactoryMethodController::instantiateClass
-     * @covers  Molajo\IoC\FactoryMethodController::onAfterInstantiation
-     * @covers  Molajo\IoC\FactoryMethodController::getProductValue
-     * @covers  Molajo\IoC\FactoryMethodController::removeContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodController::setContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodController::scheduleFactories
+     * @covers  Molajo\IoC\FactoryMethod\Controller::__construct
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getNamespace
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getOptions
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getStoreContainerEntryIndicator
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Controller::removeDependency
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setDependencyValue
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getRemainingDependencyCount
+     * @covers  Molajo\IoC\FactoryMethod\Controller::onBeforeInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Controller::instantiateClass
+     * @covers  Molajo\IoC\FactoryMethod\Controller::onAfterInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getProductValue
+     * @covers  Molajo\IoC\FactoryMethod\Controller::removeContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Controller::scheduleFactories
      *
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencies
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencyUsingReflection
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencyUsingReflectionInterface
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiation
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationDependencyValues
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationReflectionLoop
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationReflection
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationVerifyDependency
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationVerifyOptions
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClass
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::processReflectionDependencies
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClassNotStaticTryCatch
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClassNotStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::onAfterInstantiation
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValue
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueInstance
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueProperties
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueDoNotSave
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::removeContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
-     * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
-     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
-     * @covers  Molajo\IoC\FactoryMethodAdapter::readFile
-     * @covers  Molajo\IoC\FactoryMethodAdapter::readFileIntoArray
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObject
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadIntoArray
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadSortedArrayIntoObject
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencyUsingReflection
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencyUsingReflectionInterface
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationDependencyValues
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationReflectionLoop
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationReflection
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationVerifyDependency
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationVerifyOptions
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClass
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::processReflectionDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClassNotStaticTryCatch
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClassNotStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::onAfterInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValue
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueInstance
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueProperties
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueDoNotSave
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::removeContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::setContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::scheduleFactories
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::__construct
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::setConstructorOptions
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getNamespace
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getOptions
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getStoreContainerEntryIndicator
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::readFile
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::readFileIntoArray
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObject
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObjectLoadIntoArray
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObjectLoadSortedArrayIntoObject
      *
      * @return  void
      * @since   1.0.0
@@ -175,7 +177,8 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
         $options['ioc_id']                   = 1;
         $options['factory_method_namespace'] = 'Molajo\\Factories\\Dispatcher\\DispatcherFactoryMethod';
 
-        $create = new FactoryMethodCreate($options);
+        $class = 'Molajo\\IoC\\Product\\Create';
+        $create = new $class($options);
 
         $work_object                 = new stdClass();
         $work_object->options        = $options;
@@ -204,67 +207,67 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  Molajo\IoC\ClassDependencies::__construct
-     * @covers  Molajo\IoC\ClassDependencies::get
-     * @covers  Molajo\IoC\ClassDependencies::getReflectionDependencies
-     * @covers  Molajo\IoC\ClassDependencies::loadClassDependencies
-     * @covers  Molajo\IoC\ClassDependencies::readFile
-     * @covers  Molajo\IoC\ClassDependencies::processClassDependencyData
+     * @covers  Molajo\IoC\Product\ClassDependencies::__construct
+     * @covers  Molajo\IoC\Product\ClassDependencies::get
+     * @covers  Molajo\IoC\Product\ClassDependencies::getReflectionDependencies
+     * @covers  Molajo\IoC\Product\ClassDependencies::loadClassDependencies
+     * @covers  Molajo\IoC\Product\ClassDependencies::readFile
+     * @covers  Molajo\IoC\Product\ClassDependencies::processClassDependencyData
      *
-     * @covers  Molajo\IoC\FactoryMethodCreate::__construct
-     * @covers  Molajo\IoC\FactoryMethodCreate::instantiateFactoryMethod
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodAdapter
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodController
+     * @covers  Molajo\IoC\Product\Create::__construct
+     * @covers  Molajo\IoC\Product\Create::instantiateFactoryMethod
+     * @covers  Molajo\IoC\Product\Create::getAdapter
+     * @covers  Molajo\IoC\Product\Create::getController
      *
-     * @covers  Molajo\IoC\FactoryMethodController::__construct
-     * @covers  Molajo\IoC\FactoryMethodController::getNamespace
-     * @covers  Molajo\IoC\FactoryMethodController::getOptions
-     * @covers  Molajo\IoC\FactoryMethodController::getStoreContainerEntryIndicator
-     * @covers  Molajo\IoC\FactoryMethodController::setDependencies
-     * @covers  Molajo\IoC\FactoryMethodController::removeDependency
-     * @covers  Molajo\IoC\FactoryMethodController::setDependencyValue
-     * @covers  Molajo\IoC\FactoryMethodController::getRemainingDependencyCount
-     * @covers  Molajo\IoC\FactoryMethodController::onBeforeInstantiation
-     * @covers  Molajo\IoC\FactoryMethodController::instantiateClass
-     * @covers  Molajo\IoC\FactoryMethodController::onAfterInstantiation
-     * @covers  Molajo\IoC\FactoryMethodController::getProductValue
-     * @covers  Molajo\IoC\FactoryMethodController::removeContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodController::setContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodController::scheduleFactories
+     * @covers  Molajo\IoC\FactoryMethod\Controller::__construct
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getNamespace
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getOptions
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getStoreContainerEntryIndicator
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Controller::removeDependency
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setDependencyValue
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getRemainingDependencyCount
+     * @covers  Molajo\IoC\FactoryMethod\Controller::onBeforeInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Controller::instantiateClass
+     * @covers  Molajo\IoC\FactoryMethod\Controller::onAfterInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getProductValue
+     * @covers  Molajo\IoC\FactoryMethod\Controller::removeContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Controller::scheduleFactories
      *
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencies
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencyUsingReflection
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencyUsingReflectionInterface
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiation
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationDependencyValues
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationReflectionLoop
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationReflection
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationVerifyDependency
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationVerifyOptions
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClass
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::processReflectionDependencies
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClassNotStaticTryCatch
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClassNotStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::onAfterInstantiation
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValue
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueInstance
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueProperties
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueDoNotSave
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::removeContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
-     * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
-     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
-     * @covers  Molajo\IoC\FactoryMethodAdapter::readFile
-     * @covers  Molajo\IoC\FactoryMethodAdapter::readFileIntoArray
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObject
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadIntoArray
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadSortedArrayIntoObject
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencyUsingReflection
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencyUsingReflectionInterface
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationDependencyValues
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationReflectionLoop
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationReflection
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationVerifyDependency
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationVerifyOptions
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClass
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::processReflectionDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClassNotStaticTryCatch
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClassNotStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::onAfterInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValue
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueInstance
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueProperties
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueDoNotSave
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::removeContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::setContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::scheduleFactories
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::__construct
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::setConstructorOptions
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getNamespace
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getOptions
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getStoreContainerEntryIndicator
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::readFile
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::readFileIntoArray
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObject
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObjectLoadIntoArray
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObjectLoadSortedArrayIntoObject
      *
      * @return  void
      * @since   1.0.0
@@ -275,9 +278,10 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
         $options['product_name']             = 'EventDispatcher';
         $options['container_key']            = 'Molajo\\Events\\EventDispatcher';
         $options['ioc_id']                   = 1;
-        $options['factory_method_namespace'] = 'Molajo\\IoC\\StandardFactoryMethod';
+        $options['factory_method_namespace'] = 'Molajo\\IoC\\FactoryMethod\\Standard';
 
-        $create = new FactoryMethodCreate($options);
+        $class = 'Molajo\\IoC\\Product\\Create';
+        $create = new $class($options);
 
         $work_object                 = new stdClass();
         $work_object->options        = $options;
@@ -290,67 +294,67 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  Molajo\IoC\ClassDependencies::__construct
-     * @covers  Molajo\IoC\ClassDependencies::get
-     * @covers  Molajo\IoC\ClassDependencies::getReflectionDependencies
-     * @covers  Molajo\IoC\ClassDependencies::loadClassDependencies
-     * @covers  Molajo\IoC\ClassDependencies::readFile
-     * @covers  Molajo\IoC\ClassDependencies::processClassDependencyData
+     * @covers  Molajo\IoC\Product\ClassDependencies::__construct
+     * @covers  Molajo\IoC\Product\ClassDependencies::get
+     * @covers  Molajo\IoC\Product\ClassDependencies::getReflectionDependencies
+     * @covers  Molajo\IoC\Product\ClassDependencies::loadClassDependencies
+     * @covers  Molajo\IoC\Product\ClassDependencies::readFile
+     * @covers  Molajo\IoC\Product\ClassDependencies::processClassDependencyData
      *
-     * @covers  Molajo\IoC\FactoryMethodCreate::__construct
-     * @covers  Molajo\IoC\FactoryMethodCreate::instantiateFactoryMethod
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodAdapter
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodController
+     * @covers  Molajo\IoC\Product\Create::__construct
+     * @covers  Molajo\IoC\Product\Create::instantiateFactoryMethod
+     * @covers  Molajo\IoC\Product\Create::getAdapter
+     * @covers  Molajo\IoC\Product\Create::getController
      *
-     * @covers  Molajo\IoC\FactoryMethodController::__construct
-     * @covers  Molajo\IoC\FactoryMethodController::getNamespace
-     * @covers  Molajo\IoC\FactoryMethodController::getOptions
-     * @covers  Molajo\IoC\FactoryMethodController::getStoreContainerEntryIndicator
-     * @covers  Molajo\IoC\FactoryMethodController::setDependencies
-     * @covers  Molajo\IoC\FactoryMethodController::removeDependency
-     * @covers  Molajo\IoC\FactoryMethodController::setDependencyValue
-     * @covers  Molajo\IoC\FactoryMethodController::getRemainingDependencyCount
-     * @covers  Molajo\IoC\FactoryMethodController::onBeforeInstantiation
-     * @covers  Molajo\IoC\FactoryMethodController::instantiateClass
-     * @covers  Molajo\IoC\FactoryMethodController::onAfterInstantiation
-     * @covers  Molajo\IoC\FactoryMethodController::getProductValue
-     * @covers  Molajo\IoC\FactoryMethodController::removeContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodController::setContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodController::scheduleFactories
+     * @covers  Molajo\IoC\FactoryMethod\Controller::__construct
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getNamespace
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getOptions
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getStoreContainerEntryIndicator
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Controller::removeDependency
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setDependencyValue
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getRemainingDependencyCount
+     * @covers  Molajo\IoC\FactoryMethod\Controller::onBeforeInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Controller::instantiateClass
+     * @covers  Molajo\IoC\FactoryMethod\Controller::onAfterInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getProductValue
+     * @covers  Molajo\IoC\FactoryMethod\Controller::removeContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Controller::scheduleFactories
      *
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencies
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencyUsingReflection
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencyUsingReflectionInterface
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiation
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationDependencyValues
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationReflectionLoop
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationReflection
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationVerifyDependency
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationVerifyOptions
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClass
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::processReflectionDependencies
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClassNotStaticTryCatch
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClassNotStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::onAfterInstantiation
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValue
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueInstance
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueProperties
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueDoNotSave
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::removeContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
-     * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
-     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
-     * @covers  Molajo\IoC\FactoryMethodAdapter::readFile
-     * @covers  Molajo\IoC\FactoryMethodAdapter::readFileIntoArray
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObject
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadIntoArray
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadSortedArrayIntoObject
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencyUsingReflection
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencyUsingReflectionInterface
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationDependencyValues
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationReflectionLoop
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationReflection
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationVerifyDependency
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationVerifyOptions
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClass
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::processReflectionDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClassNotStaticTryCatch
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClassNotStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::onAfterInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValue
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueInstance
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueProperties
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueDoNotSave
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::removeContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::setContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::scheduleFactories
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::__construct
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::setConstructorOptions
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getNamespace
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getOptions
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getStoreContainerEntryIndicator
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::readFile
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::readFileIntoArray
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObject
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObjectLoadIntoArray
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObjectLoadSortedArrayIntoObject
      *
      * @return  void
      * @since   1.0.0
@@ -358,7 +362,9 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
     public function testClasswEmptyReflectionFile()
     {
         $class_dependencies       = __DIR__ . '/Files/FactoryMethodAliasesEmpty.json';
-        $this->class_dependencies = new ClassDependencies($class_dependencies);
+
+        $class = 'Molajo\\IoC\\Product\\ClassDependencies';
+        $this->class_dependencies = new $class($class_dependencies);
 
         $options                             = array();
         $options['product_name']             = 'Dispatcher';
@@ -366,7 +372,8 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
         $options['ioc_id']                   = 1;
         $options['factory_method_namespace'] = 'Molajo\\Factories\\Dispatcher\\DispatcherFactoryMethod';
 
-        $create = new FactoryMethodCreate($options);
+        $class = 'Molajo\\IoC\\Product\\Create';
+        $create = new $class($options);
 
         $work_object                 = new stdClass();
         $work_object->options        = $options;
@@ -379,67 +386,67 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  Molajo\IoC\ClassDependencies::__construct
-     * @covers  Molajo\IoC\ClassDependencies::get
-     * @covers  Molajo\IoC\ClassDependencies::getReflectionDependencies
-     * @covers  Molajo\IoC\ClassDependencies::loadClassDependencies
-     * @covers  Molajo\IoC\ClassDependencies::readFile
-     * @covers  Molajo\IoC\ClassDependencies::processClassDependencyData
+     * @covers  Molajo\IoC\Product\ClassDependencies::__construct
+     * @covers  Molajo\IoC\Product\ClassDependencies::get
+     * @covers  Molajo\IoC\Product\ClassDependencies::getReflectionDependencies
+     * @covers  Molajo\IoC\Product\ClassDependencies::loadClassDependencies
+     * @covers  Molajo\IoC\Product\ClassDependencies::readFile
+     * @covers  Molajo\IoC\Product\ClassDependencies::processClassDependencyData
      *
-     * @covers  Molajo\IoC\FactoryMethodCreate::__construct
-     * @covers  Molajo\IoC\FactoryMethodCreate::instantiateFactoryMethod
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodAdapter
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodController
+     * @covers  Molajo\IoC\Product\Create::__construct
+     * @covers  Molajo\IoC\Product\Create::instantiateFactoryMethod
+     * @covers  Molajo\IoC\Product\Create::getAdapter
+     * @covers  Molajo\IoC\Product\Create::getController
      *
-     * @covers  Molajo\IoC\FactoryMethodController::__construct
-     * @covers  Molajo\IoC\FactoryMethodController::getNamespace
-     * @covers  Molajo\IoC\FactoryMethodController::getOptions
-     * @covers  Molajo\IoC\FactoryMethodController::getStoreContainerEntryIndicator
-     * @covers  Molajo\IoC\FactoryMethodController::setDependencies
-     * @covers  Molajo\IoC\FactoryMethodController::removeDependency
-     * @covers  Molajo\IoC\FactoryMethodController::setDependencyValue
-     * @covers  Molajo\IoC\FactoryMethodController::getRemainingDependencyCount
-     * @covers  Molajo\IoC\FactoryMethodController::onBeforeInstantiation
-     * @covers  Molajo\IoC\FactoryMethodController::instantiateClass
-     * @covers  Molajo\IoC\FactoryMethodController::onAfterInstantiation
-     * @covers  Molajo\IoC\FactoryMethodController::getProductValue
-     * @covers  Molajo\IoC\FactoryMethodController::removeContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodController::setContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodController::scheduleFactories
+     * @covers  Molajo\IoC\FactoryMethod\Controller::__construct
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getNamespace
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getOptions
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getStoreContainerEntryIndicator
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Controller::removeDependency
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setDependencyValue
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getRemainingDependencyCount
+     * @covers  Molajo\IoC\FactoryMethod\Controller::onBeforeInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Controller::instantiateClass
+     * @covers  Molajo\IoC\FactoryMethod\Controller::onAfterInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Controller::getProductValue
+     * @covers  Molajo\IoC\FactoryMethod\Controller::removeContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Controller::setContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Controller::scheduleFactories
      *
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencies
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencyUsingReflection
-     * @covers  Molajo\IoC\FactoryMethodBase::setDependencyUsingReflectionInterface
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiation
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationDependencyValues
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationReflectionLoop
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationReflection
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationVerifyDependency
-     * @covers  Molajo\IoC\FactoryMethodBase::onBeforeInstantiationVerifyOptions
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClass
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::processReflectionDependencies
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClassNotStaticTryCatch
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateClassNotStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::instantiateStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::onAfterInstantiation
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValue
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueStatic
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueInstance
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueProperties
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::getProductValueDoNotSave
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::removeContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::setContainerEntries
-     * @covers  Molajo\IoC\FactoryMethodInstantiate::scheduleFactories
-     * @covers  Molajo\IoC\FactoryMethodAdapter::__construct
-     * @covers  Molajo\IoC\FactoryMethodAdapter::setConstructorOptions
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getNamespace
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getOptions
-     * @covers  Molajo\IoC\FactoryMethodAdapter::getStoreContainerEntryIndicator
-     * @covers  Molajo\IoC\FactoryMethodAdapter::readFile
-     * @covers  Molajo\IoC\FactoryMethodAdapter::readFileIntoArray
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObject
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadIntoArray
-     * @covers  Molajo\IoC\FactoryMethodAdapter::sortObjectLoadSortedArrayIntoObject
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencyUsingReflection
+     * @covers  Molajo\IoC\FactoryMethod\Base::setDependencyUsingReflectionInterface
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationDependencyValues
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationReflectionLoop
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationReflection
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationVerifyDependency
+     * @covers  Molajo\IoC\FactoryMethod\Base::onBeforeInstantiationVerifyOptions
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClass
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::processReflectionDependencies
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClassNotStaticTryCatch
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateClassNotStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::instantiateStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::onAfterInstantiation
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValue
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueStatic
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueInstance
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueProperties
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::getProductValueDoNotSave
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::removeContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::setContainerEntries
+     * @covers  Molajo\IoC\FactoryMethod\Instantiate::scheduleFactories
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::__construct
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::setConstructorOptions
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getNamespace
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getOptions
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::getStoreContainerEntryIndicator
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::readFile
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::readFileIntoArray
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObject
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObjectLoadIntoArray
+     * @covers  Molajo\IoC\FactoryMethod\Adapter::sortObjectLoadSortedArrayIntoObject
      *
      * @return  void
      * @since   1.0.0
@@ -447,7 +454,8 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
     public function testClassNoInputReflectionFile()
     {
         $class_dependencies       = null;
-        $this->class_dependencies = new ClassDependencies($class_dependencies);
+        $class = 'Molajo\\IoC\\Product\\ClassDependencies';
+        $this->class_dependencies = new $class($class_dependencies);
 
         $options                             = array();
         $options['product_name']             = 'Dispatcher';
@@ -455,7 +463,8 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
         $options['ioc_id']                   = 1;
         $options['factory_method_namespace'] = 'Molajo\\Factories\\Dispatcher\\DispatcherFactoryMethod';
 
-        $create = new FactoryMethodCreate($options);
+        $class = 'Molajo\\IoC\\Product\\Create';
+        $create = new $class($options);
 
         $work_object                 = new stdClass();
         $work_object->options        = $options;

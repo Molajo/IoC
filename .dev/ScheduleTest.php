@@ -52,7 +52,7 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Schedule::processNewRequestQueue
      * @covers  Molajo\IoC\Schedule::setProductRequest
      * @covers  Molajo\IoC\Schedule::setProductRequestWorkObject
-     * @covers  Molajo\IoC\Schedule::getFactoryMethodNamespace
+     * @covers  Molajo\IoC\Schedule::getNamespace
      * @covers  Molajo\IoC\Schedule::createFactoryMethod
      * @covers  Molajo\IoC\Schedule::setClassDependencies
      * @covers  Molajo\IoC\Schedule::satisfyDependencies
@@ -72,19 +72,19 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Schedule::getContainerEntryKey
      * @covers  Molajo\IoC\Schedule::getContainerEntry
      *
-     * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
-     * @covers  Molajo\IoC\FactoryMethodNamespace::get
-     * @covers  Molajo\IoC\FactoryMethodNamespace::processNamespaceOptions
-     * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
-     * @covers  Molajo\IoC\FactoryMethodNamespace::testFactoryNamespaceFolderFile
-     * @covers  Molajo\IoC\FactoryMethodNamespace::getFolderFile
-     * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
-     * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
+     * @covers  Molajo\IoC\Product\SetNamespace::__construct
+     * @covers  Molajo\IoC\Product\SetNamespace::get
+     * @covers  Molajo\IoC\Product\SetNamespace::processNamespaceOptions
+     * @covers  Molajo\IoC\Product\SetNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\Product\SetNamespace::testFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\Product\SetNamespace::getFolderFile
+     * @covers  Molajo\IoC\Product\SetNamespace::checkClassExists
+     * @covers  Molajo\IoC\Product\SetNamespace::getLastFolder
      *
-     * @covers  Molajo\IoC\FactoryMethodCreate::__construct
-     * @covers  Molajo\IoC\FactoryMethodCreate::instantiateFactoryMethod
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodAdapter
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodController
+     * @covers  Molajo\IoC\Create::__construct
+     * @covers  Molajo\IoC\Create::instantiateFactoryMethod
+     * @covers  Molajo\IoC\Create::getAdapter
+     * @covers  Molajo\IoC\Create::getController
      *
      * @covers  Molajo\IoC\ClassDependencies::__construct
      * @covers  Molajo\IoC\ClassDependencies::get
@@ -107,7 +107,7 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::testLoop
      * @covers  Molajo\IoC\Container::testLoopEvaluate
-     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @return void
      * @since  1.0.0
@@ -143,7 +143,7 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Schedule::processNewRequestQueue
      * @covers  Molajo\IoC\Schedule::setProductRequest
      * @covers  Molajo\IoC\Schedule::setProductRequestWorkObject
-     * @covers  Molajo\IoC\Schedule::getFactoryMethodNamespace
+     * @covers  Molajo\IoC\Schedule::getNamespace
      * @covers  Molajo\IoC\Schedule::createFactoryMethod
      * @covers  Molajo\IoC\Schedule::setClassDependencies
      * @covers  Molajo\IoC\Schedule::satisfyDependencies
@@ -163,19 +163,19 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Schedule::getContainerEntryKey
      * @covers  Molajo\IoC\Schedule::getContainerEntry
      *
-     * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
-     * @covers  Molajo\IoC\FactoryMethodNamespace::get
-     * @covers  Molajo\IoC\FactoryMethodNamespace::processNamespaceOptions
-     * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
-     * @covers  Molajo\IoC\FactoryMethodNamespace::testFactoryNamespaceFolderFile
-     * @covers  Molajo\IoC\FactoryMethodNamespace::getFolderFile
-     * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
-     * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
+     * @covers  Molajo\IoC\Product\SetNamespace::__construct
+     * @covers  Molajo\IoC\Product\SetNamespace::get
+     * @covers  Molajo\IoC\Product\SetNamespace::processNamespaceOptions
+     * @covers  Molajo\IoC\Product\SetNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\Product\SetNamespace::testFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\Product\SetNamespace::getFolderFile
+     * @covers  Molajo\IoC\Product\SetNamespace::checkClassExists
+     * @covers  Molajo\IoC\Product\SetNamespace::getLastFolder
      *
-     * @covers  Molajo\IoC\FactoryMethodCreate::__construct
-     * @covers  Molajo\IoC\FactoryMethodCreate::instantiateFactoryMethod
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodAdapter
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodController
+     * @covers  Molajo\IoC\Create::__construct
+     * @covers  Molajo\IoC\Create::instantiateFactoryMethod
+     * @covers  Molajo\IoC\Create::getAdapter
+     * @covers  Molajo\IoC\Create::getController
      *
      * @covers  Molajo\IoC\ClassDependencies::__construct
      * @covers  Molajo\IoC\ClassDependencies::get
@@ -193,7 +193,7 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testAlias
      * @covers  Molajo\IoC\Container::testAliasKey
      * @covers  Molajo\IoC\Container::testContainerKey
-     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::setNamespaces
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::action
      *
@@ -219,7 +219,7 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Schedule::processNewRequestQueue
      * @covers  Molajo\IoC\Schedule::setProductRequest
      * @covers  Molajo\IoC\Schedule::setProductRequestWorkObject
-     * @covers  Molajo\IoC\Schedule::getFactoryMethodNamespace
+     * @covers  Molajo\IoC\Schedule::getNamespace
      * @covers  Molajo\IoC\Schedule::createFactoryMethod
      * @covers  Molajo\IoC\Schedule::setClassDependencies
      * @covers  Molajo\IoC\Schedule::satisfyDependencies
@@ -239,19 +239,19 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Schedule::getContainerEntryKey
      * @covers  Molajo\IoC\Schedule::getContainerEntry
      *
-     * @covers  Molajo\IoC\FactoryMethodNamespace::__construct
-     * @covers  Molajo\IoC\FactoryMethodNamespace::get
-     * @covers  Molajo\IoC\FactoryMethodNamespace::processNamespaceOptions
-     * @covers  Molajo\IoC\FactoryMethodNamespace::getFactoryNamespaceFolderFile
-     * @covers  Molajo\IoC\FactoryMethodNamespace::testFactoryNamespaceFolderFile
-     * @covers  Molajo\IoC\FactoryMethodNamespace::getFolderFile
-     * @covers  Molajo\IoC\FactoryMethodNamespace::checkClassExists
-     * @covers  Molajo\IoC\FactoryMethodNamespace::getLastFolder
+     * @covers  Molajo\IoC\Product\SetNamespace::__construct
+     * @covers  Molajo\IoC\Product\SetNamespace::get
+     * @covers  Molajo\IoC\Product\SetNamespace::processNamespaceOptions
+     * @covers  Molajo\IoC\Product\SetNamespace::getFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\Product\SetNamespace::testFactoryNamespaceFolderFile
+     * @covers  Molajo\IoC\Product\SetNamespace::getFolderFile
+     * @covers  Molajo\IoC\Product\SetNamespace::checkClassExists
+     * @covers  Molajo\IoC\Product\SetNamespace::getLastFolder
      *
-     * @covers  Molajo\IoC\FactoryMethodCreate::__construct
-     * @covers  Molajo\IoC\FactoryMethodCreate::instantiateFactoryMethod
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodAdapter
-     * @covers  Molajo\IoC\FactoryMethodCreate::getFactoryMethodController
+     * @covers  Molajo\IoC\Create::__construct
+     * @covers  Molajo\IoC\Create::instantiateFactoryMethod
+     * @covers  Molajo\IoC\Create::getAdapter
+     * @covers  Molajo\IoC\Create::getController
      *
      * @covers  Molajo\IoC\ClassDependencies::__construct
      * @covers  Molajo\IoC\ClassDependencies::get
@@ -269,7 +269,7 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::testAlias
      * @covers  Molajo\IoC\Container::testAliasKey
      * @covers  Molajo\IoC\Container::testContainerKey
-     * @covers  Molajo\IoC\Container::setFactoryMethodNamespaces
+     * @covers  Molajo\IoC\Container::setNamespaces
      * @covers  Molajo\IoC\Container::getKeyNamespace
      * @covers  Molajo\IoC\Container::action
      *
