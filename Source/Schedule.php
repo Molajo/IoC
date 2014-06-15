@@ -42,7 +42,6 @@ class Schedule extends Request implements ScheduleInterface
 
         $this->queue_id = 1;
         $work_object    = $this->setProductRequest($product_name, $options);
-
         $this->setProcessRequestsArray($product_name, $work_object);
 
         $this->processRequestQueue();

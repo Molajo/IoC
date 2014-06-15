@@ -1,5 +1,6 @@
 {
     "Dispatcher": "Molajo\\Factories\\Dispatcher",
+    "DispatcherDog": "Molajo\\Factories\\DispatcherDog",
     "Dog": "Molajo\\Factories\\Dog",
     "User": "Molajo\\Factories\\User"
 }

@@ -22,6 +22,14 @@ use CommonApi\Event\EventDispatcherInterface;
 class EventDispatcher implements EventDispatcherInterface
 {
     /**
+     * Event Dispatcher
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $dummy_property = 'value';
+
+    /**
      * Event Dispatcher triggers Listeners
      *
      * @param   EventInterface $event

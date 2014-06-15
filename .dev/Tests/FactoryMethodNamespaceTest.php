@@ -42,7 +42,7 @@ class NamespaceTest extends PHPUnit_Framework_TestCase
         $options['container_key']   = 'Molajo\\Factories\\Dispatcher';
         $options['ioc_id']          = 1;
         $options['factory_method_namespace']
-            = $options['container_key'] . '\\' . 'DispatcherDogFactoryMethod';
+            = $options['container_key'] . '\\' . 'DispatcherFactoryMethod';
 
         $standard_adapter_namespace = 'Molajo\\IoC\\FactoryMethod\\Standard';
 

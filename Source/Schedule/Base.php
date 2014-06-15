@@ -141,7 +141,7 @@ abstract class Base
      */
     protected function getContainerEntryKey($key)
     {
-        $new_key = $this->container->getKey($key, true);
+        $new_key = $this->container->getKey($key, false);
         if ($new_key === false) {
             $new_key = $key;
         }

@@ -22,7 +22,7 @@ use CommonApi\IoC\FactoryBatchInterface;
  *
  * 1. Request must be made for Product Namespace
  *      $option['product_name']                = 'Name';
- *      $option['product_namespace']           = 'Molajo/Product/Namespace';
+ *      $option['product_namespace']           = 'Molajo\Product\Namespace';
  *
  * 2. One (only) of the following can be provided as an $option array entry (default false for all);
  *      $option['static_instance_indicator']   = true;

@@ -62,7 +62,7 @@ class DispatcherFactoryMethod extends Base implements FactoryInterface, FactoryB
      */
     public function onBeforeInstantiation(array $dependency_values = null)
     {
-        return parent::onBeforeInstantiation($dependency_values);
+        parent::onBeforeInstantiation($dependency_values);
     }
 
     /**

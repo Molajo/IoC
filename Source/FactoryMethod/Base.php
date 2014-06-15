@@ -88,7 +88,7 @@ abstract class Base extends Instantiate implements FactoryInterface, FactoryBatc
             $options                                          = array();
             $options['product_namespace']                     = $dependency->implemented_by[0];
             $options['product_name']                          = $dependency_name;
-            $this->schedule_factory_methods[$dependency_name] = $options;
+//$this->schedule_factory_methods[$dependency_name] = $options;
             $this->dependencies[$dependency_name]             = $options;
 
             return $this;
@@ -133,7 +133,7 @@ abstract class Base extends Instantiate implements FactoryInterface, FactoryBatc
     protected function onBeforeInstantiationDependencyValues(array $dependency_values)
     {
         foreach ($dependency_values as $key => $value) {
-            $this->dependencies[strtolower($key)] = $value;
+            $this->dependencies[$key] = $value;
             unset($dependency_values[$key]);
         }
 

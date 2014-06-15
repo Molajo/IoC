@@ -45,6 +45,7 @@ abstract class Instantiate extends Adapter
 
         if (count($this->reflection) > 0) {
             $dependencies = $this->processReflectionDependencies($dependencies);
+
         }
 
         return $this->instantiateClassNotStaticTryCatch($dependencies);

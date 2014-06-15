@@ -190,6 +190,7 @@ class Create extends Base
         foreach ($work_object->dependency_of as $dependency_key) {
             $queue_id          = $this->request_names_to_id[$dependency_key];
             $dependency_object = $this->process_requests[$queue_id];
+
             $dependency_object->factory_method->setDependencyValue(
                 $work_object->options['product_name'],
                 $work_object->product_result

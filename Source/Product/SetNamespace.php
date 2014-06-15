@@ -154,6 +154,7 @@ class SetNamespace
     {
         $folder    = $this->getLastFolder($path);
         $separator = '\\';
+
         return $path . $separator . $folder . 'FactoryMethod';
     }
 
