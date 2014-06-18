@@ -10,7 +10,7 @@ namespace Molajo\Factories\Dog;
 
 use CommonApi\IoC\FactoryInterface;
 use CommonApi\IoC\FactoryBatchInterface;
-use Molajo\IoC\FactoryMethod\Base;
+use Molajo\IoC\FactoryMethod\Base as FactoryMethodBase;
 
 /**
  *  Mock Dog Factory Method
@@ -46,7 +46,7 @@ class DogFactoryMethod extends Base implements FactoryInterface, FactoryBatchInt
      * @return  array
      * @since  1.0.0
      */
-    public function setDependencies(array $reflection = null)
+    public function setDependencies(array $reflection = array())
     {
         return parent::setDependencies($reflection);
     }

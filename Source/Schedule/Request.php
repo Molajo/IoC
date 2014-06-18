@@ -64,6 +64,9 @@ abstract class Request extends Dependency
 
         $work_object->factory_method = $this->createFactoryMethod($options);
 
+        $namespace                                 = $work_object->factory_method->getNamespace();
+        $work_object->options['product_namespace'] = $namespace;
+
         $work_object->dependency_of = array();
         if (isset($options['dependency_of'])) {
             $work_object->dependency_of[] = $options['dependency_of'];

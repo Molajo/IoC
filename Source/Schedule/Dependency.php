@@ -36,10 +36,23 @@ abstract class Dependency extends Create
 
         foreach ($work_object->dependencies as $key => $dependency_array) {
 
+            if (isset($dependency_array['product_namespace'])) {
+                $namespace = $dependency_array['product_namespace'];
+            } else {
+                $namespace = $key;
+            }
+
+            if (isset($dependency_array['if_exists'])) {
+                $if_exists = true;
+            } else {
+                $if_exists = false;
+            }
+
             $results = $this->satisfyDependency(
-                $dependency_array['product_name'],
                 $key,
-                $dependency_array['product_namespace'],
+                $key,
+                $namespace,
+                $if_exists,
                 $work_object
             );
 
@@ -78,48 +91,156 @@ abstract class Dependency extends Create
      *
      * @param   string   $dependency_name
      * @param   string   $dependency_key
+     * @param   string   $dependency_namespace
+     * @param   boolean  $if_exists
      * @param   stdClass $work_object
      *
      * @return  boolean
      * @since   1.0.0
      */
-    protected function satisfyDependency($dependency_name, $dependency_key, $dependency_namespace, $work_object)
-    {
-        if ($this->hasContainerEntry($dependency_name) === false) {
-        } else {
-            $dependency_value = $this->getContainerEntry($dependency_name);
-            $work_object->factory_method->setDependencyValue($dependency_key, $dependency_value);
+    protected function satisfyDependency(
+        $dependency_name,
+        $dependency_key,
+        $dependency_namespace,
+        $if_exists,
+        $work_object
+    ) {
+        $return = true;
 
-            return true;
+        if ($this->satisfyDependencyInContainer($dependency_name, $dependency_key, $work_object) === true) {
+            return $return;
         }
 
-        $this->addDependencyToQueue($dependency_name, $dependency_namespace, $work_object->options['product_name']);
+        if ($this->satisfyDependencyIfExists($if_exists, $dependency_key, $work_object) === true) {
+            return $return;
+        }
+
+        $return = false;
+
+        if ($this->addDependencyToArray(
+                $dependency_name,
+                $dependency_key,
+                $work_object->options['product_name'],
+                'process_requests'
+            ) === true
+        ) {
+            return $return;
+        }
+
+        if ($this->addDependencyToArray(
+                $dependency_name,
+                $dependency_key,
+                $work_object->options['product_name'],
+                'to_be_processed_requests'
+            ) === true
+        ) {
+            return $return;
+        }
+
+        $this->addDependencyNew($dependency_name, $dependency_namespace, $work_object->options['product_name']);
+
+        return $return;
+    }
+
+    /**
+     * Dependency is in the Container
+     *
+     * @param   string   $dependency_name
+     * @param   string   $dependency_key
+     * @param   stdClass $work_object
+     *
+     * @return  boolean
+     * @since   1.0.0
+     */
+    protected function satisfyDependencyInContainer(
+        $dependency_name,
+        $dependency_key,
+        $work_object
+    ) {
+        /** Dependency Exists in Container */
+        if ($this->hasContainerEntry($dependency_name) === true) {
+            $dependency_value = $this->getContainerEntry($dependency_name);
+            $work_object->factory_method->setDependencyValue($dependency_key, $dependency_value);
+            return true;
+        }
 
         return false;
     }
 
     /**
-     * Add Dependency to Queue
+     * Dependency is only requested if it already exists
      *
-     * @param   string $dependency_name
-     * @param   string $product_name
-     * @param   string $dependency_namespace
+     * @param   boolean  $if_exists
+     * @param   string   $dependency_key
+     * @param   stdClass $work_object
      *
-     * @return  $this
+     * @return  boolean
      * @since   1.0.0
      */
-    protected function addDependencyToQueue($dependency_name, $dependency_namespace, $product_name)
-    {
-        if (isset($this->request_names_to_id[$dependency_name])) {
-        } else {
-            $this->to_be_processed_requests[$dependency_name]
-                = array(
-                'dependency_of'     => $product_name,
-                'product_namespace' => $dependency_namespace
-            );
+    protected function satisfyDependencyIfExists(
+        $if_exists,
+        $dependency_key,
+        $work_object
+    ) {
+        if ($if_exists === true) {
+            $work_object->factory_method->removeDependency($dependency_key);
+            return true;
         }
 
-        return $this;
+        return false;
+    }
+
+    /**
+     * See if Dependency has already been requested as a product
+     *
+     * @param   string $dependency_name
+     * @param   string $dependency_namespace
+     * @param   string $product_name
+     * @param   string $array_name
+     *
+     * @return  boolean
+     * @since   1.0.0
+     */
+    protected function addDependencyToArray($dependency_name, $dependency_namespace, $product_name, $array_name)
+    {
+        $array = $this->$array_name;
+
+        if (isset($array[$dependency_name])) {
+        } else {
+            return false;
+        }
+
+        $dependency                      = $array[$dependency_name];
+        $dependency['dependency_of'][]   = $product_name;
+        $dependency['product_namespace'] = $dependency_namespace;
+
+        $array[$dependency_name] = $dependency;
+
+        $this->$array_name = $array;
+
+        return true;
+    }
+
+    /**
+     * See if Dependency has already been requested as a product
+     *
+     * @param   string $dependency_name
+     * @param   string $dependency_namespace
+     * @param   string $product_name
+     *
+     * @return  boolean
+     * @since   1.0.0
+     */
+    protected function addDependencyNew($dependency_name, $dependency_namespace, $product_name)
+    {
+        $options                      = array();
+        $options['dependency_of']     = array();
+        $options['dependency_of'][]   = $product_name;
+        $options['product_namespace'] = $dependency_namespace;
+
+        $this->to_be_processed_requests[$dependency_name] = $options;
+
+        return true;
     }
 
     /**

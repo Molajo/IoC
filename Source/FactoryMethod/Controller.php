@@ -135,15 +135,13 @@ class Controller implements FactoryInterface, FactoryBatchInterface
      */
     public function setDependencies(array $reflection = array())
     {
-        $this->dependencies = $this->factory_adapter->setDependencies($reflection);
+        $this->dependencies      = $this->factory_adapter->setDependencies($reflection);
+        $this->dependency_values = array();
 
-        if (is_array($this->dependencies) && count($this->dependencies) > 0) {
-        } else {
-            $this->dependencies = array();
-        }
-
-        foreach ($this->dependencies as $key => $value) {
-            $this->dependency_values[$key] = null;
+        if (count($this->dependencies) > 0) {
+            foreach ($this->dependencies as $key => $value) {
+                $this->dependency_values[$key] = $key;
+            }
         }
 
         return $this->dependencies;
@@ -198,10 +196,14 @@ class Controller implements FactoryInterface, FactoryBatchInterface
     {
         $count = 0;
 
+        if (count($this->dependency_values) === 0) {
+            return $count;
+        }
+
         foreach ($this->dependency_values as $key => $instance) {
 
-            if ($key && $instance === null) {
-                $count ++;
+            if ($instance === $key) {
+                $count++;
             }
         }
 

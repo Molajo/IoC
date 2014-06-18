@@ -10,7 +10,7 @@ namespace Molajo\Factories\Dispatcher;
 
 use CommonApi\IoC\FactoryInterface;
 use CommonApi\IoC\FactoryBatchInterface;
-use Molajo\IoC\FactoryMethod\Base;
+use Molajo\IoC\FactoryMethod\Base as FactoryMethodBase;
 
 /**
  *  Mock Dispatcher Factory Method
@@ -47,7 +47,7 @@ class DispatcherDogFactoryMethod extends Base implements FactoryInterface, Facto
      * @return  array
      * @since  1.0.0
      */
-    public function setDependencies(array $reflection = null)
+    public function setDependencies(array $reflection = array())
     {
         return parent::setDependencies($reflection);
     }

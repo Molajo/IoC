@@ -183,11 +183,12 @@ class Create extends Base
      */
     protected function processFactoryModelSetDependencyOfInstances($work_object)
     {
-        if (count($work_object->dependency_of) === 0) {
+        if (isset($work_object->options['dependency_of'])) {
+        } else {
             return $work_object;
         }
 
-        foreach ($work_object->dependency_of as $dependency_key) {
+        foreach ($work_object->options['dependency_of'] as $dependency_key) {
             $queue_id          = $this->request_names_to_id[$dependency_key];
             $dependency_object = $this->process_requests[$queue_id];
 

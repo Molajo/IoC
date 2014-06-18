@@ -116,6 +116,7 @@ abstract class Instantiate extends Adapter
     {
         if (method_exists($this->product_namespace, '__construct') && count($dependencies) > 0) {
             $reflection           = new ReflectionClass($this->product_namespace);
+
             $this->product_result = $reflection->newInstanceArgs($dependencies);
 
         } else {

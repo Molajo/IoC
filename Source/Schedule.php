@@ -32,6 +32,11 @@ class Schedule extends Request implements ScheduleInterface
      */
     public function scheduleFactoryMethod($product_name = null, array $options = array())
     {
+        if (isset($options['set']) && $options['set'] === true) {
+            $this->container->set($product_name, $options['value']);
+            return $this->getContainerEntry($product_name);
+        }
+
         if ($this->hasContainerEntry($product_name) === true) {
             return $this->getContainerEntry($product_name);
         }
@@ -108,8 +113,14 @@ class Schedule extends Request implements ScheduleInterface
         }
 
         $count++;
-        if ($count > 500) {
+        if ($count > 50) {
+            echo 'In IoCC Schedule -- Count > 500';
+            foreach ($this->process_requests as $requests) {
+                echo 'Key: ' . $requests->options['product_name'] . '<br>';
+            }
+            echo '<pre>';
             var_dump($this->process_requests);
+            die;
             throw new \Exception('processRequestQueue endless loop');
         }
 
