@@ -45,27 +45,7 @@ class Create extends Base
             $work_object = $this->$method($work_object);
         }
 
-        $this->unsetProcessRequestsArray($work_object->options['product_name']);
-
         $this->product_result = $work_object->product_result;
-
-        return $this;
-    }
-
-    /**
-     * Set an entry in the process_requests array and a cross reference in $request_names_to_id
-     *
-     * @param   string $product_name
-     *
-     * @return  $this
-     * @since   1.0.0
-     */
-    protected function unsetProcessRequestsArray($product_name)
-    {
-        $queue_id = $this->request_names_to_id[$product_name];
-
-        unset($this->process_requests[$queue_id]);
-        unset($this->request_names_to_id[$product_name]);
 
         return $this;
     }
@@ -166,7 +146,7 @@ class Create extends Base
 
         if (is_array($schedule) && count($schedule) > 0) {
             foreach ($schedule as $product_name => $options) {
-                $this->to_be_processed_requests[$product_name] = $options;
+                $this->to_be_queued_requests[$product_name] = $options;
             }
         }
 

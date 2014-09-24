@@ -31,7 +31,7 @@ class UserFactoryMethod extends Base implements FactoryInterface, FactoryBatchIn
      */
     public function __construct(array $options = array())
     {
-        $options['product_namespace'] = 'Molajo\\User\\Data';
+        $options['product_namespace']        = 'Molajo\\User\\Data';
         $options['store_instance_indicator'] = true;
 
         parent::__construct($options);

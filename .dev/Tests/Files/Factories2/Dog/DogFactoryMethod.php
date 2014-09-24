@@ -31,7 +31,7 @@ class DogFactoryMethod extends Base implements FactoryInterface, FactoryBatchInt
      */
     public function __construct(array $options = array())
     {
-        $options['product_namespace'] = 'Molajo\\Event\\Dog';
+        $options['product_namespace']        = 'Molajo\\Event\\Dog';
         $options['store_instance_indicator'] = true;
 
         parent::__construct($options);

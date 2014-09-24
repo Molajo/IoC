@@ -103,7 +103,9 @@ class ControllerTest extends PHPUnit_Framework_TestCase
 
 //file_put_contents(__DIR__ . '/ControllerED.txt', serialize($controller->getProductValue()));
 
-        $this->assertEquals(file_get_contents(__DIR__ . '/ControllerED.txt'),
-            serialize($controller->getProductValue()));
+        $this->assertEquals(
+            file_get_contents(__DIR__ . '/ControllerED.txt'),
+            serialize($controller->getProductValue())
+        );
     }
 }

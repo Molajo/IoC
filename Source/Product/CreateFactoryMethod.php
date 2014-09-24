@@ -10,17 +10,17 @@ namespace Molajo\IoC\Product;
 
 use CommonApi\Exception\RuntimeException;
 use CommonApi\IoC\FactoryInterface;
-use Molajo\IoC\FactoryMethod\Controller;
+use Molajo\IoC\FactoryMethod;
 
 /**
- * Factory Method Create
+ * Factory Method CreateFactoryMethod
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class Create
+class CreateFactoryMethod
 {
     /**
      * Options
@@ -96,6 +96,6 @@ class Create
      */
     protected function getController(FactoryInterface $factory_method_adapter)
     {
-        return new Controller($factory_method_adapter);
+        return new FactoryMethod($factory_method_adapter);
     }
 }

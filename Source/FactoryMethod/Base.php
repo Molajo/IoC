@@ -85,11 +85,11 @@ abstract class Base extends Instantiate implements FactoryInterface, FactoryBatc
     protected function setDependencyUsingReflectionInterface($dependency_name, $dependency)
     {
         if (count($dependency->implemented_by) === 1) {
-            $options                                          = array();
-            $options['product_namespace']                     = $dependency->implemented_by[0];
-            $options['product_name']                          = $dependency_name;
+            $options                      = array();
+            $options['product_namespace'] = $dependency->implemented_by[0];
+            $options['product_name']      = $dependency_name;
 
-            $this->dependencies[$dependency_name]             = $options;
+            $this->dependencies[$dependency_name] = $options;
 
             return $this;
         }

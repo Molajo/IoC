@@ -32,7 +32,7 @@ class MapFactoriesTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\MapFactories::getFolderFiles
      *
      * @return void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function testEmpty()
     {

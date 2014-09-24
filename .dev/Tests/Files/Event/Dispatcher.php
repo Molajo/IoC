@@ -99,7 +99,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @param   string   $event_name
      * @param   callable $callback
-     * @param   int      $priority  1 is highest
+     * @param   int      $priority 1 is highest
      *
      * @return  $this
      * @since   1.0

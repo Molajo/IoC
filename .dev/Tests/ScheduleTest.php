@@ -101,11 +101,11 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @return void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function setup()
     {
-        $factory_method_aliases = readJsonFile(__DIR__ . '/Files/FactoryMethodAliases.json');
+        $factory_method_aliases      = readJsonFile(__DIR__ . '/Files/FactoryMethodAliases.json');
         $class_dependencies_filename = __DIR__ . '/Files/ClassDependencies.json';
         $standard_adapter_namespaces = 'Molajo\\IoC\\FactoryMethod\\Standard';
 
@@ -170,11 +170,11 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::action
      *
      * @return void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function testStandardConfiguration()
     {
-        $a_stuff = new stdClass();
+        $a_stuff       = new stdClass();
         $a_stuff->here = 'stuff in the container';
 
         $class_instance = $this->schedule->scheduleFactoryMethod(
@@ -241,11 +241,11 @@ class ScheduleTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::action
      *
      * @return void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function testHasDependencies()
     {
-        $a_stuff = new stdClass();
+        $a_stuff       = new stdClass();
         $a_stuff->here = 'stuff in the container';
 
         $class_instance = $this->schedule->scheduleFactoryMethod('Dispatcher');

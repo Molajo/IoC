@@ -39,6 +39,7 @@ class ClassDependencies
      *
      *
      * @since  1.0.0
+     *
      * @param string $class_dependencies_filename
      */
     public function __construct($class_dependencies_filename = null)
@@ -136,7 +137,7 @@ class ClassDependencies
     {
         foreach ($input as $class) {
             if (isset($class->constructor_parameters)) {
-                $this->class_dependencies[$class->fqns] = $class->constructor_parameters;
+                $this->class_dependencies[$class->qns] = $class->constructor_parameters;
             }
         }
 

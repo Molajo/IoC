@@ -97,9 +97,9 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $class_dependencies       = __DIR__ . '/Files/ClassDependencies.json';
+        $class_dependencies = __DIR__ . '/Files/ClassDependencies.json';
 
-        $class = 'Molajo\\IoC\\Product\\ClassDependencies';
+        $class                    = 'Molajo\\IoC\\Product\\ClassDependencies';
         $this->class_dependencies = new $class($class_dependencies);
     }
 
@@ -177,7 +177,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
         $options['ioc_id']                   = 1;
         $options['factory_method_namespace'] = 'Molajo\\Factories\\Dispatcher\\DispatcherFactoryMethod';
 
-        $class = 'Molajo\\IoC\\Product\\Create';
+        $class  = 'Molajo\\IoC\\Product\\Create';
         $create = new $class($options);
 
         $work_object                 = new stdClass();
@@ -280,7 +280,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
         $options['ioc_id']                   = 1;
         $options['factory_method_namespace'] = 'Molajo\\IoC\\FactoryMethod\\Standard';
 
-        $class = 'Molajo\\IoC\\Product\\Create';
+        $class  = 'Molajo\\IoC\\Product\\Create';
         $create = new $class($options);
 
         $work_object                 = new stdClass();
@@ -361,9 +361,9 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
      */
     public function testClasswEmptyReflectionFile()
     {
-        $class_dependencies       = __DIR__ . '/Files/FactoryMethodAliasesEmpty.json';
+        $class_dependencies = __DIR__ . '/Files/FactoryMethodAliasesEmpty.json';
 
-        $class = 'Molajo\\IoC\\Product\\ClassDependencies';
+        $class                    = 'Molajo\\IoC\\Product\\ClassDependencies';
         $this->class_dependencies = new $class($class_dependencies);
 
         $options                             = array();
@@ -372,7 +372,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
         $options['ioc_id']                   = 1;
         $options['factory_method_namespace'] = 'Molajo\\Factories\\Dispatcher\\DispatcherFactoryMethod';
 
-        $class = 'Molajo\\IoC\\Product\\Create';
+        $class  = 'Molajo\\IoC\\Product\\Create';
         $create = new $class($options);
 
         $work_object                 = new stdClass();
@@ -454,7 +454,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
     public function testClassNoInputReflectionFile()
     {
         $class_dependencies       = null;
-        $class = 'Molajo\\IoC\\Product\\ClassDependencies';
+        $class                    = 'Molajo\\IoC\\Product\\ClassDependencies';
         $this->class_dependencies = new $class($class_dependencies);
 
         $options                             = array();
@@ -463,7 +463,7 @@ class ClassDependenciesTest extends PHPUnit_Framework_TestCase
         $options['ioc_id']                   = 1;
         $options['factory_method_namespace'] = 'Molajo\\Factories\\Dispatcher\\DispatcherFactoryMethod';
 
-        $class = 'Molajo\\IoC\\Product\\Create';
+        $class  = 'Molajo\\IoC\\Product\\Create';
         $create = new $class($options);
 
         $work_object                 = new stdClass();

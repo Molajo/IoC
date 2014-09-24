@@ -6,7 +6,7 @@
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\IoC\FactoryMethod;
+namespace Molajo\IoC;
 
 use CommonApi\IoC\FactoryInterface;
 use CommonApi\IoC\FactoryBatchInterface;
@@ -23,7 +23,7 @@ use CommonApi\IoC\FactoryBatchInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class Controller implements FactoryInterface, FactoryBatchInterface
+class FactoryMethod implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * Dependencies
@@ -77,6 +77,14 @@ class Controller implements FactoryInterface, FactoryBatchInterface
     protected $container_key;
 
     /**
+     * Options (remove)
+     *
+     * @var    array
+     * @since  1.0.0
+     */
+    protected $options = array();
+
+    /**
      * The Constructor is invoked by Controller->setProductWorkObject for each request
      *
      * @param  FactoryInterface $factory_adapter
@@ -87,6 +95,7 @@ class Controller implements FactoryInterface, FactoryBatchInterface
         FactoryInterface $factory_adapter
     ) {
         $this->factory_adapter = $factory_adapter;
+        $this->count = 0;
     }
 
     /**
@@ -97,6 +106,7 @@ class Controller implements FactoryInterface, FactoryBatchInterface
      */
     public function getNamespace()
     {
+        $this->getOptions();
         return $this->factory_adapter->getNamespace();
     }
 
@@ -108,6 +118,7 @@ class Controller implements FactoryInterface, FactoryBatchInterface
      */
     public function getOptions()
     {
+        $this->options = $this->factory_adapter->getOptions();
         return $this->factory_adapter->getOptions();
     }
 
@@ -136,6 +147,7 @@ class Controller implements FactoryInterface, FactoryBatchInterface
     public function setDependencies(array $reflection = array())
     {
         $this->dependencies      = $this->factory_adapter->setDependencies($reflection);
+
         $this->dependency_values = array();
 
         if (count($this->dependencies) > 0) {
@@ -196,13 +208,17 @@ class Controller implements FactoryInterface, FactoryBatchInterface
     {
         $count = 0;
 
+        if (is_array($this->dependency_values)) {
+        } else {
+            return $count;
+        }
+
         if (count($this->dependency_values) === 0) {
             return $count;
         }
 
         foreach ($this->dependency_values as $key => $instance) {
-
-            if ($instance === $key) {
+            if (is_string($instance) && $instance === $key) {
                 $count++;
             }
         }

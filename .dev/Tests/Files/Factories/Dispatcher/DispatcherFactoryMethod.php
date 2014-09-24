@@ -31,7 +31,7 @@ class DispatcherFactoryMethod extends Base implements FactoryInterface, FactoryB
      */
     public function __construct(array $options = array())
     {
-        $options['product_namespace'] = 'Molajo\\Event\\Dispatcher';
+        $options['product_namespace']        = 'Molajo\\Event\\Dispatcher';
         $options['store_instance_indicator'] = true;
 
         parent::__construct($options);

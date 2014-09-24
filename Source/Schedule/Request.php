@@ -8,14 +8,14 @@
  */
 namespace Molajo\IoC\Schedule;
 
-use Molajo\IoC\FactoryMethod\Controller;
-use Molajo\IoC\Product\Create;
+use Molajo\IoC\FactoryMethod;
+use Molajo\IoC\Product\CreateFactoryMethod;
 use stdClass;
 
 /**
  * Request
  *
- * Request - Dependency - Create - Base
+ * Request - Dependency - CreateFactoryMethod - Base
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -78,6 +78,11 @@ abstract class Request extends Dependency
 
         $work_object = $this->satisfyDependencies($work_object);
 
+        if ($product_name === 'Event') {
+            if ($options["event_name"] === 'onBeforeRead') {
+                //fine here
+            }
+        }
         return $work_object;
     }
 
@@ -95,16 +100,16 @@ abstract class Request extends Dependency
     }
 
     /**
-     * Instantiate Factory Method Create Class which will create the Product Factory Method
+     * Instantiate Factory Method CreateFactoryMethod Class which will create the Product Factory Method
      *
      * @param   array $options
      *
-     * @return  Controller
+     * @return  FactoryMethod
      * @since   1.0.0
      */
     protected function createFactoryMethod(array $options)
     {
-        $create = new Create($options);
+        $create = new CreateFactoryMethod($options);
 
         return $create->instantiateFactoryMethod();
     }

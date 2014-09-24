@@ -66,7 +66,7 @@ class SetNamespace
     /**
      * Determine the Factory Method Namespace for Product Requested
      *
-     * @param   array  $options
+     * @param   array $options
      *
      * @return  array
      * @since   1.0.0

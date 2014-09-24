@@ -70,7 +70,7 @@ abstract class Base
      * @var     array
      * @since   1.0.0
      */
-    protected $to_be_processed_requests = array();
+    protected $to_be_queued_requests = array();
 
     /**
      * Process Request Queue
@@ -112,6 +112,8 @@ abstract class Base
         $this->createContainer($factory_method_aliases);
         $this->createClassDependencies($class_dependencies_file);
         $this->createNamespace($standard_adapter_namespace);
+
+        $this->queue_id = 1;
     }
 
     /**

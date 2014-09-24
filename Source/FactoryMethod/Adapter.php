@@ -47,6 +47,14 @@ abstract class Adapter
     protected $product_namespace = null;
 
     /**
+     * Base Path of Site
+     *
+     * @var    string
+     * @since  1.0.0
+     */
+    protected $base_path = null;
+
+    /**
      * Static Instance Indicator
      *
      * @var    boolean
@@ -147,6 +155,7 @@ abstract class Adapter
             'ioc_id',
             'product_name',
             'product_namespace',
+            'base_path',
             'static_instance_indicator',
             'store_instance_indicator',
             'store_properties_indicator',

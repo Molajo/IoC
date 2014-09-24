@@ -1652,12 +1652,12 @@
             "translateString"
         ]
     },
-    "Molajo\\Controller\\Errorhandling": {
+    "Molajo\\Handler\\Error": {
         "name": "Errorhandling",
         "namespace": "Molajo\\Controller",
-        "fqns": "Molajo\\Controller\\Errorhandling",
-        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/Log\/Controller\/Errorhandling.php",
-        "path": "vendor\/molajo\/Log\/Controller\/Errorhandling.php",
+        "fqns": "Molajo\\Handler\\Error",
+        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/Log\/Handler\/Error.php",
+        "path": "vendor\/molajo\/Log\/Handler\/Error.php",
         "parent": false,
         "implemented_interfaces": [
             "CommonApi\\Controller\\ErrorHandlingInterface"
@@ -1698,12 +1698,12 @@
             "setError"
         ]
     },
-    "Molajo\\Controller\\ExceptionHandling": {
-        "name": "ExceptionHandling",
+    "Molajo\\Handler\\Exception": {
+        "name": "Exceptionhandling",
         "namespace": "Molajo\\Controller",
-        "fqns": "Molajo\\Controller\\ExceptionHandling",
-        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/Log\/Controller\/ExceptionHandling.php",
-        "path": "vendor\/molajo\/Log\/Controller\/ExceptionHandling.php",
+        "fqns": "Molajo\\Handler\\Exception",
+        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/Log\/Controller\/Exceptionhandling.php",
+        "path": "vendor\/molajo\/Log\/Controller\/Exceptionhandling.php",
         "parent": false,
         "implemented_interfaces": [
 
@@ -2566,12 +2566,12 @@
             "scheduleFactories"
         ]
     },
-    "Molajo\\Factories\\Resourcecontroller\\ResourcecontrollerFactoryMethod": {
-        "name": "ResourcecontrollerFactoryMethod",
-        "namespace": "Molajo\\Factories\\Resourcecontroller",
-        "fqns": "Molajo\\Factories\\Resourcecontroller\\ResourcecontrollerFactoryMethod",
-        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Resourcecontroller\/ResourcecontrollerFactoryMethod.php",
-        "path": "vendor\/molajo\/application\/Factories\/Resourcecontroller\/ResourcecontrollerFactoryMethod.php",
+    "Molajo\\Factories\\Dispatcher\\DispatcherFactoryMethod": {
+        "name": "DispatcherFactoryMethod",
+        "namespace": "Molajo\\Factories\\Dispatcher",
+        "fqns": "Molajo\\Factories\\Dispatcher\\DispatcherFactoryMethod",
+        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Factories\/Dispatcher\/DispatcherFactoryMethod.php",
+        "path": "vendor\/molajo\/application\/Factories\/Dispatcher\/DispatcherFactoryMethod.php",
         "parent": "Molajo\\IoC\\Base",
         "implemented_interfaces": [
             "CommonApi\\IoC\\FactoryBatchInterface",
@@ -3275,12 +3275,12 @@
             "generateString"
         ]
     },
-    "Molajo\\Controller\\ResourceController": {
-        "name": "ResourceController",
+    "Molajo\\Controller\\Dispatcher": {
+        "name": "Dispatcher",
         "namespace": "Molajo\\Controller",
-        "fqns": "Molajo\\Controller\\ResourceController",
-        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Source\/Controller\/ResourceController.php",
-        "path": "vendor\/molajo\/application\/Source\/Controller\/ResourceController.php",
+        "fqns": "Molajo\\Controller\\Dispatcher",
+        "file_name": "\/Users\/amystephen\/Sites\/Molajo\/Molajo\/vendor\/molajo\/application\/Source\/Controller\/Dispatcher.php",
+        "path": "vendor\/molajo\/application\/Source\/Controller\/Dispatcher.php",
         "parent": false,
         "implemented_interfaces": [
             "CommonApi\\Controller\\ResourceInterface"
@@ -5301,7 +5301,7 @@
         "method": [
             "__construct",
             "isUserAuthorised",
-            "isUserAuthorisedOfflineMode"
+            "isUserAuthorisedOfflineAccess"
         ]
     },
     "Molajo\\Authorisation\\Adapter\\Database": {
@@ -5424,7 +5424,7 @@
         "method": [
             "__construct",
             "isUserAuthorised",
-            "isUserAuthorisedOfflineMode"
+            "isUserAuthorisedOfflineAccess"
         ]
     },
     "Molajo\\Authorisation\\Driver": {
@@ -13246,7 +13246,7 @@
                     "Molajo\\Factories\\Render\\RenderFactoryMethod",
                     "Molajo\\Factories\\Request\\RequestFactoryMethod",
                     "Molajo\\Factories\\Resource\\ResourceFactoryMethod",
-                    "Molajo\\Factories\\Resourcecontroller\\ResourcecontrollerFactoryMethod",
+                    "Molajo\\Factories\\Dispatcher\\DispatcherFactoryMethod",
                     "Molajo\\Factories\\Resourcecss\\ResourcecssFactoryMethod",
                     "Molajo\\Factories\\Resourcecssdeclarations\\ResourcecssdeclarationsFactoryMethod",
                     "Molajo\\Factories\\Resourcedata\\ResourcedataFactoryMethod",
@@ -18368,8 +18368,8 @@
             "setAggregateInterfaceUsage",
             "setConcreteClass",
             "processDependencies",
-            "setConcreteInterfaceUsageImplementations",
-            "setConcreteInterfaceUsageDependencyTypeHints",
+            "setConcreteInterfaceImplementations",
+            "setConcreteInterfaceDependencyTypeHints",
             "setAggregateConcreteInterfaceUsage",
             "readFile"
         ]

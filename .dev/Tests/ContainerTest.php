@@ -32,7 +32,6 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::set
      * @covers  Molajo\IoC\Container::remove
      * @covers  Molajo\IoC\Container::getKey
-     * @covers  Molajo\IoC\Container::action
      * @covers  Molajo\IoC\Container::createNewKey
      * @covers  Molajo\IoC\Container::testAlias
      * @covers  Molajo\IoC\Container::testAliasKey
@@ -45,13 +44,13 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @return void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function testEmpty()
     {
         $container = new Container();
 
-        $a_stuff = new stdClass();
+        $a_stuff       = new stdClass();
         $a_stuff->here = 'more';
 
         $this->assertEquals($container->has('a'), false);
@@ -65,29 +64,28 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * Test Empty configuration
      *
-     * @covers  Molajo\IoC\Container::__construct
-     * @covers  Molajo\IoC\Container::has
-     * @covers  Molajo\IoC\Container::get
-     * @covers  Molajo\IoC\Container::set
-     * @covers  Molajo\IoC\Container::remove
-     * @covers  Molajo\IoC\Container::getKey
-     * @covers  Molajo\IoC\Container::action
-     * @covers  Molajo\IoC\Container::createNewKey
-     * @covers  Molajo\IoC\Container::testAlias
-     * @covers  Molajo\IoC\Container::testAliasKey
-     * @covers  Molajo\IoC\Container::testAliasKeyExists
-     * @covers  Molajo\IoC\Container::testContainerKeyMustExist
-     * @covers  Molajo\IoC\Container::testContainerKey
-     * @covers  Molajo\IoC\Container::getKeyNamespace
-     * @covers  Molajo\IoC\Container::testLoop
-     * @covers  Molajo\IoC\Container::testLoopEvaluate
-     * @covers  Molajo\IoC\Container::setNamespaces
+     * @covers                   Molajo\IoC\Container::__construct
+     * @covers                   Molajo\IoC\Container::has
+     * @covers                   Molajo\IoC\Container::get
+     * @covers                   Molajo\IoC\Container::set
+     * @covers                   Molajo\IoC\Container::remove
+     * @covers                   Molajo\IoC\Container::getKey
+     * @covers                   Molajo\IoC\Container::createNewKey
+     * @covers                   Molajo\IoC\Container::testAlias
+     * @covers                   Molajo\IoC\Container::testAliasKey
+     * @covers                   Molajo\IoC\Container::testAliasKeyExists
+     * @covers                   Molajo\IoC\Container::testContainerKeyMustExist
+     * @covers                   Molajo\IoC\Container::testContainerKey
+     * @covers                   Molajo\IoC\Container::getKeyNamespace
+     * @covers                   Molajo\IoC\Container::testLoop
+     * @covers                   Molajo\IoC\Container::testLoopEvaluate
+     * @covers                   Molajo\IoC\Container::setNamespaces
      *
      * @expectedException \CommonApi\Exception\InvalidArgumentException
      * @expectedExceptionMessage Get IoCC Entry for Key: a Action: get does not exist
      *
      * @return  void
-     * @since  1.0.0
+     * @since                    1.0.0
      */
     public function testGetNotExisting()
     {
@@ -118,14 +116,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @return void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function testLoadConfiguration()
     {
-        $aliases = readJsonFile(__DIR__ . '\FactoryMethodAliases.json');
+        $aliases   = readJsonFile(__DIR__ . '\FactoryMethodAliases.json');
         $container = new Container($aliases);
 
-        $a_stuff = new stdClass();
+        $a_stuff       = new stdClass();
         $a_stuff->here = 'more';
 
         $this->assertEquals($container->has('Molajo\\Factories\\Dispatcher'), false);
@@ -139,33 +137,33 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * Test loaded configuration for get entry not existing
      *
-     * @covers  Molajo\IoC\Container::__construct
-     * @covers  Molajo\IoC\Container::has
-     * @covers  Molajo\IoC\Container::get
-     * @covers  Molajo\IoC\Container::set
-     * @covers  Molajo\IoC\Container::remove
-     * @covers  Molajo\IoC\Container::getKey
-     * @covers  Molajo\IoC\Container::action
-     * @covers  Molajo\IoC\Container::createNewKey
-     * @covers  Molajo\IoC\Container::testAlias
-     * @covers  Molajo\IoC\Container::testAliasKey
-     * @covers  Molajo\IoC\Container::testAliasKeyExists
-     * @covers  Molajo\IoC\Container::testContainerKeyMustExist
-     * @covers  Molajo\IoC\Container::testContainerKey
-     * @covers  Molajo\IoC\Container::getKeyNamespace
-     * @covers  Molajo\IoC\Container::testLoop
-     * @covers  Molajo\IoC\Container::testLoopEvaluate
-     * @covers  Molajo\IoC\Container::setNamespaces
+     * @covers                   Molajo\IoC\Container::__construct
+     * @covers                   Molajo\IoC\Container::has
+     * @covers                   Molajo\IoC\Container::get
+     * @covers                   Molajo\IoC\Container::set
+     * @covers                   Molajo\IoC\Container::remove
+     * @covers                   Molajo\IoC\Container::getKey
+     * @covers                   Molajo\IoC\Container::action
+     * @covers                   Molajo\IoC\Container::createNewKey
+     * @covers                   Molajo\IoC\Container::testAlias
+     * @covers                   Molajo\IoC\Container::testAliasKey
+     * @covers                   Molajo\IoC\Container::testAliasKeyExists
+     * @covers                   Molajo\IoC\Container::testContainerKeyMustExist
+     * @covers                   Molajo\IoC\Container::testContainerKey
+     * @covers                   Molajo\IoC\Container::getKeyNamespace
+     * @covers                   Molajo\IoC\Container::testLoop
+     * @covers                   Molajo\IoC\Container::testLoopEvaluate
+     * @covers                   Molajo\IoC\Container::setNamespaces
      *
      * @expectedException \CommonApi\Exception\InvalidArgumentException
      * @expectedExceptionMessage Get IoCC Entry for Key: Molajo\Factories\Dispatcher Action: get does not exist
      *
      * @return  void
-     * @since  1.0.0
+     * @since                    1.0.0
      */
     public function testLoadConfigurationNotExisting()
     {
-        $aliases = readJsonFile(__DIR__ . '\FactoryMethodAliases.json');
+        $aliases   = readJsonFile(__DIR__ . '\FactoryMethodAliases.json');
         $container = new Container($aliases);
 
         $container->get('Molajo\\Factories\\Dispatcher');
@@ -193,14 +191,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @return void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function testAliases()
     {
-        $aliases = readJsonFile(__DIR__ . '/Files/FactoryMethodAliases.json');
+        $aliases   = readJsonFile(__DIR__ . '/Files/FactoryMethodAliases.json');
         $container = new Container($aliases);
 
-        $a_stuff = new stdClass();
+        $a_stuff       = new stdClass();
         $a_stuff->here = 'more';
 
         $this->assertEquals($container->has('Dispatcher'), false);
@@ -233,14 +231,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @return void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function testNamepaceToAlias()
     {
-        $aliases = readJsonFile(__DIR__ . '/Files/FactoryMethodAliases.json');
+        $aliases   = readJsonFile(__DIR__ . '/Files/FactoryMethodAliases.json');
         $container = new Container($aliases);
 
-        $a_stuff = new stdClass();
+        $a_stuff       = new stdClass();
         $a_stuff->here = 'more';
 
         $this->assertEquals($container->set('Molajo\\Factories\\Dispatcher', $a_stuff), $container);
@@ -268,14 +266,17 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\IoC\Container::setNamespaces
      *
      * @return void
-     * @since  1.0.0
+     * @since   1.0.0
      */
     public function testCreateNewKey()
     {
-        $aliases = readJsonFile(__DIR__ . '/Files/FactoryMethodAliases.json');
+        $aliases   = readJsonFile(__DIR__ . '/Files/FactoryMethodAliases.json');
         $container = new Container($aliases);
 
-        $this->assertEquals($container->getKey('Molajo\\Factories\\DispatcherNew', false), 'Molajo\\Factories\\DispatcherNew');
+        $this->assertEquals(
+            $container->getKey('Molajo\\Factories\\DispatcherNew', false),
+            'Molajo\\Factories\\DispatcherNew'
+        );
         $this->assertEquals($container->getKey('DispatcherNew', false), 'DispatcherNew');
         $this->assertEquals($container->getKey('User', false), 'Molajo\\Factories\\User');
     }

@@ -9,7 +9,9 @@
 namespace Molajo\IoC;
 
 use CommonApi\IoC\ScheduleInterface;
+use Exception;
 use Molajo\IoC\Schedule\Request;
+use stdClass;
 
 /**
  * Schedule for processing Factory Method Requests and Container Entries
@@ -22,6 +24,14 @@ use Molajo\IoC\Schedule\Request;
 class Schedule extends Request implements ScheduleInterface
 {
     /**
+     * Counter
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $count = 0;
+
+    /**
      * Schedule Factory Method for Requested Product
      *
      * @param   string $product_name
@@ -32,8 +42,11 @@ class Schedule extends Request implements ScheduleInterface
      */
     public function scheduleFactoryMethod($product_name = null, array $options = array())
     {
+        $this->checkRequest($product_name);
+
         if (isset($options['set']) && $options['set'] === true) {
             $this->container->set($product_name, $options['value']);
+
             return $this->getContainerEntry($product_name);
         }
 
@@ -45,8 +58,10 @@ class Schedule extends Request implements ScheduleInterface
             return false;
         }
 
-        $this->queue_id = 1;
-        $work_object    = $this->setProductRequest($product_name, $options);
+        $this->queue_id++;
+
+        $work_object = $this->setProductRequest($product_name, $options);
+
         $this->setProcessRequestsArray($product_name, $work_object);
 
         $this->processRequestQueue();
@@ -55,40 +70,43 @@ class Schedule extends Request implements ScheduleInterface
     }
 
     /**
-     * Schedule Product Factory Method
-     *
-     * Handles requests for FactoryMethod product, including dependency fulfillment
+     * Process the Request Queue Iteratively until all process_request entries are complete
      *
      * @return  $this
      * @since   1.0.0
      */
-    public function processRequestQueue()
+    protected function processRequestQueue()
     {
-        $count = 1;
         while (count($this->process_requests) > 0) {
 
             $this->processRequests();
 
-            if (count($this->to_be_processed_requests) > 0) {
-                $count = $this->processNewRequestQueue($count);
+            if (count($this->to_be_queued_requests) > 0) {
+                $this->processNewRequestQueue();
             }
+
+            $this->checkMaximumIterations();
         }
 
         return $this;
     }
 
     /**
-     * Process each product request to satisfy dependencies and, when all dependencies
-     *  have been met, to complete the Factory Method processes including creating the product
+     * Process each product request:
+     *  1) Verify if dependencies have been set
+     *  2) If so, remove from process_requests array and instantiate class/complete processing
      *
      * @return  $this
      * @since   1.0.0
      */
-    public function processRequests()
+    protected function processRequests()
     {
         foreach ($this->process_requests as $id => $work_object) {
 
-            if ($work_object->factory_method->getRemainingDependencyCount() === 0) {
+            $count = $work_object->factory_method->getRemainingDependencyCount();
+
+            if ($count === 0) {
+                $this->unsetProcessRequestsArray($id);
                 $this->processFactoryModel($work_object);
             }
         }
@@ -100,30 +118,122 @@ class Schedule extends Request implements ScheduleInterface
      * Process each product request to satisfy dependencies and, when all dependencies
      *  have been met, to complete the Factory Method processes including creating the product
      *
-     * @param   integer $count
-     *
-     * @return  integer
+     * @return  $this
      * @since   1.0.0
      */
-    public function processNewRequestQueue($count)
+    protected function processNewRequestQueue()
     {
-        foreach ($this->to_be_processed_requests as $product_name => $options) {
+        foreach ($this->to_be_queued_requests as $product_name => $options) {
+
             $work_object = $this->setProductRequest($product_name, $options);
+
             $this->setProcessRequestsArray($product_name, $work_object);
         }
 
-        $count++;
-        if ($count > 50) {
-            echo 'In IoCC Schedule -- Count > 500';
-            foreach ($this->process_requests as $requests) {
-                echo 'Key: ' . $requests->options['product_name'] . '<br>';
-            }
-            echo '<pre>';
-            var_dump($this->process_requests);
-            die;
-            throw new \Exception('processRequestQueue endless loop');
+        return $this;
+    }
+
+    /**
+     * Set an entry in the process_requests array and a cross reference in $request_names_to_id
+     *
+     * @param   string   $product_name
+     * @param   stdClass $work_object
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function setProcessRequestsArray($product_name, $work_object)
+    {
+        $queue_id                                 = $work_object->options['ioc_id'];
+        $this->process_requests[$queue_id]        = $work_object;
+        $this->request_names_to_id[$product_name] = $queue_id;
+
+        if (isset($this->to_be_queued_requests[$product_name])) {
+            unset($this->to_be_queued_requests[$product_name]);
         }
 
-        return $count;
+        return $this;
+    }
+
+    /**
+     * Remove process_requests entry and $request_names_to_id cross reference
+     *
+     * @param   integer $queue_id
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function unsetProcessRequestsArray($queue_id)
+    {
+        $product_name = $this->process_requests[$queue_id]->options['product_name'];
+
+        unset($this->process_requests[$queue_id]);
+        unset($this->request_names_to_id[$product_name]);
+
+        return $this;
+    }
+
+    /**
+     * Verifies the maximum count has not been exceeded to guard against schedule looping
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function checkMaximumIterations()
+    {
+        $this->count++;
+
+        if ($this->count > 500) {
+            echo 'In IoCC Schedule -- Count > 500';
+            $this->displayQueue();
+            throw new Exception('IOC Schedule checkMaximumIterations Endless Loop');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Guards against looping (Request for itself as a dependency)
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function checkRequest($product_name)
+    {
+        foreach ($this->process_requests as $requests) {
+            if ($requests->options['product_name'] === $product_name) {
+                $this->displayQueue();
+                throw new Exception('IOC Schedule checkRequest Scheduled Product Name Twice: ' . $product_name);
+            }
+        }
+
+        return $this;
+    }
+    /**
+     * Display items in Queue
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function displayQueue()
+    {
+        echo 'Count of Requests In Queue Awaiting Dependencies: ' . count($this->process_requests) . '<br>';
+
+        foreach ($this->process_requests as $request) {
+            echo 'Request Key: ' . $request->options['product_name'] . '<br>';
+            $queue_id                                 = $request->options['ioc_id'];
+            $work_object = $this->process_requests[$queue_id];
+            foreach ($work_object->dependencies as $dependency_key => $dependency_value) {
+                echo '...Dependency Key: ' . $dependency_key . '<br>';
+            }
+        }
+
+        echo 'Count of Requests To Be Queued: ' . count($this->to_be_queued_requests) . '<br>';
+
+        foreach ($this->to_be_queued_requests as $request) {
+            echo 'To Be Queued Request Key: ' . $request->options['product_name'] . '<br>';
+        }
+
+        return $this;
     }
 }
