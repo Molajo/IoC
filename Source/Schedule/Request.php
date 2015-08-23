@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  */
 namespace Molajo\IoC\Schedule;
 
@@ -19,7 +19,7 @@ use stdClass;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
 abstract class Request extends Dependency
@@ -109,6 +109,8 @@ abstract class Request extends Dependency
      */
     protected function createFactoryMethod(array $options)
     {
+        $options['base_path'] = $this->base_path;
+
         $create = new CreateFactoryMethod($options);
 
         return $create->instantiateFactoryMethod();

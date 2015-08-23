@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  */
 namespace Molajo\IoC;
 
@@ -17,7 +17,7 @@ use Molajo\IoC\Container\Utilities;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
 class Container extends Utilities implements ContainerInterface
@@ -25,7 +25,7 @@ class Container extends Utilities implements ContainerInterface
     /**
      * Determines if the entry identified by the $key exists within the Container
      *
-     * @param   string  $key
+     * @param   string $key
      *
      * @return  bool
      * @since   1.0.0

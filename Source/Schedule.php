@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  */
 namespace Molajo\IoC;
 
@@ -18,7 +18,7 @@ use stdClass;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
 class Schedule extends Request implements ScheduleInterface
@@ -183,8 +183,8 @@ class Schedule extends Request implements ScheduleInterface
     {
         $this->count++;
 
-        if ($this->count > 500) {
-            echo 'In IoCC Schedule -- Count > 500';
+        if ($this->count > 50000) {
+            echo 'In IoCC Schedule -- Count > 50000';
             $this->displayQueue();
             throw new Exception('IOC Schedule checkMaximumIterations Endless Loop');
         }
@@ -209,6 +209,7 @@ class Schedule extends Request implements ScheduleInterface
 
         return $this;
     }
+
     /**
      * Display items in Queue
      *
@@ -221,7 +222,7 @@ class Schedule extends Request implements ScheduleInterface
 
         foreach ($this->process_requests as $request) {
             echo 'Request Key: ' . $request->options['product_name'] . '<br>';
-            $queue_id                                 = $request->options['ioc_id'];
+            $queue_id    = $request->options['ioc_id'];
             $work_object = $this->process_requests[$queue_id];
             foreach ($work_object->dependencies as $dependency_key => $dependency_value) {
                 echo '...Dependency Key: ' . $dependency_key . '<br>';

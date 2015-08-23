@@ -2,7 +2,12 @@
     "name": "molajo/ioc",
     "type": "molajo-package",
     "description": "Molajo Inversion of Control package offers a full-featured, simple-to-use dependency injection and object construction solution for PHP applications. ",
-    "keywords": ["IoC", "Molajo", "Inversion of Control", "Dependency Injection"],
+    "keywords": [
+        "IoC",
+        "Molajo",
+        "Inversion of Control",
+        "Dependency Injection"
+    ],
     "homepage": "http://github.com/Molajo/IoC",
     "license": "MIT",
     "authors": [
@@ -16,6 +21,7 @@
         "php": ">=5.4",
         "commonapi/event": "dev-master",
         "commonapi/ioc": "dev-master",
+        "commonapi/query": "dev-master",
         "commonapi/resource": "dev-master"
     },
     "support": {

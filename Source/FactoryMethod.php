@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  */
 namespace Molajo\IoC;
 
@@ -20,7 +20,7 @@ use CommonApi\IoC\FactoryBatchInterface;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
 class FactoryMethod implements FactoryInterface, FactoryBatchInterface
@@ -95,7 +95,7 @@ class FactoryMethod implements FactoryInterface, FactoryBatchInterface
         FactoryInterface $factory_adapter
     ) {
         $this->factory_adapter = $factory_adapter;
-        $this->count = 0;
+        $this->count           = 0;
     }
 
     /**
@@ -146,7 +146,7 @@ class FactoryMethod implements FactoryInterface, FactoryBatchInterface
      */
     public function setDependencies(array $reflection = array())
     {
-        $this->dependencies      = $this->factory_adapter->setDependencies($reflection);
+        $this->dependencies = $this->factory_adapter->setDependencies($reflection);
 
         $this->dependency_values = array();
 

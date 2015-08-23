@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  */
 namespace Molajo\IoC\Schedule;
 
@@ -19,7 +19,7 @@ use Molajo\IoC\Product\SetNamespace;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
 abstract class Base
@@ -97,21 +97,33 @@ abstract class Base
     protected $product_result;
 
     /**
+     * Base Path
+     *
+     * @var     object
+     * @since   1.0.0
+     */
+    protected $base_path;
+
+    /**
      * Constructor
      *
+     * @param  array  $factory_method_aliases
      * @param  string $class_dependencies_file
      * @param  string $standard_adapter_namespace
+     * @param  string $base_path
      *
      * @since  1.0.0
      */
     public function __construct(
         array $factory_method_aliases = array(),
         $class_dependencies_file = '',
-        $standard_adapter_namespace = 'Molajo\\IoC\\FactoryMethod\\Standard'
+        $standard_adapter_namespace = 'Molajo\\IoC\\FactoryMethod\\Standard',
+        $base_path = ''
     ) {
         $this->createContainer($factory_method_aliases);
         $this->createClassDependencies($class_dependencies_file);
         $this->createNamespace($standard_adapter_namespace);
+        $this->base_path = $base_path;
 
         $this->queue_id = 1;
     }

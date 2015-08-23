@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  */
 namespace Molajo\IoC\FactoryMethod;
 
@@ -17,11 +17,27 @@ use stdClass;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
 abstract class Adapter
 {
+    /**
+     * Fieldhandler Usage Trait
+     *
+     * @var     object  CommonApi\Fieldhandler\FieldhandlerUsageTrait
+     * @since   1.0.0
+     */
+    use \CommonApi\Fieldhandler\FieldhandlerUsageTrait;
+
+    /**
+     * Query Usage Trait
+     *
+     * @var     object  CommonApi\Query\QueryUsageTrait
+     * @since   1.0.0
+     */
+    use \CommonApi\Query\QueryUsageTrait;
+
     /**
      * IoC ID from Controller
      *
@@ -178,9 +194,14 @@ abstract class Adapter
     public function __construct(array $options = array())
     {
         $this->schedule_factory_methods = array();
+
         if (count($options) > 0) {
             $this->setConstructorOptions($options);
         }
+
+        $this->resource     = null;
+        $this->fieldhandler = null;
+        $this->runtime_data = null;
     }
 
     /**
@@ -333,5 +354,21 @@ abstract class Adapter
         }
 
         return $new_object;
+    }
+
+    /**
+     * Set Properties required by QueryUsageTrait
+     *
+     * @return  $this
+     * @since   1.0.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    protected function setQueryUsageTraitProperties()
+    {
+        $this->resource     = $this->dependencies['Resource'];
+        $this->fieldhandler = $this->dependencies['Fieldhandler'];
+        $this->runtime_data = $this->dependencies['Runtimedata'];
+
+        return $this;
     }
 }

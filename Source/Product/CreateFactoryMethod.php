@@ -1,10 +1,10 @@
 <?php
 /**
- * Create
+ * Create Factory Method
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  */
 namespace Molajo\IoC\Product;
 
@@ -13,11 +13,11 @@ use CommonApi\IoC\FactoryInterface;
 use Molajo\IoC\FactoryMethod;
 
 /**
- * Factory Method CreateFactoryMethod
+ * Create Factory Method
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
 class CreateFactoryMethod
@@ -31,9 +31,18 @@ class CreateFactoryMethod
     protected $options = array();
 
     /**
+     * Yes
+     *
+     * @var    boolean
+     * @since  1.0.0
+     */
+    protected $yes = false;
+
+    /**
      * Constructor
      *
-     * @param   array $options
+     * @param   array  $options
+     * @param   string $base_path
      *
      * @since  1.0.0
      */
